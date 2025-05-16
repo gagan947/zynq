@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { AuthService } from '../../../services/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { LoginResponse } from '../../../models/login';
 
 @Component({
   selector: 'app-login',
@@ -43,8 +44,8 @@ export class LoginComponent {
         password: this.Form.value.password
       }
 
-      this.srevice.post('webuser/login', formData).subscribe({
-        next: (resp: any) => {
+      this.srevice.post<LoginResponse, any>('webuser/login', formData).subscribe({
+        next: (resp) => {
           if (resp.success == true) {
             this.auth.setToken(resp.data.jwt_token, resp.data.role_id);
             if (resp.data.role_id == '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {
