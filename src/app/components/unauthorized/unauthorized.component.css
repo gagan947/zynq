@@ -1,0 +1,10 @@
+h1 {
+      color: red;
+}
+
+h6 {
+      color: red;
+      font-weight: 100;
+      text-decoration: none;
+      /*underline;*/
+}

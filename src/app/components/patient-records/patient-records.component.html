@@ -1,0 +1,178 @@
+<div class="ct_px_30 mt-4 pb-4">
+      <div class="container-fluid">
+            <div class="row">
+                  <div class="col-md-12">
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Patient Records</h4>
+                              <p class="mb-0">Manage and view patient information</p>
+
+                              <div
+                                    class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
+                                    <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
+                                          <div class="form-group position-relative ct_w_100_767">
+                                                <input type="text" class="form-control ct_input ct_input_pe_40"
+                                                      placeholder="Search by patient name">
+                                                <i class="fa-solid fa-search ct_show_eye"></i>
+                                          </div>
+                                          <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
+                                                <span class="ct_white_nowrap">Sort by:</span>
+                                                <div class="form-group position-relative ct_w_100_767">
+                                                      <select class="form-control ct_input">
+                                                            <option value="">Newest</option>
+                                                            <option value="">Oldest</option>
+                                                      </select>
+                                                </div>
+
+                                          </div>
+                                    </div>
+
+                              </div>
+
+
+                        </div>
+
+                        <div class="table-responsive mt-4 ct_custom_table">
+                              <table class="table ">
+                                    <thead>
+                                          <tr>
+                                                <th>S.No</th>
+                                                <th>Profile</th>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Last Booked</th>
+                                                <th>Appointments</th>
+                                                <th>Action</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          <tr>
+                                                <td>1</td>
+                                                <td>
+                                                      <img src="../assets/img/user_1.png" alt=""
+                                                            class="ct_img_30 ct_cursor_pointer" data-bs-toggle="modal"
+                                                            data-bs-target="#full_view_img">
+                                                </td>
+
+                                                <td>Emma Thompson</td>
+                                                <td>+0123456789</td>
+                                                <td>15 Jan 2024</td>
+                                                <td>
+                                                      23
+                                                </td>
+
+                                                <td>
+                                                      <div class="d-flex align-items-center gap-3">
+
+                                                            <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                                  data-bs-target="#ct_feedback_detail_modal"><i
+                                                                        class="fa-regular fa-eye"></i></a>
+                                                      </div>
+                                                </td>
+                                          </tr>
+
+
+                                    </tbody>
+
+
+                              </table>
+
+                        </div>
+
+
+
+                  </div>
+            </div>
+
+
+      </div>
+</div>
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="ct_feedback_detail_modal" tabindex="-1" aria-labelledby="ct_feedback_detail_modalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+            <div class="modal-content">
+                  <div class="modal-header border-0">
+                        <h5 class="modal-title" id="ct_feedback_detail_modalLabel">Feedback Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body pb-5">
+                        <ul>
+                              <li class="d-flex align-items-center gap-2">
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M12.5 10C14.7091 10 16.5 8.20914 16.5 6C16.5 3.79086 14.7091 2 12.5 2C10.2909 2 8.5 3.79086 8.5 6C8.5 8.20914 10.2909 10 12.5 10Z"
+                                                stroke="#282828" stroke-width="1.725" />
+                                          <path d="M20.5 17.5001C20.5 19.9851 20.5 22.0001 12.5 22.0001C4.5 22.0001 4.5 19.9851 4.5 17.5001C4.5 15.0151 8.082 13.0001 12.5 13.0001C16.918 13.0001 20.5 15.0151 20.5 17.5001Z"
+                                                stroke="#282828" stroke-width="1.725" />
+                                    </svg>
+
+                                    Renny Smith
+                              </li>
+                              <li class="d-flex align-items-center gap-2 mt-3">
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                          xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M14.5 22H10.5C6.729 22 4.843 22 3.672 20.828C2.501 19.656 2.5 17.771 2.5 14V12C2.5 8.229 2.5 6.343 3.672 5.172C4.844 4.001 6.729 4 10.5 4H14.5C18.271 4 20.157 4 21.328 5.172C22.499 6.344 22.5 8.229 22.5 12V14C22.5 17.771 22.5 19.657 21.328 20.828C20.675 21.482 19.8 21.771 18.5 21.898M7.5 4V2.5M17.5 4V2.5M22 9H11.25M2.5 9H6.375"
+                                                stroke="#282828" stroke-width="1.5" stroke-linecap="round" />
+                                          <path d="M18.5 17C18.5 17.2652 18.3946 17.5196 18.2071 17.7071C18.0196 17.8946 17.7652 18 17.5 18C17.2348 18 16.9804 17.8946 16.7929 17.7071C16.6054 17.5196 16.5 17.2652 16.5 17C16.5 16.7348 16.6054 16.4804 16.7929 16.2929C16.9804 16.1054 17.2348 16 17.5 16C17.7652 16 18.0196 16.1054 18.2071 16.2929C18.3946 16.4804 18.5 16.7348 18.5 17ZM18.5 13C18.5 13.2652 18.3946 13.5196 18.2071 13.7071C18.0196 13.8946 17.7652 14 17.5 14C17.2348 14 16.9804 13.8946 16.7929 13.7071C16.6054 13.5196 16.5 13.2652 16.5 13C16.5 12.7348 16.6054 12.4804 16.7929 12.2929C16.9804 12.1054 17.2348 12 17.5 12C17.7652 12 18.0196 12.1054 18.2071 12.2929C18.3946 12.4804 18.5 12.7348 18.5 13ZM13.5 17C13.5 17.2652 13.3946 17.5196 13.2071 17.7071C13.0196 17.8946 12.7652 18 12.5 18C12.2348 18 11.9804 17.8946 11.7929 17.7071C11.6054 17.5196 11.5 17.2652 11.5 17C11.5 16.7348 11.6054 16.4804 11.7929 16.2929C11.9804 16.1054 12.2348 16 12.5 16C12.7652 16 13.0196 16.1054 13.2071 16.2929C13.3946 16.4804 13.5 16.7348 13.5 17ZM13.5 13C13.5 13.2652 13.3946 13.5196 13.2071 13.7071C13.0196 13.8946 12.7652 14 12.5 14C12.2348 14 11.9804 13.8946 11.7929 13.7071C11.6054 13.5196 11.5 13.2652 11.5 13C11.5 12.7348 11.6054 12.4804 11.7929 12.2929C11.9804 12.1054 12.2348 12 12.5 12C12.7652 12 13.0196 12.1054 13.2071 12.2929C13.3946 12.4804 13.5 12.7348 13.5 13ZM8.5 17C8.5 17.2652 8.39464 17.5196 8.20711 17.7071C8.01957 17.8946 7.76522 18 7.5 18C7.23478 18 6.98043 17.8946 6.79289 17.7071C6.60536 17.5196 6.5 17.2652 6.5 17C6.5 16.7348 6.60536 16.4804 6.79289 16.2929C6.98043 16.1054 7.23478 16 7.5 16C7.76522 16 8.01957 16.1054 8.20711 16.2929C8.39464 16.4804 8.5 16.7348 8.5 17ZM8.5 13C8.5 13.2652 8.39464 13.5196 8.20711 13.7071C8.01957 13.8946 7.76522 14 7.5 14C7.23478 14 6.98043 13.8946 6.79289 13.7071C6.60536 13.5196 6.5 13.2652 6.5 13C6.5 12.7348 6.60536 12.4804 6.79289 12.2929C6.98043 12.1054 7.23478 12 7.5 12C7.76522 12 8.01957 12.1054 8.20711 12.2929C8.39464 12.4804 8.5 12.7348 8.5 13Z"
+                                                fill="#282828" />
+                                    </svg>
+
+
+                                    12 May 2025, 10 AM
+                              </li>
+                              <li class="mt-4">
+                                    <h5 class="ct_fs_18 mb-2">Rating</h5>
+                                    <ul class="d-flex align-items-center gap-2">
+                                          <li><i class="fa-solid fa-star ct_orange_text ct_fs_20"></i>
+                                          </li>
+                                          <li><i class="fa-solid fa-star ct_orange_text ct_fs_20"></i>
+                                          </li>
+                                          <li><i class="fa-solid fa-star ct_orange_text ct_fs_20"></i>
+                                          </li>
+                                          <li><i class="fa-solid fa-star ct_orange_text ct_fs_20"></i>
+                                          </li>
+                                          <li><i class="fa-regular fa-star ct_orange_text ct_fs_20"></i>
+                                          </li>
+                                    </ul>
+                              </li>
+                              <li class="mt-4">
+                                    <h5 class="ct_fs_18 mb-2">Review</h5>
+                                    <textarea class="form-control ct_input h-auto" rows="4"
+                                          disabled>Doctor was very helpful and explained the treatment clearly. Good experience overall. The consultation felt personalized, and I appreciated the time taken to answer all my questions. I left feeling informed and reassured about the next steps. Highly recommended!</textarea>
+                              </li>
+                        </ul>
+                  </div>
+
+            </div>
+      </div>
+</div>
+
+
+
+<!-- Image preview Modal S -->
+<div class="modal fade modal-md" id="full_view_img" tabindex="-1" aria-labelledby="full_view_imgLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                  <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0" id="full_view_imgLabel">
+                              Image Preview
+                        </h5>
+                        <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                        <div class="ct_full_view_img">
+                              <img src="../assets/img/user_3.png" alt="">
+                        </div>
+                  </div>
+
+            </div>
+      </div>
+</div>
