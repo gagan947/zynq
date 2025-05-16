@@ -23,4 +23,15 @@ export class AuthService {
       getRoleUUID(): string | null {
             return localStorage.getItem('role_uuid');
       }
+
+      private readonly roleMap: { [key: string]: string } = {
+            '2fc0b43c-3196-11f0-9e07-0e8e5d906eef': 'clinic',
+            '3677a3e6-3196-11f0-9e07-0e8e5d906eef': 'doctor',
+      };
+
+      getRoleName(): string | null {
+            const roleUUID = this.getRoleUUID();
+            return roleUUID ? this.roleMap[roleUUID] || null : null;
+      }
+
 }

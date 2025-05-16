@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
             if (!this.auth.isLogedIn()) return this.router.createUrlTree(['/']);
 
             const allowedRoles = route.data['roles'] as string[];
-            const userRole = this.auth.getRoleUUID();
+            const userRole = this.auth.getRoleName();
 
             if (allowedRoles?.includes(userRole!)) return true;
 
