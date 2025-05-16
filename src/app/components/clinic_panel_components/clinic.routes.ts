@@ -3,14 +3,14 @@ import { AuthGuard } from '../../guards/auth.guard';
 
 export const clinicRoutes: Routes = [
       {
-            path: '',
+            path: 'profile-setup',
             canActivate: [AuthGuard],
-            // data: { roles: ['clinic'] },
+            data: { roles: ['clinic'] },
             loadComponent: () => import('../clinic_panel_components/clinic/clinic-setup/clinic-setup.component').then(m => m.ClinicSetupComponent)
       },
       {
-            path: 'main',
-            // canActivate: [AuthGuard],
+            path: '',
+            canActivate: [AuthGuard],
             data: { roles: ['clinic'] },
             loadComponent: () => import('../main/main.component').then(m => m.MainComponent),
             children: [
