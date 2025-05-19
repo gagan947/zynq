@@ -2,3 +2,26 @@
 .ct_text_red {
       color: rgb(180, 0, 0);
 }
+
+.ant-select-selection-search-input {
+      height: 52px !important;
+      border: none !important;
+      background: transparent !important;
+  }
+
+  .ant-select-selector {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+  }
+
+  .ant-select-selection-placeholder {
+      font-size: 16px !important;
+      color: #666 !important;
+      margin-top: 12px !important;
+  }
+
+  .ant-select-selection-item {
+      margin-top: 12px !important;
+      font-size: 16px !important;
+  }
