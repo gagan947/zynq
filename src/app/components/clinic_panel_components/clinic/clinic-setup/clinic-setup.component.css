@@ -1,0 +1,22 @@
+.cutom_dropdown_list {
+      position: absolute;
+      background: #fff;
+      width: 100%;
+      padding: 10px 0px;
+      box-shadow: 0px 0px 4px #9f9f9f;
+      max-height: 25vh;
+      overflow: auto;
+      border-radius: 10px;
+}
+
+.cutom_dropdown_list .list_item {
+      padding: 5px 10px;
+      cursor: pointer;
+      margin: 5px 0px;
+}
+
+.cutom_dropdown_list .list_item:hover {
+      background: var(--black);
+      color: #fff;
+      border-radius: 10px;
+}
