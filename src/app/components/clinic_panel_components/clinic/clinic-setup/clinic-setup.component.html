@@ -180,9 +180,11 @@
                                                 </div>
                                           </div>
                                     </div>
-                                    <button type="button" name="next"
-                                          class="ct_form_next ct_black_btn w-100 ct_border_radius_10"
-                                          value="Next">Next</button>
+                                    <!-- <input type="button" name="next" class="ct_form_next ct_black_btn float-end mx-1"
+                                          value="Next" /> -->
+
+                                    <input type="button" name="next"
+                                          class="ct_form_next action-button  ct_black_btn float-end" value="Next">
                               </fieldset>
                               <fieldset>
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
@@ -290,8 +292,16 @@
                                           </div>
 
                                     </div>
-                                    <button type="button" name="next"
-                                          class="ct_form_next ct_black_btn w-100">Next</button>
+                                    <!-- <div class="float-end"> -->
+
+                                    <input type="button" name="next"
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next">
+                                    <input type="button" name="previous"
+                                          class="previous action-button-previous ct_outline_btn mx-1 float-end"
+                                          value="Previous">
+
+
+                                    <!-- </div> -->
 
                               </fieldset>
                               <fieldset>
@@ -425,111 +435,85 @@
                                           </div>
 
                                     </div>
-                                    <button type="button" name="next" class="ct_form_next ct_black_btn w-100"
-                                          value="Submit">Next</button>
-                                    <!-- <input
-                                type="button" name="previous" class="previous action-button-previous"
-                                value="Previous" /> -->
+
+                                    <input type="button" name="next"
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next">
+                                    <input type="button" name="previous"
+                                          class="previous action-button-previous mx-1 ct_outline_btn float-end"
+                                          value="Previous">
                               </fieldset>
                               <fieldset>
-                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Basic Clinic Information</h5>
-                                          <div class="row">
-                                                <div class="col-md-6">
-                                                      <div class="form-group mb-4 mb-md-0">
-                                                            <label for="" class="mb-2 ct_text_black">Legal
-                                                                  Documents<span class="ct_red_text">*</span></label>
-                                                            <div class="">
-                                                                  <div class="ct_upload_product_main">
-                                                                        <svg width="33" height="33" viewBox="0 0 33 33"
-                                                                              fill="none"
-                                                                              xmlns="http://www.w3.org/2000/svg">
-                                                                              <path d="M5.87174 22.0167C4.26376 20.9403 3.20508 19.1073 3.20508 17.027C3.20508 13.9023 5.59376 11.3354 8.64473 11.0528C9.26883 7.25653 12.5654 4.36035 16.5384 4.36035C20.5114 4.36035 23.808 7.25653 24.4321 11.0528C27.4831 11.3354 29.8717 13.9023 29.8717 17.027C29.8717 19.1073 28.8131 20.9403 27.2051 22.0167M11.2051 21.6937L16.5384 16.3604M16.5384 16.3604L21.8717 21.6937M16.5384 16.3604V28.3604"
-                                                                                    stroke="#9CA3AF"
-                                                                                    stroke-width="2.66667"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round" />
-                                                                        </svg>
-
-                                                                        <p
-                                                                              class="text-center ct_fs_18 ct_text_op_07 mb-2">
-                                                                              Upload legal
-                                                                              documents</p>
-                                                                        <label for="ct_upload_product">
-                                                                              <input type="file" name=""
-                                                                                    id="ct_upload_product"
-                                                                                    class="d-none">
-                                                                              <div class="ct_browse_btn">
-                                                                                    <span>Select Files</span>
-                                                                              </div>
-                                                                        </label>
-                                                                        <!-- after upload image change url to below image -->
-                                                                        <img src="assets/img/hunting_knee.png" alt=""
-                                                                              class="ct_uploaded_img d-none">
-                                                                  </div>
-                                                                  <div
-                                                                        class="ct_uploaded_img123 position-relative d-none">
-
-                                                                        <div class="ct_uploaded_img_w">
-                                                                              <img src="../assets/img/user_2.jpg"
-                                                                                    alt="" />
-                                                                              <i class="fa-solid fa-xmark"></i>
-                                                                        </div>
-
-                                                                  </div>
-
+                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4 pe-0">
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold ">Basic Clinic Information</h5>
+                                          <div class="ct_big_card_scroll_500 ct_custom_scroll ct_pe_40">
+                                                <div class="row mt-4">
+                                                      <div class="col-md-12">
+                                                            <div class="form-group mb-4">
+                                                                  <select class="form-control ct_input">
+                                                                        <option value="">Select certification type
+                                                                        </option>
+                                                                        <option value="">Select certification type
+                                                                        </option>
+                                                                  </select>
                                                             </div>
                                                       </div>
 
-                                                </div>
-                                                <div class="col-md-6">
-                                                      <div class="form-group mb-4  mb-md-0">
-                                                            <label for="" class="mb-2 ct_text_black">Certifications<span
-                                                                        class="ct_red_text">*</span></label>
-                                                            <div class="">
-                                                                  <div class="ct_upload_product_main">
-                                                                        <svg width="33" height="33" viewBox="0 0 33 33"
-                                                                              fill="none"
-                                                                              xmlns="http://www.w3.org/2000/svg">
-                                                                              <path d="M5.87174 22.0167C4.26376 20.9403 3.20508 19.1073 3.20508 17.027C3.20508 13.9023 5.59376 11.3354 8.64473 11.0528C9.26883 7.25653 12.5654 4.36035 16.5384 4.36035C20.5114 4.36035 23.808 7.25653 24.4321 11.0528C27.4831 11.3354 29.8717 13.9023 29.8717 17.027C29.8717 19.1073 28.8131 20.9403 27.2051 22.0167M11.2051 21.6937L16.5384 16.3604M16.5384 16.3604L21.8717 21.6937M16.5384 16.3604V28.3604"
-                                                                                    stroke="#9CA3AF"
-                                                                                    stroke-width="2.66667"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round" />
-                                                                        </svg>
+                                                      <div class="col-md-12">
+                                                            <div class="form-group mb-4  mb-md-0">
+                                                                  <label for=""
+                                                                        class="mb-2 ct_text_black">Certifications<span
+                                                                              class="ct_red_text">*</span></label>
+                                                                  <div class="">
+                                                                        <div class="ct_upload_product_main"
+                                                                              style="height: 180px;">
+                                                                              <svg width="33" height="33"
+                                                                                    viewBox="0 0 33 33" fill="none"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M5.87174 22.0167C4.26376 20.9403 3.20508 19.1073 3.20508 17.027C3.20508 13.9023 5.59376 11.3354 8.64473 11.0528C9.26883 7.25653 12.5654 4.36035 16.5384 4.36035C20.5114 4.36035 23.808 7.25653 24.4321 11.0528C27.4831 11.3354 29.8717 13.9023 29.8717 17.027C29.8717 19.1073 28.8131 20.9403 27.2051 22.0167M11.2051 21.6937L16.5384 16.3604M16.5384 16.3604L21.8717 21.6937M16.5384 16.3604V28.3604"
+                                                                                          stroke="#9CA3AF"
+                                                                                          stroke-width="2.66667"
+                                                                                          stroke-linecap="round"
+                                                                                          stroke-linejoin="round" />
+                                                                              </svg>
 
-                                                                        <p
-                                                                              class="text-center ct_fs_18 ct_text_op_07 mb-2">
-                                                                              Upload certifications
-                                                                        </p>
-                                                                        <label for="ct_upload_product">
-                                                                              <input type="file" name=""
-                                                                                    id="ct_upload_product"
-                                                                                    class="d-none">
-                                                                              <div class="ct_browse_btn">
-                                                                                    <span>Select Files</span>
+                                                                              <p
+                                                                                    class="text-center ct_fs_18 ct_text_op_07 mb-2">
+                                                                                    Upload certifications
+                                                                              </p>
+                                                                              <label for="ct_upload_product">
+                                                                                    <input type="file" name=""
+                                                                                          id="ct_upload_product"
+                                                                                          class="d-none">
+                                                                                    <div class="ct_browse_btn">
+                                                                                          <span>Select Files</span>
+                                                                                    </div>
+                                                                              </label>
+                                                                              <!-- after upload image change url to below image -->
+                                                                              <img src="assets/img/hunting_knee.png"
+                                                                                    alt=""
+                                                                                    class="ct_uploaded_img d-none">
+                                                                        </div>
+                                                                        <div
+                                                                              class="ct_uploaded_img123 position-relative d-none">
+
+                                                                              <div class="ct_uploaded_img_w">
+                                                                                    <img src="../assets/img/user_2.jpg"
+                                                                                          alt="" />
+                                                                                    <i class="fa-solid fa-xmark"></i>
                                                                               </div>
-                                                                        </label>
-                                                                        <!-- after upload image change url to below image -->
-                                                                        <img src="assets/img/hunting_knee.png" alt=""
-                                                                              class="ct_uploaded_img d-none">
-                                                                  </div>
-                                                                  <div
-                                                                        class="ct_uploaded_img123 position-relative d-none">
 
-                                                                        <div class="ct_uploaded_img_w">
-                                                                              <img src="../assets/img/user_2.jpg"
-                                                                                    alt="" />
-                                                                              <i class="fa-solid fa-xmark"></i>
                                                                         </div>
 
                                                                   </div>
-
                                                             </div>
+
                                                       </div>
 
                                                 </div>
-
+                                          </div>
+                                          <div class="mt-3">
+                                                <a href="javascript:void(0)" class="ct_blue_text">+ Add Certification
+                                                </a>
                                           </div>
                                     </div>
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
@@ -765,8 +749,11 @@
                                     </div>
 
                                     <a routerLink="/main" type="button" name="next"
-                                          class="ct_black_btn w-100 ct_border_radius_10">Complete
+                                          class="ct_black_btn float-end mx-1  ct_border_radius_10">Complete
                                           Profile Setup</a>
+                                    <input type="button" name="previous"
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1"
+                                          value="Previous">
                                     <!-- <div class="ct_form-card">
                                 <div class="row">
                                     <div class="col-7">

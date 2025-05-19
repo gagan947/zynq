@@ -1070,19 +1070,6 @@ header {
   display: none;
 }
 
-#msform .action-button-previous {
-  width: 100px;
-  background: #616161;
-  font-weight: bold;
-  color: white;
-  border: 0 none;
-  border-radius: 0px;
-  cursor: pointer;
-  padding: 10px 5px;
-  margin: 10px 5px 10px 0px;
-  float: right;
-}
-
 #msform .action-button-previous:hover,
 #msform .action-button-previous:focus {
   background-color: #000000;
@@ -1849,3 +1836,13 @@ button:focus {
 }
 
 /* Chat box css E */
+.ct_big_card_scroll_500 {
+  height: auto;
+  max-height: 634px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.ct_pe_40 {
+  padding-right: 40px;
+}
