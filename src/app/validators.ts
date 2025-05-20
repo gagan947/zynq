@@ -76,3 +76,26 @@ export function gstValidator(): ValidatorFn {
             return gstRegex.test(control.value) ? null : { invalidGST: true };
       };
 }
+
+export function timeRangeValidator(): ValidatorFn {
+      return (group: AbstractControl): ValidationErrors | null => {
+            const open = group.get('open')?.value;
+            const close = group.get('close')?.value;
+
+            if (!open || !close) return null;
+
+            const openTime = parseTime(open);
+            const closeTime = parseTime(close);
+
+            if (closeTime <= openTime) {
+                  return { timeRangeInvalid: true };
+            }
+
+            return null;
+      };
+}
+
+function parseTime(time: string): number {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+}

@@ -3,12 +3,14 @@ import { Injectable, signal, } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { ClinicProfile } from '../models/clinic-profile';
 @Injectable({
   providedIn: 'root'
 })
 
 export class CommonService {
 
+  _clinicProfile = signal<ClinicProfile | null>(null);
   baseUrl = environment.apiUrl
 
   constructor(private http: HttpClient, private router: Router) { }

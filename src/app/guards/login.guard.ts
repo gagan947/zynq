@@ -1,15 +1,17 @@
 // src/app/guards/login.guard.ts
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoginGuard implements CanActivate {
       constructor(private auth: AuthService, private router: Router) { }
 
-      canActivate(): boolean | UrlTree {
+      canActivate(): boolean {
             if (this.auth.isLogedIn()) {
-                  return this.router.createUrlTree(['/home/dashboard']);
+                  const role = this.auth.getRoleName();
+                  this.router.navigate([`/${role}`]);
+                  return false;
             }
             return true;
       }

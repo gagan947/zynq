@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { NoWhitespaceDirective } from '../../../../validators';
+import { Router, RouterLink } from '@angular/router';
+import { NoWhitespaceDirective, timeRangeValidator } from '../../../../validators';
 import { CommonService } from '../../../../services/common.service';
-import { CertificateTypeResponse, CertificationType, EquipmentType, EquipmentTypeResponse, SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
+import { CertificationType, EquipmentType, EquipmentTypeResponse, SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { LoginUserData } from '../../../../models/login';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ClinicProfile, ClinicProfileResponse } from '../../../../models/clinic-profile';
 
 @Component({
   selector: 'app-clinic-setup',
@@ -32,12 +33,13 @@ export class ClinicSetupComponent {
   certificaTeypes: CertificationType[] = []
   days: string[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   submitted: boolean = false
-  currentStep = 2;
+  currentStep = 0;
   userInfo: LoginUserData;
   LogoImage: File | null = null;
   logoPreview: string | null = null;
   locations: any[] = [];
   selectedLocation: any = null;
+  clinicPofile: ClinicProfile | null = null;
   steps = [
     { id: 'Clinic', label: 'Clinic Details' },
     { id: 'Contact', label: 'Contact Details' },
@@ -52,7 +54,7 @@ export class ClinicSetupComponent {
     ['treatments', 'equipments', 'skin_types', 'severity_levels', 'fee_range', 'language']
   ];
 
-  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService) {
+  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
   }
@@ -63,6 +65,7 @@ export class ClinicSetupComponent {
     this.getSkinTypes();
     this.getSecurityLevel();
     this.getEquipmentType();
+    this.getProfile();
   }
 
   inItForm() {
@@ -88,32 +91,39 @@ export class ClinicSetupComponent {
       clinic_timing: this.fb.group({
         monday: this.fb.group({
           open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]]
-        }),
+          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+          is_closed: [false]
+        }, { validators: timeRangeValidator() }),
         tuesday: this.fb.group({
           open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]]
-        }),
+          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+          is_closed: [false]
+        }, { validators: timeRangeValidator() }),
         wednesday: this.fb.group({
           open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]]
-        }),
+          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+          is_closed: [false]
+        }, { validators: timeRangeValidator() }),
         thursday: this.fb.group({
           open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]]
-        }),
+          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+          is_closed: [false]
+        }, { validators: timeRangeValidator() }),
         friday: this.fb.group({
           open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]]
-        }),
+          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+          is_closed: [false]
+        }, { validators: timeRangeValidator() }),
         saturday: this.fb.group({
           open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]]
-        }),
+          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+          is_closed: [false]
+        }, { validators: timeRangeValidator() }),
         sunday: this.fb.group({
           open: ['', [Validators.required, NoWhitespaceDirective.validate]],
           close: ['', [Validators.required, NoWhitespaceDirective.validate]],
-        })
+          is_closed: [false]
+        }, { validators: timeRangeValidator() })
       }),
 
       website_url: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -130,8 +140,8 @@ export class ClinicSetupComponent {
       ]),
 
       fee_range: this.fb.group({
-        min: [100],
-        max: [1000]
+        min: ['', [Validators.required]],
+        max: ['', [Validators.required]]
       }),
 
       language: ['en'],
@@ -142,6 +152,10 @@ export class ClinicSetupComponent {
     return this.Form.get('clinic_timing') as FormGroup;
   }
 
+  get feeRange(): FormGroup {
+    return this.Form.get('fee_range') as FormGroup;
+  }
+
   hasClinicTimingError(day: string, controlName: string, errorType: string): boolean {
     const dayGroup = this.clinicTiming.get(day) as FormGroup;
     const control = dayGroup?.get(controlName);
@@ -150,7 +164,7 @@ export class ClinicSetupComponent {
 
   setClosed(day: string, event: any) {
     const dayGroup = this.clinicTiming.get(day) as FormGroup;
-    dayGroup?.patchValue({ closed: event.target.checked, open: '', close: '' });
+    dayGroup?.patchValue({ is_closed: event.target.checked, open: '', close: '' });
     if (event.target.checked) {
       dayGroup?.get('open')?.clearValidators();
       dayGroup?.get('close')?.clearValidators();
@@ -219,11 +233,13 @@ export class ClinicSetupComponent {
   }
 
   addSkinTypes(skinType: SkinType) {
-    if (!this.selectedSkinTypes.some((item) => item.skin_type_id === skinType.skin_type_id)) {
+    const index = this.selectedSkinTypes.findIndex((item) => item.skin_type_id === skinType.skin_type_id);
+    if (index === -1) {
       this.selectedSkinTypes.push(skinType);
     } else {
-      this.selectedSkinTypes = this.selectedSkinTypes.filter((item) => item.skin_type_id !== skinType.skin_type_id);
+      this.selectedSkinTypes.splice(index, 1);
     }
+    console.log(this.selectedSkinTypes);
   }
   getSecurityLevel() {
     this.service.get<SecurityLevelResponse>(`clinic/get-severity-levels`).subscribe((res) => {
@@ -232,10 +248,11 @@ export class ClinicSetupComponent {
   }
 
   addSecurityLevel(securityLavel: SecurityLevel) {
-    if (!this.selectedSecurityLevel.some((item) => item.severity_level_id === securityLavel.severity_level_id)) {
+    const index = this.selectedSecurityLevel.findIndex((item) => item.severity_level_id === securityLavel.severity_level_id);
+    if (index === -1) {
       this.selectedSecurityLevel.push(securityLavel);
     } else {
-      this.selectedSecurityLevel = this.selectedSecurityLevel.filter((item) => item.severity_level_id !== securityLavel.severity_level_id);
+      this.selectedSecurityLevel.splice(index, 1);
     }
   }
 
@@ -338,6 +355,7 @@ export class ClinicSetupComponent {
       formData.append('zip_code', this.Form.value.zip_code)
       formData.append('latitude', this.Form.value.latitude)
       formData.append('longitude', this.Form.value.longitude)
+      formData.append('address', this.selectedLocation)
       formData.append('zynq_user_id', this.userInfo.id)
       formData.append('website_url', this.Form.value.website_url)
       formData.append('website_url', this.Form.value.website_url)
@@ -347,16 +365,89 @@ export class ClinicSetupComponent {
       formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
       formData.append('form_stage', this.currentStep.toString())
     } else if (this.currentStep === 3) {
-
+      formData.append('treatments', JSON.stringify(this.selectedTreatments.map(item => item.treatment_id)));
+      formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
+      formData.append('skin_types', JSON.stringify(this.selectedSkinTypes.map(item => item.skin_type_id)));
+      formData.append('severity_levels', JSON.stringify(this.selectedSecurityLevel.map(item => item.severity_level_id)));
+      formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
+      formData.append('language', 'en');
+      formData.append('is_onboarded', 'true');
+      formData.append('zynq_user_id', this.userInfo.id);
+      formData.append('form_stage', this.currentStep.toString());
     }
 
     this.service.post(`clinic/onboard-clinic`, formData).subscribe((res: any) => {
       if (res.status) {
-        // this.toster.success(res.message);
+        if (this.currentStep === 3) {
+          this.toster.success(res.message);
+          this.router.navigate(['/clinic']);
+        }
         this.currentStep++;
       }
     }, err => {
       this.toster.error(err);
     })
+  }
+
+
+  getProfile() {
+    this.service.get<ClinicProfileResponse>('clinic/get-profile').subscribe(res => {
+      if (res.status) {
+        this.clinicPofile = res.data;
+        this.logoPreview = this.clinicPofile.clinic_logo
+        this.currentStep = this.clinicPofile.form_stage
+        this.selectedLocation = this.clinicPofile.address
+        this.Form.patchValue({
+          clinic_name: this.clinicPofile.clinic_name,
+          clinic_description: this.clinicPofile.clinic_description,
+          ivo_registration_number: this.clinicPofile.ivo_registration_number,
+          hsa_id: this.clinicPofile.hsa_id,
+          email: this.clinicPofile.email,
+          mobile_number: this.clinicPofile.mobile_number,
+          city: this.clinicPofile.location.city,
+          state: this.clinicPofile.location.state,
+          street_address: this.clinicPofile.location.street_address,
+          zip_code: this.clinicPofile.location.zip_code,
+          latitude: this.clinicPofile.location.latitude,
+          longitude: this.clinicPofile.location.longitude,
+          website_url: this.clinicPofile.website_url,
+          fee_range: JSON.parse(this.clinicPofile.fee_range),
+          clinic_timing: this.patchClinicTiming(this.clinicPofile.operation_hours)
+        });
+        this.selectedTreatments = this.clinicPofile.treatments
+        this.selectedEquipmentType = this.clinicPofile.equipments
+        this.selectedSkinTypes = this.clinicPofile.skin_types
+        this.selectedSecurityLevel = this.clinicPofile.severity_levels
+      }
+    }
+    )
+  }
+
+  patchClinicTiming(operation_hours: any[]) {
+    const form = this.Form.get('clinic_timing') as FormGroup;
+
+    operation_hours.forEach(hour => {
+      const dayKey = hour.day_of_week.toLowerCase();
+      const dayFormGroup = form.get(dayKey) as FormGroup;
+      if (dayFormGroup) {
+        dayFormGroup.patchValue({
+          open: hour.open_time !== '00:00:00' ? hour.open_time : null,
+          close: hour.close_time !== '00:00:00' ? hour.close_time : null,
+          is_closed: hour.is_closed === 1
+        });
+        if (hour.is_closed === 1) {
+          dayFormGroup?.get('open')?.clearValidators();
+          dayFormGroup?.get('close')?.clearValidators();
+        }
+      }
+    });
+  }
+
+  issecurityLevelSelected(severity_level_id: string): boolean {
+    return this.selectedSecurityLevel.some(item => item.severity_level_id === severity_level_id);
+  }
+
+  isskintypeselected(skin_type_id: string): boolean {
+    return this.selectedSkinTypes.some(item => item.skin_type_id === skin_type_id);
   }
 }
