@@ -18,6 +18,7 @@ export class LoginComponent {
   Form!: FormGroup;
   isPasswordVisible: boolean = false;
   loading: boolean = false;
+  public publicRoleId:string ='';
 
   constructor(private router: Router, private srevice: CommonService, private toster: NzMessageService, private auth: AuthService) {
 
@@ -56,7 +57,11 @@ export class LoginComponent {
                 this.router.navigateByUrl('/clinic/profile-setup')
               }
             } else if (resp.data.role_id == '3677a3e6-3196-11f0-9e07-0e8e5d906eef') {
-              this.router.navigateByUrl('/doctor/profile-setup')
+              if(resp.data.on_boarding_status ==4){
+                this.router.navigateByUrl('/doctor')
+              }else{
+                this.router.navigateByUrl('/doctor/profile-setup')
+              }
             }
             this.toster.success(resp.message)
             this.loading = false;

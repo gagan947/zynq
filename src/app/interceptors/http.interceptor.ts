@@ -42,9 +42,9 @@ export class HttpInterceptorService implements HttpInterceptor {
                   catchError(error => {
                         let errorMessage = 'An unknown error occurred!';
                         if (error.status === 401) {
-                              errorMessage = error.error.message
+                              errorMessage = error.error.message;
+                              localStorage.clear();
                               this.router.navigate(['/']);
-                              // this.modalService.openModal();
                         } else if (error.status === 403) {
                               errorMessage = error.error.message
                         } else if (error.status === 404) {
