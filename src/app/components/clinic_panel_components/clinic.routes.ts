@@ -80,17 +80,17 @@ export const clinicRoutes: Routes = [
                   },
                   {
                         path: 'support',
-                        loadComponent: () => import('../support/tikets-list/tikets-list.component').then((m) => m.TiketsListComponent),
+                        loadComponent: () => import('../shared/components/tikets-list/tikets-list.component').then((m) => m.TiketsListComponent),
                         title: 'Help & Support'
                   },
                   {
                         path: 'support/raise-ticket',
-                        loadComponent: () => import('../support/raise-tickets/raise-tickets.component').then((m) => m.RaiseTicketsComponent),
+                        loadComponent: () => import('../shared/components/raise-tickets/raise-tickets.component').then((m) => m.RaiseTicketsComponent),
                         title: 'Help & Support'
                   },
                   {
                         path: 'support/detail',
-                        loadComponent: () => import('../support/support-detail/support-detail.component').then((m) => m.SupportDetailComponent),
+                        loadComponent: () => import('../shared/components/support-detail/support-detail.component').then((m) => m.SupportDetailComponent),
                         title: 'Help & Support'
                   },
                   {

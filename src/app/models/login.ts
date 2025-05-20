@@ -16,6 +16,7 @@ export interface LoginResponse {
     language: string;
     role_name: string;
     password?: string;        // optional, for dev/test only
-    show_password?: string;   // optional, for dev/test only
+    show_password?: string; 
+    on_boarding_status: number;  // optional, for dev/test only
   }
   

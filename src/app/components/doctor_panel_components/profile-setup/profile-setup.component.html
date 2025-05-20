@@ -164,10 +164,13 @@
                                           </div>
 
                                     </div>
-                                    <input type="button" name="next"
+                                   <input type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
                                           (click)="nextStep()">
 
+                                          
+                                          
+                                        
                               </form>
                               <form *ngIf="currentStep == 1">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
@@ -383,7 +386,7 @@
                                                             <div class="form-check d-flex align-items-center gap-2">
                                                                   <input class="form-check-input ct_custom_check"
                                                                         type="checkbox" [value]="item"
-                                                                        (change)="addSkinTypes(item)"
+                                                                        (change)="addSkinTypes(item)"  [checked]="isChecked(item)"
                                                                         id="{{item.skin_type_id}}">
                                                                   <label class="form-check-label mb-0"
                                                                         for="{{item.skin_type_id}}">
@@ -397,19 +400,19 @@
                                                       Please select at least one expertise.
                                                 </span>
                                           </div>
-                                          <div class="mb-4">
+                                          <div class="mb-4" *ngIf="securityLevel.length > 0">
                                                 <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Severity
                                                       Level
                                                       Handled-</label>
                                                 <ul
                                                       class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of securityLevel; track $index)
+                                                      @for (item of securityLevel; track trackById($index, item))
                                                       {
                                                       <li>
                                                             <div class="form-check d-flex align-items-center gap-2">
                                                                   <input class="form-check-input ct_custom_check"
                                                                         type="checkbox" [value]="item"
-                                                                        (change)="addSecurityLevel(item)"
+                                                                        (change)="addSecurityLevel(item)"  [checked]="isCheckedLevels(item)"
                                                                         id="{{item.severity_level_id}}">
                                                                   <label class="form-check-label mb-0"
                                                                         for="{{item.severity_level_id}}">
@@ -432,12 +435,13 @@
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">
-                                
+
                                     <!-- <input
                                 type="button" name="previous" class="previous action-button-previous"
                                 value="Previous" /> -->
                               </form>
-                              <form *ngIf="currentStep == 3" [formGroup]="operationHoursForm" (ngSubmit)="onTimeSubmit()">
+                              <form *ngIf="currentStep == 3" [formGroup]="operationHoursForm"
+                                    (ngSubmit)="onTimeSubmit()">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
 
@@ -448,53 +452,78 @@
                                                                   Session<span class="ct_red_text">*</span></label>
                                                             <div class="position-relative">
                                                                   <input type="text" class="form-control ct_input"
-                                                                        placeholder="Enter fee per session" formControlName="fee_per_session">
+                                                                        placeholder="Enter fee per session"
+                                                                        formControlName="fee_per_session">
                                                                   <span class="ct_show_eye">$</span>
                                                             </div>
+                                                            <div class="text-danger mt-1" *ngIf="operationHoursForm.get('fee_per_session')?.hasError('required') && operationHoursForm.get('fee_per_session')?.touched">
+                                                                  Fee per session is required.
+                                                                </div>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Session
                                                                   Duration<span class="ct_red_text">*</span></label>
-                                                            <input type="time" class="form-control ct_input" formControlName="session_duration">
+                                                            <input type="time" class="form-control ct_input"
+                                                                  formControlName="session_duration">
+                                                                  <div class="text-danger mt-1" *ngIf="operationHoursForm.get('session_duration')?.hasError('required') && operationHoursForm.get('session_duration')?.touched">
+                                                                        Session duration is required.
+                                                                      </div>
                                                       </div>
                                                 </div>
                                           </div>
                                     </div>
-                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4" formArrayName="operation_hours">
+                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4"
+                                          formArrayName="operation_hours">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Operation Hours</h5>
-                                          <div class="row align-items-center ct_border_btm_1 py-3" *ngFor="let group of operationHours.controls; let i = index" [formGroupName]="i">
+                                          <div class="row align-items-center ct_border_btm_1 py-3"
+                                                *ngFor="let group of operationHours.controls; let i = index"
+                                                [formGroupName]="i">
                                                 <div class="col-md-3">
                                                       <div class="mb-2 mb-md-0">
-                                                            <p class="mb-0 ct_text_clr_444">{{ group.get('day_of_week')?.value }}</p>
+                                                            <p class="mb-0 ct_text_clr_444">{{
+                                                                  group.get('day_of_week')?.value }}</p>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="d-flex align-items-center gap-3">
                                                             <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input" formControlName="start_time" [disabled]="group.get('closed')?.value">
+                                                                  <input type="time" class="form-control ct_input"
+                                                                        formControlName="start_time"
+                                                                        [disabled]="group.get('closed')?.value" [ngClass]="{'is-invalid': group.errors?.['start_time'] && group.get('start_time')?.touched}">
+                                                                        <div *ngIf="group.errors?.['start_time'] && group.get('start_time')?.touched" class="text-danger">
+                                                                         {{ group.errors?.['start_time'] }}
+                                                                       </div>
                                                             </div>
                                                             <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input"  formControlName="end_time" [disabled]="group.get('closed')?.value">
+                                                                  <input type="time" class="form-control ct_input"
+                                                                        formControlName="end_time"
+                                                                        [disabled]="group.get('closed')?.value" [ngClass]="{'is-invalid': group.errors?.['end_time'] && group.get('end_time')?.touched}">
+                                                                        <div *ngIf="group.errors?.['end_time'] && group.get('end_time')?.touched" class="text-danger">
+                                                                              {{ group.errors?.['end_time'] }}
+                                                                            </div>
                                                             </div>
                                                             <div class="col-md-2">
                                                                   <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input" formControlName="closed" id="closed{{i}}">
-                                                                    <label class="form-check-label" for="closed{{i}}">Closed</label>
+                                                                        <input type="checkbox" class="form-check-input"
+                                                                              formControlName="closed" id="closed{{i}}">
+                                                                        <label class="form-check-label"
+                                                                              for="closed{{i}}">Closed</label>
                                                                   </div>
-                                                                </div>
-                                                              
+                                                            </div>
+                                                       
+                                                               
 
                                                       </div>
                                                 </div>
                                           </div>
-                          
-                                  
-                                     
-                                        
-                                      
-                                      
+
+
+
+
+
+
 
                                     </div>
                                     <input type="button" name="next"
@@ -503,9 +532,9 @@
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">
-                         
+
                               </form>
-                            
+
                         </div>
                   </div>
             </div>

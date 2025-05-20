@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonService } from '../../../services/common.service';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
-import { SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../models/treatments';
+import { SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../models/clinic-onboarding';
 
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
@@ -31,7 +31,7 @@ function operationHoursValidator(group: AbstractControl): ValidationErrors | nul
 @Component({
   selector: 'app-profile-setup',
   standalone: true,
-  imports: [RouterLink, NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './profile-setup.component.html',
   styleUrl: './profile-setup.component.css'
 })
@@ -65,7 +65,7 @@ export class ProfileSetupComponent {
   securityLevel: SecurityLevel[] = []
   selectedSecurityLevel: SecurityLevel[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -110,14 +110,31 @@ export class ProfileSetupComponent {
         this.certificates = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path }));
       }
       if (data.education.length > 0) {
-        this.education = data.education.map(edu => ({ institution: edu.institute, degree_name: edu.degree }));
+        this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree }));
       }
       if (data.experience.length > 0) {
-        this.experience = data.experience.map(edu => ({ organisation_name: edu.organization, designation: edu.designation, start_date: edu.start_date, end_date: edu.end_date }));
+        this.experience = data.experience.map(edu => ({
+          organisation_name: edu.organization, designation: edu.designation, start_date: edu.start_date ? edu.start_date.split('T')[0] : '',
+          end_date: edu.end_date ? edu.end_date.split('T')[0] : ''
+        }));
       }
+      if (data.treatments.length > 0) {
+        this.selectedTreatments = data.treatments.map(edu => ({ treatment_id: edu.treatment_id, name: edu.name }));
+      }
+      if (data.skinTypes.length > 0) {
+        this.selectedSkinTypes = data.skinTypes.map(edu => ({ skin_type_id: edu.skin_type_id, name: edu.name }));
+      }
+      if (data.severityLevels.length > 0) {
+        this.selectedSecurityLevel = data.severityLevels.map(edu => ({ severity_level_id: edu.severity_level_id, level: edu.level }));
+      }
+      console.log(this.selectedSecurityLevel);
 
+      if (data.on_boarding_status == 4) {
+        this.router.navigateByUrl('/doctor');
 
-      this.currentStep = data.on_boarding_status
+      }
+      this.currentStep = data.on_boarding_status;
+
 
     });
   };
@@ -134,6 +151,20 @@ export class ProfileSetupComponent {
 
   get progress(): string {
     return ((this.currentStep + 1) / this.steps.length) * 100 + '%';
+  };
+
+  isChecked(item: any): boolean {
+    const isSelected = this.selectedSkinTypes.some(
+      (selected: any) => selected.skin_type_id === item.skin_type_id
+    );
+    return isSelected;
+  }
+  isCheckedLevels(item: SecurityLevel): boolean {
+    const isSelected = this.selectedSecurityLevel.some(
+      (selected) => selected.severity_level_id === item.severity_level_id
+    );
+
+    return isSelected;
   }
 
   nextStep() {
@@ -176,7 +207,7 @@ export class ProfileSetupComponent {
       this.onExpertiseSubmit();
     };
     if (this.currentStep == 3) {
-      // this.onSubmitFee();
+      this.onTimeSubmit();
     };
 
 
@@ -273,24 +304,52 @@ export class ProfileSetupComponent {
 
   };
 
-  onTimeSubmit(){
+  onTimeSubmit() {
     if (this.operationHoursForm.valid) {
       const formValue = this.operationHoursForm.value;
-      const payload = formValue.operation_hours
+      var payload = formValue.operation_hours
         .filter((entry: any) => entry.closed || (entry.start_time && entry.end_time))
         .map((entry: any) => ({
           day_of_week: entry.day_of_week,
-          start_time: entry.closed ? null : entry.start_time,
-          end_time: entry.closed ? null : entry.end_time,
+          start_time: entry.closed ? '' : entry.start_time,
+          end_time: entry.closed ? '' : entry.end_time,
           closed: entry.closed ? 1 : 0
         }));
 
       console.log('Payload:', payload);
-      // Proceed with API submission using the payload
+      const formData = {
+        fee_per_session: this.operationHoursForm.value.fee_per_session,
+        currency: 'INR',
+        session_duration: this.operationHoursForm.value.session_duration,
+        availability: (payload)
+      };
+
+      this.apiService.post<any, any>('doctor/add_fee_availability', formData).subscribe({
+        next: (resp) => {
+          if (resp.success == true) {
+            this.router.navigateByUrl('/doctor');
+            // this.currentStep++;
+          }
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+      // Submit to your API here
     } else {
+      // Trigger validation messages for fee and duration
+      this.operationHoursForm.markAllAsTouched();
+
+      // Manually trigger validation messages for each operation hours group
+      this.operationHours.controls.forEach((group: AbstractControl) => {
+        group.markAllAsTouched();  // Important: mark nested controls as touched
+        group.updateValueAndValidity(); // Important: to re-evaluate custom validators
+      });
+
       console.log('Form is invalid');
     }
   }
+
 
 
   onProfileImage(event: any) {
@@ -410,11 +469,14 @@ export class ProfileSetupComponent {
     });
   }
 
-  addSkinTypes(skinType: SkinType) {
-    if (!this.selectedSkinTypes.some((item) => item.skin_type_id === skinType.skin_type_id)) {
-      this.selectedSkinTypes.push(skinType);
+  addSkinTypes(item: any) {
+    const index = this.selectedSkinTypes.findIndex(s => s.skin_type_id === item.skin_type_id);
+    if (index > -1) {
+      // Remove if already selected
+      this.selectedSkinTypes.splice(index, 1);
     } else {
-      this.selectedSkinTypes = this.selectedSkinTypes.filter((item) => item.skin_type_id !== skinType.skin_type_id);
+      // Add if not selected
+      this.selectedSkinTypes.push({ skin_type_id: item.skin_type_id, name: item.name });
     }
   }
   getSecurityLevel() {
@@ -424,12 +486,21 @@ export class ProfileSetupComponent {
   }
 
   addSecurityLevel(securityLavel: SecurityLevel) {
-    if (!this.selectedSecurityLevel.some((item) => item.severity_level_id === securityLavel.severity_level_id)) {
+    debugger
+    const index = this.selectedSecurityLevel.findIndex((item) => item.severity_level_id === securityLavel.severity_level_id);
+    if (index === -1) {
       this.selectedSecurityLevel.push(securityLavel);
     } else {
-      this.selectedSecurityLevel = this.selectedSecurityLevel.filter((item) => item.severity_level_id !== securityLavel.severity_level_id);
+      this.selectedSecurityLevel.splice(index, 1);
     }
+    console.log(this.selectedSecurityLevel);
+  };
+
+
+  trackById(index: number, item: SecurityLevel) {
+    return item.severity_level_id;
   }
+
 
 
 
