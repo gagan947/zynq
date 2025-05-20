@@ -6,38 +6,79 @@
                               <h4 class="ct_fs_20 ct_fw_600 mb-2">Complete Your Professional Profile</h4>
                               <p class="mb-0">Please fill in your professional details to complete your profile</p>
                         </div>
-
-
-                        <form id="msform">
+                        <form id="msform" [formGroup]="Form" (ngSubmit)="onSubmit()">
                               <!-- progressbar -->
                               <ul id="ct_form_progressbar">
-                                    <li class="active" id="Personal">Clinic Details</li>
-                                    <li id="Education">Contact Details</li>
-                                    <li id="Expertise">Operation Hours
+                                    <li *ngFor="let step of steps; let i = index" [id]="step.id"
+                                          [class.active]="i <= currentStep">
+                                          {{ step.label }}
                                     </li>
-                                    <li id="Fee">Expertise</li>
                               </ul>
 
-                              <fieldset>
+                              <fieldset *ngIf="currentStep == 0">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Basic Clinic Information</h5>
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black">Clinic Name <span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
-                                                      placeholder="Enter clinic name">
+                                                      placeholder="Enter clinic name" formControlName="clinic_name">
+                                                <span
+                                                      *ngIf="Form.controls['clinic_name'].invalid && Form.controls['clinic_name'].touched">
+                                                      <span *ngIf="Form.controls['clinic_name'].errors?.['required']"
+                                                            class="ct_text_red mt-2">
+                                                            Clinic name is required.
+                                                      </span>
+                                                </span>
+                                          </div>
+                                          <div class="form-group mb-4">
+                                                <label for="" class="mb-2 ct_text_black">IVO Registration Number <span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter IVO Registration Number"
+                                                      formControlName="ivo_registration_number">
+                                                <span
+                                                      *ngIf="Form.controls['ivo_registration_number'].invalid && Form.controls['ivo_registration_number'].touched">
+                                                      <span *ngIf="Form.controls['ivo_registration_number'].errors?.['required']"
+                                                            class="ct_text_red mt-2">
+                                                            IVO registration number is required.
+                                                      </span>
+                                                </span>
+                                          </div>
+                                          <div class="form-group mb-4">
+                                                <label for="" class="mb-2 ct_text_black">HSA Id <span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter IVO Registration Number"
+                                                      formControlName="hsa_id">
+                                                <span
+                                                      *ngIf="Form.controls['hsa_id'].invalid && Form.controls['hsa_id'].touched">
+                                                      <span *ngIf="Form.controls['hsa_id'].errors?.['required']"
+                                                            class="ct_text_red mt-2">
+                                                            HSA id is required.
+                                                      </span>
+                                                </span>
                                           </div>
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black">Description<span
                                                             class="ct_red_text">*</span></label>
                                                 <textarea type="text" class="form-control ct_input h-auto" rows="2"
-                                                      placeholder="Enter description"></textarea>
+                                                      placeholder="Enter description"
+                                                      formControlName="clinic_description"></textarea>
+                                                <span
+                                                      *ngIf="Form.controls['clinic_description'].invalid && Form.controls['clinic_description'].touched">
+                                                      <span *ngIf="Form.controls['clinic_description'].errors?.['required']"
+                                                            class="ct_text_red mt-2">
+                                                            Description is required.
+                                                      </span>
+                                                </span>
                                           </div>
                                           <div class="form-group mb-0">
                                                 <label for="" class="mb-2 ct_text_black">Logo<span
                                                             class="ct_red_text">*</span></label>
                                                 <div class="">
-                                                      <div class="ct_upload_product_main">
+                                                      <div *ngIf="!logoPreview" class="ct_upload_product_main"
+                                                            (click)="logoInput.click()">
                                                             <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
                                                                   xmlns="http://www.w3.org/2000/svg">
                                                                   <path d="M5.87174 22.0167C4.26376 20.9403 3.20508 19.1073 3.20508 17.027C3.20508 13.9023 5.59376 11.3354 8.64473 11.0528C9.26883 7.25653 12.5654 4.36035 16.5384 4.36035C20.5114 4.36035 23.808 7.25653 24.4321 11.0528C27.4831 11.3354 29.8717 13.9023 29.8717 17.027C29.8717 19.1073 28.8131 20.9403 27.2051 22.0167M11.2051 21.6937L16.5384 16.3604M16.5384 16.3604L21.8717 21.6937M16.5384 16.3604V28.3604"
@@ -51,138 +92,41 @@
                                                             <small class="text-center d-block ct_text_9CA3AF py-2">PNG,
                                                                   JPG up to
                                                                   5MB</small>
-                                                            <label for="ct_upload_product">
-                                                                  <input type="file" name="" id="ct_upload_product"
-                                                                        class="d-none">
+                                                            <label>
                                                                   <div class="ct_browse_btn">
                                                                         <span>Browse Files</span>
                                                                   </div>
                                                             </label>
                                                       </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
+                                                      <input type="file" #logoInput class="d-none" accept="image/*"
+                                                            formControlName="logo" (change)="onLogoImage($event)">
+                                                      <!-- <span
+                                                            *ngIf="Form.controls['logo'].invalid && Form.controls['logo'].touched">
+                                                            <span *ngIf="Form.controls['logo'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  Logo is required.
+                                                            </span>
+                                                      </span> -->
+                                                      <div *ngIf="logoPreview"
+                                                            class="ct_uploaded_img123 position-relative">
                                                             <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
+                                                                  <img [src]="logoPreview" alt="" />
+                                                                  <i class="fa-solid fa-xmark"
+                                                                        (click)="removeImage()"></i>
                                                             </div>
                                                       </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-                                                      <div class="ct_uploaded_img123 position-relative d-none">
-
-                                                            <div class="ct_uploaded_img_w">
-                                                                  <img src="../assets/img/user_2.jpg" alt="" />
-                                                                  <i class="fa-solid fa-xmark"></i>
-                                                            </div>
-                                                      </div>
-
-
                                                 </div>
                                           </div>
                                     </div>
                                     <!-- <input type="button" name="next" class="ct_form_next ct_black_btn float-end mx-1"
                                           value="Next" /> -->
 
-                                    <input type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end" value="Next">
+                                    <button type="submit" class="ct_form_next action-button ct_black_btn float-end"
+                                          value="Next">
+                                          Next
+                                    </button>
                               </fieldset>
-                              <fieldset>
+                              <fieldset *ngIf="currentStep == 1">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Location & Contact Details</h5>
 
@@ -192,32 +136,46 @@
                                                             <label for="" class="mb-2 ct_text_black">Street Address<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter street address">
+                                                                  placeholder="Enter street address"
+                                                                  formControlName="street_address">
+                                                            <span
+                                                                  *ngIf="Form.controls['street_address'].invalid && Form.controls['street_address'].touched">
+                                                                  <span *ngIf="Form.controls['street_address'].errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        Street address is required.
+                                                                  </span>
+                                                            </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">City<span
                                                                         class="ct_red_text">*</span></label>
-                                                            <select class="form-control ct_input">
-                                                                  <option value="">Alexander City</option>
-                                                                  <option value="">Andalusia</option>
-                                                                  <option value="">Anniston</option>
-                                                                  <option value="">Athens</option>
-                                                            </select>
+                                                            <input type="text" class="form-control ct_input"
+                                                                  placeholder="Enter city name" formControlName="city">
+                                                            <span
+                                                                  *ngIf="Form.controls['city'].invalid && Form.controls['city'].touched">
+                                                                  <span *ngIf="Form.controls['city'].errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        City is required.
+                                                                  </span>
+                                                            </span>
                                                       </div>
-
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">State<span
                                                                         class="ct_red_text">*</span></label>
-                                                            <select class="form-control ct_input">
-                                                                  <option value="">Alabama</option>
-                                                                  <option value="">Arizona</option>
-                                                                  <option value="">California</option>
-                                                                  <option value="">Colorado</option>
-                                                            </select>
+                                                            <input type="text" class="form-control ct_input"
+                                                                  placeholder="Enter state name"
+                                                                  formControlName="state">
+                                                            <span
+                                                                  *ngIf="Form.controls['state'].invalid && Form.controls['state'].touched">
+                                                                  <span *ngIf="Form.controls['state'].errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        State is required.
+                                                                  </span>
+                                                            </span>
                                                       </div>
 
                                                 </div>
@@ -226,7 +184,15 @@
                                                             <label for="" class="mb-2 ct_text_black">Zip Code<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter ZIP code">
+                                                                  placeholder="Enter ZIP code"
+                                                                  formControlName="zip_code">
+                                                            <span
+                                                                  *ngIf="Form.controls['zip_code'].invalid && Form.controls['zip_code'].touched">
+                                                                  <span *ngIf="Form.controls['zip_code'].errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        Zip code is required.
+                                                                  </span>
+                                                            </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -234,30 +200,26 @@
                                                             <label for="" class="mb-2 ct_text_black">Map Location<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter map location">
+                                                                  placeholder="Enter map location"
+                                                                  (input)="searchLocation($event)"
+                                                                  [value]="selectedLocation">
                                                             <!-- when user enter location then show this div -->
-                                                            <div class="ct_map_location_dropdown d-none">
+                                                            <div class="ct_map_location_dropdown"
+                                                                  *ngIf="locations.length > 0">
                                                                   <ul>
-                                                                        <li>
-                                                                              Palasia indore
+                                                                        @for (item of locations; track $index) {
+                                                                        <li (click)="selectLocation(item.description)">
+                                                                              {{item.description}}
                                                                         </li>
-                                                                        <li>
-                                                                              Palasia indore
-                                                                        </li>
-                                                                        <li>
-                                                                              Palasia indore
-                                                                        </li>
-                                                                        <li>
-                                                                              Palasia indore
-                                                                        </li>
-                                                                        <li>
-                                                                              Palasia indore
-                                                                        </li>
-                                                                        <li>
-                                                                              Palasia indore
-                                                                        </li>
+                                                                        }
                                                                   </ul>
                                                             </div>
+                                                            <span>
+                                                                  <span *ngIf="!selectedLocation && submitted"
+                                                                        class="ct_text_red mt-2">
+                                                                        Map location is required.
+                                                                  </span>
+                                                            </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -265,7 +227,15 @@
                                                             <label for="" class="mb-2 ct_text_black">Phone No<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="number" class="form-control ct_input"
-                                                                  placeholder="Enter phone number">
+                                                                  placeholder="Enter phone number"
+                                                                  formControlName="mobile_number">
+                                                            <span
+                                                                  *ngIf="Form.controls['mobile_number'].invalid && Form.controls['mobile_number'].touched">
+                                                                  <span *ngIf="Form.controls['mobile_number'].errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        Phone number is required.
+                                                                  </span>
+                                                            </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -273,7 +243,18 @@
                                                             <label for="" class="mb-2 ct_text_black">Email Address<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="email" class="form-control ct_input"
-                                                                  placeholder="Enter email address">
+                                                                  placeholder="Enter email address"
+                                                                  formControlName="email">
+                                                            <span
+                                                                  *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
+                                                                  <span *ngIf="Form.controls['email'].errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        Email is required.
+                                                                  </span>
+                                                                  <span *ngIf="Form.controls['email'].errors?.['email'] && !Form.controls['email'].errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        Invalid email format.</span>
+                                                            </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -281,277 +262,139 @@
                                                             <label for="" class="mb-2 ct_text_black">Website URL<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter website URL">
+                                                                  placeholder="Enter website URL"
+                                                                  formControlName="website_url">
+                                                            <span
+                                                                  *ngIf="Form.controls['website_url'].invalid && Form.controls['website_url'].touched">
+                                                                  <span *ngIf="Form.controls['website_url'].errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        Website URL is required.
+                                                                  </span>
+                                                            </span>
                                                       </div>
                                                 </div>
-
                                           </div>
 
                                     </div>
                                     <!-- <div class="float-end"> -->
 
-                                    <input type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next">
-                                    <input type="button" name="previous"
+                                    <button type="button" name="next"
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
+                                          (click)="nextStep()">Next</button>
+                                    <button type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
-                                          value="Previous">
+                                          value="Previous" (click)="previousStep()">Previous</button>
 
 
                                     <!-- </div> -->
 
                               </fieldset>
-                              <fieldset>
+                              <fieldset *ngIf="currentStep == 2">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Operation Hours</h5>
-                                          <div class="row align-items-center ct_border_btm_1 py-3">
-                                                <div class="col-md-3">
-                                                      <div class="mb-2 mb-md-0">
-                                                            <p class="mb-0 ct_text_clr_444">Monday</p>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
+                                          <div [formGroup]="clinicTiming">
+                                                <div *ngFor="let day of days">
+                                                      <div [formGroupName]="day"
+                                                            class="row align-items-center ct_border_btm_1 py-3">
+                                                            <div class="col-md-3">
+                                                                  <p class="mb-0 ct_text_clr_444 text-capitalize">
+                                                                        {{ day }}
+                                                                  </p>
                                                             </div>
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="row align-items-center ct_border_btm_1 py-3">
-                                                <div class="col-md-3">
-                                                      <div class="mb-2 mb-md-0">
-                                                            <p class="mb-0 ct_text_clr_444">Tuesday</p>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="row align-items-center ct_border_btm_1 py-3">
-                                                <div class="col-md-3">
-                                                      <div class="mb-2 mb-md-0">
-                                                            <p class="mb-0 ct_text_clr_444">Wednesday</p>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="row align-items-center ct_border_btm_1 py-3">
-                                                <div class="col-md-3">
-                                                      <div class="mb-2 mb-md-0">
-                                                            <p class="mb-0 ct_text_clr_444">Thursday</p>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="row align-items-center ct_border_btm_1 py-3">
-                                                <div class="col-md-3">
-                                                      <div class="mb-2 mb-md-0">
-                                                            <p class="mb-0 ct_text_clr_444">Friday</p>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="row align-items-center ct_border_btm_1 py-3">
-                                                <div class="col-md-3">
-                                                      <div class="mb-2 mb-md-0">
-                                                            <p class="mb-0 ct_text_clr_444">Saturday</p>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="row align-items-center ct_border_btm_1 py-3">
-                                                <div class="col-md-3">
-                                                      <div class="mb-2 mb-md-0">
-                                                            <p class="mb-0 ct_text_clr_444">Sunday</p>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input">
-                                                            </div>
-
-                                                      </div>
-                                                </div>
-                                          </div>
-
-                                    </div>
-
-                                    <input type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next">
-                                    <input type="button" name="previous"
-                                          class="previous action-button-previous mx-1 ct_outline_btn float-end"
-                                          value="Previous">
-                              </fieldset>
-                              <fieldset>
-                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4 pe-0">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold ">Basic Clinic Information</h5>
-                                          <div class="ct_big_card_scroll_500 ct_custom_scroll ct_pe_40">
-                                                <div class="row mt-4">
-                                                      <div class="col-md-12">
-                                                            <div class="form-group mb-4">
-                                                                  <select class="form-control ct_input">
-                                                                        <option value="">Select certification type
-                                                                        </option>
-                                                                        <option value="">Select certification type
-                                                                        </option>
-                                                                  </select>
-                                                            </div>
-                                                      </div>
-
-                                                      <div class="col-md-12">
-                                                            <div class="form-group mb-4  mb-md-0">
-                                                                  <label for=""
-                                                                        class="mb-2 ct_text_black">Certifications<span
-                                                                              class="ct_red_text">*</span></label>
-                                                                  <div class="">
-                                                                        <div class="ct_upload_product_main"
-                                                                              style="height: 180px;">
-                                                                              <svg width="33" height="33"
-                                                                                    viewBox="0 0 33 33" fill="none"
-                                                                                    xmlns="http://www.w3.org/2000/svg">
-                                                                                    <path d="M5.87174 22.0167C4.26376 20.9403 3.20508 19.1073 3.20508 17.027C3.20508 13.9023 5.59376 11.3354 8.64473 11.0528C9.26883 7.25653 12.5654 4.36035 16.5384 4.36035C20.5114 4.36035 23.808 7.25653 24.4321 11.0528C27.4831 11.3354 29.8717 13.9023 29.8717 17.027C29.8717 19.1073 28.8131 20.9403 27.2051 22.0167M11.2051 21.6937L16.5384 16.3604M16.5384 16.3604L21.8717 21.6937M16.5384 16.3604V28.3604"
-                                                                                          stroke="#9CA3AF"
-                                                                                          stroke-width="2.66667"
-                                                                                          stroke-linecap="round"
-                                                                                          stroke-linejoin="round" />
-                                                                              </svg>
-
-                                                                              <p
-                                                                                    class="text-center ct_fs_18 ct_text_op_07 mb-2">
-                                                                                    Upload certifications
-                                                                              </p>
-                                                                              <label for="ct_upload_product">
-                                                                                    <input type="file" name=""
-                                                                                          id="ct_upload_product"
-                                                                                          class="d-none">
-                                                                                    <div class="ct_browse_btn">
-                                                                                          <span>Select Files</span>
-                                                                                    </div>
-                                                                              </label>
-                                                                              <!-- after upload image change url to below image -->
-                                                                              <img src="assets/img/hunting_knee.png"
-                                                                                    alt=""
-                                                                                    class="ct_uploaded_img d-none">
+                                                            <div class="col-md-6">
+                                                                  <div class="d-flex align-items-center gap-3">
+                                                                        <div class="form-group ct_flex_1">
+                                                                              <input type="time"
+                                                                                    class="form-control ct_input"
+                                                                                    formControlName="open">
+                                                                              <span *ngIf="hasClinicTimingError(day, 'open', 'required')"
+                                                                                    class="ct_text_red mt-2">
+                                                                                    Open time is required.
+                                                                              </span>
                                                                         </div>
-                                                                        <div
-                                                                              class="ct_uploaded_img123 position-relative d-none">
-
-                                                                              <div class="ct_uploaded_img_w">
-                                                                                    <img src="../assets/img/user_2.jpg"
-                                                                                          alt="" />
-                                                                                    <i class="fa-solid fa-xmark"></i>
-                                                                              </div>
-
+                                                                        <div class="form-group ct_flex_1">
+                                                                              <input type="time"
+                                                                                    class="form-control ct_input"
+                                                                                    formControlName="close">
+                                                                              <span *ngIf="hasClinicTimingError(day, 'close', 'required')"
+                                                                                    class="ct_text_red mt-2">
+                                                                                    Close time is required.
+                                                                              </span>
                                                                         </div>
-
                                                                   </div>
                                                             </div>
-
+                                                            <div class="col-md-3">
+                                                                  <div class="form-group">
+                                                                        <div class="form-check">
+                                                                              <input class="form-check-input"
+                                                                                    type="checkbox"
+                                                                                    formControlName="closed"
+                                                                                    (change)="setClosed(day, $event)">
+                                                                              <label class="form-check-label">
+                                                                                    Closed
+                                                                              </label>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
                                                       </div>
-
                                                 </div>
                                           </div>
-                                          <div class="mt-3">
-                                                <a href="javascript:void(0)" class="ct_blue_text">+ Add Certification
-                                                </a>
-                                          </div>
                                     </div>
-                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Services & Expertise</h5>
+                                    <button type="button"
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
+                                          (click)="nextStep()">Next</button>
+                                    <button type="button"
+                                          class="previous action-button-previous mx-1 ct_outline_btn float-end"
+                                          value="Previous" (click)="previousStep()">Previous</button>
+                              </fieldset>
+                              <fieldset *ngIf="currentStep == 3">
+                                    <div *ngIf="filteredTreatments.length > 0 || filteredEquipmentType.length > 0"
+                                          id="overLay" (click)="filteredEquipmentType = []; filteredTreatments = []">
+                                    </div>
+                                    <div class=" ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
+                                                Services & Expertise</h5>
                                           <div class="mb-4">
                                                 <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Treatments
                                                       Provided-</label>
                                                 <ul
                                                       class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                      @for (item of selectedTreatments; track
+                                                      $index) {
                                                       <li>
-                                                            <button class="ct_select_badge">Anti-Aging Treatments
-                                                                  <span><i
+                                                            <button type="button" class="ct_select_badge">{{item.name}}
+                                                                  <span (click)="removeTreatment($index)"><i
                                                                               class="fa-solid fa-xmark"></i></span></button>
                                                       </li>
-                                                      <li>
-                                                            <button class="ct_select_badge">Botox & Fillers <span><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
-                                                      <li>
-                                                            <button class="ct_select_badge">Skin Tightening (RF &
-                                                                  Ultrasound) <span><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
-                                                      <li>
-                                                            <button class="ct_select_badge">PRP Therapy (Hair &
-                                                                  Face)<span><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
+                                                      }
                                                 </ul>
 
                                                 <div class="position-relative mt-4">
                                                       <input type="text" class="form-control ct_input ct_pe_122"
-                                                            placeholder="Type to add more treatments...">
-                                                      <button class="ct_black_btn ct_btn_position_right">Add</button>
-
-
+                                                            placeholder="Type to add treatments..."
+                                                            (input)="searchTratment($event)">
+                                                      <!-- <button class="ct_black_btn ct_btn_position_right">Add</button> -->
+                                                      <ul class="cutom_dropdown_list"
+                                                            *ngIf="filteredTreatments.length > 0">
+                                                            @for (item of filteredTreatments;
+                                                            track $index) {
+                                                            <li class="list_item" (click)="addTreatment(item)">
+                                                                  <i class="fa-solid fa-check me-2"
+                                                                        [ngClass]="selectedTreatments.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                                  {{item.name}}
+                                                            </li>
+                                                            }
+                                                      </ul>
                                                 </div>
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="selectedTreatments.length == 0 && submitted">
+                                                      Please add at least one treatment.
+                                                </span>
                                           </div>
 
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black ">Consultation Fee Range<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black ">Consultation
+                                                      Fee Range<span class="ct_red_text">*</span></label>
                                                 <div class="row">
                                                       <div class="col-md-6">
                                                             <div class="d-flex align-items-center gap-3">
@@ -564,6 +407,7 @@
                                                       </div>
 
                                                 </div>
+
                                           </div>
 
                                           <div class="mb-4">
@@ -571,107 +415,60 @@
                                                       Available-</label>
                                                 <ul
                                                       class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                      @for (item of selectedEquipmentType; track
+                                                      $index) {
                                                       <li>
-                                                            <button class="ct_select_badge">Skin Analyzer Machine
-                                                                  <span><i
+                                                            <button type="button" class="ct_select_badge">{{item.name}}
+                                                                  <span (click)="removeEquipmentType($index)"><i
                                                                               class="fa-solid fa-xmark"></i></span></button>
                                                       </li>
-                                                      <li>
-                                                            <button class="ct_select_badge">Dermatoscope <span><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
-                                                      <li>
-                                                            <button class="ct_select_badge">Magnifying Lamp with LED
-                                                                  <span><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
-                                                      <li>
-                                                            <button class="ct_select_badge">Wood's Lamp<span><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
-                                                      <li>
-                                                            <button class="ct_select_badge">VISIA Skin Analysis
-                                                                  System<span><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
+                                                      }
                                                 </ul>
 
                                                 <div class="position-relative mt-4">
                                                       <input type="text" class="form-control ct_input ct_pe_122"
-                                                            placeholder="Type to add more equipments...">
-                                                      <button class="ct_black_btn ct_btn_position_right">Add</button>
-
-
+                                                            placeholder="Type to add equipment..."
+                                                            (input)="searchEquipmentType($event)">
+                                                      <!-- <button class="ct_black_btn ct_btn_position_right">Add</button> -->
+                                                      <ul class="cutom_dropdown_list"
+                                                            *ngIf="filteredEquipmentType.length > 0">
+                                                            @for (item of filteredEquipmentType;
+                                                            track $index) {
+                                                            <li class="list_item" (click)="addEquipmentType(item)">
+                                                                  <i class="fa-solid fa-check me-2"
+                                                                        [ngClass]="selectedEquipmentType.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                                  {{item.name}}
+                                                            </li>
+                                                            }
+                                                      </ul>
                                                 </div>
                                           </div>
 
                                           <div class="mb-4">
-                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin Type
+                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin
+                                                      Type
                                                       Expertise-</label>
                                                 <ul
                                                       class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                      @for (item of skintypes; track $index) {
                                                       <li>
                                                             <div class="form-check d-flex align-items-center gap-2">
                                                                   <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
+                                                                        type="checkbox" [value]="item"
+                                                                        (change)="addSkinTypes(item)"
+                                                                        id="{{item.skin_type_id}}">
                                                                   <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Normal
+                                                                        for="{{item.skin_type_id}}">
+                                                                        {{item.name}}
                                                                   </label>
                                                             </div>
                                                       </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Dry
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Oily
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Combination
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Sensitive
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Acne-Prone
-                                                                  </label>
-                                                            </div>
-                                                      </li>
+                                                      }
                                                 </ul>
-
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="selectedSkinTypes.length == 0 && submitted">
+                                                      Please select at least one expertise.
+                                                </span>
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Severity
@@ -679,77 +476,35 @@
                                                       Handled-</label>
                                                 <ul
                                                       class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                      @for (item of securityLevel; track $index)
+                                                      {
                                                       <li>
                                                             <div class="form-check d-flex align-items-center gap-2">
                                                                   <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
+                                                                        type="checkbox" [value]="item"
+                                                                        (change)="addSecurityLevel(item)"
+                                                                        id="{{item.severity_level_id}}">
                                                                   <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Mild
+                                                                        for="{{item.severity_level_id}}">
+                                                                        {{item.level}}
                                                                   </label>
                                                             </div>
                                                       </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Moderate
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Severe
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Critical
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Emergency
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" value="" id="flexCheckDefault">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="flexCheckDefault">
-                                                                        Chronic
-                                                                  </label>
-                                                            </div>
-                                                      </li>
+                                                      }
                                                 </ul>
-
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="selectedSecurityLevel.length == 0 && submitted">
+                                                      Please select at least one severity level.
+                                                </span>
                                           </div>
                                     </div>
 
-                                    <a routerLink="/main" type="button" name="next"
+                                    <button type="submit" name="next"
                                           class="ct_black_btn float-end mx-1  ct_border_radius_10">Complete
-                                          Profile Setup</a>
+                                          Profile Setup</button>
                                     <input type="button" name="previous"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1"
-                                          value="Previous">
+                                          value="Previous" (click)="previousStep()">
                                     <!-- <div class="ct_form-card">
                                 <div class="row">
                                     <div class="col-7">

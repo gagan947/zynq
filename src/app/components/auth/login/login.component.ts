@@ -48,6 +48,7 @@ export class LoginComponent {
         next: (resp) => {
           if (resp.success == true) {
             this.auth.setToken(resp.data.jwt_token, resp.data.role_id);
+            localStorage.setItem('userInfo', JSON.stringify(resp.data));
             if (resp.data.role_id == '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {
               this.router.navigateByUrl('/clinic/profile-setup')
             } else if (resp.data.role_id == '3677a3e6-3196-11f0-9e07-0e8e5d906eef') {
