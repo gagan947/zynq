@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonService } from '../../../../services/common.service';
@@ -13,8 +13,9 @@ import { CommonService } from '../../../../services/common.service';
 export class ClinicProfileComponent {
   clinicProfile = this.service._clinicProfile;
   constructor(private fb: FormBuilder, private service: CommonService) {
-    console.log(this.clinicProfile());
-
+    effect(() => {
+      console.log('Profile changed:', this.clinicProfile());
+    });
   }
 
 }
