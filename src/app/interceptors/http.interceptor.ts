@@ -12,7 +12,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
       intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-            const authToken = localStorage.getItem(`CtiToken`);
+            const authToken = localStorage.getItem(`ZynqToken`);
 
             let modifiedRequest: HttpRequest<any>;
             if (req.body instanceof FormData) {
@@ -42,8 +42,9 @@ export class HttpInterceptorService implements HttpInterceptor {
                   catchError(error => {
                         let errorMessage = 'An unknown error occurred!';
                         if (error.status === 401) {
-                              errorMessage = error.error.message
-                              // this.modalService.openModal();
+                              errorMessage = error.error.message;
+                              localStorage.clear();
+                              this.router.navigate(['/']);
                         } else if (error.status === 403) {
                               errorMessage = error.error.message
                         } else if (error.status === 400) {
