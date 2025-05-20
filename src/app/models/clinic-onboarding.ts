@@ -33,3 +33,30 @@ export interface SecurityLevelResponse {
       message: string;
       data: SecurityLevel[];
 }
+
+export interface EquipmentType {
+      equipment_id: string;
+      name: string;
+}
+
+export interface EquipmentTypeResponse {
+      success: boolean;
+      status: number;
+      message: string;
+      data: EquipmentType[];
+}
+
+export interface CertificationType {
+      certification_type_id: string;
+      name: string;
+      created_at: string;
+      updated_at: string;
+      file_name: string;
+}
+
+export interface CertificateTypeResponse {
+      success: boolean;
+      status: number;
+      message: string;
+      data: CertificationType[];
+}
