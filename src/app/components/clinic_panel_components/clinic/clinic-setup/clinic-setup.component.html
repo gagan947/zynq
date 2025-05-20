@@ -285,7 +285,6 @@
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">Previous</button>
 
-
                                     <!-- </div> -->
 
                               </fieldset>
@@ -320,6 +319,10 @@
                                                                                     class="ct_text_red mt-2">
                                                                                     Close time is required.
                                                                               </span>
+                                                                              <span *ngIf="clinicTiming.get(day)?.errors?.['timeRangeInvalid']"
+                                                                                    class="ct_text_red mt-2">
+                                                                                    Close time must be after open time.
+                                                                              </span>
                                                                         </div>
                                                                   </div>
                                                             </div>
@@ -328,7 +331,7 @@
                                                                         <div class="form-check">
                                                                               <input class="form-check-input"
                                                                                     type="checkbox"
-                                                                                    formControlName="closed"
+                                                                                    formControlName="is_closed"
                                                                                     (change)="setClosed(day, $event)">
                                                                               <label class="form-check-label">
                                                                                     Closed
@@ -395,21 +398,36 @@
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black ">Consultation
                                                       Fee Range<span class="ct_red_text">*</span></label>
-                                                <div class="row">
-                                                      <div class="col-md-6">
-                                                            <div class="d-flex align-items-center gap-3">
-                                                                  <input type="text" class="form-control ct_input"
-                                                                        placeholder="Min">
-                                                                  <span class="ct_white_nowrap">to</span>
-                                                                  <input type="text" class="form-control ct_input"
-                                                                        placeholder="Max">
+                                                <div [formGroup]="feeRange">
+                                                      <div class="row">
+                                                            <div class="col-md-6">
+                                                                  <div class="d-flex align-items-center gap-3">
+                                                                        <input type="number"
+                                                                              class="form-control ct_input"
+                                                                              placeholder="Min" formControlName="min">
+                                                                        <span class="ct_white_nowrap">to</span>
+                                                                        <input type="number"
+                                                                              class="form-control ct_input"
+                                                                              placeholder="Max" formControlName="max">
+
+                                                                  </div>
+
+                                                                  <span *ngIf="feeRange.get('min')?.touched && feeRange.get('min')?.errors?.['required'] && feeRange.get('min')?.invalid"
+                                                                        class="ct_text_red mt-2">
+                                                                        Min fee is required.
+                                                                  </span>
+                                                                  <span *ngIf="feeRange.get('max')?.touched && feeRange.get('max')?.errors?.['required'] && feeRange.get('max')?.invalid"
+                                                                        class="ct_text_red mt-2">
+                                                                        Max fee is required.
+                                                                  </span>
+                                                                  <span *ngIf="feeRange.get('max')?.value < feeRange.get('min')?.value && !feeRange.get('max')?.errors?.['required']"
+                                                                        class="ct_text_red mt-2">
+                                                                        Max fee should be greater than min fee
+                                                                  </span>
                                                             </div>
                                                       </div>
-
                                                 </div>
-
                                           </div>
-
                                           <div class="mb-4">
                                                 <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Equipments
                                                       Available-</label>
@@ -455,6 +473,7 @@
                                                             <div class="form-check d-flex align-items-center gap-2">
                                                                   <input class="form-check-input ct_custom_check"
                                                                         type="checkbox" [value]="item"
+                                                                        [checked]="isskintypeselected(item.skin_type_id)"
                                                                         (change)="addSkinTypes(item)"
                                                                         id="{{item.skin_type_id}}">
                                                                   <label class="form-check-label mb-0"
@@ -483,6 +502,7 @@
                                                                   <input class="form-check-input ct_custom_check"
                                                                         type="checkbox" [value]="item"
                                                                         (change)="addSecurityLevel(item)"
+                                                                        [checked]="issecurityLevelSelected(item.severity_level_id)"
                                                                         id="{{item.severity_level_id}}">
                                                                   <label class="form-check-label mb-0"
                                                                         for="{{item.severity_level_id}}">

@@ -1,16 +1,19 @@
 import { Routes } from '@angular/router';
+import { LoginGuard } from './guards/login.guard';
 
 export const routes: Routes = [
       {
             path: '',
             loadComponent: () => import('./components/auth/login/login.component').then((m) => m.LoginComponent),
             title: 'Login',
+            canActivate: [LoginGuard],
             pathMatch: 'full'
       },
       {
             path: 'forgot-password',
             loadComponent: () => import('./components/auth/forget-password/forget-password.component').then((m) => m.ForgetPasswordComponent),
-            title: 'Forget Password'
+            title: 'Forget Password',
+            canActivate: [LoginGuard],
       },
       {
             path: 'unauthorized',

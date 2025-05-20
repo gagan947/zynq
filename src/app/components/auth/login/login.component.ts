@@ -50,7 +50,11 @@ export class LoginComponent {
             this.auth.setToken(resp.data.jwt_token, resp.data.role_id);
             localStorage.setItem('userInfo', JSON.stringify(resp.data));
             if (resp.data.role_id == '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {
-              this.router.navigateByUrl('/clinic/profile-setup')
+              if (resp.data.is_onboarded === 1) {
+                this.router.navigateByUrl('/clinic')
+              } else {
+                this.router.navigateByUrl('/clinic/profile-setup')
+              }
             } else if (resp.data.role_id == '3677a3e6-3196-11f0-9e07-0e8e5d906eef') {
               this.router.navigateByUrl('/doctor/profile-setup')
             }

@@ -47,6 +47,8 @@ export class HttpInterceptorService implements HttpInterceptor {
                               // this.modalService.openModal();
                         } else if (error.status === 403) {
                               errorMessage = error.error.message
+                        } else if (error.status === 404) {
+                              errorMessage = error.error.message
                         } else if (error.status === 400) {
                               errorMessage = error.error.message || 'Bad request. Please try again.';
                         } else if (error.status === 500) {
