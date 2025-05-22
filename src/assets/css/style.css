@@ -6,19 +6,23 @@
   font-family: ambit_regular;
   word-break: break-word;
 }
+
 ul {
   padding-left: 0px;
   margin-bottom: 0px;
   list-style: none;
 }
+
 a,
 a:hover {
   text-decoration: none;
 }
+
 .ct_body_bg {
   /* background: #f4f0ef; */
   background: linear-gradient(180deg, #f4f0ef 0%, #ffffff 46.5%, #f4f0ef 100%);
 }
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -30,6 +34,7 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
 :root {
   --black: #282828;
   --text-clr_444: #444444;
@@ -45,6 +50,7 @@ input[type="number"] {
   --light_green: #28a54c1a;
   --text_clr_858A9B: #858a9b;
 }
+
 .ct_blue_text {
   color: var(--blue);
 }
@@ -52,39 +58,50 @@ input[type="number"] {
 .ct_text_op_07 {
   opacity: 0.7;
 }
+
 .ct_text_clr_858A9B {
   color: var(--text_clr_858A9B);
 }
+
 .ct_dark_grey_text {
   color: #595c5f;
 }
+
 .ct_grey_text {
   color: #666;
 }
+
 .ct_light_orange_text {
   color: var(--light_orange);
 }
+
 @font-face {
   font-family: ambit_regular;
   src: url(../fonts/Ambit_Regular.otf);
 }
+
 @font-face {
   font-family: ambit_semibold;
   src: url(../fonts/Ambit_SemiBold.otf);
 }
+
 @font-face {
   font-family: ambit_bold;
   src: url(../fonts/Ambit_Bold.otf);
 }
+
 .ct_ff_ambit_regular {
   font-family: ambit_regular;
 }
+
 .ct_ff_ambit_semibold {
   font-family: ambit_bold;
 }
+
 .ct_ff_ambit_bold {
   font-family: a;
 }
+
 /* all font color S */
 .ct_yellow_text {
   color: var(--yellow);
@@ -93,21 +110,27 @@ input[type="number"] {
 .ct_dark_yellow_text {
   color: var(--dark_yellow);
 }
+
 .ct_green_text {
   color: var(--green);
 }
+
 .ct_dark_blue_text {
   color: var(--dark_blue);
 }
+
 .ct_red_text {
   color: var(--red);
 }
+
 .ct_text_clr_444 {
   color: var(--text-clr_444);
 }
+
 .ct_text_black {
   color: var(--black);
 }
+
 /* all font color E*/
 /* All img size css S */
 .ct_img_30 {
@@ -116,6 +139,7 @@ input[type="number"] {
   object-fit: cover;
   border-radius: 100px;
 }
+
 .ct_img_40 {
   width: 40px;
   height: 40px;
@@ -123,54 +147,69 @@ input[type="number"] {
   cursor: pointer;
   object-fit: cover;
 }
+
 /* All img size css E */
 
 /* All font Weight Css S */
 .ct_fw_300 {
   font-weight: 300;
 }
+
 .ct_fw_400 {
   font-weight: 400;
 }
+
 .ct_fw_500 {
   font-weight: 500;
 }
+
 .ct_fw_600 {
   font-weight: 600;
 }
+
 .ct_fw_700 {
   font-weight: 700;
 }
+
 .ct_fw_800 {
   font-weight: 800;
 }
+
 .ct_fw_900 {
   font-weight: 900;
 }
+
 /* All font Weight Css E */
 
 /* all font size css S */
 .ct_fs_14 {
   font-size: 14px;
 }
+
 .ct_fs_16 {
   font-size: 16px;
 }
+
 .ct_fs_18 {
   font-size: 18px;
 }
+
 .ct_fs_20 {
   font-size: 20px;
 }
+
 .ct_fs_24 {
   font-size: 24px;
 }
+
 .ct_fs_28 {
   font-size: 28px;
 }
+
 .ct_fs_44 {
   font-size: 44px;
 }
+
 .ct_fs_22 {
   font-size: 22px;
 }
@@ -196,30 +235,37 @@ input[type="number"] {
 .ct_custom_scroll::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
 /* Custom Scroll Css E */
 
 /* all padding css S */
 .ct_px_30 {
   padding-inline: 30px;
 }
+
 .ct_py_100 {
   padding-block: 100px;
 }
 .ct_py_50 {
   padding-block: 50px;
 }
+
 .ct_p_40 {
   padding: 40px;
 }
+
 .ct_py_28_px_20 {
   padding: 28px 20px;
 }
+
 .ct_p_20 {
   padding: 20px;
 }
+
 .ct_mb_60 {
   margin-bottom: 60px;
 }
+
 /* all padding css E */
 
 .form-control:focus {
@@ -234,28 +280,35 @@ input[type="number"] {
   transform: translateY(-50%);
   cursor: pointer;
 }
+
 .ct_input_icon_left {
   position: absolute;
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
 }
+
 .ct_input_ps_40 {
   padding-left: 40px;
 }
+
 .ct_input_pe_40 {
   padding-right: 40px;
 }
+
 .ct_input_icon_left img {
   width: 18px;
   margin-top: -2px;
 }
+
 .ct_white_bg {
   background-color: #ffffff;
 }
+
 .ct_border_radius_15 {
   border-radius: 15px;
 }
+
 .ct_border_radius_10 {
   border-radius: 10px;
 }
@@ -273,9 +326,11 @@ input[type="number"] {
   border: 1px solid #e1e1e1;
   border-radius: 10px;
 }
+
 .ct_input::placeholder {
   color: #666;
 }
+
 .ct_black_btn {
   padding: 13px 30px;
   text-align: center;
@@ -293,6 +348,7 @@ input[type="number"] {
   color: #fff;
   overflow: hidden;
 }
+
 .ct_black_btn:before {
   content: "";
   position: absolute;
@@ -305,12 +361,15 @@ input[type="number"] {
   background-color: #fff;
   z-index: -1;
 }
+
 .ct_black_btn:hover:before {
   transform: scale(1);
 }
+
 .ct_black_btn:hover {
   color: var(--black);
 }
+
 .ct_black_btn:hover svg path {
   stroke: var(--black);
 }
@@ -332,6 +391,7 @@ input[type="number"] {
   color: #000;
   overflow: hidden;
 }
+
 .ct_outline_btn:before {
   content: "";
   position: absolute;
@@ -344,15 +404,19 @@ input[type="number"] {
   background-color: var(--black);
   z-index: -1;
 }
+
 .ct_outline_btn:hover:before {
   transform: scale(1);
 }
+
 .ct_outline_btn:hover {
   color: #fff;
 }
+
 textarea {
   resize: none;
 }
+
 /* Login css S */
 section.ct_login_main {
   display: grid;
@@ -367,6 +431,7 @@ section.ct_login_main {
   height: 100vh;
   object-fit: cover;
 }
+
 .ct_login_right {
   background-image: url(../img/login-right.png);
   height: 100vh;
@@ -382,6 +447,7 @@ section.ct_login_main {
   overflow: hidden;
   margin-left: -50px;
 }
+
 .ct_login_right:before {
   content: "";
   position: absolute;
@@ -392,17 +458,20 @@ section.ct_login_main {
   border-bottom-left-radius: 50px;
   z-index: -1;
 }
+
 .ct_login_btm_logo img {
   width: 180px;
   object-fit: contain;
   height: 150px;
 }
+
 .ct_login_btm_logo {
   position: absolute;
   width: 100%;
   bottom: 0px;
   text-align: center;
 }
+
 /* Login css E */
 
 /* Clinic setup page css S */
@@ -411,22 +480,25 @@ section.ct_login_main {
   margin-inline: auto;
   display: block;
 }
+
 .ct_upload_product_main {
   border: 2px dashed #d1d5db;
   border-radius: 5px;
-  height: 280px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
   justify-content: center;
 }
+
 .ct_browse_btn {
   background-color: #f3f4f6;
   padding: 9px 20px;
   font-weight: 500;
   border-radius: 5px;
 }
+
 .ct_uploaded_img123 {
   display: flex;
   align-items: center;
@@ -457,9 +529,11 @@ section.ct_login_main {
   align-items: center;
   justify-content: center;
 }
+
 .ct_flex_shrink_0 {
   flex-shrink: 0;
 }
+
 .ct_map_location_dropdown {
   background-color: #f7f7f7;
   /* box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09); */
@@ -467,25 +541,31 @@ section.ct_login_main {
   padding: 15px;
   border-radius: 10px;
 }
+
 .ct_map_location_dropdown li {
   padding: 6px 10px;
   transition: 0.4s ease all;
   border-radius: 5px;
 }
+
 .ct_map_location_dropdown li:hover {
   background-color: var(--black);
   color: #fff;
 }
-.ct_map_location_dropdown li + li {
+
+.ct_map_location_dropdown li+li {
   border-top: 1px solid #e6e6e6;
   /* margin-top: 5px; */
 }
+
 .ct_flex_1 {
   flex: 1 !important;
 }
+
 .ct_border_btm_1 {
   border-bottom: 1px solid #f4f0ef;
 }
+
 .ct_select_badge {
   background-color: #f5f5f599;
   border: 1px solid #f5f5f599;
@@ -497,14 +577,17 @@ section.ct_login_main {
   text-align: left;
   transition: 0.4s ease all;
 }
+
 .ct_select_badge:hover {
   background-color: var(--black);
   color: #fff;
   border-color: var(--black);
 }
+
 .ct_pe_122 {
   padding-right: 122px;
 }
+
 .ct_btn_position_right {
   position: absolute;
   top: 50%;
@@ -514,26 +597,32 @@ section.ct_login_main {
   border-radius: 5px;
   padding-inline: 40px;
 }
+
 .ct_white_nowrap {
   white-space: nowrap;
 }
+
 .ct_custom_check:focus {
   box-shadow: unset;
   border-color: var(--black);
   vertical-align: middle;
 }
+
 .ct_custom_check {
   width: 22px;
   height: 22px;
   margin-top: -1px;
 }
+
 .ct_custom_check.form-check-input:checked {
   background-color: transparent;
   border-color: var(--black);
 }
+
 .ct_custom_check.form-check-input:checked[type="checkbox"] {
   filter: invert(1);
 }
+
 /* Clinic setup page css E */
 
 /* Sidebar css S */
@@ -541,6 +630,7 @@ section.ct_login_main {
 .ct_admin_logo img {
   width: 100%;
 }
+
 .ct_side_bar {
   position: fixed;
   height: 100vh;
@@ -552,12 +642,14 @@ section.ct_login_main {
   z-index: 9;
   border-right: 1px solid #d2d5db;
 }
+
 .ct_side_bar ul {
   margin-top: 20px;
   height: calc(100% - 100px);
   overflow-y: auto;
   padding-inline: 15px;
 }
+
 .ct_side_bar ul li a {
   padding: 13px 16px;
   border-radius: 5px;
@@ -571,14 +663,16 @@ section.ct_login_main {
   position: relative;
 }
 
-.ct_side_bar ul li + li {
+.ct_side_bar ul li+li {
   margin-top: 10px;
 }
+
 .ct_side_bar ul li a:hover,
 .ct_side_bar ul li a.active {
   background-color: var(--black);
   color: #fff;
 }
+
 .ct_side_bar ul li a.active svg path,
 .ct_side_bar ul li a:hover svg path {
   stroke: #fff;
@@ -589,6 +683,7 @@ section.ct_login_main {
   margin-left: 276px;
   transition: 0.4s ease all;
 }
+
 header {
   display: flex;
   align-items: center;
@@ -599,28 +694,34 @@ header {
   padding-inline: 30px;
   border-bottom: 1px solid #d2d5db;
 }
+
 .ct_menu_bar,
 .ct_close_sidebar {
   display: none;
 }
+
 .ct_admin_logo {
   border-bottom: 1px solid #d2d5db;
   padding-bottom: 15px;
 }
+
 .ct_admin_logo img {
   width: 124px;
   margin-inline: auto;
   display: block;
 }
+
 .ct_right_dropdown.dropdown ul {
   padding: 0px;
   border: 0px;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09);
 }
+
 .ct_right_dropdown.dropdown .dropdown-item:hover {
   background-color: var(--black);
   color: #fff;
 }
+
 .ct_right_dropdown button {
   border: 0px;
   padding: 11px 16px;
@@ -630,16 +731,19 @@ header {
   gap: 20px;
   border-radius: 6px;
 }
+
 /* Sidebar css E */
 
 /* Dashbaord css S */
 .ct_dash_card {
   height: 100%;
 }
+
 .ct_dash_card p {
   color: #66748c;
   margin-bottom: 0px;
 }
+
 .ct_dash_icon {
   width: 46px;
   height: 46px;
@@ -650,23 +754,28 @@ header {
   background-color: var(--black);
   flex-shrink: 0;
 }
+
 .ct_dash_card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
 }
+
 .form-control {
   appearance: auto;
 }
+
 /* Dashbaord css E */
 .ct_custom_table {
   border: 1px solid #d2d5db;
   border-radius: 10px;
 }
+
 .ct_custom_table table {
   margin-bottom: 0px;
 }
+
 .ct_custom_table tr th,
 .ct_custom_table tr td {
   padding: 15px 15px;
@@ -674,6 +783,7 @@ header {
   vertical-align: middle;
   white-space: nowrap;
 }
+
 .ct_custom_table tr th {
   background-color: #f9fafc;
   /* border-top: 1px solid #d2d5db; */
@@ -681,23 +791,28 @@ header {
   color: #66748c;
   font-weight: 600;
 }
+
 .ct_custom_table tr td {
   border-color: #d2d5db;
   color: #384152;
 }
+
 .ct_custom_table tr th:first-child {
   border-top-left-radius: 10px;
   /* border-left: 1px solid #d2d5db; */
 }
+
 .ct_custom_table tr th:last-child {
   border-top-right-radius: 10px;
   /* border-right: 1px solid #d2d5db; */
 }
+
 .ct_full_view_img img {
   width: 100%;
   height: 350px;
   object-fit: contain;
 }
+
 .ct_cursor_pointer {
   cursor: pointer;
 }
@@ -716,6 +831,7 @@ header {
   color: var(--black);
   transition: 0.4s ease all;
 }
+
 .ct_back_icon:hover {
   transform: translateX(-5px);
 }
@@ -749,10 +865,12 @@ header {
 .ct_pe_30 {
   padding-right: 30px;
 }
+
 .ct_experience_list {
   position: relative;
   padding-block: 5px;
 }
+
 .ct_experience_list:before {
   content: "";
   position: absolute;
@@ -762,6 +880,7 @@ header {
   width: 3px;
   border-left: 3px solid #d9d9d9;
 }
+
 .ct_experience_list ul {
   height: auto;
   max-height: 264px;
@@ -772,6 +891,7 @@ header {
   position: relative;
   padding-left: 20px;
 }
+
 .ct_experience_list li:before {
   content: "";
   position: absolute;
@@ -783,7 +903,8 @@ header {
   background-color: #d9d9d9;
   transform: translateY(-50%);
 }
-.ct_experience_list li + li {
+
+.ct_experience_list li+li {
   margin-top: 30px;
 }
 
@@ -812,6 +933,7 @@ header {
   height: 300px;
   object-fit: cover;
 }
+
 .ct_custom-dots .ct_dot img {
   width: 85px;
   height: 85px;
@@ -823,12 +945,15 @@ header {
 .ct_custom-dots .ct_dot.active {
   border: 1px solid #aaa;
 }
+
 .ct_left_side_product_img {
   position: relative;
 }
+
 .ct_product_detail_slider {
   max-width: calc(100% - 0px);
 }
+
 .ct_custom-dots {
   display: flex;
   align-items: center;
@@ -836,24 +961,27 @@ header {
   overflow-x: auto;
   margin-top: 20px;
 }
+
 .ct_product_detail_slider .owl-nav {
-  display: flex !important
-;
+  display: flex !important;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
   justify-content: space-between;
 }
+
 .ct_product_detail_slider .owl-nav:hover span {
   color: #000;
 }
+
 .ct_product_detail_slider .owl-nav button {
   width: 25px;
   height: 25px;
   border-radius: 100px;
   background-color: #fff !important;
 }
+
 /* ul.ct_custom-dots {
   position: absolute;
   top: 0px;
@@ -873,7 +1001,7 @@ header {
 }
 
 .ct_custom_tabs.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
+.nav-pills .show>.nav-link {
   background-color: #fff;
   box-shadow: 0px 3px 1px 0px #0000000a, 0px 3px 8px 0px #0000001f;
 }
@@ -899,6 +1027,7 @@ header {
   border-radius: 10px;
   padding: 26px 20px;
 }
+
 .ct_overlay_text {
   width: 200px;
   white-space: nowrap;
@@ -938,7 +1067,8 @@ header {
   margin-inline: auto;
   position: relative;
 }
-.ct_profile_img > img {
+
+.ct_profile_img>img {
   object-fit: cover;
   width: 168px;
   border-radius: 100px;
@@ -964,9 +1094,11 @@ header {
   vertical-align: middle;
   white-space: nowrap;
 }
+
 .ct_custom_table_transparent tr th:first-child {
   border-radius: 10px 0px 0px 10px;
 }
+
 .ct_custom_table_transparent tr th:last-child {
   border-radius: 0px 10px 10px 0px;
 }
@@ -976,6 +1108,7 @@ header {
   border-radius: 5px;
   background-color: #00000008;
 }
+
 .ct_circle_dot_8 {
   display: inline-block;
   width: 8px;
@@ -1007,9 +1140,11 @@ header {
   border-radius: 10px;
   gap: 10px;
 }
-.ct_working_hours_list12 li + li {
+
+.ct_working_hours_list12 li+li {
   margin-top: 20px;
 }
+
 .ct_clinic_profile_upload {
   text-align: center;
   flex-shrink: 0;
@@ -1035,6 +1170,7 @@ header {
 .ct_csutom_progress_bar {
   height: 10px;
 }
+
 .ct_csutom_progress_bar .progress-bar {
   background-color: var(--green);
 }
@@ -1043,13 +1179,16 @@ header {
   background-color: var(--black) !important;
   border-color: var(--black) !important;
 }
+
 .ct_custom_switch .form-check-input:focus {
   box-shadow: unset;
 }
+
 .ct_custom_switch.form-switch .form-check-input:focus {
   background-image: url("../img/circle_dot.png");
   border-color: #d6d6d6;
 }
+
 .ct_custom_switch .form-check-input {
   height: 20px;
 }
@@ -1118,6 +1257,7 @@ header {
 #ct_form_progressbar .active {
   color: var(--black);
 }
+
 #ct_form_progressbar li {
   list-style-type: none;
   font-size: 16px;
@@ -1183,6 +1323,7 @@ button.btn-close.ct_close {
   top: 15px; */
   color: #fff;
 }
+
 .ct_loader_main {
   position: fixed;
   top: 0%;
@@ -1194,6 +1335,7 @@ button.btn-close.ct_close {
   align-items: center;
   justify-content: center;
 }
+
 .loader {
   display: block;
   position: relative;
@@ -1205,6 +1347,7 @@ button.btn-close.ct_close {
   animation: balancing 2s linear infinite alternate;
   transform-origin: center center;
 }
+
 .loader:before {
   content: "";
   position: absolute;
@@ -1216,23 +1359,28 @@ button.btn-close.ct_close {
   background: #ff3d00;
   animation: ballbns 2s linear infinite alternate;
 }
+
 @keyframes ballbns {
   0% {
     left: 0;
     transform: translateX(0%);
   }
+
   100% {
     left: 100%;
     transform: translateX(-100%);
   }
 }
+
 @keyframes balancing {
   0% {
     transform: rotate(-25deg);
   }
+
   50% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(25deg);
   }
@@ -1286,15 +1434,19 @@ message-area
   height: 100%;
   padding-left: 20px;
 }
+
 .ct_overlay_text_w_150 {
   width: 130px;
 }
+
 .ct_fs_12 {
   font-size: 12px;
 }
+
 .ct_text_939393 {
   color: #939393;
 }
+
 .chatbox .modal-dialog,
 .chatlist .modal-dialog {
   max-width: 100%;
@@ -1310,9 +1462,11 @@ message-area
 a.add img {
   height: 36px;
 }
+
 .ct_input_h_40 {
   height: 40px;
 }
+
 .chat-area .nav-tabs {
   border-bottom: 1px solid #dee2e6;
   align-items: center;
@@ -1369,9 +1523,11 @@ a.add img {
   text-transform: capitalize;
   margin-bottom: 0;
 }
+
 .chat-list .active2 {
   background-color: #0000000a;
 }
+
 .chat-list a.d-flex {
   position: relative;
   text-decoration: none;
@@ -1451,6 +1607,7 @@ a.add img {
   display: flex;
   gap: 4px;
 }
+
 .msg-body ul li img {
   width: 33px;
   height: 33px;
@@ -1458,6 +1615,7 @@ a.add img {
   border-radius: 100px;
   border: 1px solid #0000001a;
 }
+
 .msg-body ul .sender {
   display: block;
   width: 100%;
@@ -1479,10 +1637,12 @@ a.add img {
   border: 1px solid #6b72801a;
   border-radius: 10px;
 }
+
 .msg-body ul .sender h5 {
   line-height: 22px;
   color: #fff;
 }
+
 .msg-body ul .sender p b {
   display: block;
   color: #180660;
@@ -1574,6 +1734,7 @@ a.add img {
   height: 100%;
   z-index: -1;
 }
+
 .send-box {
   padding: 15px;
   position: absolute;
@@ -1588,6 +1749,7 @@ a.add img {
   align-items: center;
   justify-content: space-between;
 }
+
 .send-box .form-control {
   display: block;
   width: 100%;
@@ -1608,6 +1770,7 @@ a.add img {
   height: 48px;
   transition: border-color 0.15sease-in-out, box-shadow 0.15sease-in-out;
 }
+
 .send-box .form-control::placeholder {
   color: #898787;
   position: absolute;
@@ -1654,10 +1817,12 @@ a.add img {
 .send-box button i {
   margin-right: 5px;
 }
+
 .msg-body {
   height: 600px;
   overflow-y: auto;
 }
+
 .send-btns .button-wrapper {
   position: relative;
   width: 125px;
@@ -1729,6 +1894,7 @@ a.add img {
   gap: 10px;
   align-items: center;
 }
+
 .ct_audio_icon_12 {
   width: 30px;
   height: 30px;
@@ -1741,6 +1907,7 @@ a.add img {
   position: relative;
   top: 2px;
 }
+
 .button-wrapper {
   position: relative;
   width: 100px;
@@ -1780,16 +1947,19 @@ button:focus {
 .closess i {
   display: none;
 }
+
 .ct_img_w_50 {
   width: 58px;
   height: 50px;
   object-fit: cover;
   border-radius: 10px;
 }
+
 .chat-list a {
   padding: 10px;
   border-bottom: 1px solid #e5e7eb;
 }
+
 .ct_audio_track svg {
   width: 100%;
 }
@@ -1798,6 +1968,7 @@ button:focus {
   font-size: 10px;
   color: #898787;
 }
+
 .ct_caht_msg_notify span {
   width: 20px;
   height: 20px;
@@ -1810,6 +1981,7 @@ button:focus {
   color: #fff;
   font-weight: 500;
 }
+
 .ct_chat_list_grid {
   display: grid;
   grid-template-columns: 40px auto;
@@ -1834,6 +2006,7 @@ button:focus {
   height: calc(100vh - 51vh);
   overflow-y: auto;
 }
+
 .ct_chatroom_chatlist {
   background-color: #fff;
   border-radius: 10px;

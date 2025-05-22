@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { ClinicProfile } from '../models/clinic-profile';
+import { Doctor } from '../models/doctors';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +12,7 @@ import { ClinicProfile } from '../models/clinic-profile';
 export class CommonService {
 
   _clinicProfile = signal<ClinicProfile | null>(null);
+  _doctorDetail = signal<Doctor | null>(null);
   baseUrl = environment.apiUrl
 
   constructor(private http: HttpClient, private router: Router) { }

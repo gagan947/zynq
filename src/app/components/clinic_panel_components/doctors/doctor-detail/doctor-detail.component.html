@@ -3,7 +3,8 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                              <a class="ct_back_icon"><i class="fa-solid fa-chevron-left"></i></a>
+                              <a (click)="location.back()" class="ct_back_icon"><i
+                                          class="fa-solid fa-chevron-left"></i></a>
                               <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Doctor Management </span>
                                     <span class="ct_text_op_07 ct_fs_16"> /
                                           Doctor Profile</span>
@@ -14,31 +15,37 @@
 
                                     <div class="d-flex  gap-4 ct_flex_1 ">
                                           <div class="ct_big_user_img">
-                                                <img src="../assets/img/user_3.png" alt="" data-bs-toggle="modal"
-                                                      data-bs-target="#full_view_img">
+                                                <img [src]="doctorDetail()?.profile_image ? doctorDetail()?.profile_image : 'assets/img/np_pro.png'"
+                                                      alt="" data-bs-toggle="modal" data-bs-target="#full_view_img">
                                           </div>
                                           <div class="ct_flex_1">
                                                 <div class="d-flex  gap-3 justify-content-between flex-wrap">
                                                       <div>
-                                                            <h4 class="ct_fs_20 ct_fw_600 mb-1">Cristina Groves</h4>
-                                                            <p class="ct_fs_16 ct_dark_grey_text mb-0">Dermatologist</p>
-                                                            <p class="ct_fs_16 ct_black_text mb-0">Employee ID : DR-0001
+                                                            <h4 class="ct_fs_20 ct_fw_600 mb-1">{{doctorDetail()?.name}}
+                                                            </h4>
+                                                            <p class="ct_fs_16 ct_dark_grey_text mb-0">
+                                                                  {{specialityName(doctorDetail()!.treatments)}}
                                                             </p>
+                                                            <!-- <p class="ct_fs_16 ct_black_text mb-0">Employee ID :
+                                                                  {{doctorDetail()?.doctor_id}}
+                                                            </p> -->
                                                       </div>
                                                       <div class="">
-                                                            <h4 class="ct_fs_20 ct_fw_600 mb-1">$15</h4>
+                                                            <h4 class="ct_fs_20 ct_fw_600 mb-1">
+                                                                  {{doctorDetail()?.fee_per_session | currency:'USD'}}
+                                                            </h4>
                                                             <p class="mb-0 ct_grey_text ">per session</p>
                                                       </div>
 
                                                 </div>
                                                 <div class="d-flex align-items-center gap-3 mt-2 flex-wrap">
                                                       <p class="mb-0 ct_fs_16"><i
-                                                                  class="fa-regular fa-clock me-1 ct_grey_text"></i>10
+                                                                  class="fa-regular fa-clock me-1 ct_grey_text"></i>{{getTotalExperience(doctorDetail()!.experience)}}
                                                             years
                                                             experience
                                                       </p>
                                                       <div class="d-flex align-items-center gap-2">
-                                                            <ul class="d-flex align-items-center gap-2">
+                                                            <!-- <ul class="d-flex align-items-center gap-2">
                                                                   <li><i class="fa-solid fa-star ct_yellow_text ct_fs_20"></i>
                                                                   </li>
                                                                   <li><i class="fa-solid fa-star ct_yellow_text ct_fs_20"></i>
@@ -49,8 +56,10 @@
                                                                   </li>
                                                                   <li><i class="fa-regular fa-star ct_yellow_text ct_fs_20"></i>
                                                                   </li>
-                                                            </ul>
-                                                            <span>(4.8)</span>
+                                                            </ul> -->
+                                                            <nz-rate [ngModel]="doctorDetail()?.rating" nzDisabled
+                                                                  nzAllowHalf></nz-rate>
+                                                            <span>({{doctorDetail()?.rating || 0}})</span>
                                                       </div>
                                                 </div>
                                           </div>
@@ -61,26 +70,26 @@
                                           <ul class="ct_grid_30_auto">
                                                 <li>
                                                       <p class="mb-2 ct_fs_16 ct_text_black">Phone:</p>
-                                                      <p class="mb-2 ct_text_clr_858A9B ">720-889-6484</p>
+                                                      <p class="mb-2 ct_text_clr_858A9B ">{{doctorDetail()?.phone}}</p>
                                                 </li>
                                                 <li>
                                                       <p class="mb-2 ct_fs_16 ct_text_black">Email:</p>
-                                                      <p class="mb-2 ct_text_clr_858A9B ">cristinagroves&#64;example.com
+                                                      <p class="mb-2 ct_text_clr_858A9B ">{{doctorDetail()?.email}}
                                                       </p>
                                                 </li>
                                                 <li>
                                                       <p class="mb-2 ct_fs_16 ct_text_black">Age:</p>
-                                                      <p class="mb-2 ct_text_clr_858A9B ">32 yrs</p>
+                                                      <p class="mb-2 ct_text_clr_858A9B ">{{doctorDetail()?.age}} Years
+                                                      </p>
                                                 </li>
                                                 <li>
                                                       <p class="mb-2 ct_fs_16 ct_text_black">Address:</p>
-                                                      <p class="mb-2 ct_text_clr_858A9B ">714 Burwell Heights Road,
-                                                            Bridge
-                                                            City, TX, 77611</p>
+                                                      <p class="mb-2 ct_text_clr_858A9B ">{{doctorDetail()?.address}}
+                                                      </p>
                                                 </li>
                                                 <li>
                                                       <p class="mb-2 ct_fs_16 ct_text_black">Gender:</p>
-                                                      <p class="mb-2 ct_text_clr_858A9B ">Female</p>
+                                                      <p class="mb-2 ct_text_clr_858A9B ">{{doctorDetail()?.gender}}</p>
                                                 </li>
                                           </ul>
                                     </div>
@@ -89,35 +98,30 @@
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_px_30 py-4 mt-4 pe-0">
                               <h4 class="ct_fs_20 ct_fw_600 mb-2">Biography:</h4>
-                              <p class="ct_grey_text mb-0 ct_para_scroll ct_custom_scroll ct_pe_30 mt-3">Dr. Ayesha is
-                                    a
-                                    certified
-                                    dermatologist with 5+ years of
-                                    experience treating
-                                    pigmentation, acne, and various skin conditions. She has successfully treated
-                                    thousands of patients and is known for her patient-centric approach to skincare. Her
-                                    expertise includes advanced treatments for chronic skin conditions and aesthetic
-                                    procedures.</p>
+                              <p class="ct_grey_text mb-0 ct_para_scroll ct_custom_scroll ct_pe_30 mt-3">
+                                    {{doctorDetail()?.biography}}
+                              </p>
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_px_30 py-4 mt-4">
                               <h4 class="ct_fs_20 ct_fw_600 mb-2">Experience:</h4>
                               <div class="ct_experience_list my-3">
                                     <ul>
+                                          @for (item of doctorDetail()?.experience; track $index) {
                                           <li>
-                                                <h6 class="mb-1 ct_fs_16 ct_fw_600 ct_black_text">Consultant
-                                                      Dermatologist
+                                                <h6 class="mb-1 ct_fs_16 ct_fw_600 ct_black_text">
+                                                      {{item.designation}}
                                                 </h6>
-                                                <p class="mb-0 ct_grey_text ct_fs_14">Jan 2014 - Present (4 years 8
+                                                <p class="mb-0 ct_grey_text ct_fs_14">{{item.organization}}
+                                                </p>
+                                                <p class="mb-0 ct_grey_text ct_fs_14">
+                                                      {{item.start_date | date:'MMM yyyy'}} -
+                                                      {{item.end_date | date:'MMM yyyy'}} ({{getCount(item.start_date,
+                                                      item.end_date).diffYears}} years {{(getCount(item.start_date,
+                                                      item.end_date).diffMonths) - (getCount(item.start_date, item.end_date).diffYears * 12) }}
                                                       months)
                                                 </p>
                                           </li>
-                                          <li class="">
-                                                <h6 class="mb-1 ct_fs_16 ct_fw_600 ct_black_text">Consultant Skin Expert
-                                                </h6>
-                                                <p class="mb-0 ct_grey_text ct_fs_14">Jan 2009 - Jan 2014 (6 years 1
-                                                      month)
-                                                </p>
-                                          </li>
+                                          }
                                     </ul>
                               </div>
 
@@ -126,37 +130,22 @@
                               <h4 class="ct_fs_20 ct_fw_600 mb-2">Education Informations:</h4>
                               <div class="ct_experience_list my-3">
                                     <ul>
+                                          @for (item of doctorDetail()?.education; track $index) {
                                           <li>
-                                                <h6 class="mb-1 ct_fs_16 ct_fw_600 ct_black_text">MD - Obstetrics &
-                                                      Gynaecology
+                                                <h6 class="mb-1 ct_fs_16 ct_fw_600 ct_black_text">{{item.degree}}
                                                 </h6>
-                                                <p class="mb-0 ct_grey_text ct_fs_14">International College of Medical
-                                                      Science (PG)
+                                                <p class="mb-0 ct_grey_text ct_fs_14">{{item.institution}}
                                                 </p>
-                                                <small class="ct_grey_text">2001 - 2003</small>
+                                                <!-- <small class="ct_grey_text">{{item.start_year}} -
+                                                      {{item.end_year}}</small> -->
                                           </li>
-                                          <li class="">
-                                                <h6 class="mb-1 ct_fs_16 ct_fw_600 ct_black_text">MBBS
-                                                </h6>
-                                                <p class="mb-0 ct_grey_text ct_fs_14">Jan 2009 - Jan 2014 (6 years 1
-                                                      month)
-                                                </p>
-                                                <small class="ct_grey_text">1996 - 2001</small>
-                                          </li>
-
-
+                                          }
                                     </ul>
                               </div>
-
                         </div>
                   </div>
-
-
             </div>
       </div>
-
-
-
 </div>
 
 <!-- Image preview Modal S -->

@@ -64,6 +64,7 @@ export interface ClinicOperationHour {
       close_time: string;
       created_at: string;
       updated_at: string;
+      is_closed: number;
 }
 
 export interface Equipment {

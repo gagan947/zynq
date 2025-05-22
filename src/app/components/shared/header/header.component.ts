@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router,  } from '@angular/router';
+import {  effect } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonService } from '../../../services/common.service';
 import { ClinicProfile } from '../../../models/clinic-profile';
@@ -13,7 +15,13 @@ import { ClinicProfile } from '../../../models/clinic-profile';
 })
 export class HeaderComponent {
   clinicPofile: ClinicProfile | null = null;
-  constructor(public auth: AuthService, private service: CommonService, private router: Router) {
+
+  clinicProfile = this.service._clinicProfile;
+  constructor( public auth: AuthService, private service: CommonService, private router: Router) {
+    effect(() => {
+      this.clinicProfile();
+    });
+
     if (this.auth.getRoleName() == 'clinic') {
       this.getClinicProfile();
     } else {

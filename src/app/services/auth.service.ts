@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+      constructor(private router: Router) { }
 
       setValues(token: string, roleUUID: string,userInfo: any) {
             localStorage.setItem('ZynqToken', token)
