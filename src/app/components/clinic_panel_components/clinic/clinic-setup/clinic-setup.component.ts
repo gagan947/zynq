@@ -14,7 +14,7 @@ import { ClinicProfile, ClinicProfileResponse } from '../../../../models/clinic-
 @Component({
   selector: 'app-clinic-setup',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule],
   templateUrl: './clinic-setup.component.html',
   styleUrl: './clinic-setup.component.css'
 })

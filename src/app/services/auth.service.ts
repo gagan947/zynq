@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-      setToken(token: string, roleUUID: string) {
+      setValues(token: string, roleUUID: string,userInfo: any) {
             localStorage.setItem('ZynqToken', token)
             localStorage.setItem('role_uuid', roleUUID);
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
       }
 
       getToken() {
@@ -18,7 +19,10 @@ export class AuthService {
 
       logout(): void {
             localStorage.removeItem('role_uuid');
-      }
+            localStorage.removeItem('ZynqToken');
+            localStorage.removeItem('userInfo');
+            
+      };
 
       getRoleUUID(): string | null {
             return localStorage.getItem('role_uuid');

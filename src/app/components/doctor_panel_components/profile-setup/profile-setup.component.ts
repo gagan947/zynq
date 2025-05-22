@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonService } from '../../../services/common.service';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
 import { SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../models/clinic-onboarding';
-
+import { NoWhitespaceDirective, timeRangeValidator } from '../../../validators';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 function operationHoursValidator(group: AbstractControl): ValidationErrors | null {
@@ -36,6 +36,7 @@ function operationHoursValidator(group: AbstractControl): ValidationErrors | nul
   styleUrl: './profile-setup.component.css'
 })
 export class ProfileSetupComponent {
+ 
   personalForm!: FormGroup;
   operationHoursForm!: FormGroup;
   daysOfWeek: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -65,20 +66,23 @@ export class ProfileSetupComponent {
   securityLevel: SecurityLevel[] = []
   selectedSecurityLevel: SecurityLevel[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router) { 
+    
+  }
 
 
   ngOnInit(): void {
+  
     this.personalForm = this.fb.group({
-      fullName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      age: ['', [Validators.required, Validators.min(1)]],
+      fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/),NoWhitespaceDirective.validate]],
+      age: ['', [Validators.required, Validators.min(1),NoWhitespaceDirective.validate]],
       gender: ['', Validators.required],
-      address: ['', Validators.required],
+      address: ['', [Validators.required,NoWhitespaceDirective.validate]],
       biography: ['']
     });
     this.operationHoursForm = this.fb.group({
-      fee_per_session: ['', Validators.required],
+      fee_per_session: ['', [Validators.required,NoWhitespaceDirective.validate]],
       session_duration: ['', Validators.required],
       operation_hours: this.fb.array([])
     });
@@ -127,12 +131,10 @@ export class ProfileSetupComponent {
       if (data.severityLevels.length > 0) {
         this.selectedSecurityLevel = data.severityLevels.map(edu => ({ severity_level_id: edu.severity_level_id, level: edu.level }));
       }
-      console.log(this.selectedSecurityLevel);
-
-      if (data.on_boarding_status == 4) {
-        this.router.navigateByUrl('/doctor');
-
+      if(data.profile_image != null && data.profile_image != ''){ 
+        this.imagePreview = data.profile_image;
       }
+      
       this.currentStep = data.on_boarding_status;
 
 
@@ -168,7 +170,7 @@ export class ProfileSetupComponent {
   }
 
   nextStep() {
-    console.log(this.personalForm);
+ 
     if (this.currentStep == 0 && this.personalForm.invalid) {
       this.personalForm.markAllAsTouched();
       return
@@ -187,7 +189,7 @@ export class ProfileSetupComponent {
         }
 
       } else {
-        this.certificates = this.certificates.filter(c => !c.file);
+      
 
       }
 
@@ -305,6 +307,7 @@ export class ProfileSetupComponent {
   };
 
   onTimeSubmit() {
+    console.log(this.operationHoursForm);
     if (this.operationHoursForm.valid) {
       const formValue = this.operationHoursForm.value;
       var payload = formValue.operation_hours
@@ -385,8 +388,12 @@ export class ProfileSetupComponent {
     this.certificates.push({ type: '', file: null });
   }
 
-  removeCertificate(index: number) {
+  removeCertificate(index: number,id:any) {
+    console.log(id);
     this.certificates.splice(index, 1);
+    if(id){
+      this.deleteCertificate(id)
+    }
   }
   removeEducation(index: number) {
     this.education.splice(index, 1);
@@ -425,6 +432,7 @@ export class ProfileSetupComponent {
     const file = event.target.files[0];
     if (file) {
       this.certificates[index].file = file;
+      this.certificates[index].previewUrl = null;
     }
   };
 
@@ -502,7 +510,11 @@ export class ProfileSetupComponent {
   }
 
 
-
+deleteCertificate(id: any) {
+  this.apiService.get<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
+    console.log(res);
+  });
+}
 
 
 

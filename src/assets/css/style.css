@@ -205,6 +205,9 @@ input[type="number"] {
 .ct_py_100 {
   padding-block: 100px;
 }
+.ct_py_50 {
+  padding-block: 50px;
+}
 .ct_p_40 {
   padding: 40px;
 }
@@ -478,7 +481,7 @@ section.ct_login_main {
   /* margin-top: 5px; */
 }
 .ct_flex_1 {
-  flex: 1;
+  flex: 1 !important;
 }
 .ct_border_btm_1 {
   border-bottom: 1px solid #f4f0ef;
@@ -1461,6 +1464,7 @@ a.add img {
   position: relative;
 }
 
+
 .msg-body ul .sender {
   color: #000;
   font-size: 14px;
@@ -1477,6 +1481,7 @@ a.add img {
 }
 .msg-body ul .sender h5 {
   line-height: 22px;
+  color: #fff;
 }
 .msg-body ul .sender p b {
   display: block;
@@ -1845,4 +1850,17 @@ button:focus {
 
 .ct_pe_40 {
   padding-right: 40px;
+}
+
+.ct_red_btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: #dc3545;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
 }

@@ -48,8 +48,7 @@ export class LoginComponent {
       this.srevice.post<LoginResponse, any>('webuser/login', formData).subscribe({
         next: (resp) => {
           if (resp.success == true) {
-            this.auth.setToken(resp.data.jwt_token, resp.data.role_id);
-            localStorage.setItem('userInfo', JSON.stringify(resp.data));
+            this.auth.setValues(resp.data.jwt_token, resp.data.role_id,resp.data);
             if (resp.data.role_id == '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {
               if (resp.data.is_onboarded === 1) {
                 this.router.navigateByUrl('/clinic')

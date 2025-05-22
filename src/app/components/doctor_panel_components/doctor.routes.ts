@@ -25,6 +25,11 @@ export const doctorRoutes: Routes = [
                         title: 'Doctors Management'
                   },
                   {
+                        path: 'linked_clinics',
+                        loadComponent: () => import('../doctor_panel_components/linked-clinics/linked-clinics.component').then((m) => m.LinkedClinicsComponent),
+                        title: 'Clinics'
+                  },
+                  {
                         path: 'doctors/detail',
                         loadComponent: () => import('../clinic_panel_components/doctors/doctor-detail/doctor-detail.component').then((m) => m.DoctorDetailComponent),
                         title: 'Doctor Detail'
@@ -101,8 +106,18 @@ export const doctorRoutes: Routes = [
                   },
                   {
                         path: 'my-profile',
-                        loadComponent: () => import('../clinic_panel_components/my-profile/my-profile.component').then((m) => m.MyProfileComponent),
+                        loadComponent: () => import('../doctor_panel_components/dr-profile/dr-profile.component').then((m) => m.DrProfileComponent),
                         title: 'My Profile'
+                  },
+                  {
+                        path: 'edit-profile',
+                        loadComponent: () => import('../doctor_panel_components/edit-profile/edit-profile.component').then((m) => m.EditProfileComponent),
+                        title: 'Edit Profile'
+                  },
+                  {
+                        path: 'chat-management',
+                        loadComponent: () => import('../doctor_panel_components//chat-management/chat-management.component').then((m) => m.ChatManagementComponent),
+                        title: 'chat-management'
                   },
                   {
                         path: 'change-password',

@@ -1,1 +1,548 @@
-<p>edit-profile works!</p>
+
+
+
+<section class="ct_py_50">
+    <div class="container-fluid ">
+          <div class="row">
+                <div class="col-md-10  mx-auto">
+                    <div class="d-flex align-items-center gap-3 mb-5">
+                        <a class="ct_back_icon" routerLink="/doctor/my-profile"><i class="fa-solid fa-chevron-left"></i></a>
+                        <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">My Profile </span>
+                              <span class="ct_text_op_07 ct_fs_16"> /
+                                    Edit Your Profile</span>
+                        </h4>
+                  </div>
+
+
+                      <div id="msform">
+                            <!-- progressbar -->
+                            <ul id="ct_form_progressbar">
+                                  <li *ngFor="let step of steps; let i = index" [id]="step.id" class="cursor-pointer"
+                                        [class.active]="i == currentStep" (click)="currentStep = i">
+                                        {{ step.label }}
+                                  </li>
+                            </ul>
+                            <!-- <div class="progress">
+                                  <div class="progress-bar" [style.width]="progress"></div>
+                                </div> -->
+
+                            <form [formGroup]="personalForm" (ngSubmit)="onSubmitPersonal()" *ngIf="currentStep == 0">
+                                  <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Personal Information</h5>
+
+                                        <div class="row">
+                                              <div class="col-md-12">
+                                                    <div class="form-group mb-4">
+                                                          <label for="" class="mb-2 ct_text_black">Full Name<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <input type="text" class="form-control ct_input"
+                                                                formControlName="fullName"
+                                                                placeholder="Enter full name">
+                                                          <div *ngIf="personalForm.get('fullName')?.touched && personalForm.get('fullName')?.invalid"
+                                                                class="text-danger">
+                                                                Full Name is required.
+                                                          </div>
+                                                    </div>
+                                              </div>
+
+                                              <div class="col-md-6">
+                                                    <div class="form-group mb-4">
+                                                          <label for="" class="mb-2 ct_text_black">Phone No.<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <input type="text" class="form-control ct_input"
+                                                                formControlName="phone" placeholder="Enter phone no">
+                                                          <div *ngIf="personalForm.get('phone')?.touched && personalForm.get('phone')?.invalid"
+                                                                class="text-danger">
+                                                                Phone is required (10 digits).
+                                                          </div>
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                    <div class="form-group mb-4">
+                                                          <label for="" class="mb-2 ct_text_black">Age<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <input type="number" class="form-control ct_input"
+                                                                formControlName="age" placeholder="Enter age">
+                                                          <div *ngIf="personalForm.get('age')?.touched && personalForm.get('age')?.invalid"
+                                                                class="text-danger">
+                                                                Valid age is required.
+                                                          </div>
+
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                    <label for="" class="mb-2 ct_text_black">Gender<span
+                                                                class="ct_red_text">*</span></label>
+                                                    <nz-select formControlName="gender" nzPlaceHolder="Select Gender"
+                                                          class="form-control ct_input">
+                                                          <nz-option nzValue="Male" nzLabel="Male"></nz-option>
+                                                          <nz-option nzValue="Female" nzLabel="Female"></nz-option>
+                                                    </nz-select>
+                                                    <div *ngIf="personalForm.get('gender')?.touched && personalForm.get('gender')?.invalid"
+                                                          class="text-danger">
+                                                          Gender is required.
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-12 mt-2">
+                                                    <label for="" class="mb-2 ct_text_black">Address<span
+                                                                class="ct_red_text">*</span></label>
+                                                    <textarea type="text" class="form-control ct_input"
+                                                          formControlName="address"
+                                                          placeholder="Enter address"></textarea>
+                                                    <div *ngIf="personalForm.get('address')?.touched && personalForm.get('address')?.invalid"
+                                                          class="text-danger">
+                                                          Address is required.
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-12 mt-2">
+                                                    <label for="" class="mb-2 ct_text_black">Biography<span
+                                                                class="ct_red_text">*</span></label>
+                                                    <textarea type="text" class="form-control ct_input"
+                                                          formControlName="biography"
+                                                          placeholder="Enter biography"></textarea>
+
+                                              </div>
+                                              <div class="col-md-12 mt-3">
+                                                    <div class="form-group mb-0">
+                                                          <label for="" class="mb-2 ct_text_black">Profile Image<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <div class="">
+                                                                <div class="ct_upload_product_main"
+                                                                      *ngIf="!imagePreview">
+                                                                      <svg width="33" height="33" viewBox="0 0 33 33"
+                                                                            fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M5.87174 22.0167C4.26376 20.9403 3.20508 19.1073 3.20508 17.027C3.20508 13.9023 5.59376 11.3354 8.64473 11.0528C9.26883 7.25653 12.5654 4.36035 16.5384 4.36035C20.5114 4.36035 23.808 7.25653 24.4321 11.0528C27.4831 11.3354 29.8717 13.9023 29.8717 17.027C29.8717 19.1073 28.8131 20.9403 27.2051 22.0167M11.2051 21.6937L16.5384 16.3604M16.5384 16.3604L21.8717 21.6937M16.5384 16.3604V28.3604"
+                                                                                  stroke="#9CA3AF"
+                                                                                  stroke-width="2.66667"
+                                                                                  stroke-linecap="round"
+                                                                                  stroke-linejoin="round" />
+                                                                      </svg>
+
+                                                                      <p
+                                                                            class="text-center ct_fs_18 ct_text_op_07 mb-0">
+                                                                            Upload
+                                                                            profile
+                                                                            image
+                                                                            here</p>
+                                                                      <small
+                                                                            class="text-center d-block ct_text_9CA3AF py-2">PNG,
+                                                                            JPG
+                                                                            up to
+                                                                            5MB</small>
+                                                                      <label for="ct_upload_product">
+                                                                            <input type="file" name=""
+                                                                                  (change)="onProfileImage($event)"
+                                                                                  id="ct_upload_product"
+                                                                                  class="d-none" accept="image/*">
+                                                                            <div class="ct_browse_btn">
+                                                                                  <span>Browse Files</span>
+                                                                            </div>
+                                                                      </label>
+
+                                                                </div>
+
+
+
+
+                                                                <div class="ct_uploaded_img123 position-relative w-100 ct_upload_product_main"
+                                                                      *ngIf="imagePreview">
+
+                                                                      <div class="ct_uploaded_img_w">
+                                                                            <img [src]="imagePreview" alt="" style="object-fit: contain;" />
+                                                                            <i class="fa-solid fa-xmark"
+                                                                                  (click)="removeImage()"></i>
+                                                                      </div>
+                                                                </div>
+
+
+                                                          </div>
+                                                    </div>
+
+                                              </div>
+
+                                        </div>
+
+                                  </div>
+                                 <input type="button" name="next"
+                                        class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
+                                        (click)="nextStep()">
+
+                                        
+                                        
+                                      
+                            </form>
+                            <form *ngIf="currentStep == 1">
+                                  <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Certification Type</h5>
+                                        <ng-container>
+                                              <ng-container>
+                                                    <div class="ct_big_card_scroll_500 ct_custom_scroll ct_pe_40">
+                                                          <div class="row mt-4"
+                                                                *ngFor="let cert of certificates; let i = index">
+                                                                <div class="col-md-6 mb-4">
+                                                                      <label class="mb-2 ct_text_black">Certificate
+                                                                            Type <span
+                                                                                  class="ct_red_text">*</span></label>
+                                                                      <nz-select class="form-control ct_input"
+                                                                            nzPlaceHolder="Select Certificate Type"
+                                                                            [(ngModel)]="cert.type"
+                                                                            [ngModelOptions]="{standalone: true}">
+                                                                            <nz-option
+                                                                                  *ngFor="let item of certificaTeypes"
+                                                                                  [nzValue]="item.file_name"
+                                                                                  [nzLabel]="item.name">
+                                                                            </nz-option>
+                                                                      </nz-select>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                      <div class="form-group mb-4 mb-md-0">
+                                                                            <label class="mb-2 ct_text_black">Certificate
+                                                                                  <span
+                                                                                        class="ct_red_text">*</span></label>
+                                                                            <div     class="d-flex align-items-center gap-2 ">
+                                                                                <div class="ct_flex_1">
+                                                                                    <div
+                                                                                  *ngIf="cert.previewUrl; else uploadInput">
+                                                                                  <a [href]="cert.previewUrl"
+                                                                                        target="_blank">
+                                                                                        <i class="fa fa-file"></i>
+                                                                                        View Uploaded Certificate
+                                                                                  </a>
+                                                                                  <button type="button"
+                                                                                        class="btn btn-sm btn-link text-danger p-0 ms-2"
+                                                                                        (click)="removePreview(i,cert.id)">
+                                                                                        Change
+                                                                                  </button>
+                                                                            </div>
+                                                                            <ng-template #uploadInput>
+                                                                                  <input type="file"
+                                                                                        class="form-control ct_input"
+                                                                                        accept="image/*, application/pdf"
+                                                                                        style="padding: 13px 20px;"
+                                                                                        (change)="onFileChange($event, i)">
+                                                                            </ng-template>
+                                                                                </div>
+
+                                                                                <button type="button"
+                                                                                class="ct_red_btn"
+                                                                                (click)="removeCertificate(i, cert.id)"
+                                                                                *ngIf="i > 0">
+                                                                                <i class="fa fa-trash"></i>
+                                                                          </button>
+
+                                                                            </div>
+
+                                                                      </div>
+                                                                </div>
+                                                             
+                                                          </div>
+                                                          <a type="button" class="ct_blue_text mt-3"
+                                                                (click)="addCertificate()">
+                                                                + Add Certificate
+                                                          </a>
+                                                    </div>
+
+                                              </ng-container>
+                                        </ng-container>
+                                  </div>
+                                  <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Education</h5>
+
+                                        <div class="row" *ngFor="let edu of education; let j = index">
+                                              <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                          <label for="" class="mb-2 ct_text_black">Institute<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <input type="text" class="form-control ct_input"
+                                                                placeholder="Enter institute"
+                                                                [(ngModel)]="edu.institution"
+                                                                [ngModelOptions]="{standalone: true}">
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                    <div class="form-group mb-3 ">
+                                                        <label for="" class="mb-2 ct_text_black">Degree<span
+                                                                    class="ct_red_text">*</span></label>
+                                                        <div class="d-flex align-items-center gap-2">
+
+                                                       <div class="ct_flex_1">
+                                                        <input type="text" class="form-control ct_input"
+                                                        placeholder="Enter degree"
+                                                        [(ngModel)]="edu.degree_name"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                       </div>
+                                                       <button type="button" class=" ct_red_btn"
+                                                       (click)="removeEducation(j)" *ngIf="j > 0">
+                                                       <i class="fa fa-trash"></i>
+                                                 </button>
+                                                  </div>
+                                                 
+                                                  </div>
+                                              </div>
+                                             
+                                        </div>
+                                        <a href="javascript:void(0)" class="ct_blue_text" (click)="addEducation()">+
+                                              Add Education</a>
+
+                                  </div>
+                                  <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Experience</h5>
+
+                                        <div class="row ct_border_btm_1 mb-3" *ngFor="let exp of experience; let k = index">
+                                            
+                                              <div class="col-md-12">
+                                                    <div class="form-group mb-3">
+                                                          <label for="" class="mb-2 ct_text_black">Organization<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <input type="text" class="form-control ct_input"
+                                                                placeholder="Enter organization"
+                                                                [(ngModel)]="exp.organisation_name"
+                                                                [ngModelOptions]="{standalone: true}">
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-12">
+                                                    <div class="form-group mb-3">
+                                                          <label for="" class="mb-2 ct_text_black">Designation<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <input type="text" class="form-control ct_input"
+                                                                placeholder="Enter designation"
+                                                                [(ngModel)]="exp.designation"
+                                                                [ngModelOptions]="{standalone: true}">
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                          <label for="" class="mb-2 ct_text_black">Start Date<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <input type="date" class="form-control ct_input"
+                                                                [(ngModel)]="exp.start_date"
+                                                                [ngModelOptions]="{standalone: true}">
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                          <label for="" class="mb-2 ct_text_black">End Date<span
+                                                                      class="ct_red_text">*</span></label>
+                                                          <input type="date" class="form-control ct_input"
+                                                                [(ngModel)]="exp.end_date"
+                                                                [ngModelOptions]="{standalone: true}">
+                                                    </div>
+                                              </div>
+
+                                              <div class=" ms-auto mb-3">
+                                                <button type="button" class="ms-auto d-block ct_red_btn"
+                                                      (click)="removeExperience(k)" *ngIf="k > 0">
+                                                      <i class="fa fa-trash"></i>
+                                                </button>
+                                          </div>
+                                        </div>
+                                        <a href="javascript:void(0)" class="ct_blue_text" (click)="addExperience()">+
+                                              Add Experience</a>
+
+                                  </div>
+
+                                  <input type="button" name="next"
+                                        class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
+                                        (click)="nextStep()">
+                                
+
+                            </form>
+                            <form *ngIf="currentStep == 2">
+                                  <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Services & Expertise</h5>
+                                        <div class="mb-4">
+                                              <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Treatments
+                                                    Provided-</label>
+                                              <ul
+                                                    class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                    @for (item of selectedTreatments; track
+                                                    $index) {
+                                                    <li>
+                                                          <button type="button" class="ct_select_badge">{{item.name}}
+                                                                <span (click)="removeTreatment($index)"><i
+                                                                            class="fa-solid fa-xmark"></i></span></button>
+                                                    </li>
+                                                    }
+                                              </ul>
+
+                                              <div class="position-relative mt-4">
+                                                    <input type="text" class="form-control ct_input ct_pe_122"
+                                                          placeholder="Type to add treatments..."
+                                                          (input)="searchTratment($event)">
+                                                    <!-- <button class="ct_black_btn ct_btn_position_right">Add</button> -->
+                                                    <ul class="cutom_dropdown_list"
+                                                          *ngIf="filteredTreatments.length > 0">
+                                                          @for (item of filteredTreatments;
+                                                          track $index) {
+                                                          <li class="list_item" (click)="addTreatment(item)">
+                                                                <i class="fa-solid fa-check me-2"
+                                                                      [ngClass]="selectedTreatments.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                                {{item.name}}
+                                                          </li>
+                                                          }
+                                                    </ul>
+                                              </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                              <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin Type
+                                                    Expertise-</label>
+                                              <ul
+                                                    class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                    @for (item of skintypes; track $index) {
+                                                    <li>
+                                                          <div class="form-check d-flex align-items-center gap-2">
+                                                                <input class="form-check-input ct_custom_check"
+                                                                      type="checkbox" [value]="item"
+                                                                      (change)="addSkinTypes(item)"  [checked]="isChecked(item)"
+                                                                      id="{{item.skin_type_id}}">
+                                                                <label class="form-check-label mb-0"
+                                                                      for="{{item.skin_type_id}}">
+                                                                      {{item.name}}
+                                                                </label>
+                                                          </div>
+                                                    </li>
+                                                    }
+                                              </ul>
+                                              <span class="ct_text_red mt-2" *ngIf="selectedSkinTypes.length == 0">
+                                                    Please select at least one expertise.
+                                              </span>
+                                        </div>
+                                        <div class="mb-4" *ngIf="securityLevel.length > 0">
+                                              <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Severity
+                                                    Level
+                                                    Handled-</label>
+                                              <ul
+                                                    class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                    @for (item of securityLevel; track trackById($index, item))
+                                                    {
+                                                    <li>
+                                                          <div class="form-check d-flex align-items-center gap-2">
+                                                                <input class="form-check-input ct_custom_check"
+                                                                      type="checkbox" [value]="item"
+                                                                      (change)="addSecurityLevel(item)"  [checked]="isCheckedLevels(item)"
+                                                                      id="{{item.severity_level_id}}">
+                                                                <label class="form-check-label mb-0"
+                                                                      for="{{item.severity_level_id}}">
+                                                                      {{item.level}}
+                                                                </label>
+                                                          </div>
+                                                    </li>
+                                                    }
+                                              </ul>
+                                              <span class="ct_text_red mt-2"
+                                                    *ngIf="selectedSecurityLevel.length == 0">
+                                                    Please select at least one severity level.
+                                              </span>
+
+                                        </div>
+                                  </div>
+                                  <input type="button" name="next"
+                                        class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
+                                        (click)="nextStep()">
+                             
+
+                                  <!-- <input
+                              type="button" name="previous" class="previous action-button-previous"
+                              value="Previous" /> -->
+                            </form>
+                            <form *ngIf="currentStep == 3" [formGroup]="operationHoursForm"
+                                  (ngSubmit)="onTimeSubmit()">
+                                  <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
+
+                                        <div class="row">
+                                              <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                          <label for="" class="mb-2 ct_text_black">Fee per
+                                                                Session<span class="ct_red_text">*</span></label>
+                                                          <div class="position-relative">
+                                                                <input type="text" class="form-control ct_input"
+                                                                      placeholder="Enter fee per session"
+                                                                      formControlName="fee_per_session">
+                                                                <span class="ct_show_eye">$</span>
+                                                          </div>
+                                                          <div class="text-danger mt-1" *ngIf="operationHoursForm.get('fee_per_session')?.hasError('required') && operationHoursForm.get('fee_per_session')?.touched">
+                                                                Fee per session is required.
+                                                              </div>
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                          <label for="" class="mb-2 ct_text_black">Session
+                                                                Duration<span class="ct_red_text">*</span></label>
+                                                          <input type="time" class="form-control ct_input"
+                                                                formControlName="session_duration">
+                                                                <div class="text-danger mt-1" *ngIf="operationHoursForm.get('session_duration')?.hasError('required') && operationHoursForm.get('session_duration')?.touched">
+                                                                      Session duration is required.
+                                                                    </div>
+                                                    </div>
+                                              </div>
+                                        </div>
+                                  </div>
+                                  <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4"
+                                        formArrayName="operation_hours">
+                                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Operation Hours</h5>
+                                        <div class="row align-items-center ct_border_btm_1 py-3"
+                                              *ngFor="let group of operationHours.controls; let i = index"
+                                              [formGroupName]="i">
+                                              <div class="col-md-3">
+                                                    <div class="mb-2 mb-md-0">
+                                                          <p class="mb-0 ct_text_clr_444">{{
+                                                                group.get('day_of_week')?.value }}</p>
+                                                    </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                          <div class="form-group ct_flex_1">
+                                                                <input type="time" class="form-control ct_input"
+                                                                      formControlName="start_time"
+                                                                      [disabled]="group.get('closed')?.value" [ngClass]="{'is-invalid': group.errors?.['start_time'] && group.get('start_time')?.touched}">
+                                                                      <div *ngIf="group.errors?.['start_time'] && group.get('start_time')?.touched" class="text-danger">
+                                                                       {{ group.errors?.['start_time'] }}
+                                                                     </div>
+                                                          </div>
+                                                          <div class="form-group ct_flex_1">
+                                                                <input type="time" class="form-control ct_input"
+                                                                      formControlName="end_time"
+                                                                      [disabled]="group.get('closed')?.value" [ngClass]="{'is-invalid': group.errors?.['end_time'] && group.get('end_time')?.touched}">
+                                                                      <div *ngIf="group.errors?.['end_time'] && group.get('end_time')?.touched" class="text-danger">
+                                                                            {{ group.errors?.['end_time'] }}
+                                                                          </div>
+                                                          </div>
+                                                          <div class="col-md-2">
+                                                                <div class="form-check">
+                                                                      <input type="checkbox" class="form-check-input"
+                                                                            formControlName="closed" id="closed{{i}}">
+                                                                      <label class="form-check-label"
+                                                                            for="closed{{i}}">Closed</label>
+                                                                </div>
+                                                          </div>
+                                                     
+                                                             
+
+                                                    </div>
+                                              </div>
+                                        </div>
+
+
+
+
+
+
+
+                                  </div>
+                                  <input type="button" name="next"
+                                        class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
+                                        (click)="nextStep()">
+                              
+
+                            </form>
+
+                      </div>
+                </div>
+          </div>
+    </div>
+</section>
