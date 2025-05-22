@@ -22,11 +22,13 @@ export class AppComponent {
   }
 
  
+
   ngOnInit() {
+    
     this.subscription = this.loaderService.showLoader$.subscribe(value => {
       console.log(value);
       this.showLoader = value;
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
     });
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {

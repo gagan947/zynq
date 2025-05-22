@@ -6,9 +6,9 @@ $(document).ready(function () {
     $("main").removeClass("ct_show");
   });
 
-  $(window).on("load", function () {
-    $(".ct_loader_main").fadeOut();
-  });
+  // $(window).on("load", function () {
+  //   $(".ct_loader_main").fadeOut();
+  // });
   $(".chat-list a").click(function () {
     $(".chatbox").addClass("showbox");
     return false;
