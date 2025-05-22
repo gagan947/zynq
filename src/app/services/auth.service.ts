@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+      constructor(private router: Router) { }
 
       setToken(token: string, roleUUID: string) {
             localStorage.setItem('ZynqToken', token)
@@ -17,7 +19,8 @@ export class AuthService {
       }
 
       logout(): void {
-            localStorage.removeItem('role_uuid');
+            localStorage.clear();
+            this.router.navigate(['/']);
       }
 
       getRoleUUID(): string | null {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NoWhitespaceDirective, timeRangeValidator } from '../../../../validators';
@@ -40,17 +40,20 @@ export class ClinicSetupComponent {
   locations: any[] = [];
   selectedLocation: any = null;
   clinicPofile: ClinicProfile | null = null;
+  selectedDrEmail: string[] = [];
+  @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   steps = [
     { id: 'Clinic', label: 'Clinic Details' },
     { id: 'Contact', label: 'Contact Details' },
-    { id: 'Operation', label: 'Operation Hours' },
-    { id: 'Expertise', label: 'Expertise' }
+    // { id: 'Operation', label: 'Operation Hours' },
+    { id: 'Expertise', label: 'Expertise' },
+    { id: 'invite', label: 'Invite Doctors' }
   ];
 
   stepFields = [
     ['clinic_name', 'org_number', 'zynq_user_id', 'clinic_description', 'logo', 'ivo_registration_number', 'hsa_id'],
     ['email', 'mobile_number', 'street_address', 'city', 'state', 'zip_code', 'latitude', 'longitude', 'website_url'],
-    ['clinic_timing'],
+    // ['clinic_timing'],
     ['treatments', 'equipments', 'skin_types', 'severity_levels', 'fee_range', 'language']
   ];
 
@@ -88,43 +91,43 @@ export class ClinicSetupComponent {
         this.fb.control('')
       ]),
 
-      clinic_timing: this.fb.group({
-        monday: this.fb.group({
-          open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          is_closed: [false]
-        }, { validators: timeRangeValidator() }),
-        tuesday: this.fb.group({
-          open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          is_closed: [false]
-        }, { validators: timeRangeValidator() }),
-        wednesday: this.fb.group({
-          open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          is_closed: [false]
-        }, { validators: timeRangeValidator() }),
-        thursday: this.fb.group({
-          open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          is_closed: [false]
-        }, { validators: timeRangeValidator() }),
-        friday: this.fb.group({
-          open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          is_closed: [false]
-        }, { validators: timeRangeValidator() }),
-        saturday: this.fb.group({
-          open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          is_closed: [false]
-        }, { validators: timeRangeValidator() }),
-        sunday: this.fb.group({
-          open: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          close: ['', [Validators.required, NoWhitespaceDirective.validate]],
-          is_closed: [false]
-        }, { validators: timeRangeValidator() })
-      }),
+      // clinic_timing: this.fb.group({
+      //   monday: this.fb.group({
+      //     open: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     is_closed: [false]
+      //   }, { validators: timeRangeValidator() }),
+      //   tuesday: this.fb.group({
+      //     open: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     is_closed: [false]
+      //   }, { validators: timeRangeValidator() }),
+      //   wednesday: this.fb.group({
+      //     open: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     is_closed: [false]
+      //   }, { validators: timeRangeValidator() }),
+      //   thursday: this.fb.group({
+      //     open: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     is_closed: [false]
+      //   }, { validators: timeRangeValidator() }),
+      //   friday: this.fb.group({
+      //     open: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     is_closed: [false]
+      //   }, { validators: timeRangeValidator() }),
+      //   saturday: this.fb.group({
+      //     open: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     is_closed: [false]
+      //   }, { validators: timeRangeValidator() }),
+      //   sunday: this.fb.group({
+      //     open: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     close: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      //     is_closed: [false]
+      //   }, { validators: timeRangeValidator() })
+      // }),
 
       website_url: ['', [Validators.required, NoWhitespaceDirective.validate]],
       clinic_description: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -139,10 +142,10 @@ export class ClinicSetupComponent {
         this.fb.control('')
       ]),
 
-      fee_range: this.fb.group({
-        min: ['', [Validators.required]],
-        max: ['', [Validators.required]]
-      }),
+      // fee_range: this.fb.group({
+      //   min: ['', [Validators.required]],
+      //   max: ['', [Validators.required]]
+      // }),
 
       language: ['en'],
       logo: [null],
@@ -256,6 +259,18 @@ export class ClinicSetupComponent {
     }
   }
 
+  addDrEmail(email: string) {
+    if (!this.selectedDrEmail.includes(email)) {
+      this.selectedDrEmail.push(email);
+      this.drEmail.nativeElement.value = '';
+    } else {
+      this.toster.error('Email already added');
+    }
+  }
+
+  removeDrEmail(index: number) {
+    this.selectedDrEmail.splice(index, 1);
+  }
 
   get progress(): string {
     return ((this.currentStep + 1) / this.steps.length) * 100 + '%';
@@ -358,18 +373,17 @@ export class ClinicSetupComponent {
       formData.append('address', this.selectedLocation)
       formData.append('zynq_user_id', this.userInfo.id)
       formData.append('website_url', this.Form.value.website_url)
-      formData.append('website_url', this.Form.value.website_url)
       formData.append('form_stage', this.currentStep.toString())
+      // } else if (this.currentStep === 2) {
+      //   formData.append('zynq_user_id', this.userInfo.id)
+      //   formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
+      //   formData.append('form_stage', this.currentStep.toString())
     } else if (this.currentStep === 2) {
-      formData.append('zynq_user_id', this.userInfo.id)
-      formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
-      formData.append('form_stage', this.currentStep.toString())
-    } else if (this.currentStep === 3) {
       formData.append('treatments', JSON.stringify(this.selectedTreatments.map(item => item.treatment_id)));
       formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
       formData.append('skin_types', JSON.stringify(this.selectedSkinTypes.map(item => item.skin_type_id)));
       formData.append('severity_levels', JSON.stringify(this.selectedSecurityLevel.map(item => item.severity_level_id)));
-      formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
+      // formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
       formData.append('language', 'en');
       formData.append('is_onboarded', 'true');
       formData.append('zynq_user_id', this.userInfo.id);
@@ -378,7 +392,7 @@ export class ClinicSetupComponent {
 
     this.service.post(`clinic/onboard-clinic`, formData).subscribe((res: any) => {
       if (res.status) {
-        if (this.currentStep === 3) {
+        if (this.currentStep === 2) {
           this.toster.success(res.message);
           this.router.navigate(['/clinic']);
         }
@@ -411,8 +425,8 @@ export class ClinicSetupComponent {
           latitude: this.clinicPofile.location.latitude,
           longitude: this.clinicPofile.location.longitude,
           website_url: this.clinicPofile.website_url,
-          fee_range: JSON.parse(this.clinicPofile.fee_range),
-          clinic_timing: this.patchClinicTiming(this.clinicPofile.operation_hours)
+          // fee_range: JSON.parse(this.clinicPofile.fee_range),
+          // clinic_timing: this.patchClinicTiming(this.clinicPofile.operation_hours)
         });
         this.selectedTreatments = this.clinicPofile.treatments
         this.selectedEquipmentType = this.clinicPofile.equipments

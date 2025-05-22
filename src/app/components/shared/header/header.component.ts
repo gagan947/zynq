@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonService } from '../../../services/common.service';
@@ -13,7 +13,12 @@ import { ClinicProfile } from '../../../models/clinic-profile';
 })
 export class HeaderComponent {
   clinicPofile: ClinicProfile | null = null;
+  clinicProfile = this.service._clinicProfile;
   constructor(public auth: AuthService, private service: CommonService) {
+    effect(() => {
+      this.clinicProfile();
+    });
+
     if (this.auth.getRoleName() == 'clinic') {
       this.getClinicProfile();
     } else {

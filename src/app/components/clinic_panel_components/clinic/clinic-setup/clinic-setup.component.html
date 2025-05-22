@@ -107,10 +107,11 @@
                                                                   Logo is required.
                                                             </span>
                                                       </span> -->
-                                                      <div *ngIf="logoPreview"
-                                                            class="ct_uploaded_img123 position-relative">
+                                                      <div class="ct_uploaded_img123 position-relative w-100 ct_upload_product_main"
+                                                            *ngIf="logoPreview">
                                                             <div class="ct_uploaded_img_w">
-                                                                  <img [src]="logoPreview" alt="" />
+                                                                  <img [src]="logoPreview" alt=""
+                                                                        style="object-fit: contain;" />
                                                                   <i class="fa-solid fa-xmark"
                                                                         (click)="removeImage()"></i>
                                                             </div>
@@ -288,7 +289,7 @@
                                     <!-- </div> -->
 
                               </fieldset>
-                              <fieldset *ngIf="currentStep == 2">
+                              <!-- <fieldset *ngIf="currentStep == 2">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Operation Hours</h5>
                                           <div [formGroup]="clinicTiming">
@@ -349,8 +350,8 @@
                                     <button type="button"
                                           class="previous action-button-previous mx-1 ct_outline_btn float-end"
                                           value="Previous" (click)="previousStep()">Previous</button>
-                              </fieldset>
-                              <fieldset *ngIf="currentStep == 3">
+                              </fieldset> -->
+                              <fieldset *ngIf="currentStep == 2">
                                     <div *ngIf="filteredTreatments.length > 0 || filteredEquipmentType.length > 0"
                                           id="overLay" (click)="filteredEquipmentType = []; filteredTreatments = []">
                                     </div>
@@ -395,7 +396,7 @@
                                                 </span>
                                           </div>
 
-                                          <div class="form-group mb-4">
+                                          <!-- <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black ">Consultation
                                                       Fee Range<span class="ct_red_text">*</span></label>
                                                 <div [formGroup]="feeRange">
@@ -427,8 +428,8 @@
                                                             </div>
                                                       </div>
                                                 </div>
-                                          </div>
-                                          <div class="mb-4">
+                                          </div> -->
+                                          <!-- <div class="mb-4">
                                                 <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Equipments
                                                       Available-</label>
                                                 <ul
@@ -447,20 +448,18 @@
                                                       <input type="text" class="form-control ct_input ct_pe_122"
                                                             placeholder="Type to add equipment..."
                                                             (input)="searchEquipmentType($event)">
-                                                      <!-- <button class="ct_black_btn ct_btn_position_right">Add</button> -->
-                                                      <ul class="cutom_dropdown_list"
-                                                            *ngIf="filteredEquipmentType.length > 0">
-                                                            @for (item of filteredEquipmentType;
-                                                            track $index) {
-                                                            <li class="list_item" (click)="addEquipmentType(item)">
-                                                                  <i class="fa-solid fa-check me-2"
-                                                                        [ngClass]="selectedEquipmentType.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
-                                                                  {{item.name}}
-                                                            </li>
-                                                            }
-                                                      </ul>
-                                                </div>
-                                          </div>
+                                          <ul class="cutom_dropdown_list" *ngIf="filteredEquipmentType.length > 0">
+                                                @for (item of filteredEquipmentType;
+                                                track $index) {
+                                                <li class="list_item" (click)="addEquipmentType(item)">
+                                                      <i class="fa-solid fa-check me-2"
+                                                            [ngClass]="selectedEquipmentType.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                      {{item.name}}
+                                                </li>
+                                                }
+                                          </ul>
+                                    </div>
+                  </div> -->
 
                                           <div class="mb-4">
                                                 <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin
@@ -545,6 +544,36 @@
                                     </div>
                                 </div>
                             </div> -->
+                              </fieldset>
+                              <fieldset *ngIf="currentStep == 3">
+                                    <div
+                                          class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                                          <h4 class="mb-3 ct_fs_20 ct_fw_600">Dr. Email</h4>
+                                          <div>
+                                                <ul
+                                                      class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                      @for (item of selectedDrEmail; track
+                                                      $index) {
+                                                      <li>
+                                                            <button type="button" class="ct_select_badge">{{item}}
+                                                                  <span (click)="removeDrEmail($index)"><i
+                                                                              class="fa-solid fa-xmark"></i></span></button>
+                                                      </li>
+                                                      }
+                                                </ul>
+                                                <div class="position-relative mt-4">
+                                                      <input type="text" class="form-control ct_input ct_pe_122"
+                                                            placeholder="Type to add email..." #drEmail>
+                                                      <button type="button" class="ct_black_btn ct_btn_position_right"
+                                                            (click)="addDrEmail(drEmail.value)">Add</button>
+                                                </div>
+                                                <span *ngIf="selectedDrEmail.length == 0 && submitted">
+                                                      <span class="ct_text_red mt-2">
+                                                            Email is required.
+                                                      </span>
+                                                </span>
+                                          </div>
+                                    </div>
                               </fieldset>
                         </form>
                   </div>

@@ -14,8 +14,15 @@ export class ClinicProfileComponent {
   clinicProfile = this.service._clinicProfile;
   constructor(private fb: FormBuilder, private service: CommonService) {
     effect(() => {
-      console.log('Profile changed:', this.clinicProfile());
+      this.clinicProfile();
     });
   }
 
+  getMinVal(range: string | undefined) {
+    return JSON.parse(range || '{}').min
+  }
+
+  getMaxVal(range: string | undefined) {
+    return JSON.parse(range || '{}').max
+  }
 }

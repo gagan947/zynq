@@ -3,7 +3,7 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                              <a href="product-management.html" class="ct_back_icon"><i
+                              <a (click)="location.back()" class="ct_back_icon"><i
                                           class="fa-solid fa-chevron-left"></i></a>
                               <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Product
                                           Management </span>
@@ -11,7 +11,7 @@
                                           Add New Product</span>
                               </h4>
                         </div>
-                        <form action="">
+                        <form [formGroup]="Form" (ngSubmit)="onSubmit()">
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">Product Information</h4>
                                     <div class="row">
@@ -19,28 +19,78 @@
                                                 <div class="form-group mb-3">
                                                       <label for="" class="mb-2">Product Name</label>
                                                       <input type="text" placeholder="Enter Product Name"
-                                                            class="form-control ct_input">
+                                                            class="form-control ct_input" formControlName="name">
+                                                      <span
+                                                            *ngIf="Form.controls['name'].invalid && Form.controls['name'].touched">
+                                                            <span *ngIf="Form.controls['name'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  Prduct name is required.
+                                                            </span>
+                                                      </span>
                                                 </div>
                                           </div>
-                                          <div class="col-md-6">
+                                          <div class="col-md-3">
                                                 <div class="form-group mb-3">
                                                       <label for="" class="mb-2">Price</label>
-                                                      <input type="text" placeholder="Enter Price"
-                                                            class="form-control ct_input">
+                                                      <input type="number" placeholder="Enter Price"
+                                                            class="form-control ct_input" formControlName="price">
+                                                      <span
+                                                            *ngIf="Form.controls['price'].invalid && Form.controls['price'].touched">
+                                                            <span *ngIf="Form.controls['price'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  Price is required.
+                                                            </span>
+                                                      </span>
+                                                </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                                <div class="form-group mb-3">
+                                                      <label for="" class="mb-2">Stock</label>
+                                                      <input type="number" placeholder="Enter Stock Quantity"
+                                                            class="form-control ct_input" formControlName="stock">
+                                                      <span
+                                                            *ngIf="Form.controls['stock'].invalid && Form.controls['stock'].touched">
+                                                            <span *ngIf="Form.controls['stock'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  Stock is required.
+                                                            </span>
+                                                      </span>
                                                 </div>
                                           </div>
                                     </div>
                                     <div class="form-group mb-3">
                                           <label for="" class="mb-2">Short Tagline</label>
                                           <input type="text" placeholder="Enter Short Tagline"
-                                                class="form-control ct_input">
+                                                class="form-control ct_input" formControlName="short_description">
+                                          <span
+                                                *ngIf="Form.controls['short_description'].invalid && Form.controls['short_description'].touched">
+                                                <span *ngIf="Form.controls['short_description'].errors?.['required']"
+                                                      class="ct_text_red mt-2">
+                                                      Short description is required.
+                                                </span>
+                                                <span *ngIf="Form.controls['short_description'].errors?.['maxlength']"
+                                                      class="ct_text_red mt-2">
+                                                      Short description is too long.
+                                                </span>
+                                          </span>
                                     </div>
-
 
                                     <div class="form-group mb-3">
                                           <label for="" class="mb-2">Description</label>
                                           <textarea type="text" placeholder="Write here..."
-                                                class="form-control ct_input h-auto" rows="4"></textarea>
+                                                class="form-control ct_input h-auto" rows="4"
+                                                formControlName="full_description"></textarea>
+                                          <span
+                                                *ngIf="Form.controls['full_description'].invalid && Form.controls['full_description'].touched">
+                                                <span *ngIf="Form.controls['full_description'].errors?.['required']"
+                                                      class="ct_text_red mt-2">
+                                                      Full description is required.
+                                                </span>
+                                                <span *ngIf="Form.controls['full_description'].errors?.['maxlength']"
+                                                      class="ct_text_red mt-2">
+                                                      Full description is too long.
+                                                </span>
+                                          </span>
                                     </div>
 
                                     <div class="form-group mb-0">
@@ -56,7 +106,8 @@
                                                 <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload your image
                                                       here</p>
                                                 <label for="ct_upload_product">
-                                                      <input type="file" name="" id="ct_upload_product" class="d-none">
+                                                      <input type="file" name="" id="ct_upload_product" class="d-none"
+                                                            accept="image/*" (change)="onProductImage($event)" multiple>
                                                       <div class="ct_browse_btn">
                                                             <span>Browse Files</span>
                                                       </div>
@@ -66,232 +117,144 @@
                                                       class="ct_uploaded_img d-none">
                                           </div>
                                           <div class="ct_multiple_img_div ct_custom_scroll">
+                                                @for (item of previewProductImages; track $index) {
                                                 <div class="ct_uploaded_img123 position-relative ">
-
                                                       <div class="ct_uploaded_img_w">
-                                                            <img src="assets/img/user_2.jpg" alt="" />
-                                                            <i class="fa-solid fa-xmark"></i>
+                                                            <img [src]="item" alt="" />
+                                                            <i class="fa-solid fa-xmark ct_cursor_pointer"
+                                                                  (click)="removeProductImage($index, item)"></i>
                                                       </div>
                                                 </div>
-                                                <div class="ct_uploaded_img123 position-relative ">
-
-                                                      <div class="ct_uploaded_img_w">
-                                                            <img src="assets/img/user_2.jpg" alt="" />
-                                                            <i class="fa-solid fa-xmark"></i>
-                                                      </div>
-                                                </div>
-                                                <div class="ct_uploaded_img123 position-relative ">
-
-                                                      <div class="ct_uploaded_img_w">
-                                                            <img src="assets/img/user_2.jpg" alt="" />
-                                                            <i class="fa-solid fa-xmark"></i>
-                                                      </div>
-                                                </div>
-                                                <div class="ct_uploaded_img123 position-relative ">
-
-                                                      <div class="ct_uploaded_img_w">
-                                                            <img src="assets/img/user_2.jpg" alt="" />
-                                                            <i class="fa-solid fa-xmark"></i>
-                                                      </div>
-                                                </div>
-                                                <div class="ct_uploaded_img123 position-relative ">
-
-                                                      <div class="ct_uploaded_img_w">
-                                                            <img src="assets/img/user_2.jpg" alt="" />
-                                                            <i class="fa-solid fa-xmark"></i>
-                                                      </div>
-                                                </div>
-                                                <div class="ct_uploaded_img123 position-relative ">
-
-                                                      <div class="ct_uploaded_img_w">
-                                                            <img src="assets/img/user_2.jpg" alt="" />
-                                                            <i class="fa-solid fa-xmark"></i>
-                                                      </div>
-                                                </div>
-
+                                                }
                                           </div>
+                                          <span *ngIf="previewProductImages.length == 0 && submitted">
+                                                <span class="ct_text_red mt-2">
+                                                      Product images are required.
+                                                </span>
+                                          </span>
                                     </div>
-
                               </div>
-
-
 
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">Highlighted Features</h4>
-
                                     <div>
                                           <ul
-                                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                @for (item of selectedFeatures; track
+                                                $index) {
                                                 <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  24-Hour Moisture Lock
-                                                            </label>
-                                                      </div>
+                                                      <button type="button" class="ct_select_badge">{{item}}
+                                                            <span (click)="removeFeature($index)"><i
+                                                                        class="fa-solid fa-xmark"></i></span></button>
                                                 </li>
-                                                <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  Boosts Skin Barrier
-                                                            </label>
-                                                      </div>
-                                                </li>
-                                                <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  Lightweight & Non-Greasy
-                                                            </label>
-                                                      </div>
-                                                </li>
-                                                <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  Soothes & Refreshes
-                                                            </label>
-                                                      </div>
-                                                </li>
-                                                <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  Acne-Prone
-                                                            </label>
-                                                      </div>
-                                                </li>
-
+                                                }
                                           </ul>
-
                                           <div class="position-relative mt-4">
                                                 <input type="text" class="form-control ct_input ct_pe_122"
-                                                      placeholder="Type to add custom benefit...">
-                                                <button class="ct_black_btn ct_btn_position_right">Add</button>
-
+                                                      placeholder="Type to add Features..." #featureInput>
+                                                <button type="button" class="ct_black_btn ct_btn_position_right"
+                                                      (click)="addFeature(featureInput.value)">Add</button>
                                           </div>
-
+                                          <span *ngIf="selectedFeatures.length == 0 && submitted">
+                                                <span class="ct_text_red mt-2">
+                                                      Features are required.
+                                                </span>
+                                          </span>
                                     </div>
                               </div>
 
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">Available Sizes</h4>
-
                                     <div>
                                           <ul class="d-flex align-items-center gap-4 flex-wrap ">
+                                                @for (item of sizes; track $index) {
                                                 <li>
                                                       <div class="form-check d-flex align-items-center gap-2">
                                                             <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  100ml
+                                                                  type="checkbox" [value]="item.value" [id]="$index"
+                                                                  [checked]="selectedSizes.includes(item.value)"
+                                                                  (change)="addSizes(item.value)">
+                                                            <label class="form-check-label mb-0" [for]="$index">
+                                                                  {{item.value}}
                                                             </label>
                                                       </div>
                                                 </li>
-                                                <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  200ml
-                                                            </label>
-                                                      </div>
-                                                </li>
-                                                <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  300ml
-                                                            </label>
-                                                      </div>
-                                                </li>
-                                                <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  400ml
-                                                            </label>
-                                                      </div>
-                                                </li>
-                                                <li>
-                                                      <div class="form-check d-flex align-items-center gap-2">
-                                                            <input class="form-check-input ct_custom_check"
-                                                                  type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                                  500ml
-                                                            </label>
-                                                      </div>
-                                                </li>
-
+                                                }
                                           </ul>
                                     </div>
+                                    <span *ngIf="selectedSizes.length == 0 && submitted">
+                                          <span class="ct_text_red mt-2">
+                                                Sizes are required.
+                                          </span>
+                                    </span>
                               </div>
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">Key Benefits</h4>
-
                                     <div>
                                           <ul
                                                 class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                @for (item of selectedBenefits; track
+                                                $index) {
                                                 <li>
-                                                      <button class="ct_select_badge">Deep Hydration <span><i
+                                                      <button type="button" class="ct_select_badge">{{item}}
+                                                            <span (click)="removeBenefit($index)"><i
                                                                         class="fa-solid fa-xmark"></i></span></button>
                                                 </li>
-                                                <li>
-                                                      <button class="ct_select_badge">Plumps & Smooths <span><i
-                                                                        class="fa-solid fa-xmark"></i></span></button>
-                                                </li>
-                                                <li>
-                                                      <button class="ct_select_badge">Lightweight Formula <span><i
-                                                                        class="fa-solid fa-xmark"></i></span></button>
-                                                </li>
-
+                                                }
                                           </ul>
                                           <div class="position-relative mt-4">
                                                 <input type="text" class="form-control ct_input ct_pe_122"
-                                                      placeholder="Type to add more benefits...">
-                                                <button class="ct_black_btn ct_btn_position_right">Add</button>
-
+                                                      placeholder="Type to add Benefits..." #BenefitInput>
+                                                <button type="button" class="ct_black_btn ct_btn_position_right"
+                                                      (click)="addBenefit(BenefitInput.value)">Add</button>
                                           </div>
+                                          <span *ngIf="selectedIngredients.length == 0 && submitted">
+                                                <span class="ct_text_red mt-2">
+                                                      Benefits are required.
+                                                </span>
+                                          </span>
                                     </div>
                               </div>
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">How To Use</h4>
                                     <div class="form-group">
                                           <textarea class="form-control h-auto ct_input" rows="4"
-                                                placeholder="Write here."></textarea>
+                                                placeholder="Write here." formControlName="how_to_use"></textarea>
+                                          <span
+                                                *ngIf="Form.controls['how_to_use'].invalid && Form.controls['how_to_use'].touched">
+                                                <span *ngIf="Form.controls['how_to_use'].errors?.['required']"
+                                                      class="ct_text_red mt-2">
+                                                      How to use is required.
+                                                </span>
+                                          </span>
 
                                     </div>
                               </div>
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">Ingredients</h4>
-
                                     <div>
                                           <ul
                                                 class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                @for (item of selectedIngredients; track
+                                                $index) {
                                                 <li>
-                                                      <button class="ct_select_badge">Hyaluronic Acid <span><i
+                                                      <button type="button" class="ct_select_badge">{{item}}
+                                                            <span (click)="removeIngredient($index)"><i
                                                                         class="fa-solid fa-xmark"></i></span></button>
                                                 </li>
-                                                <li>
-                                                      <button class="ct_select_badge">Vitamin C <span><i
-                                                                        class="fa-solid fa-xmark"></i></span></button>
-                                                </li>
-
-
+                                                }
                                           </ul>
                                           <div class="position-relative mt-4">
                                                 <input type="text" class="form-control ct_input ct_pe_122"
-                                                      placeholder="Type to add more ingredients...">
-                                                <button class="ct_black_btn ct_btn_position_right">Add</button>
+                                                      placeholder="Type to add Ingredients..." #ingredientInput>
+                                                <button type="button" class="ct_black_btn ct_btn_position_right"
+                                                      (click)="addIngredient(ingredientInput.value)">Add</button>
                                           </div>
+                                          <span *ngIf="selectedIngredients.length == 0 && submitted">
+                                                <span class="ct_text_red mt-2">
+                                                      Ingredients are required.
+                                                </span>
+                                          </span>
                                     </div>
                               </div>
                               <div class="d-flex align-items-center justify-content-end gap-3 mt-4">

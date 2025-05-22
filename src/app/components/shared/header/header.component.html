@@ -21,10 +21,15 @@
         <div class="ct_right_dropdown dropdown">
             <button id="dropdownMenuButton" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="d-flex align-items-center gap-2">
+                    @if(auth.getRoleName() == 'clinic'){
+                    <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/medicare_icon.png'"
+                        alt="" class="ct_img_30">
+                    }@else {
                     <img src="assets/img/user_2.jpg" alt="" class="ct_img_30">
+                    }
                     <div class="text-start">
                         @if(auth.getRoleName() == 'clinic'){
-                        <p class="mb-0 ct_fw_500">{{clinicPofile?.clinic_name}}</p>
+                        <p class="mb-0 ct_fw_500">{{ this.clinicProfile()?.clinic_name}}</p>
                         }@else {
                         <p class="mb-0 ct_fw_500">John Doe</p>
                         }
@@ -96,7 +101,7 @@
                     <div class="d-flex justify-content-center border-0 gap-3 ct_modal_footer">
                         <button type="button" class="ct_outline_btn ct_h_40 w-100 ct_fw_600"
                             data-bs-dismiss="modal">Cancel</button>
-                        <a href="login.html"
+                        <a (click)="auth.logout()"
                             class="ct_border_radius_10 ct_h_40 ct_black_btn ct_red_btn w-100 ct_fw_600 text-center">Log
                             Out</a>
                     </div>

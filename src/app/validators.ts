@@ -33,6 +33,31 @@ export function strongPasswordValidator(
       return null
 }
 
+export function passwordMatchValidator(): ValidatorFn {
+      return (control: AbstractControl): { [key: string]: boolean } | null => {
+            const password = control.get('newPassword');
+            const confirmPassword = control.get('confPassword');
+
+            if (!password || !confirmPassword) {
+                  return null;
+            }
+
+            return password.value !== confirmPassword.value ? { 'passwordMismatch': true } : null;
+      };
+}
+
+export function passwordMismatchValidator(): ValidatorFn {
+      return (control: AbstractControl): ValidationErrors | null => {
+            const currentPassword = control.get('current_password')?.value;
+            const newPassword = control.get('newPassword')?.value;
+            if (!currentPassword || !newPassword) return null;
+
+            return currentPassword === newPassword
+                  ? { sameAsCurrent: true }
+                  : null;
+      };
+}
+
 
 export function dateRangeValidator(): ValidatorFn {
       return (control: AbstractControl): ValidationErrors | null => {
