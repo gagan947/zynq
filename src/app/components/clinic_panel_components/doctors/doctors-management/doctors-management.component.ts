@@ -64,7 +64,7 @@ export class DoctorsManagementComponent {
   }
 
   onSubmit() {
-    this.service.post<any, any>('clinic/send-doctor-invitation', this.Form.value).subscribe({
+    this.service.post<any, any>('clinic/send-doctor-invitation', { emails: [this.Form.value.email] }).subscribe({
       next: (resp) => {
         if (resp.success) {
           this.toster.success(resp.message)

@@ -45,8 +45,8 @@
                 <li><a class="dropdown-item" routerLink="my-profile">My Profile</a></li>
                 }
                 <li><a class="dropdown-item" routerLink="change-password">Change Password</a></li>
-                <li><a class="dropdown-item"  data-bs-toggle="modal"
-                        data-bs-target="#ct_logout_modal_post">Log Out</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ct_logout_modal_post">Log Out</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -102,7 +102,8 @@
                         <button type="button" class="ct_outline_btn ct_h_40 w-100 ct_fw_600"
                             data-bs-dismiss="modal">Cancel</button>
                         <a (click)="logout()"
-                            class="ct_border_radius_10 ct_h_40 ct_black_btn ct_red_btn w-100 ct_fw_600 text-center">Log
+                            class="ct_border_radius_10 ct_h_40 ct_black_btn ct_red_btn w-100 ct_fw_600 text-center"
+                            data-bs-dismiss="modal">Log
                             Out</a>
                     </div>
                 </div>

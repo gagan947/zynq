@@ -31,3 +31,18 @@
     font-size: 16px !important;
     margin-top: 0 !important;
 }
+
+.main-carousel img {
+    object-fit: cover;
+    width: 100%;
+    height: 400px;
+}
+
+.thumb-carousel img {
+    height: 80px;
+    width: auto;
+}
+
+.ct_thumb_gallery_top_20 .owl-carousel {
+    margin-top: 15px;
+}

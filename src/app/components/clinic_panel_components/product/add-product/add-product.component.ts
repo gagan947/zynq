@@ -58,8 +58,10 @@ export class AddProductComponent {
 
   addFeature(feature: string) {
     if (!this.selectedFeatures.includes(feature)) {
-      this.selectedFeatures.push(feature);
-      this.featureInput.nativeElement.value = '';
+      if (feature != '') {
+        this.selectedFeatures.push(feature.trim());
+        this.featureInput.nativeElement.value = '';
+      }
     } else {
       this.toster.error('Feature already added');
     }
@@ -71,8 +73,10 @@ export class AddProductComponent {
 
   addBenefit(benifit: string) {
     if (!this.selectedBenefits.includes(benifit)) {
-      this.selectedBenefits.push(benifit);
-      this.BenefitInput.nativeElement.value = '';
+      if (benifit != '') {
+        this.selectedBenefits.push(benifit.trim());
+        this.BenefitInput.nativeElement.value = '';
+      }
     } else {
       this.toster.error('Benifit already added');
     }
@@ -84,15 +88,17 @@ export class AddProductComponent {
 
   addIngredient(Ingredient: string) {
     if (!this.selectedIngredients.includes(Ingredient)) {
-      this.selectedIngredients.push(Ingredient);
-      this.ingredientInput.nativeElement.value = '';
+      if (Ingredient != '') {
+        this.selectedIngredients.push(Ingredient.trim());
+        this.ingredientInput.nativeElement.value = '';
+      }
     } else {
       this.toster.error('Ingredient already added');
     }
   }
 
   addSizes(size: string) {
-    if (!this.selectedSizes.includes(size)) {
+    if (!this.selectedSizes.includes(size) && size != '') {
       this.selectedSizes.push(size);
     } else {
       this.selectedSizes.splice(this.selectedSizes.indexOf(size), 1);
@@ -136,7 +142,7 @@ export class AddProductComponent {
 
   onSubmit() {
     this.submitted = true;
-    if (this.Form.invalid || this.selectedFeatures.length == 0 || this.selectedBenefits.length == 0 || this.selectedIngredients.length == 0 || this.productImages.length == 0 || this.selectedSizes.length == 0) {
+    if (this.Form.invalid || this.selectedFeatures.length == 0 || this.selectedBenefits.length == 0 || this.selectedIngredients.length == 0 || this.previewProductImages.length == 0 || this.selectedSizes.length == 0) {
       this.Form.markAllAsTouched();
       return
     }

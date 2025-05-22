@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonService } from '../../../../services/common.service';
 import { Product } from '../../../../models/products';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CurrencyPipe } from '@angular/common';
-declare var $: any;
+import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { NzRateModule } from 'ng-zorro-antd/rate';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-view-product',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe, CarouselModule, NzRateModule, FormsModule],
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.css'
 })
@@ -19,6 +22,28 @@ export class ViewProductComponent {
   selectedFeatures: string[] = []
   selectedBenefits: string[] = []
   selectedIngredients: string[] = []
+  @ViewChild('mainCarousel', { static: false }) mainCarousel!: CarouselComponent;
+
+  mainOptions: OwlOptions = {
+    items: 1,
+    loop: true,
+    dots: false,
+    nav: false,
+    autoplay: false
+  };
+
+  thumbOptions: OwlOptions = {
+    items: 6,
+    margin: 10,
+    dots: false,
+    nav: false,
+  };
+
+  goToSlide(index: number): void {
+    const slideId = `slide-${index}`;
+    this.mainCarousel?.to(slideId);
+  }
+
   constructor(private service: CommonService, private route: ActivatedRoute, private toster: NzMessageService) {
     this.route.queryParams.subscribe(param => {
       this.productId = param['id'];
@@ -46,30 +71,4 @@ export class ViewProductComponent {
       this.toster.error(error);
     })
   }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      $(".ct_dot").eq(0).addClass("active");
-      var owl = $(".ct_product_detail_slider");
-      owl.owlCarousel({
-        items: 1,
-        loop: true,
-        autoplay: false,
-        autoplayTimeout: 3000,
-        dots: false,
-        nav: false,
-      });
-      owl.on("changed.owl.carousel", (event: any) => {
-        var currentIndex = event.item.index - event.relatedTarget._clones.length / 2;
-        $(".ct_dot").removeClass("active");
-        $(".ct_dot").eq(currentIndex).addClass("active");
-      });
-    }, 200);
-    // this.loading = false
-  }
-
-  slide(index: any) {
-    $(".ct_product_detail_slider").trigger("to.owl.carousel", [index, 300]);
-  }
-
 }

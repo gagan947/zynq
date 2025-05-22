@@ -545,37 +545,37 @@
                                 </div>
                             </div> -->
                               </fieldset>
-                              <fieldset *ngIf="currentStep == 3">
-                                    <div
-                                          class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                                          <h4 class="mb-3 ct_fs_20 ct_fw_600">Dr. Email</h4>
-                                          <div>
-                                                <ul
-                                                      class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of selectedDrEmail; track
-                                                      $index) {
-                                                      <li>
-                                                            <button type="button" class="ct_select_badge">{{item}}
-                                                                  <span (click)="removeDrEmail($index)"><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
-                                                      }
-                                                </ul>
-                                                <div class="position-relative mt-4">
-                                                      <input type="text" class="form-control ct_input ct_pe_122"
-                                                            placeholder="Type to add email..." #drEmail>
-                                                      <button type="button" class="ct_black_btn ct_btn_position_right"
-                                                            (click)="addDrEmail(drEmail.value)">Add</button>
-                                                </div>
-                                                <span *ngIf="selectedDrEmail.length == 0 && submitted">
-                                                      <span class="ct_text_red mt-2">
-                                                            Email is required.
-                                                      </span>
-                                                </span>
+                        </form>
+                        <fieldset *ngIf="currentStep == 3">
+                              <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">Dr. Email</h4>
+                                    <div>
+                                          <ul
+                                                class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                @for (item of selectedDrEmail; track
+                                                $index) {
+                                                <li>
+                                                      <button type="button" class="ct_select_badge">{{item}}
+                                                            <span (click)="removeDrEmail($index)"><i
+                                                                        class="fa-solid fa-xmark"></i></span></button>
+                                                </li>
+                                                }
+                                          </ul>
+                                          <div class="position-relative mt-4">
+                                                <input type="text" class="form-control ct_input ct_pe_122"
+                                                      placeholder="Type to add email..." #drEmail>
+                                                <button type="button" class="ct_black_btn ct_btn_position_right"
+                                                      (click)="addDrEmail(drEmail.value)">Add</button>
                                           </div>
                                     </div>
-                              </fieldset>
-                        </form>
+                              </div>
+                              <button type="button" name="next" (click)="inviteDr()"
+                                    class="ct_black_btn float-end mx-1 mt-4 ct_border_radius_10">Invite</button>
+                              <input type="button" name="previous"
+                                    class="ct_form_next action-button mt-4 ct_black_btn float-end mx-1" value="Previous"
+                                    (click)="previousStep()">
+                        </fieldset>
+
                   </div>
             </div>
       </div>
