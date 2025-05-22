@@ -22,7 +22,7 @@
             <button id="dropdownMenuButton" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="d-flex align-items-center gap-2">
                     @if(auth.getRoleName() == 'clinic'){
-                    <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/medicare_icon.png'"
+                    <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/doctor.png'"
                         alt="" class="ct_img_30">
                     }@else {
                     <img src="assets/img/doctor.png" alt="" class="ct_img_30">
@@ -101,10 +101,10 @@
                     <div class="d-flex justify-content-center border-0 gap-3 ct_modal_footer">
                         <button type="button" class="ct_outline_btn ct_h_40 w-100 ct_fw_600"
                             data-bs-dismiss="modal">Cancel</button>
-                        <a (click)="logout()"
-                            class="ct_border_radius_10 ct_h_40 ct_black_btn ct_red_btn w-100 ct_fw_600 text-center"
+                        <button (click)="logout()"
+                            class="ct_border_radius_10 ct_h_40 ct_black_btn w-100 ct_fw_600 text-center"
                             data-bs-dismiss="modal">Log
-                            Out</a>
+                            Out</button>
                     </div>
                 </div>
             </div>

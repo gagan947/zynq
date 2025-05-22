@@ -46,3 +46,12 @@
 .ct_thumb_gallery_top_20 .owl-carousel {
     margin-top: 15px;
 }
+
+#overLay {
+    position: fixed;
+    background: transparent;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
