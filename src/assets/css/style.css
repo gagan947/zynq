@@ -1327,7 +1327,7 @@ button.btn-close.ct_close {
 .ct_loader_main {
   position: fixed;
   top: 0%;
-  background-color: #f2f2f2;
+  background-color: #aaaaaad6;
   width: 100%;
   height: 100%;
   z-index: 99999999999999;

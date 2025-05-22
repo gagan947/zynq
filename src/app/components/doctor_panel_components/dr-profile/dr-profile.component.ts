@@ -3,8 +3,9 @@ import { ProfileSetupComponent } from '../profile-setup/profile-setup.component'
 import { RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { LoaderService } from '../../../services/loader.service';
 
 @Component({
   selector: 'app-dr-profile',
@@ -16,10 +17,11 @@ import { CommonModule } from '@angular/common';
 export class DrProfileComponent {
   doctorProfile$!: Observable<DoctorProfileResponse>;
 
-  constructor(private apiService: CommonService) { }
+  constructor(private apiService: CommonService ,private loaderService: LoaderService) { }
 
   ngOnInit() {
-    this.doctorProfile$ = this.apiService.get<DoctorProfileResponse>('doctor/get_profile');
+    this.loaderService.show();
+    this.doctorProfile$ = this.apiService.get<DoctorProfileResponse>('doctor/get_profile').pipe(tap(() => setTimeout(() => this.loaderService.hide(), 100)));
   }
   // loadFormData() {
   //   this.apiService.get<DoctorProfileResponse>('doctor/get_profile').subscribe(res => {

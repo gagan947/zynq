@@ -11,6 +11,7 @@ import {  ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { LoaderService } from '../../../services/loader.service';
 
 function operationHoursValidator(group: AbstractControl): ValidationErrors | null {
   const closed = group.get('closed')?.value;
@@ -67,7 +68,7 @@ export class EditProfileComponent {
   securityLevel: SecurityLevel[] = []
   selectedSecurityLevel: SecurityLevel[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router,private toster: NzMessageService) { 
+  constructor(private fb: FormBuilder, private http: HttpClient,private loaderService: LoaderService, private apiService: CommonService, private router: Router,private toster: NzMessageService) { 
     
   }
 
@@ -98,6 +99,7 @@ export class EditProfileComponent {
   }
 
   loadFormData() {
+    this.loaderService.show();
     this.apiService.get<DoctorProfileResponse>('doctor/get_profile').subscribe(res => {
       if (res.success == false) {
         return;
@@ -140,6 +142,7 @@ export class EditProfileComponent {
       if(data.profile_image != null && data.profile_image != ''){ 
         this.imagePreview = data.profile_image;
       }
+      this.loaderService.hide();
   
     });
   };
@@ -280,6 +283,7 @@ export class EditProfileComponent {
       next: (resp) => {
         if (resp.success == true) {
           this.toster.success(resp.message);
+          this.loadFormData();
         }else{
           this.toster.error(resp.message);
         }
