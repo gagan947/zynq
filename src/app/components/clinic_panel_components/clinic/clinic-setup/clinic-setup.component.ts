@@ -261,8 +261,10 @@ export class ClinicSetupComponent {
 
   addDrEmail(email: string) {
     if (!this.selectedDrEmail.includes(email)) {
-      this.selectedDrEmail.push(email);
-      this.drEmail.nativeElement.value = '';
+      if (email != '') {
+        this.selectedDrEmail.push(email.trim());
+        this.drEmail.nativeElement.value = '';
+      }
     } else {
       this.toster.error('Email already added');
     }
@@ -360,7 +362,7 @@ export class ClinicSetupComponent {
       }
       formData.append('ivo_registration_number', this.Form.value.ivo_registration_number)
       formData.append('hsa_id', this.Form.value.hsa_id)
-      formData.append('form_stage', this.currentStep.toString())
+      formData.append('form_stage', '1')
     } else if (this.currentStep === 1) {
       formData.append('email', this.Form.value.email)
       formData.append('mobile_number', this.Form.value.mobile_number)
@@ -373,7 +375,7 @@ export class ClinicSetupComponent {
       formData.append('address', this.selectedLocation)
       formData.append('zynq_user_id', this.userInfo.id)
       formData.append('website_url', this.Form.value.website_url)
-      formData.append('form_stage', this.currentStep.toString())
+      formData.append('form_stage', '2')
       // } else if (this.currentStep === 2) {
       //   formData.append('zynq_user_id', this.userInfo.id)
       //   formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
@@ -385,22 +387,52 @@ export class ClinicSetupComponent {
       formData.append('severity_levels', JSON.stringify(this.selectedSecurityLevel.map(item => item.severity_level_id)));
       // formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
       formData.append('language', 'en');
-      formData.append('is_onboarded', 'true');
       formData.append('zynq_user_id', this.userInfo.id);
-      formData.append('form_stage', this.currentStep.toString());
+      formData.append('form_stage', "3");
     }
 
     this.service.post(`clinic/onboard-clinic`, formData).subscribe((res: any) => {
       if (res.status) {
-        if (this.currentStep === 2) {
-          this.toster.success(res.message);
-          this.router.navigate(['/clinic']);
-        }
         this.currentStep++;
       }
     }, err => {
       this.toster.error(err);
     })
+  }
+
+  inviteDr() {
+
+    if (this.selectedDrEmail.length == 0) {
+      this.toster.error('Please add at least one email');
+      return;
+    }
+
+    this.service.post<any, any>('clinic/send-doctor-invitation', { emails: this.selectedDrEmail }).subscribe({
+      next: (resp) => {
+        if (resp.success) {
+          const formData = new FormData();
+          formData.append('zynq_user_id', this.userInfo.id);
+          formData.append('is_onboarded', 'true');
+          this.service.post<any, any>('clinic/onboard-clinic', formData).subscribe({
+            next: (res) => {
+              if (res.status) {
+                this.toster.success(resp.message);
+                this.router.navigate(['/clinic']);
+              }
+              this.currentStep++;
+            },
+            error: (err) => {
+              this.toster.error(err);
+            }
+          });
+        } else {
+          this.toster.error(resp.message);
+        }
+      },
+      error: (error) => {
+        this.toster.error(error);
+      }
+    });
   }
 
 

@@ -1,0 +1,5 @@
+.ct_img_h_300 {
+      height: 400px;
+      object-fit: contain;
+      width: 100%;
+}

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, effect } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -54,7 +54,7 @@ export class EditClinicProfileComponent {
     ['treatments', 'equipments', 'skin_types', 'severity_levels', 'fee_range', 'language']
   ];
 
-  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router) {
+  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, public location: Location) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     effect(() => {
       console.log(this.clinicProfile());

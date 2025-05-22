@@ -13,9 +13,9 @@
                         </div>
                         <form action="">
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                                    <div class="row align-items-center">
+                                    <div class="row">
                                           <div class="col-xxl-4 col-xl-5 col-lg-6 mb-4 mb-lg-0">
-                                                <div class="ct_left_side_product_img">
+                                                <!-- <div class="ct_left_side_product_img">
                                                       <div class="owl-carousel owl-theme ct_product_detail_slider">
                                                             @for (item of productData?.product_images; track $index) {
                                                             <div class="item"><img [src]="item.image" alt="Slide 1">
@@ -25,12 +25,35 @@
                                                       <ul class="ct_custom-dots">
                                                             @for (item of productData?.product_images; track $index) {
                                                             <li class="ct_dot" [attr.data-slide]="$index">
-                                                                  <img [src]="item.image" alt="Slide 1"
-                                                                        (click)="slide($index)">
+                                                                  <img [src]="item.image" alt="Slide 1">
                                                             </li>
                                                             }
                                                       </ul>
+                                                </div> -->
 
+                                                <div class="ct_left_side_product_img">
+                                                      <!-- Main Carousel -->
+                                                      <owl-carousel-o #mainCarousel [options]="mainOptions"
+                                                            class="main-carousel">
+                                                            @for (item of productData?.product_images; track $index) {
+                                                            <ng-template carouselSlide [id]="'slide-' + $index">
+                                                                  <img [src]="item.image" alt="Product Image"
+                                                                        class="ct_img_h_300" />
+                                                            </ng-template>
+                                                            }
+                                                      </owl-carousel-o>
+
+                                                      <!-- Thumbnail Carousel -->
+                                                      <owl-carousel-o [options]="thumbOptions"
+                                                            class="thumb-carousel ct_thumb_gallery_top_20">
+                                                            @for (item of productData?.product_images; track $index) {
+                                                            <ng-template carouselSlide>
+                                                                  <img [src]="item.image" alt="Thumb"
+                                                                        (click)="goToSlide($index)"
+                                                                        class="cursor-pointer border rounded hover:border-green-600 transition duration-200">
+                                                            </ng-template>
+                                                            }
+                                                      </owl-carousel-o>
                                                 </div>
                                           </div>
                                           <div class="col-xxl-8 col-xl-7 col-lg-6  mb-4 mb-lg-0">
@@ -40,29 +63,33 @@
                                                       {{productData?.short_description}}
                                                 </p>
                                                 <div class="d-flex align-items-center gap-2">
-                                                      <ul class="d-flex align-items-center gap-2">
-                                                            <li><i class="fa-solid fa-star ct_yellow_text ct_fs_20"></i>
-                                                            </li>
-                                                            <li><i class="fa-solid fa-star ct_yellow_text ct_fs_20"></i>
-                                                            </li>
-                                                            <li><i class="fa-solid fa-star ct_yellow_text ct_fs_20"></i>
-                                                            </li>
-                                                            <li><i class="fa-solid fa-star ct_yellow_text ct_fs_20"></i>
-                                                            </li>
-                                                            <li><i class="fa-regular fa-star ct_yellow_text ct_fs_20"></i>
-                                                            </li>
-                                                      </ul>
-                                                      <span>(4.8)</span>
+                                                      <nz-rate [ngModel]="productData?.rating" nzDisabled nzAllowHalf
+                                                            [ngModelOptions]="{standalone: true}"></nz-rate>
+                                                      <span>({{productData?.rating}})</span>
                                                 </div>
+                                                <h4 class="mb-3 ct_fs_20 ct_fw_600 mt-3">Available Sizes</h4>
+                                                <div>
+                                                      <ul class="d-flex align-items-center gap-4 flex-wrap ">
+                                                            @for (item of selectedSizes; track $index) {
+                                                            <li>
+                                                                  <div class="ct_outline_border">
+                                                                        {{item}}
+                                                                  </div>
+                                                            </li>
+                                                            }
+                                                      </ul>
+                                                </div>
+                                                <h4 class="mb-2 ct_fs_20 ct_fw_600 mt-4">Description:</h4>
+                                                <p class="mb-0 ct_grey_text">{{productData?.full_description}}</p>
                                           </div>
                                     </div>
                               </div>
-                              <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                              <!-- <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <div class="form-group mb-3">
                                           <h4 class="mb-3 ct_fs_20 ct_fw_600">Description:</h4>
                                           <p class="mb-0 ct_grey_text">{{productData?.full_description}}</p>
                                     </div>
-                              </div>
+                              </div> -->
 
 
                               <div
@@ -85,7 +112,7 @@
                                     </div>
                               </div>
 
-                              <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                              <!-- <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">Available Sizes</h4>
 
                                     <div>
@@ -99,7 +126,7 @@
                                                 }
                                           </ul>
                                     </div>
-                              </div>
+                              </div> -->
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">Key Benefits</h4>
                                     <div>
@@ -117,10 +144,7 @@
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                                     <h4 class="mb-3 ct_fs_20 ct_fw_600">How To Use</h4>
                                     <div class="form-group">
-                                          <textarea class="form-control h-auto ct_input text-" readonly rows="4"
-                                                placeholder="Write here.">{{productData?.how_to_use}}
-                                          </textarea>
-
+                                          <p class="mb-0 ct_grey_text">{{productData?.how_to_use}}</p>
                                     </div>
                               </div>
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">

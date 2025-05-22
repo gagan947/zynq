@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
@@ -18,7 +18,7 @@ export class ChangePasswordComponent {
   isShowCurrentPassword: boolean = false;
   isShowNewPassword: boolean = false;
   isShowConfPassword: boolean = false;
-  constructor(private service: CommonService, private router: Router, private toster: NzMessageService) { }
+  constructor(private service: CommonService, private router: Router, private toster: NzMessageService, public location: Location) { }
   ngOnInit() {
     this.initForm()
   }

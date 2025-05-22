@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { LoaderService } from '../services/loader.service';
 
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
 
-      constructor(private router: Router) { }
+      constructor(private router: Router, private loaderService: LoaderService) { }
 
       intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+            this.loaderService.show();
             const authToken = localStorage.getItem(`ZynqToken`);
 
             let modifiedRequest: HttpRequest<any>;
@@ -38,17 +39,20 @@ export class HttpInterceptorService implements HttpInterceptor {
                   });
             }
 
+
+
             return next.handle(modifiedRequest).pipe(
                   catchError(error => {
+                        this.loaderService.hide();
                         let errorMessage = 'An unknown error occurred!';
                         if (error.status === 401) {
                               errorMessage = error.error.message;
                               localStorage.clear();
                               this.router.navigate(['/']);
                         } else if (error.status === 403) {
-                              errorMessage = error.error.message
+                              errorMessage = error.error.message;
                         } else if (error.status === 404) {
-                              errorMessage = error.error.message
+                              errorMessage = error.error.message;
                         } else if (error.status === 400) {
                               errorMessage = error.error.message || 'Bad request. Please try again.';
                         } else if (error.status === 500) {
@@ -59,7 +63,8 @@ export class HttpInterceptorService implements HttpInterceptor {
                               errorMessage = error.message || 'An error occurred.';
                         }
                         return throwError(() => new Error(errorMessage));
-                  })
+                  }),
+                  finalize(() => this.loaderService.hide())
             );
       }
 }

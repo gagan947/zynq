@@ -59,11 +59,11 @@ export class ProductManagementComponent {
   search(event: any) {
     const searchValue = event.target.value.trim().toLowerCase();
     if (searchValue) {
-      this.productsList = this.productsList.filter(list =>
+      this.productsList = this.orgProductsList.filter(list =>
         list.name.toLowerCase().includes(searchValue) || list.name.toLowerCase().includes(searchValue)
       );
     } else {
-      this.productsList = [...this.productsList];
+      this.productsList = [...this.orgProductsList];
     }
   }
 }

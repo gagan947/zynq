@@ -20,7 +20,7 @@ export class DoctorsManagementComponent {
   treatments: Treatment[] = [];
   selectedTreatment: string[] = [];
   Form!: FormGroup
-  imagePreview: string = 'assets/img/np_pro.png';
+  imagePreview: string = 'assets/img/doctor.png';
   doctorId: string | undefined;
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
   @ViewChild('closeButton2') closeButton2!: ElementRef<HTMLButtonElement>;
@@ -64,7 +64,7 @@ export class DoctorsManagementComponent {
   }
 
   onSubmit() {
-    this.service.post<any, any>('clinic/send-doctor-invitation', this.Form.value).subscribe({
+    this.service.post<any, any>('clinic/send-doctor-invitation', { emails: [this.Form.value.email] }).subscribe({
       next: (resp) => {
         if (resp.success) {
           this.toster.success(resp.message)

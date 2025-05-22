@@ -13,18 +13,12 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class AppComponent {
   title = 'zynq-app';
-  
   showLoader = false;
   private subscription!: Subscription;
-  constructor(private router: Router,private loaderService: LoaderService, private cdr: ChangeDetectorRef) {
-   
-
+  constructor(private router: Router, private loaderService: LoaderService, private cdr: ChangeDetectorRef) {
   }
-
- 
-
   ngOnInit() {
-    
+
     this.subscription = this.loaderService.showLoader$.subscribe(value => {
       
       this.showLoader = value;

@@ -15,10 +15,9 @@ import { LoaderService } from '../../../services/loader.service';
 export class LinkedClinicsComponent {
   clinics$!: Observable<LinkedClinics>;
 
-  constructor(private apiService: CommonService,private loaderService: LoaderService) { }
+  constructor(private apiService: CommonService, private loaderService: LoaderService) { }
   ngOnInit() {
     this.loaderService.show();
     this.clinics$ = this.apiService.get<any>(`doctor/get_linked_clinics`).pipe(tap(() => setTimeout(() => this.loaderService.hide(), 100)));
-   
   }
 }
