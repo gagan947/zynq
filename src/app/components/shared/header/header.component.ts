@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonService } from '../../../services/common.service';
 import { ClinicProfile } from '../../../models/clinic-profile';
+import { DoctorProfile } from '../../../models/doctorProfile';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ import { ClinicProfile } from '../../../models/clinic-profile';
 })
 export class HeaderComponent {
   clinicPofile: ClinicProfile | null = null;
+  doctorPofile: DoctorProfile | null = null;
 
   clinicProfile = this.service._clinicProfile;
   constructor( public auth: AuthService, private service: CommonService, private router: Router) {
@@ -25,7 +27,7 @@ export class HeaderComponent {
     if (this.auth.getRoleName() == 'clinic') {
       this.getClinicProfile();
     } else {
-
+this.getDoctorProfile();
     }
   }
 
@@ -34,6 +36,14 @@ export class HeaderComponent {
       console.log(resp);
       this.clinicPofile = resp.data;
       this.service._clinicProfile.set(this.clinicPofile);
+    })
+  };
+
+  getDoctorProfile() {
+    this.service.get<any>('doctor/get_profile').subscribe((resp) => {
+      this.doctorPofile = resp.data;
+      this.service._doctorProfile.set(this.doctorPofile);
+  
     })
   };
 

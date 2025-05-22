@@ -13,6 +13,10 @@ export class AuthService {
 
       getToken() {
             return localStorage.getItem('ZynqToken')
+      };
+
+      getUserInfo() {
+            return JSON.parse(localStorage.getItem('userInfo') || '{}');
       }
 
       isLogedIn() {

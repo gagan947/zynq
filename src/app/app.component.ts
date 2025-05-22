@@ -1,19 +1,33 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { LoaderService } from './services/loader.service';
+import { CommonModule } from '@angular/common';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'zynq-app';
-  constructor(private router: Router) {
+  
+  showLoader = false;
+  private subscription!: Subscription;
+  constructor(private router: Router,private loaderService: LoaderService, private cdr: ChangeDetectorRef) {
+   
 
   }
+
+ 
   ngOnInit() {
+    this.subscription = this.loaderService.showLoader$.subscribe(value => {
+      console.log(value);
+      this.showLoader = value;
+      this.cdr.detectChanges();
+    });
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         const existingScript = document.querySelector('script[src="assets/js/main.js"]');
