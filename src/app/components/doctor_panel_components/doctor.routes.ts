@@ -17,7 +17,7 @@ export const doctorRoutes: Routes = [
             children: [
                   {
                         path: '',
-                        loadComponent: () => import('../clinic_panel_components/dashboard/dashboard.component').then(m => m.DashboardComponent)
+                        loadComponent: () => import('../doctor_panel_components/dr-dashboard/dr-dashboard.component').then(m => m.DrDashboardComponent)
                   },
                   {
                         path: 'doctors',

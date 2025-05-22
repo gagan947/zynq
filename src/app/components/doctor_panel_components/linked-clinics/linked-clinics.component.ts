@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CommonService } from '../../../services/common.service';
 import { CommonModule } from '@angular/common';
 import { LinkedClinics } from '../../../models/linked_clinics';
+import { LoaderService } from '../../../services/loader.service';
 
 @Component({
   selector: 'app-linked-clinics',
@@ -14,8 +15,10 @@ import { LinkedClinics } from '../../../models/linked_clinics';
 export class LinkedClinicsComponent {
   clinics$!: Observable<LinkedClinics>;
 
-  constructor(private apiService: CommonService) { }
+  constructor(private apiService: CommonService,private loaderService: LoaderService) { }
   ngOnInit() {
-    this.clinics$ = this.apiService.get<any>(`doctor/get_linked_clinics`);
+    this.loaderService.show();
+    this.clinics$ = this.apiService.get<any>(`doctor/get_linked_clinics`).pipe(tap(() => setTimeout(() => this.loaderService.hide(), 100)));
+   
   }
 }

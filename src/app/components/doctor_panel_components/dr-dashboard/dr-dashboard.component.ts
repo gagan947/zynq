@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-dr-dashboard',
@@ -8,5 +9,8 @@ import { Component } from '@angular/core';
   styleUrl: './dr-dashboard.component.css'
 })
 export class DrDashboardComponent {
-
+  
+  constructor() {
+    
+   }
 }
