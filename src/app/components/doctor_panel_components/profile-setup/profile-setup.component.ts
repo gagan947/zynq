@@ -9,7 +9,11 @@ import { DoctorProfileResponse } from '../../../models/doctorProfile';
 import { SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../models/clinic-onboarding';
 import { NoWhitespaceDirective, timeRangeValidator } from '../../../validators';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-
+import { getISOWeek } from 'date-fns';
+import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzMessageService } from 'ng-zorro-antd/message';
 function operationHoursValidator(group: AbstractControl): ValidationErrors | null {
   const closed = group.get('closed')?.value;
   const startTime = group.get('start_time')?.value;
@@ -31,7 +35,7 @@ function operationHoursValidator(group: AbstractControl): ValidationErrors | nul
 @Component({
   selector: 'app-profile-setup',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule,NzDatePickerModule,NzButtonModule, NzDatePickerModule],
   templateUrl: './profile-setup.component.html',
   styleUrl: './profile-setup.component.css'
 })
@@ -49,7 +53,9 @@ export class ProfileSetupComponent {
   treatments: Treatment[] = [];
   education: any[] = [{
     institution: null,
-    degree_name: null
+    degree_name: null,
+    start_year: null,
+    end_year: null
   }];
   experience: any[] = [{
     organisation_name: null,
@@ -65,8 +71,8 @@ export class ProfileSetupComponent {
   selectedSkinTypes: SkinType[] = []
   securityLevel: SecurityLevel[] = []
   selectedSecurityLevel: SecurityLevel[] = [];
-
-  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router) {
+  date = null;
+  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router,private i18n: NzI18nService,private toster: NzMessageService) {
 
   }
 
@@ -75,8 +81,8 @@ export class ProfileSetupComponent {
 
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/), NoWhitespaceDirective.validate]],
-      age: ['', [Validators.required, Validators.min(1), NoWhitespaceDirective.validate]],
+      phone: ['', [Validators.required, Validators.min(1)]],
+      age: ['', [Validators.required, Validators.min(1)]],
       gender: ['', Validators.required],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       biography: ['']
@@ -114,7 +120,7 @@ export class ProfileSetupComponent {
         this.certificates = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path, id: cert.doctor_certification_id }));
       }
       if (data.education.length > 0) {
-        this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree }));
+        this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year }));
       }
       if (data.experience.length > 0) {
         this.experience = data.experience.map(edu => ({
@@ -183,7 +189,7 @@ export class ProfileSetupComponent {
       if (previewFiles.length == 0) {
         const isValidCer = this.certificates.every(c => c.type && c.file);
         if (!isValidCer) {
-          alert('Please select both certificate type and upload a file for all entries.');
+          this.toster.warning('Please select both certificate type and upload a file for all entries.');
           return;
         }
 
@@ -192,9 +198,16 @@ export class ProfileSetupComponent {
 
       }
 
-      const isValidEdu = this.education.every(c => c.institution && c.degree_name);
+      const isValidEdu = this.education.every(c =>
+        c.institution &&
+        c.degree_name &&
+        c.start_year &&
+        c.end_year &&
+        c.end_year > c.start_year // "2025-06" > "2025-05" works with string comparison
+      );
+      
       if (!isValidEdu) {
-        alert('Please enter both institution and degree name for all entries.');
+        this.toster.warning('Please enter valid education details. End date must be after start date.');
         return;
       }
       const isValidExp = this.experience.every(c => c.organisation_name && c.start_date && c.end_date && c.designation);
@@ -256,7 +269,9 @@ export class ProfileSetupComponent {
     const formData = new FormData();
     const education = this.education.map(edu => ({
       institute: edu.institution,
-      degree: edu.degree_name
+      degree: edu.degree_name,
+      start_year : edu.start_year,
+      end_year : edu.end_year
     }));
     const experience = this.experience.map(exp => ({
       organization: exp.organisation_name,
@@ -433,7 +448,7 @@ export class ProfileSetupComponent {
   };
 
   addEducation() {
-    this.education.push({ institution: null, degree_name: null });
+    this.education.push({ institution: null, degree_name: null,start_year: null,end_year: null });
   }
   addExperience() {
     this.experience.push({
@@ -507,6 +522,10 @@ export class ProfileSetupComponent {
     this.apiService.delete<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
       console.log(res);
     });
+  };
+
+  onChangeYear(event: any) {
+    // this.year = event.year;
   }
 
 }

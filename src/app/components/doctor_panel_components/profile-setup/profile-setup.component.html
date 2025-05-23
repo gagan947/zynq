@@ -54,7 +54,7 @@
                                                                   formControlName="phone" placeholder="Enter phone no">
                                                             <div *ngIf="personalForm.get('phone')?.touched && personalForm.get('phone')?.invalid"
                                                                   class="text-danger">
-                                                                  Phone is required (10 digits).
+                                                                  Valid phone no is required.
                                                             </div>
                                                       </div>
                                                 </div>
@@ -282,6 +282,21 @@
                                                     </div>
                                                    
                                                     </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                      <div class="form-group mb-3">
+                                                            <label for="" class="mb-2 ct_text_black">Start year<span
+                                                                        class="ct_red_text">*</span></label>
+                                                                        <input id="bday-month" type="month" class="form-control ct_input"   [(ngModel)]="edu.start_year" [ngModelOptions]="{standalone: true}"  />
+ 
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                      <div class="form-group mb-3">
+                                                            <label for="" class="mb-2 ct_text_black">End year<span
+                                                                        class="ct_red_text">*</span></label>
+                                                                        <input  type="month" class="form-control ct_input"   [(ngModel)]="edu.end_year" [ngModelOptions]="{standalone: true}" />
+                                                      </div>
                                                 </div>
                                                
                                           </div>
