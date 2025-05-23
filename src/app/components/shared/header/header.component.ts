@@ -19,9 +19,11 @@ export class HeaderComponent {
   doctorPofile: DoctorProfile | null = null;
 
   clinicProfile = this.service._clinicProfile;
+  drProfile = this.service._doctorProfile;
   constructor(public auth: AuthService, private service: CommonService, private router: Router) {
     effect(() => {
       this.clinicProfile();
+      this.drProfile();
     });
 
     if (this.auth.getRoleName() == 'clinic') {
@@ -42,7 +44,6 @@ export class HeaderComponent {
     this.service.get<any>('doctor/get_profile').subscribe((resp) => {
       this.doctorPofile = resp.data;
       this.service._doctorProfile.set(this.doctorPofile);
-
     })
   };
 

@@ -104,6 +104,7 @@ export class EditProfileComponent {
         return;
       }
       const data = res.data;
+      this.apiService._doctorProfile.set(data);
       this.personalForm.patchValue({
         fullName: data.name,
         phone: data.phone,
@@ -247,6 +248,7 @@ export class EditProfileComponent {
       next: (resp) => {
         if (resp.success == true) {
           this.toster.success(resp.message);
+          this.loadFormData();
         }
       },
       error: (error) => {
@@ -380,8 +382,14 @@ export class EditProfileComponent {
   }
 
   removeImage() {
-    this.imagePreview = null;
-    this.profileImage = null;
+    this.apiService.delete<any>(`doctor/delete_profile_image`).subscribe((res) => {
+      if (res.success) {
+        this.imagePreview = null;
+        this.profileImage = null;
+      } else {
+        this.toster.error(res.message);
+      }
+    })
   };
 
 
