@@ -213,7 +213,7 @@ export class ProfileSetupComponent {
       }
       const isValidExp = this.experience.every(c => c.organisation_name && c.start_date && c.end_date && c.designation);
       if (!isValidExp) {
-        alert('Please enter all experience details for all entries.');
+        this.toster.warning('Please enter all experience details for all entries.');
         return;
       }
       this.onSubmitProfessional()

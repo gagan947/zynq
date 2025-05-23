@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,5 +9,10 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-
+  clinicProfile = this.service._clinicProfile;
+  constructor(private service: CommonService) {
+    effect(() => {
+      this.clinicProfile();
+    });
+  }
 }

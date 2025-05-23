@@ -1,4 +1,3 @@
-
 <div class="ct_profile_setup_bg">
       <div class="ct_logo_small ">
             <img src="../assets/img/logo.svg" alt="" style="width: 160px;">
@@ -68,7 +67,6 @@
                                                                   class="text-danger">
                                                                   Valid age is required.
                                                             </div>
-
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -147,14 +145,15 @@
 
 
                                                                   <div class="ct_uploaded_img123 position-relative w-100 ct_upload_product_main"
-                                                                      *ngIf="imagePreview">
+                                                                        *ngIf="imagePreview">
 
-                                                                      <div class="ct_uploaded_img_w">
-                                                                            <img [src]="imagePreview" alt="" style="object-fit: contain;" />
-                                                                            <i class="fa-solid fa-xmark"
-                                                                                  (click)="removeImage()"></i>
-                                                                      </div>
-                                                                </div>
+                                                                        <div class="ct_uploaded_img_w">
+                                                                              <img [src]="imagePreview" alt=""
+                                                                                    style="object-fit: contain;" />
+                                                                              <i class="fa-solid fa-xmark"
+                                                                                    (click)="removeImage()"></i>
+                                                                        </div>
+                                                                  </div>
 
 
                                                             </div>
@@ -165,13 +164,13 @@
                                           </div>
 
                                     </div>
-                                   <input type="button" name="next"
+                                    <input type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
                                           (click)="nextStep()">
 
-                                          
-                                          
-                                        
+
+
+
                               </form>
                               <form *ngIf="currentStep == 1">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
@@ -196,49 +195,52 @@
                                                                               </nz-option>
                                                                         </nz-select>
                                                                   </div>
-  
+
                                                                   <div class="col-md-6">
                                                                         <div class="form-group mb-4 mb-md-0">
                                                                               <label class="mb-2 ct_text_black">Certificate
                                                                                     <span
                                                                                           class="ct_red_text">*</span></label>
-                                                                              <div     class="d-flex align-items-center gap-2 ">
-                                                                                  <div class="ct_flex_1">
-                                                                                      <div
-                                                                                    *ngIf="cert.previewUrl; else uploadInput">
-                                                                                    <a [href]="cert.previewUrl"
-                                                                                          target="_blank">
-                                                                                          <i class="fa fa-file"></i>
-                                                                                          View Uploaded Certificate
-                                                                                    </a>
+                                                                              <div
+                                                                                    class="d-flex align-items-center gap-2 ">
+                                                                                    <div class="ct_flex_1">
+                                                                                          <div
+                                                                                                *ngIf="cert.previewUrl; else uploadInput">
+                                                                                                <a [href]="cert.previewUrl"
+                                                                                                      target="_blank">
+                                                                                                      <i
+                                                                                                            class="fa fa-file"></i>
+                                                                                                      View Uploaded
+                                                                                                      Certificate
+                                                                                                </a>
+                                                                                                <button type="button"
+                                                                                                      class="btn btn-sm btn-link text-danger p-0 ms-2"
+                                                                                                      (click)="removePreview(i,cert.id)">
+                                                                                                      Change
+                                                                                                </button>
+                                                                                          </div>
+                                                                                          <ng-template #uploadInput>
+                                                                                                <input type="file"
+                                                                                                      class="form-control ct_input"
+                                                                                                      accept="image/*, application/pdf"
+                                                                                                      style="padding: 13px 20px;"
+                                                                                                      (change)="onFileChange($event, i)">
+                                                                                          </ng-template>
+                                                                                          {{cert.certification_type_id}}
+                                                                                    </div>
+
                                                                                     <button type="button"
-                                                                                    class="btn btn-sm btn-link text-danger p-0 ms-2"
-                                                                                    (click)="removePreview(i,cert.id)">
-                                                                                    Change
-                                                                              </button>
+                                                                                          class="ct_red_btn"
+                                                                                          (click)="removeCertificate(i, cert.id)"
+                                                                                          *ngIf="i > 0">
+                                                                                          <i class="fa fa-trash"></i>
+                                                                                    </button>
+
                                                                               </div>
-                                                                              <ng-template #uploadInput>
-                                                                                    <input type="file"
-                                                                                          class="form-control ct_input"
-                                                                                          accept="image/*, application/pdf"
-                                                                                          style="padding: 13px 20px;"
-                                                                                          (change)="onFileChange($event, i)">
-                                                                              </ng-template>
-                                                                              {{cert.certification_type_id}}
-                                                                                  </div>
-  
-                                                                                  <button type="button"
-                                                                                  class="ct_red_btn"
-                                                                                  (click)="removeCertificate(i, cert.id)"
-                                                                                  *ngIf="i > 0">
-                                                                                  <i class="fa fa-trash"></i>
-                                                                            </button>
-  
-                                                                              </div>
-  
+
                                                                         </div>
                                                                   </div>
-                                                               
+
                                                             </div>
                                                             <a type="button" class="ct_blue_text mt-3"
                                                                   (click)="addCertificate()">
@@ -252,7 +254,8 @@
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Education</h5>
 
-                                          <div class="row" *ngFor="let edu of education; let j = index">
+                                          <div class="row ct_border_btm_1 mb-3"
+                                                *ngFor="let edu of education; let j = index">
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Institute<span
@@ -265,40 +268,44 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3 ">
-                                                          <label for="" class="mb-2 ct_text_black">Degree<span
-                                                                      class="ct_red_text">*</span></label>
-                                                          <div class="d-flex align-items-center gap-2">
-  
-                                                         <div class="ct_flex_1">
-                                                          <input type="text" class="form-control ct_input"
-                                                          placeholder="Enter degree"
-                                                          [(ngModel)]="edu.degree_name"
-                                                          [ngModelOptions]="{standalone: true}">
-                                                         </div>
-                                                         <button type="button" class=" ct_red_btn"
-                                                         (click)="removeEducation(j)" *ngIf="j > 0">
-                                                         <i class="fa fa-trash"></i>
-                                                   </button>
-                                                    </div>
-                                                   
-                                                    </div>
+                                                            <label for="" class="mb-2 ct_text_black">Degree<span
+                                                                        class="ct_red_text">*</span></label>
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                  <div class="ct_flex_1">
+                                                                        <input type="text" class="form-control ct_input"
+                                                                              placeholder="Enter degree"
+                                                                              [(ngModel)]="edu.degree_name"
+                                                                              [ngModelOptions]="{standalone: true}">
+                                                                  </div>
+                                                            </div>
+                                                      </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Start year<span
                                                                         class="ct_red_text">*</span></label>
-                                                                        <input id="bday-month" type="month" class="form-control ct_input"   [(ngModel)]="edu.start_year" [ngModelOptions]="{standalone: true}"  />
- 
+                                                            <input id="bday-month" type="month"
+                                                                  class="form-control ct_input"
+                                                                  [(ngModel)]="edu.start_year"
+                                                                  [ngModelOptions]="{standalone: true}" />
+
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">End year<span
                                                                         class="ct_red_text">*</span></label>
-                                                                        <input  type="month" class="form-control ct_input"   [(ngModel)]="edu.end_year" [ngModelOptions]="{standalone: true}" />
+                                                            <input type="month" class="form-control ct_input"
+                                                                  [(ngModel)]="edu.end_year"
+                                                                  [ngModelOptions]="{standalone: true}" />
                                                       </div>
                                                 </div>
-                                               
+                                                <div class=" ms-auto mb-3">
+                                                      <button type="button" class="ms-auto ct_red_btn"
+                                                            (click)="removeEducation(j)" *ngIf="j > 0">
+                                                            <i class="fa fa-trash"></i>
+                                                      </button>
+                                                </div>
                                           </div>
                                           <a href="javascript:void(0)" class="ct_blue_text" (click)="addEducation()">+
                                                 Add Education</a>
@@ -307,8 +314,9 @@
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Experience</h5>
 
-                                          <div class="row ct_border_btm_1 mb-3" *ngFor="let exp of experience; let k = index">
-                                            
+                                          <div class="row ct_border_btm_1 mb-3"
+                                                *ngFor="let exp of experience; let k = index">
+
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Organization<span
@@ -347,13 +355,13 @@
                                                                   [ngModelOptions]="{standalone: true}">
                                                       </div>
                                                 </div>
-  
+
                                                 <div class=" ms-auto mb-3">
-                                                  <button type="button" class="ms-auto d-block ct_red_btn"
-                                                        (click)="removeExperience(k)" *ngIf="k > 0">
-                                                        <i class="fa fa-trash"></i>
-                                                  </button>
-                                            </div>
+                                                      <button type="button" class="ms-auto d-block ct_red_btn"
+                                                            (click)="removeExperience(k)" *ngIf="k > 0">
+                                                            <i class="fa fa-trash"></i>
+                                                      </button>
+                                                </div>
                                           </div>
                                           <a href="javascript:void(0)" class="ct_blue_text" (click)="addExperience()">+
                                                 Add Experience</a>
@@ -415,7 +423,8 @@
                                                             <div class="form-check d-flex align-items-center gap-2">
                                                                   <input class="form-check-input ct_custom_check"
                                                                         type="checkbox" [value]="item"
-                                                                        (change)="addSkinTypes(item)"  [checked]="isChecked(item)"
+                                                                        (change)="addSkinTypes(item)"
+                                                                        [checked]="isChecked(item)"
                                                                         id="{{item.skin_type_id}}">
                                                                   <label class="form-check-label mb-0"
                                                                         for="{{item.skin_type_id}}">
@@ -441,7 +450,8 @@
                                                             <div class="form-check d-flex align-items-center gap-2">
                                                                   <input class="form-check-input ct_custom_check"
                                                                         type="checkbox" [value]="item"
-                                                                        (change)="addSecurityLevel(item)"  [checked]="isCheckedLevels(item)"
+                                                                        (change)="addSecurityLevel(item)"
+                                                                        [checked]="isCheckedLevels(item)"
                                                                         id="{{item.severity_level_id}}">
                                                                   <label class="form-check-label mb-0"
                                                                         for="{{item.severity_level_id}}">
@@ -485,9 +495,10 @@
                                                                         formControlName="fee_per_session">
                                                                   <span class="ct_show_eye">$</span>
                                                             </div>
-                                                            <div class="text-danger mt-1" *ngIf="operationHoursForm.get('fee_per_session')?.hasError('required') && operationHoursForm.get('fee_per_session')?.touched">
+                                                            <div class="text-danger mt-1"
+                                                                  *ngIf="operationHoursForm.get('fee_per_session')?.hasError('required') && operationHoursForm.get('fee_per_session')?.touched">
                                                                   Fee per session is required.
-                                                                </div>
+                                                            </div>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -496,9 +507,10 @@
                                                                   Duration<span class="ct_red_text">*</span></label>
                                                             <input type="time" class="form-control ct_input"
                                                                   formControlName="session_duration">
-                                                                  <div class="text-danger mt-1" *ngIf="operationHoursForm.get('session_duration')?.hasError('required') && operationHoursForm.get('session_duration')?.touched">
-                                                                        Session duration is required.
-                                                                      </div>
+                                                            <div class="text-danger mt-1"
+                                                                  *ngIf="operationHoursForm.get('session_duration')?.hasError('required') && operationHoursForm.get('session_duration')?.touched">
+                                                                  Session duration is required.
+                                                            </div>
                                                       </div>
                                                 </div>
                                           </div>
@@ -520,18 +532,20 @@
                                                             <div class="form-group ct_flex_1">
                                                                   <input type="time" class="form-control ct_input"
                                                                         formControlName="start_time"
-                                                                         [ngClass]="{'is-invalid': group.errors?.['start_time'] && group.get('start_time')?.touched}">
-                                                                        <div *ngIf="group.errors?.['start_time'] && group.get('start_time')?.touched" class="text-danger">
-                                                                         {{ group.errors?.['start_time'] }}
-                                                                       </div>
+                                                                        [ngClass]="{'is-invalid': group.errors?.['start_time'] && group.get('start_time')?.touched}">
+                                                                  <div *ngIf="group.errors?.['start_time'] && group.get('start_time')?.touched"
+                                                                        class="text-danger">
+                                                                        {{ group.errors?.['start_time'] }}
+                                                                  </div>
                                                             </div>
                                                             <div class="form-group ct_flex_1">
                                                                   <input type="time" class="form-control ct_input"
                                                                         formControlName="end_time"
-                                                                         [ngClass]="{'is-invalid': group.errors?.['end_time'] && group.get('end_time')?.touched}">
-                                                                        <div *ngIf="group.errors?.['end_time'] && group.get('end_time')?.touched" class="text-danger">
-                                                                              {{ group.errors?.['end_time'] }}
-                                                                            </div>
+                                                                        [ngClass]="{'is-invalid': group.errors?.['end_time'] && group.get('end_time')?.touched}">
+                                                                  <div *ngIf="group.errors?.['end_time'] && group.get('end_time')?.touched"
+                                                                        class="text-danger">
+                                                                        {{ group.errors?.['end_time'] }}
+                                                                  </div>
                                                             </div>
                                                             <div class="col-md-2">
                                                                   <div class="form-check">
@@ -541,8 +555,8 @@
                                                                               for="closed{{i}}">Closed</label>
                                                                   </div>
                                                             </div>
-                                                       
-                                                               
+
+
 
                                                       </div>
                                                 </div>
@@ -571,6 +585,5 @@
 </section>
 
 
-<div *ngIf="filteredTreatments.length > 0 "
-      id="overLay" (click)=" filteredTreatments = []">
+<div *ngIf="filteredTreatments.length > 0 " id="overLay" (click)=" filteredTreatments = []">
 </div>

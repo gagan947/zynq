@@ -52,7 +52,7 @@ export const clinicRoutes: Routes = [
                   {
                         path: 'products/add',
                         loadComponent: () => import('../clinic_panel_components/product/add-product/add-product.component').then((m) => m.AddProductComponent),
-                        title: 'Edit Product'
+                        title: 'Add Product'
                   },
                   {
                         path: 'appointments',
