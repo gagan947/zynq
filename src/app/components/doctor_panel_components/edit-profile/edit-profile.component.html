@@ -31,7 +31,7 @@
                                         <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Personal Information</h5>
 
                                         <div class="row">
-                                              <div class="col-md-12">
+                                              <div class="col-md-6">
                                                     <div class="form-group mb-4">
                                                           <label for="" class="mb-2 ct_text_black">Full Name<span
                                                                       class="ct_red_text">*</span></label>
@@ -87,7 +87,7 @@
                                                     <label for="" class="mb-2 ct_text_black">Address<span
                                                                 class="ct_red_text">*</span></label>
                                                     <textarea type="text" class="form-control ct_input"
-                                                          formControlName="address"
+                                                          formControlName="address" 
                                                           placeholder="Enter address"></textarea>
                                                     <div *ngIf="personalForm.get('address')?.touched && personalForm.get('address')?.invalid"
                                                           class="text-danger">
@@ -97,8 +97,8 @@
                                               <div class="col-md-12 mt-2">
                                                     <label for="" class="mb-2 ct_text_black">Biography<span
                                                                 class="ct_red_text">*</span></label>
-                                                    <textarea type="text" class="form-control ct_input"
-                                                          formControlName="biography"
+                                                    <textarea type="text" class="form-control ct_input h-auto"
+                                                          formControlName="biography" rows="5"
                                                           placeholder="Enter biography"></textarea>
 
                                               </div>
