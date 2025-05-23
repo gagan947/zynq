@@ -65,12 +65,16 @@
                                                             class="form-control ct_input" disabled>
                                                 </div>
                                                 <div class="form-group mb-0">
-                                                      <iframe
+                                                      <!-- <iframe
                                                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.0660402542794!2d75.89208367590597!3d22.725786627337328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd045ddbc7af%3A0x88f1ecac09f5593e!2sUK%20Dental%20%7C%20Anand%20Bazar%20%7C%20Indore!5e0!3m2!1sen!2sin!4v1747128864829!5m2!1sen!2sin"
                                                             width="100%" height="148"
                                                             style="border:0;border-radius: 10px;" allowfullscreen=""
                                                             loading="lazy"
-                                                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                            referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+                                                      <google-map height="200px" width="100%" [center]="center"
+                                                            [zoom]="zoom">
+                                                            <map-marker [position]="center"></map-marker>
+                                                      </google-map>
                                                 </div>
                                           </div>
                                     </div>
@@ -160,6 +164,13 @@
                                                 <div class="position-relative">
                                                       <input type="email" [value]="this.clinicProfile()?.hsa_id"
                                                             class="form-control ct_input ct_input_ps_40" disabled>
+                                                      <div class="ct_input_icon_left">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                  height="20" viewBox="0 0 24 24">
+                                                                  <path fill="currentColor"
+                                                                        d="M22 3H2c-1.09.04-1.96.91-2 2v14c.04 1.09.91 1.96 2 2h20c1.09-.04 1.96-.91 2-2V5a2.074 2.074 0 0 0-2-2m0 16H2V5h20zm-8-2v-1.25c0-1.66-3.34-2.5-5-2.5s-5 .84-5 2.5V17zM9 7a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 9 12a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 9 7m5 0v1h6V7zm0 2v1h6V9zm0 2v1h4v-1z" />
+                                                            </svg>
+                                                      </div>
                                                 </div>
                                           </div>
 
@@ -169,6 +180,14 @@
                                                       <input type="email"
                                                             [value]="this.clinicProfile()?.ivo_registration_number"
                                                             class="form-control ct_input ct_input_ps_40" disabled>
+                                                      <div class="ct_input_icon_left">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                  height="20" viewBox="0 0 512 512">
+                                                                  <path fill="currentColor" fill-rule="evenodd"
+                                                                        d="m268.078 387.728l.393.3l.115.087za85.7 85.7 0 0 0 12.6 8.028a85 85 0 0 0 4.824 2.319l.058.025l.145.064a85 85 0 0 0 16.477 5.307a85 85 0 0 0 5.17.932L281.29 465.8l-39.274-16.671zm103.846-.004l26.063 61.402l-39.275 16.672l-26.06-61.396a85 85 0 0 0 11.796-2.623a84.7 84.7 0 0 0 17.16-7.26a85 85 0 0 0 4.308-2.579l.147-.094l.073-.047a85 85 0 0 0 5.443-3.811zM319.996 256C355.35 256 384 284.652 384 319.999c0 35.35-28.651 64.001-64.004 64.001C284.65 384 256 355.348 256 319.999C256 284.652 284.649 256 319.996 256M448 64v298.667h-54.081a85 85 0 0 0 6.102-12.961a84.7 84.7 0 0 0 4.886-21.123l.02-.203l.015-.153a86 86 0 0 0 .391-8.229V106.667H106.667V320h127.999l.012 1.41a87 87 0 0 0 .55 8.437a85 85 0 0 0 2.237 11.909a84 84 0 0 0 2.012 6.562a85 85 0 0 0 1.286 3.42l.1.248l.048.119a85 85 0 0 0 5.17 10.561H64V64zM319.999 298.667c-11.783 0-21.332 9.55-21.332 21.333s9.55 21.333 21.332 21.333c11.784 0 21.334-9.55 21.334-21.333s-9.55-21.333-21.334-21.333M149.333 149.333h213.334V192H149.333zm0 85.334h85.334v42.666h-85.334z"
+                                                                        opacity="0.85" />
+                                                            </svg>
+                                                      </div>
                                                 </div>
                                           </div>
                                     </div>

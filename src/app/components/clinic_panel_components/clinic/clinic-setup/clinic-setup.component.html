@@ -71,6 +71,10 @@
                                                             class="ct_text_red mt-2">
                                                             Description is required.
                                                       </span>
+                                                      <span *ngIf="Form.controls['clinic_description'].errors?.['maxlength']"
+                                                            class="ct_text_red mt-2">
+                                                            Full description is too long.
+                                                      </span>
                                                 </span>
                                           </div>
                                           <div class="form-group mb-0">

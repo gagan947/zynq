@@ -131,7 +131,7 @@ export class EditClinicProfileComponent {
       // }),
 
       website_url: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      clinic_description: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      clinic_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
 
       equipments: this.fb.array([
         this.fb.control('')

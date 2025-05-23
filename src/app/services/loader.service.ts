@@ -19,7 +19,6 @@ export class LoaderService {
     this._showLoader.next(false);
   }
 
-  // Optional: expose getter for boolean
   get isLoading(): boolean {
     return this._showLoader.getValue();
   }

@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Product, ProductResponse } from '../../../../models/products';
+import { LoaderService } from '../../../../services/loader.service';
 
 @Component({
   selector: 'app-product-management',
@@ -19,17 +20,19 @@ export class ProductManagementComponent {
   productsList: Product[] = [];
   orgProductsList: Product[] = [];
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
-  constructor(private router: Router, private service: CommonService, private toster: NzMessageService) { }
+  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private loader: LoaderService) { }
 
   ngOnInit(): void {
     this.getProductList()
   }
 
   getProductList() {
+    this.loader.show();
     this.productslist$ = this.service.get('clinic/get-all-products').pipe(tap((resp: any) => {
       if (resp.success) {
         this.orgProductsList = resp.data;
         this.productsList = [...this.orgProductsList];
+        this.loader.hide();
       }
     }));
   }
@@ -39,6 +42,7 @@ export class ProductManagementComponent {
   }
 
   deleteProduct() {
+    this.loader.show();
     this.service.delete<any>(`clinic/delete-product/${this.ProductId}`).subscribe({
       next: (resp) => {
         if (resp.success) {
@@ -46,12 +50,15 @@ export class ProductManagementComponent {
           this.getProductList()
           this.closeButton.nativeElement.click();
           this.ProductId = undefined;
+          this.loader.hide();
         } else {
           this.toster.error(resp.message)
+          this.loader.hide();
         }
       },
       error: (error) => {
         this.toster.error(error);
+        this.loader.hide();
       }
     })
   }
