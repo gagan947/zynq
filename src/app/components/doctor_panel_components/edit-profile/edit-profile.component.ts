@@ -51,7 +51,9 @@ export class EditProfileComponent {
   treatments: Treatment[] = [];
   education: any[] = [{
     institution: null,
-    degree_name: null
+    degree_name: null,
+    start_year: null,
+    end_year: null
   }];
   experience: any[] = [{
     organisation_name: null,
@@ -76,7 +78,7 @@ export class EditProfileComponent {
   ngOnInit(): void {
     this.personalForm = this.fb.group({
       fullName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      phone: ['', [Validators.required]],
       age: ['', [Validators.required, Validators.min(1)]],
       gender: ['', Validators.required],
       address: ['', Validators.required],
@@ -117,7 +119,7 @@ export class EditProfileComponent {
         this.certificates = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path, id: cert.doctor_certification_id }));
       }
       if (data.education.length > 0) {
-        this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree }));
+        this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year }));
       }
       if (data.experience.length > 0) {
         this.experience = data.experience.map(edu => ({
@@ -197,9 +199,16 @@ export class EditProfileComponent {
 
       }
 
-      const isValidEdu = this.education.every(c => c.institution && c.degree_name);
+      const isValidEdu = this.education.every(c =>
+        c.institution &&
+        c.degree_name &&
+        c.start_year &&
+        c.end_year &&
+        c.end_year > c.start_year // "2025-06" > "2025-05" works with string comparison
+      );
+      
       if (!isValidEdu) {
-        this.toster.warning('Please enter both institution and degree name for all entries.');
+        this.toster.warning('Please enter valid education details. End date must be after start date.');
         return;
       }
       const isValidExp = this.experience.every(c => c.organisation_name && c.start_date && c.end_date && c.designation);
@@ -262,7 +271,9 @@ export class EditProfileComponent {
     const formData = new FormData();
     const education = this.education.map(edu => ({
       institute: edu.institution,
-      degree: edu.degree_name
+      degree: edu.degree_name,
+      start_year : edu.start_year,
+      end_year : edu.end_year
     }));
     const experience = this.experience.map(exp => ({
       organization: exp.organisation_name,
@@ -454,7 +465,8 @@ export class EditProfileComponent {
   };
 
   addEducation() {
-    this.education.push({ institution: null, degree_name: null });
+    this.education.push({ institution: null, degree_name: null, start_year: null,
+      end_year: null });
   }
   addExperience() {
     this.experience.push({
