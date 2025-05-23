@@ -111,7 +111,7 @@ export class ProfileSetupComponent {
         biography: data.biography
       });
       if (data.certifications.length > 0) {
-        this.certificates = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path }));
+        this.certificates = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path, id: cert.doctor_certification_id }));
       }
       if (data.education.length > 0) {
         this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree }));
@@ -366,8 +366,11 @@ export class ProfileSetupComponent {
     reader.readAsDataURL(file);
   };
 
-  removePreview(index: number) {
+  removePreview(index: number,id:any) {
     this.certificates[index].previewUrl = null;
+    if(id){
+      this.deleteCertificate(id)
+    }
   }
 
   removeImage() {
@@ -389,7 +392,7 @@ export class ProfileSetupComponent {
   }
 
   removeCertificate(index: number,id:any) {
-    console.log(id);
+   
     this.certificates.splice(index, 1);
     if(id){
       this.deleteCertificate(id)
@@ -511,8 +514,8 @@ export class ProfileSetupComponent {
 
 
 deleteCertificate(id: any) {
-  this.apiService.get<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
-    console.log(res);
+  this.apiService.delete<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
+   
   });
 }
 

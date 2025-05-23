@@ -6,11 +6,12 @@ import { DoctorProfileResponse } from '../../../models/doctorProfile';
 import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { LoaderService } from '../../../services/loader.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dr-profile',
   standalone: true,
-  imports: [ RouterLink, CommonModule],
+  imports: [ RouterLink, CommonModule,FormsModule],
   templateUrl: './dr-profile.component.html',
   styleUrl: './dr-profile.component.css'
 })

@@ -212,10 +212,10 @@
                                                                                           View Uploaded Certificate
                                                                                     </a>
                                                                                     <button type="button"
-                                                                                          class="btn btn-sm btn-link text-danger p-0 ms-2"
-                                                                                          (click)="removePreview(i)">
-                                                                                          Change
-                                                                                    </button>
+                                                                                    class="btn btn-sm btn-link text-danger p-0 ms-2"
+                                                                                    (click)="removePreview(i,cert.id)">
+                                                                                    Change
+                                                                              </button>
                                                                               </div>
                                                                               <ng-template #uploadInput>
                                                                                     <input type="file"
@@ -229,7 +229,7 @@
   
                                                                                   <button type="button"
                                                                                   class="ct_red_btn"
-                                                                                  (click)="removeCertificate(i,cert.doctor_certification_id)"
+                                                                                  (click)="removeCertificate(i, cert.id)"
                                                                                   *ngIf="i > 0">
                                                                                   <i class="fa fa-trash"></i>
                                                                             </button>
@@ -554,3 +554,8 @@
             </div>
       </div>
 </section>
+
+
+<div *ngIf="filteredTreatments.length > 0 "
+      id="overLay" (click)=" filteredTreatments = []">
+</div>

@@ -115,7 +115,8 @@
                                         <div class="form-group mb-3">
                                             <label for="" class="mb-2 ct_text_black">End Date<span
                                                     class="ct_red_text">*</span></label>
-                                            <input type="date" class="form-control ct_input" value="{{exp.end_date}}" disabled>
+                                            <input type="date" class="form-control ct_input" [(ngModel)]="exp.end_date"
+                                            [ngModelOptions]="{standalone: true}" disabled>
                                         </div>
                                     </div>
                                 </div>
