@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CommonModule, Location } from '@angular/common';
 import { NoWhitespaceDirective } from '../../../../validators';
 import { Product, ProductImage } from '../../../../models/products';
+import { LoaderService } from '../../../../services/loader.service';
 
 @Component({
   selector: 'app-add-product',
@@ -29,7 +30,7 @@ export class AddProductComponent {
   @ViewChild('featureInput') featureInput!: ElementRef<HTMLButtonElement>
   @ViewChild('BenefitInput') BenefitInput!: ElementRef<HTMLButtonElement>
   @ViewChild('ingredientInput') ingredientInput!: ElementRef<HTMLButtonElement>
-  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private fb: FormBuilder, public location: Location, private route: ActivatedRoute) {
+  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private fb: FormBuilder, public location: Location, private route: ActivatedRoute, private loader: LoaderService) {
     this.Form = this.fb.group({
       name: ['', [Validators.required, NoWhitespaceDirective.validate]],
       price: ['', [Validators.required]],
@@ -146,7 +147,7 @@ export class AddProductComponent {
       this.Form.markAllAsTouched();
       return
     }
-
+    this.loader.show();
     const formData = new FormData();
     formData.append('name', this.Form.value.name);
     formData.append('stock', this.Form.value.stock);
@@ -174,11 +175,14 @@ export class AddProductComponent {
       if (res.success) {
         this.toster.success(res.message);
         this.router.navigate(['/clinic/products']);
+        this.loader.hide()
       } else {
         this.toster.error(res.message);
+        this.loader.hide()
       }
     }, (error) => {
       this.toster.error(error);
+      this.loader.hide()
     })
   }
 

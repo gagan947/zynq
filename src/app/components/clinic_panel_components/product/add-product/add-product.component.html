@@ -8,7 +8,7 @@
                               <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Product
                                           Management </span>
                                     <span class="ct_text_op_07 ct_fs_16"> /
-                                          Add New Product</span>
+                                          {{productId ? 'Update' : 'Add New'}} Product</span>
                               </h4>
                         </div>
                         <form [formGroup]="Form" (ngSubmit)="onSubmit()">
@@ -259,7 +259,7 @@
                               </div>
                               <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
                                     <button class="ct_outline_btn">Cancel</button>
-                                    <button class="ct_black_btn">Add Product</button>
+                                    <button class="ct_black_btn">{{productId ? 'Update' : 'Add Product'}}</button>
 
                               </div>
                         </form>

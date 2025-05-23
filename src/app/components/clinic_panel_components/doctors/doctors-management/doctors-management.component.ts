@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CommonModule } from '@angular/common';
 import { Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { LoaderService } from '../../../../services/loader.service';
 @Component({
   selector: 'app-doctors-management',
   standalone: true,
@@ -29,7 +30,8 @@ export class DoctorsManagementComponent {
     private service: CommonService,
     private toster: NzMessageService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private loader: LoaderService
   ) {
     this.Form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -42,11 +44,14 @@ export class DoctorsManagementComponent {
   }
 
   getDoctors() {
+    this.loader.show();
     this.service.get<DoctorResponse>(`clinic/get-all-doctors`).subscribe(res => {
       if (res.success) {
         this.doctorsList = this.orgDoctorsList = res.data;
+        this.loader.hide();
       } else {
         this.doctorsList = this.orgDoctorsList = [];
+        this.loader.hide();
       }
     });
   }
@@ -84,18 +89,22 @@ export class DoctorsManagementComponent {
   }
 
   unlinkDoctor() {
+    this.loader.show();
     this.service.post<any, any>('clinic/unlink-doctor', { doctor_id: this.doctorId }).subscribe({
       next: (resp) => {
         if (resp.success) {
           this.toster.success(resp.message)
           this.getDoctors();
           this.closeButton2.nativeElement.click();
+          this.loader.hide();
         } else {
           this.toster.error(resp.message)
+          this.loader.hide();
         }
       },
       error: (error) => {
         this.toster.error(error);
+        this.loader.hide();
       }
     })
   }

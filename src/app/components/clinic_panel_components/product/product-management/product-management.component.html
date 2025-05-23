@@ -59,7 +59,7 @@
                                     </thead>
                                     <tbody>
                                           @if(productslist$ | async; as products){
-                                          @if(products.data.length == 0){
+                                          @if(productsList.length == 0){
                                           <tr>
                                                 <td colspan="6" class="text-center">No Products Found</td>
                                           </tr>

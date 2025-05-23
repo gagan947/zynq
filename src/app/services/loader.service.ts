@@ -10,16 +10,13 @@ export class LoaderService {
   showLoader$ = this._showLoader.asObservable();
 
   show() {
-    console.log('show loader');
     this._showLoader.next(true);
   }
 
   hide() {
-    console.log('hide loader');
     this._showLoader.next(false);
   }
 
-  // Optional: expose getter for boolean
   get isLoading(): boolean {
     return this._showLoader.getValue();
   }

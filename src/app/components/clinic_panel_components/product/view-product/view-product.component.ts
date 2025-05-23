@@ -7,6 +7,7 @@ import { CurrencyPipe } from '@angular/common';
 import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { FormsModule } from '@angular/forms';
+import { LoaderService } from '../../../../services/loader.service';
 
 @Component({
   selector: 'app-view-product',
@@ -44,10 +45,11 @@ export class ViewProductComponent {
     this.mainCarousel?.to(slideId);
   }
 
-  constructor(private service: CommonService, private route: ActivatedRoute, private toster: NzMessageService) {
+  constructor(private service: CommonService, private route: ActivatedRoute, private toster: NzMessageService, private loader: LoaderService) {
     this.route.queryParams.subscribe(param => {
       this.productId = param['id'];
       if (this.productId) {
+        this.loader.show();
         this.getProductById();
       }
     })
@@ -64,11 +66,14 @@ export class ViewProductComponent {
         this.selectedSizes = this.productData?.size_label.split(',') || [];
         this.selectedBenefits = this.productData?.benefit_text.split(',') || [];
         this.selectedIngredients = this.productData?.ingredients.split(',') || [];
+        this.loader.hide();
       } else {
         this.toster.error(res.message);
+        this.loader.hide();
       }
     }, (error) => {
       this.toster.error(error);
+      this.loader.hide();
     })
   }
 }
