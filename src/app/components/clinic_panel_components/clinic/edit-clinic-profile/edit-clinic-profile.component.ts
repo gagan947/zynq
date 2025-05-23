@@ -57,7 +57,6 @@ export class EditClinicProfileComponent {
   constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, public location: Location) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     effect(() => {
-      console.log(this.clinicProfile());
       if (this.clinicProfile()) {
         this.patchValue();
       }
@@ -243,7 +242,6 @@ export class EditClinicProfileComponent {
     } else {
       this.selectedSkinTypes.splice(index, 1);
     }
-    console.log(this.selectedSkinTypes);
   }
   getSecurityLevel() {
     this.service.get<SecurityLevelResponse>(`clinic/get-severity-levels`).subscribe((res) => {
@@ -311,7 +309,6 @@ export class EditClinicProfileComponent {
   onLogoImage(event: any) {
     const file = event.target.files[0];
     this.LogoImage = file;
-    console.log(file);
     const reader = new FileReader();
     reader.onload = () => {
       this.logoPreview = reader.result as string;

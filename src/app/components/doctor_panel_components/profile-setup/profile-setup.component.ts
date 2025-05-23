@@ -36,7 +36,7 @@ function operationHoursValidator(group: AbstractControl): ValidationErrors | nul
   styleUrl: './profile-setup.component.css'
 })
 export class ProfileSetupComponent {
- 
+
   personalForm!: FormGroup;
   operationHoursForm!: FormGroup;
   daysOfWeek: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -66,23 +66,23 @@ export class ProfileSetupComponent {
   securityLevel: SecurityLevel[] = []
   selectedSecurityLevel: SecurityLevel[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router) { 
-    
+  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router) {
+
   }
 
 
   ngOnInit(): void {
-  
+
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/),NoWhitespaceDirective.validate]],
-      age: ['', [Validators.required, Validators.min(1),NoWhitespaceDirective.validate]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/), NoWhitespaceDirective.validate]],
+      age: ['', [Validators.required, Validators.min(1), NoWhitespaceDirective.validate]],
       gender: ['', Validators.required],
-      address: ['', [Validators.required,NoWhitespaceDirective.validate]],
+      address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       biography: ['']
     });
     this.operationHoursForm = this.fb.group({
-      fee_per_session: ['', [Validators.required,NoWhitespaceDirective.validate]],
+      fee_per_session: ['', [Validators.required, NoWhitespaceDirective.validate]],
       session_duration: ['', Validators.required],
       operation_hours: this.fb.array([])
     });
@@ -131,10 +131,10 @@ export class ProfileSetupComponent {
       if (data.severityLevels.length > 0) {
         this.selectedSecurityLevel = data.severityLevels.map(edu => ({ severity_level_id: edu.severity_level_id, level: edu.level }));
       }
-      if(data.profile_image != null && data.profile_image != ''){ 
+      if (data.profile_image != null && data.profile_image != '') {
         this.imagePreview = data.profile_image;
       }
-      
+
       this.currentStep = data.on_boarding_status;
 
 
@@ -170,7 +170,7 @@ export class ProfileSetupComponent {
   }
 
   nextStep() {
- 
+
     if (this.currentStep == 0 && this.personalForm.invalid) {
       this.personalForm.markAllAsTouched();
       return
@@ -180,7 +180,6 @@ export class ProfileSetupComponent {
     };
     if (this.currentStep == 1) {
       const previewFiles = this.certificates.filter(c => c.previewUrl);
-      console.log(previewFiles);
       if (previewFiles.length == 0) {
         const isValidCer = this.certificates.every(c => c.type && c.file);
         if (!isValidCer) {
@@ -189,7 +188,7 @@ export class ProfileSetupComponent {
         }
 
       } else {
-      
+
 
       }
 
@@ -286,7 +285,6 @@ export class ProfileSetupComponent {
 
   };
   onExpertiseSubmit() {
-    console.log(this.selectedTreatments);
     const formData = {
       treatment_ids: this.selectedTreatments.map(treatment => treatment.treatment_id).toString(),
       skin_type_ids: this.selectedSkinTypes.map(skinType => skinType.skin_type_id).toString(),
@@ -307,7 +305,6 @@ export class ProfileSetupComponent {
   };
 
   onTimeSubmit() {
-    console.log(this.operationHoursForm);
     if (this.operationHoursForm.valid) {
       const formValue = this.operationHoursForm.value;
       var payload = formValue.operation_hours
@@ -318,8 +315,6 @@ export class ProfileSetupComponent {
           end_time: entry.closed ? '' : entry.end_time,
           closed: entry.closed ? 1 : 0
         }));
-
-      console.log('Payload:', payload);
       const formData = {
         fee_per_session: this.operationHoursForm.value.fee_per_session,
         currency: 'INR',
@@ -348,8 +343,6 @@ export class ProfileSetupComponent {
         group.markAllAsTouched();  // Important: mark nested controls as touched
         group.updateValueAndValidity(); // Important: to re-evaluate custom validators
       });
-
-      console.log('Form is invalid');
     }
   }
 
@@ -388,10 +381,9 @@ export class ProfileSetupComponent {
     this.certificates.push({ type: '', file: null });
   }
 
-  removeCertificate(index: number,id:any) {
-    console.log(id);
+  removeCertificate(index: number, id: any) {
     this.certificates.splice(index, 1);
-    if(id){
+    if (id) {
       this.deleteCertificate(id)
     }
   }
@@ -465,7 +457,6 @@ export class ProfileSetupComponent {
 
   searchTratment(event: any) {
     this.filteredTreatments = this.treatments.filter((item) => item.name.toLowerCase().includes(event.target.value.toLowerCase()));
-    console.log(this.filteredTreatments);
     if (this.filteredTreatments.length === 0 || event.target.value === '') {
       this.filteredTreatments = [];
     }
@@ -494,14 +485,12 @@ export class ProfileSetupComponent {
   }
 
   addSecurityLevel(securityLavel: SecurityLevel) {
-    debugger
     const index = this.selectedSecurityLevel.findIndex((item) => item.severity_level_id === securityLavel.severity_level_id);
     if (index === -1) {
       this.selectedSecurityLevel.push(securityLavel);
     } else {
       this.selectedSecurityLevel.splice(index, 1);
     }
-    console.log(this.selectedSecurityLevel);
   };
 
 
@@ -510,11 +499,10 @@ export class ProfileSetupComponent {
   }
 
 
-deleteCertificate(id: any) {
-  this.apiService.get<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
-    console.log(res);
-  });
-}
+  deleteCertificate(id: any) {
+    this.apiService.get<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
+    });
+  }
 
 
 
