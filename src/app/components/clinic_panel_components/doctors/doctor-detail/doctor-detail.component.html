@@ -31,7 +31,7 @@
                                                                   {{doctorDetail()?.doctor_id}}
                                                             </p> -->
                                                       </div>
-                                                      <div class="">
+                                                      <div class="d-flex gap-2 align-items-center">
                                                             <h4 class="ct_fs_20 ct_fw_600 mb-1">
                                                                   {{doctorDetail()?.fee_per_session | currency:'USD'}}
                                                             </h4>
@@ -41,8 +41,10 @@
                                                 </div>
                                                 <div class="d-flex align-items-center gap-3 mt-2 flex-wrap">
                                                       <p class="mb-0 ct_fs_16"><i
-                                                                  class="fa-regular fa-clock me-1 ct_grey_text"></i>{{getTotalExperience(doctorDetail()!.experience)}}
-                                                            years
+                                                                  class="fa-regular fa-clock me-1 ct_grey_text"></i>{{getTotalExperience(doctorDetail()!.experience).diffYears}}
+                                                            year
+                                                            {{(getTotalExperience(doctorDetail()!.experience).diffMonths) - (getTotalExperience(doctorDetail()!.experience).diffYears * 12) }}
+                                                            months
                                                             experience
                                                       </p>
                                                       <div class="d-flex align-items-center gap-2">
@@ -117,7 +119,7 @@
                                                 <p class="mb-0 ct_grey_text ct_fs_14">
                                                       {{item.start_date | date:'MMM yyyy'}} -
                                                       {{item.end_date | date:'MMM yyyy'}} ({{getCount(item.start_date,
-                                                      item.end_date).diffYears}} years {{(getCount(item.start_date,
+                                                      item.end_date).diffYears}} year {{(getCount(item.start_date,
                                                       item.end_date).diffMonths) - (getCount(item.start_date, item.end_date).diffYears * 12) }}
                                                       months)
                                                 </p>
@@ -137,8 +139,10 @@
                                                 </h6>
                                                 <p class="mb-0 ct_grey_text ct_fs_14">{{item.institution}}
                                                 </p>
-                                                <!-- <small class="ct_grey_text">{{item.start_year}} -
-                                                      {{item.end_year}}</small> -->
+                                                <p class="ct_grey_text ct_fs_14 mb-0">
+                                                      {{item.start_year | date:'MMM yyyy'}} -
+                                                      {{item.end_year | date:'MMM yyyy'}}
+                                                </p>
                                           </li>
                                           }
                                     </ul>

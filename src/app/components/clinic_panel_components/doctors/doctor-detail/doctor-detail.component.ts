@@ -42,9 +42,13 @@ export class DoctorDetailComponent {
   }
 
   getTotalExperience(experience: DoctorExperience[]) {
-    let totalExperience = 0;
+    let totalExperience = {
+      diffYears: 0,
+      diffMonths: 0
+    };
     experience.forEach((item: DoctorExperience) => {
-      totalExperience += this.getCount(item.start_date, item.end_date).diffYears;
+      totalExperience.diffYears += this.getCount(item.start_date, item.end_date).diffYears;
+      totalExperience.diffMonths += this.getCount(item.start_date, item.end_date).diffMonths;
     });
     return totalExperience;
   }
