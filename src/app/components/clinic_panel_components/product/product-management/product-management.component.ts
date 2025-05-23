@@ -19,6 +19,7 @@ export class ProductManagementComponent {
   ProductId: string | undefined;
   productsList: Product[] = [];
   orgProductsList: Product[] = [];
+  imagePreview: string = 'assets/img/np_pro.png';
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
   constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private loader: LoaderService) { }
 
@@ -71,6 +72,12 @@ export class ProductManagementComponent {
       );
     } else {
       this.productsList = [...this.orgProductsList];
+    }
+  }
+
+  openModal(imageUrl: string | undefined) {
+    if (imageUrl) {
+      this.imagePreview = imageUrl
     }
   }
 }

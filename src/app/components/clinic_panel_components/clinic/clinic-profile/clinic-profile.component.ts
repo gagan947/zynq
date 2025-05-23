@@ -15,6 +15,7 @@ export class ClinicProfileComponent {
   clinicProfile = this.service._clinicProfile;
   center: google.maps.LatLngLiteral = { lat: 28.6139, lng: 77.2090 };
   zoom = 12;
+  imagePreview: string = 'assets/img/doctor.png';
   constructor(private fb: FormBuilder, private service: CommonService) {
     effect(() => {
       this.clinicProfile();
@@ -31,5 +32,11 @@ export class ClinicProfileComponent {
 
   getMaxVal(range: string | undefined) {
     return JSON.parse(range || '{}').max
+  }
+
+  openModal(imageUrl: string | undefined) {
+    if (imageUrl) {
+      this.imagePreview = imageUrl
+    }
   }
 }

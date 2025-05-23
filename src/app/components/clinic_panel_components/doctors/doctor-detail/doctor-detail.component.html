@@ -16,7 +16,8 @@
                                     <div class="d-flex  gap-4 ct_flex_1 ">
                                           <div class="ct_big_user_img">
                                                 <img [src]="doctorDetail()?.profile_image ? doctorDetail()?.profile_image : 'assets/img/doctor.png'"
-                                                      alt="" data-bs-toggle="modal" data-bs-target="#full_view_img">
+                                                      alt="" data-bs-toggle="modal" data-bs-target="#full_view_img"
+                                                      (click)="openModal(doctorDetail()?.profile_image)">
                                           </div>
                                           <div class="ct_flex_1">
                                                 <div class="d-flex  gap-3 justify-content-between flex-wrap">
@@ -162,7 +163,7 @@
                   </div>
                   <div class="modal-body">
                         <div class="ct_full_view_img">
-                              <img src="../assets/img/user_3.png" alt="">
+                              <img [src]="imagePreview" alt="">
                         </div>
                   </div>
 

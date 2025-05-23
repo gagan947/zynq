@@ -1,20 +1,19 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, effect } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { NoWhitespaceDirective, timeRangeValidator } from '../../../../validators';
+import { Router } from '@angular/router';
+import { NoWhitespaceDirective } from '../../../../validators';
 import { CommonService } from '../../../../services/common.service';
 import { CertificationType, EquipmentType, EquipmentTypeResponse, SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { LoginUserData } from '../../../../models/login';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ClinicProfile, ClinicProfileResponse } from '../../../../models/clinic-profile';
 
 @Component({
   selector: 'app-edit-clinic-profile',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule],
   templateUrl: './edit-clinic-profile.component.html',
   styleUrl: './edit-clinic-profile.component.css'
 })
@@ -79,7 +78,7 @@ export class EditClinicProfileComponent {
       ivo_registration_number: [''],
       hsa_id: [''],
       email: ['', [Validators.required, Validators.email]],
-      mobile_number: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      mobile_number: ['+46', [Validators.required, NoWhitespaceDirective.validate]],
       street_address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       city: ['', [Validators.required, NoWhitespaceDirective.validate]],
       state: ['', [Validators.required, NoWhitespaceDirective.validate]],

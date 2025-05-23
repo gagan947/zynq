@@ -15,6 +15,7 @@ import { Location } from '@angular/common';
 })
 export class DoctorDetailComponent {
   doctorDetail = this.service._doctorDetail;
+  imagePreview: string = 'assets/img/doctor.png';
   constructor(private service: CommonService, public location: Location) {
     effect(() => {
       this.doctorDetail();
@@ -46,5 +47,11 @@ export class DoctorDetailComponent {
       totalExperience += this.getCount(item.start_date, item.end_date).diffYears;
     });
     return totalExperience;
+  }
+
+  openModal(imageUrl: string | undefined) {
+    if (imageUrl) {
+      this.imagePreview = imageUrl
+    }
   }
 }

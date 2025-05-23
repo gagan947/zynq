@@ -33,8 +33,8 @@ export class AddProductComponent {
   constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private fb: FormBuilder, public location: Location, private route: ActivatedRoute, private loader: LoaderService) {
     this.Form = this.fb.group({
       name: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      price: ['', [Validators.required]],
-      stock: ['', [Validators.required]],
+      price: ['', [Validators.required, Validators.min(0)]],
+      stock: ['', [Validators.required, Validators.min(1)]],
       short_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(100)]],
       full_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
       feature_text: [''],
@@ -59,7 +59,7 @@ export class AddProductComponent {
 
   addFeature(feature: string) {
     if (!this.selectedFeatures.includes(feature)) {
-      if (feature != '') {
+      if (feature.trim() != '') {
         this.selectedFeatures.push(feature.trim());
         this.featureInput.nativeElement.value = '';
       }
@@ -74,7 +74,7 @@ export class AddProductComponent {
 
   addBenefit(benifit: string) {
     if (!this.selectedBenefits.includes(benifit)) {
-      if (benifit != '') {
+      if (benifit.trim() != '') {
         this.selectedBenefits.push(benifit.trim());
         this.BenefitInput.nativeElement.value = '';
       }
@@ -89,7 +89,7 @@ export class AddProductComponent {
 
   addIngredient(Ingredient: string) {
     if (!this.selectedIngredients.includes(Ingredient)) {
-      if (Ingredient != '') {
+      if (Ingredient.trim() != '') {
         this.selectedIngredients.push(Ingredient.trim());
         this.ingredientInput.nativeElement.value = '';
       }

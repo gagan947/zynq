@@ -25,7 +25,8 @@
                               <div class="d-flex align-items-center gap-4">
                                     <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/doctor.png'"
                                           alt="" class="ct_flex_shrink_0 ct_medicare_logo ct_cursor_pointer"
-                                          data-bs-toggle="modal" data-bs-target="#full_view_img">
+                                          data-bs-toggle="modal" data-bs-target="#full_view_img"
+                                          (click)="openModal(this.clinicProfile()?.clinic_logo)">
                                     <div>
                                           <h5 class="ct_fs_20 ct_fw_600 mb-1">{{this.clinicProfile()?.clinic_name}}</h5>
                                           <p class="mb-0 ct_grey_text">{{this.clinicProfile()?.clinic_description}}
@@ -307,6 +308,27 @@
                               </div>
                         </div>
                   </div>
+            </div>
+      </div>
+</div>
+
+<div class="modal fade modal-md" id="full_view_img" tabindex="-1" aria-labelledby="full_view_imgLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                  <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0" id="full_view_imgLabel">
+                              Image Preview
+                        </h5>
+                        <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                        <div class="ct_full_view_img">
+                              <img [src]="imagePreview" alt="">
+                        </div>
+                  </div>
+
             </div>
       </div>
 </div>

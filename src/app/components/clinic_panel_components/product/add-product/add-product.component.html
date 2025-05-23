@@ -40,6 +40,10 @@
                                                                   class="ct_text_red mt-2">
                                                                   Price is required.
                                                             </span>
+                                                            <span *ngIf="Form.controls['price'].errors?.['min']"
+                                                                  class="ct_text_red mt-2">
+                                                                  Minimum price should be 0.
+                                                            </span>
                                                       </span>
                                                 </div>
                                           </div>
@@ -53,6 +57,10 @@
                                                             <span *ngIf="Form.controls['stock'].errors?.['required']"
                                                                   class="ct_text_red mt-2">
                                                                   Stock is required.
+                                                            </span>
+                                                            <span *ngIf="Form.controls['stock'].errors?.['min']"
+                                                                  class="ct_text_red mt-2">
+                                                                  Minimum stock should be 1.
                                                             </span>
                                                       </span>
                                                 </div>
@@ -103,7 +111,7 @@
                                                             stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
 
-                                                <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload your image
+                                                <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload product images
                                                       here</p>
                                                 <label for="ct_upload_product">
                                                       <input type="file" name="" id="ct_upload_product" class="d-none"

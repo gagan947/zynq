@@ -79,7 +79,7 @@ export class ClinicSetupComponent {
       ivo_registration_number: [''],
       hsa_id: [''],
       email: ['', [Validators.required, Validators.email]],
-      mobile_number: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      mobile_number: ['+46', [Validators.required, NoWhitespaceDirective.validate]],
       street_address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       city: ['', [Validators.required, NoWhitespaceDirective.validate]],
       state: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -260,7 +260,7 @@ export class ClinicSetupComponent {
 
   addDrEmail(email: string) {
     if (!this.selectedDrEmail.includes(email)) {
-      if (email != '') {
+      if (email.trim() != '') {
         this.selectedDrEmail.push(email.trim());
         this.drEmail.nativeElement.value = '';
       }
@@ -311,7 +311,7 @@ export class ClinicSetupComponent {
   }
 
   searchLocation(event: any) {
-    this.service.get<any>(`clinic/search-location?input=${event.target.value}`).subscribe((res) => {
+    this.service.get<any>(`clinic/search-location?input=${event.target.value.trim()}`).subscribe((res) => {
       this.locations = res.data
     })
   }
