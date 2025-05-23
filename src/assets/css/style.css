@@ -246,6 +246,7 @@ input[type="number"] {
 .ct_py_100 {
   padding-block: 100px;
 }
+
 .ct_py_50 {
   padding-block: 50px;
 }
@@ -484,7 +485,7 @@ section.ct_login_main {
 .ct_upload_product_main {
   border: 2px dashed #d1d5db;
   border-radius: 5px;
-  height: 200px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -909,7 +910,7 @@ header {
 }
 
 .ct_upload_product_main_180 {
-  height: 180px;
+  height: 150px;
 }
 
 .ct_multiple_img_div {
