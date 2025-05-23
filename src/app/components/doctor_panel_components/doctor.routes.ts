@@ -1,17 +1,18 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
+import { DashboardGuard } from '../../guards/dashboard.guard';
 
 
 export const doctorRoutes: Routes = [
       {
             path: 'profile-setup',
-            canActivate: [],
-            // data: { roles: ['clinic'] },
+            canActivate: [AuthGuard],
+            data: { roles: ['doctor'] },
             loadComponent: () => import('../doctor_panel_components/profile-setup/profile-setup.component').then(m => m.ProfileSetupComponent)
       },
       {
             path: '',
-            canActivate: [AuthGuard],
+            canActivate: [DashboardGuard],
             data: { roles: ['doctor'] },
             loadComponent: () => import('../main/main.component').then(m => m.MainComponent),
             children: [

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
+import { DashboardGuard } from '../../guards/dashboard.guard';
 
 export const clinicRoutes: Routes = [
       {
@@ -10,7 +11,7 @@ export const clinicRoutes: Routes = [
       },
       {
             path: '',
-            canActivate: [AuthGuard],
+            canActivate: [DashboardGuard],
             data: { roles: ['clinic'] },
             loadComponent: () => import('../main/main.component').then(m => m.MainComponent),
             children: [

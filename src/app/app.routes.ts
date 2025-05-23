@@ -16,6 +16,11 @@ export const routes: Routes = [
             canActivate: [LoginGuard],
       },
       {
+            path: 'set-password',
+            loadComponent: () => import('./components/auth/set-password/set-password.component').then((m) => m.SetPasswordComponent),
+            title: 'Password Setup',
+      },
+      {
             path: 'unauthorized',
             loadComponent: () => import('./components/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent)
       },

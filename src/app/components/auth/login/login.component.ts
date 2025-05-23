@@ -18,7 +18,7 @@ export class LoginComponent {
   Form!: FormGroup;
   isPasswordVisible: boolean = false;
   loading: boolean = false;
-  public publicRoleId:string ='';
+  public publicRoleId: string = '';
 
   constructor(private router: Router, private srevice: CommonService, private toster: NzMessageService, private auth: AuthService) {
 
@@ -48,17 +48,21 @@ export class LoginComponent {
       this.srevice.post<LoginResponse, any>('webuser/login', formData).subscribe({
         next: (resp) => {
           if (resp.success == true) {
-            this.auth.setValues(resp.data.jwt_token, resp.data.role_id,resp.data);
+            this.auth.setValues(resp.data.jwt_token, resp.data.role_id, resp.data);
             if (resp.data.role_id == '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {
               if (resp.data.is_onboarded === 1) {
                 this.router.navigateByUrl('/clinic')
+              } else if (resp.data.is_password_set === 0) {
+                this.router.navigateByUrl('/set-password')
               } else {
                 this.router.navigateByUrl('/clinic/profile-setup')
               }
             } else if (resp.data.role_id == '3677a3e6-3196-11f0-9e07-0e8e5d906eef') {
-              if(resp.data.on_boarding_status ==4){
+              if (resp.data.on_boarding_status == 4) {
                 this.router.navigateByUrl('/doctor')
-              }else{
+              } else if (resp.data.is_password_set === 0) {
+                this.router.navigateByUrl('/set-password')
+              } else {
                 this.router.navigateByUrl('/doctor/profile-setup')
               }
             }
