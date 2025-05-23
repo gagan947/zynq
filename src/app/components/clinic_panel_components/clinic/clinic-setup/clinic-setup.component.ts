@@ -10,6 +10,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { LoginUserData } from '../../../../models/login';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ClinicProfile, ClinicProfileResponse } from '../../../../models/clinic-profile';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-clinic-setup',
@@ -57,7 +58,7 @@ export class ClinicSetupComponent {
     ['treatments', 'equipments', 'skin_types', 'severity_levels', 'fee_range', 'language']
   ];
 
-  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router) {
+  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
   }
@@ -414,6 +415,9 @@ export class ClinicSetupComponent {
           this.service.post<any, any>('clinic/onboard-clinic', formData).subscribe({
             next: (res) => {
               if (res.status) {
+                let data = this.auth.getUserInfo()
+                data.is_onboarded = 1
+                localStorage.setItem('userInfo', JSON.stringify(data));
                 this.toster.success(resp.message);
                 this.router.navigate(['/clinic']);
               }

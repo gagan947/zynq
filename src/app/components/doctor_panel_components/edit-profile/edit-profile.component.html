@@ -262,7 +262,8 @@
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Education</h5>
 
-                                          <div class="row" *ngFor="let edu of education; let j = index">
+                                          <div class="row ct_border_btm_1 mb-3"
+                                                *ngFor="let edu of education; let j = index">
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Institute<span
@@ -285,7 +286,7 @@
                                                                               [(ngModel)]="edu.degree_name"
                                                                               [ngModelOptions]="{standalone: true}">
                                                                   </div>
-                                                                  
+
                                                             </div>
 
                                                       </div>
@@ -294,20 +295,27 @@
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Start year<span
                                                                         class="ct_red_text">*</span></label>
-                                                                        <input id="bday-month" type="month" class="form-control ct_input"   [(ngModel)]="edu.start_year" [ngModelOptions]="{standalone: true}"  />
- 
+                                                            <input id="bday-month" type="month"
+                                                                  class="form-control ct_input"
+                                                                  [(ngModel)]="edu.start_year"
+                                                                  [ngModelOptions]="{standalone: true}" />
+
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">End year<span
                                                                         class="ct_red_text">*</span></label>
-                                                                        <input  type="month" class="form-control ct_input"   [(ngModel)]="edu.end_year" [ngModelOptions]="{standalone: true}" />
+                                                            <input type="month" class="form-control ct_input"
+                                                                  [(ngModel)]="edu.end_year"
+                                                                  [ngModelOptions]="{standalone: true}" />
                                                       </div>
-                                                      <button type="button" class=" ct_red_btn"
-                                                      (click)="removeEducation(j)" *ngIf="j > 0">
-                                                      <i class="fa fa-trash"></i>
-                                                </button>
+                                                      <div class=" ms-auto mb-3">
+                                                            <button type="button" class="ms-auto ct_red_btn"
+                                                                  (click)="removeEducation(j)" *ngIf="j > 0">
+                                                                  <i class="fa fa-trash"></i>
+                                                            </button>
+                                                      </div>
                                                 </div>
 
                                           </div>

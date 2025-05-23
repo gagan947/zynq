@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { passwordMatchValidator, strongPasswordValidator } from '../../../validators';
 import { CommonModule, Location } from '@angular/common';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-set-password',
@@ -18,7 +19,7 @@ export class SetPasswordComponent {
   isShowCurrentPassword: boolean = false;
   isShowNewPassword: boolean = false;
   isShowConfPassword: boolean = false;
-  constructor(private service: CommonService, private router: Router, private toster: NzMessageService, public location: Location) { }
+  constructor(private service: CommonService, private router: Router, private toster: NzMessageService, public location: Location, private auth: AuthService) { }
   ngOnInit() {
     this.initForm()
   }
@@ -47,7 +48,8 @@ export class SetPasswordComponent {
         if (res.status) {
           this.toster.success(res.message);
           this.Form.reset();
-          this.router.navigate(['/clinic/profile-setup']);
+          const role = this.auth.getRoleName();
+          this.router.navigate([`/${role}/profile-setup`]);
         } else {
           this.toster.error(res.message);
         }

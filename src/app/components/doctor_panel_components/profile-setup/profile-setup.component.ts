@@ -14,6 +14,7 @@ import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { AuthService } from '../../../services/auth.service';
 function operationHoursValidator(group: AbstractControl): ValidationErrors | null {
   const closed = group.get('closed')?.value;
   const startTime = group.get('start_time')?.value;
@@ -35,7 +36,7 @@ function operationHoursValidator(group: AbstractControl): ValidationErrors | nul
 @Component({
   selector: 'app-profile-setup',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule,NzDatePickerModule,NzButtonModule, NzDatePickerModule],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, NzDatePickerModule, NzButtonModule, NzDatePickerModule],
   templateUrl: './profile-setup.component.html',
   styleUrl: './profile-setup.component.css'
 })
@@ -72,7 +73,7 @@ export class ProfileSetupComponent {
   securityLevel: SecurityLevel[] = []
   selectedSecurityLevel: SecurityLevel[] = [];
   date = null;
-  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router,private i18n: NzI18nService,private toster: NzMessageService) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router, private i18n: NzI18nService, private toster: NzMessageService, private auth: AuthService) {
 
   }
 
@@ -205,7 +206,7 @@ export class ProfileSetupComponent {
         c.end_year &&
         c.end_year > c.start_year // "2025-06" > "2025-05" works with string comparison
       );
-      
+
       if (!isValidEdu) {
         this.toster.warning('Please enter valid education details. End date must be after start date.');
         return;
@@ -223,11 +224,6 @@ export class ProfileSetupComponent {
     if (this.currentStep == 3) {
       this.onTimeSubmit();
     };
-
-
-
-
-
   };
 
   previousStep() {
@@ -270,8 +266,8 @@ export class ProfileSetupComponent {
     const education = this.education.map(edu => ({
       institute: edu.institution,
       degree: edu.degree_name,
-      start_year : edu.start_year,
-      end_year : edu.end_year
+      start_year: edu.start_year,
+      end_year: edu.end_year
     }));
     const experience = this.experience.map(exp => ({
       organization: exp.organisation_name,
@@ -340,6 +336,9 @@ export class ProfileSetupComponent {
       this.apiService.post<any, any>('doctor/add_fee_availability', formData).subscribe({
         next: (resp) => {
           if (resp.success == true) {
+            let data = this.auth.getUserInfo()
+            data.on_boarding_status = 4
+            localStorage.setItem('userInfo', JSON.stringify(data));
             this.router.navigateByUrl('/doctor');
             // this.currentStep++;
           }
@@ -448,7 +447,7 @@ export class ProfileSetupComponent {
   };
 
   addEducation() {
-    this.education.push({ institution: null, degree_name: null,start_year: null,end_year: null });
+    this.education.push({ institution: null, degree_name: null, start_year: null, end_year: null });
   }
   addExperience() {
     this.experience.push({

@@ -8,7 +8,8 @@ export class LoginGuard implements CanActivate {
       constructor(private auth: AuthService, private router: Router) { }
 
       canActivate(): boolean {
-            if (this.auth.isLogedIn()) {
+            const userData = this.auth.getUserInfo();
+            if (this.auth.isLogedIn() && userData.is_onboarded || this.auth.isLogedIn() && userData.on_boarding_status == 4) {
                   const role = this.auth.getRoleName();
                   this.router.navigate([`/${role}`]);
                   return false;

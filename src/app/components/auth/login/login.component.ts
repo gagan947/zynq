@@ -25,6 +25,7 @@ export class LoginComponent {
   }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.initForm();
   }
 

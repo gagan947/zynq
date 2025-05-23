@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginGuard } from './guards/login.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
       {
@@ -19,6 +20,8 @@ export const routes: Routes = [
             path: 'set-password',
             loadComponent: () => import('./components/auth/set-password/set-password.component').then((m) => m.SetPasswordComponent),
             title: 'Password Setup',
+            data: { roles: ['clinic', 'doctor'] },
+            canActivate: [AuthGuard],
       },
       {
             path: 'unauthorized',
