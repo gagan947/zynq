@@ -2,14 +2,14 @@ import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { passwordMatchValidator, passwordMismatchValidator, strongPasswordValidator } from '../../validators';
 
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.css'
 })

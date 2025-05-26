@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ProfileSetupComponent } from '../profile-setup/profile-setup.component';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -91,7 +90,6 @@ export class EditProfileComponent {
     });
 
     this.initializeOperationHours();
-
     this.loadFormData();
     this.getCertificaTeypes();
     this.getTreatments();
@@ -193,10 +191,7 @@ export class EditProfileComponent {
           this.toster.warning('Please select both certificate type and upload a file for all entries.');
           return;
         }
-
       } else {
-
-
       }
 
       const isValidEdu = this.education.every(c =>
@@ -204,9 +199,9 @@ export class EditProfileComponent {
         c.degree_name &&
         c.start_year &&
         c.end_year &&
-        c.end_year > c.start_year // "2025-06" > "2025-05" works with string comparison
+        c.end_year > c.start_year
       );
-      
+
       if (!isValidEdu) {
         this.toster.warning('Please enter valid education details. End date must be after start date.');
         return;
@@ -224,11 +219,6 @@ export class EditProfileComponent {
     if (this.currentStep == 3) {
       this.onTimeSubmit();
     };
-
-
-
-
-
   };
 
   previousStep() {
@@ -264,16 +254,16 @@ export class EditProfileComponent {
         console.log(error);
       }
     });
-
   };
+
   onSubmitProfessional() {
 
     const formData = new FormData();
     const education = this.education.map(edu => ({
       institute: edu.institution,
       degree: edu.degree_name,
-      start_year : edu.start_year,
-      end_year : edu.end_year
+      start_year: edu.start_year,
+      end_year: edu.end_year
     }));
     const experience = this.experience.map(exp => ({
       organization: exp.organisation_name,
@@ -302,8 +292,8 @@ export class EditProfileComponent {
         console.log(error);
       }
     });
-
   };
+
   onExpertiseSubmit() {
 
     const formData = {
@@ -359,15 +349,12 @@ export class EditProfileComponent {
           console.log(error);
         }
       });
-      // Submit to your API here
     } else {
-      // Trigger validation messages for fee and duration
       this.operationHoursForm.markAllAsTouched();
 
-      // Manually trigger validation messages for each operation hours group
       this.operationHours.controls.forEach((group: AbstractControl) => {
-        group.markAllAsTouched();  // Important: mark nested controls as touched
-        group.updateValueAndValidity(); // Important: to re-evaluate custom validators
+        group.markAllAsTouched();
+        group.updateValueAndValidity();
       });
     }
   }
@@ -402,7 +389,6 @@ export class EditProfileComponent {
       }
     })
   };
-
 
 
   createCertificateGroup(): FormGroup {
@@ -465,8 +451,10 @@ export class EditProfileComponent {
   };
 
   addEducation() {
-    this.education.push({ institution: null, degree_name: null, start_year: null,
-      end_year: null });
+    this.education.push({
+      institution: null, degree_name: null, start_year: null,
+      end_year: null
+    });
   }
   addExperience() {
     this.experience.push({
@@ -508,10 +496,8 @@ export class EditProfileComponent {
   addSkinTypes(item: any) {
     const index = this.selectedSkinTypes.findIndex(s => s.skin_type_id === item.skin_type_id);
     if (index > -1) {
-      // Remove if already selected
       this.selectedSkinTypes.splice(index, 1);
     } else {
-      // Add if not selected
       this.selectedSkinTypes.push({ skin_type_id: item.skin_type_id, name: item.name });
     }
   }
@@ -540,11 +526,9 @@ export class EditProfileComponent {
   patchOperationHours(data: any[]): void {
     const operationHoursArray = this.operationHoursForm.get('operation_hours') as FormArray;
 
-    // Loop over each item in the FormArray and patch values
     operationHoursArray.controls.forEach((group: any) => {
       const day = group.get('day_of_week')?.value;
 
-      // Find corresponding item from API response by day_of_week
       const matchingDay = data.find(d => d.day_of_week === day);
 
       if (matchingDay) {
@@ -561,11 +545,7 @@ export class EditProfileComponent {
   deleteCertificate(id: any) {
     this.apiService.delete<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
       if (res.success == true) {
-
       }
-
     });
   }
-
-
 }
