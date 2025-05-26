@@ -28,6 +28,7 @@ export interface Doctor {
       profile_image: string;
       created_at: string;
       updated_at: string;
+      is_invitation_accepted: number;
       treatments: DoctorTreatment[];
       availability: DoctorAvailability[];
       certifications: DoctorCertification[];

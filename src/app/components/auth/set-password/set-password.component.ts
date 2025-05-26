@@ -19,6 +19,7 @@ export class SetPasswordComponent {
   isShowCurrentPassword: boolean = false;
   isShowNewPassword: boolean = false;
   isShowConfPassword: boolean = false;
+  loading: boolean = false
   constructor(private service: CommonService, private router: Router, private toster: NzMessageService, public location: Location, private auth: AuthService) { }
   ngOnInit() {
     this.initForm()
@@ -40,6 +41,7 @@ export class SetPasswordComponent {
       this.Form.markAllAsTouched();
       return
     }
+    this.loading = true
     let formData = {
       new_password: this.Form.value.newPassword
     }
@@ -49,13 +51,16 @@ export class SetPasswordComponent {
           this.toster.success(res.message);
           this.Form.reset();
           const role = this.auth.getRoleName();
+          this.loading = false
           this.router.navigate([`/${role}/profile-setup`]);
         } else {
           this.toster.error(res.message);
+          this.loading = false
         }
       },
       error: (error) => {
         this.toster.error(error);
+        this.loading = false
       }
     })
   }

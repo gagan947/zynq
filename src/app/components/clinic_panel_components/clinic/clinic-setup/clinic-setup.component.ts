@@ -80,7 +80,7 @@ export class ClinicSetupComponent {
       ivo_registration_number: [''],
       hsa_id: [''],
       email: ['', [Validators.required, Validators.email]],
-      mobile_number: ['+46', [Validators.required, NoWhitespaceDirective.validate]],
+      mobile_number: ['', [Validators.required, NoWhitespaceDirective.validate]],
       street_address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       city: ['', [Validators.required, NoWhitespaceDirective.validate]],
       state: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -379,7 +379,7 @@ export class ClinicSetupComponent {
       //   formData.append('zynq_user_id', this.userInfo.id)
       //   formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
       //   formData.append('form_stage', this.currentStep.toString())
-    } else if (this.currentStep === 2) {
+    } else if (this.currentStep === 2 && this.selectedTreatments.length > 0 && this.selectedSkinTypes.length > 0 && this.selectedSecurityLevel.length > 0) {
       formData.append('treatments', JSON.stringify(this.selectedTreatments.map(item => item.treatment_id)));
       formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
       formData.append('skin_types', JSON.stringify(this.selectedSkinTypes.map(item => item.skin_type_id)));
@@ -388,11 +388,15 @@ export class ClinicSetupComponent {
       formData.append('language', 'en');
       formData.append('zynq_user_id', this.userInfo.id);
       formData.append('form_stage', "3");
+    } else {
+      return
     }
 
     this.service.post(`clinic/onboard-clinic`, formData).subscribe((res: any) => {
-      if (res.status) {
+      if (res.success) {
         this.currentStep++;
+      } else {
+        this.toster.error(res.message);
       }
     }, err => {
       this.toster.error(err);

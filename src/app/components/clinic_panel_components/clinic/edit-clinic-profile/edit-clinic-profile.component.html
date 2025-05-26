@@ -128,13 +128,12 @@
                                                 </div>
                                           </div>
                                     </div>
-                                    <!-- <input type="button" name="next" class="ct_form_next ct_black_btn float-end mx-1"
-                                          value="Next" /> -->
-
                                     <button (click)="onSubmit()" type="button"
                                           class="ct_form_next action-button ct_black_btn float-end" value="Next">
                                           Update
                                     </button>
+                                    <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
+                                          value="Next" (click)="next()">Next</button>
                               </fieldset>
                               <fieldset *ngIf="currentStep == 1">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
@@ -287,10 +286,15 @@
 
                                     </div>
                                     <!-- <div class="float-end"> -->
-
                                     <button type="button"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1"
                                           (click)="onSubmit()">Update</button>
+                                    <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
+                                          value="Next" (click)="next()">Next</button>
+                                    <button type="button"
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          value="Next" (click)="previous()">Previous</button>
+
                                     <!-- <button type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">Previous</button> -->
@@ -393,7 +397,7 @@
                                                             track $index) {
                                                             <li class="list_item" (click)="addTreatment(item)">
                                                                   <i class="fa-solid fa-check me-2"
-                                                                        [ngClass]="selectedTreatments.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                                        [ngClass]="isSelected(item) ? 'opacity-100' : 'opacity-0'"></i>
                                                                   {{item.name}}
                                                             </li>
                                                             }
@@ -528,10 +532,12 @@
                                                 </span>
                                           </div>
                                     </div>
-
                                     <button type="button" name="next" (click)="onSubmit()"
                                           class="ct_black_btn float-end mx-1  ct_border_radius_10">Update
                                     </button>
+                                    <button type="button"
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          value="Next" (click)="previous()">Previous</button>
                                     <!-- <input type="button" name="previous"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1"
                                           value="Previous" (click)="previousStep()"> -->

@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { LoaderService } from './services/loader.service';
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
+import { NotificationService } from './services/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -15,17 +16,23 @@ export class AppComponent {
   title = 'zynq-app';
   showLoader = false;
   private subscription!: Subscription;
-  constructor(private router: Router, private loaderService: LoaderService, private cdr: ChangeDetectorRef) {
+  constructor(private router: Router, private loaderService: LoaderService, private cdr: ChangeDetectorRef, private notificationService: NotificationService) {
   }
   ngOnInit() {
 
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        this.notificationService.requestPermission()
+      }
+    });
+
     this.subscription = this.loaderService.showLoader$.subscribe(value => {
-      
       this.showLoader = value;
       this.cdr.detectChanges();
     });
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
+        this.notificationService.listenForMessages();
         const existingScript = document.querySelector('script[src="assets/js/main.js"]');
         if (existingScript) {
           existingScript.remove();

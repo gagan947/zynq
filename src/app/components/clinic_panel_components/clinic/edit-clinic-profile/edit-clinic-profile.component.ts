@@ -266,6 +266,13 @@ export class EditClinicProfileComponent {
     this.currentStep = index
   }
 
+  next() {
+    this.currentStep = this.currentStep + 1;
+  }
+
+  previous() {
+    this.currentStep = this.currentStep - 1;
+  }
 
   validateCurrentStep(): boolean {
     const controls = this.stepFields[this.currentStep];
@@ -351,7 +358,7 @@ export class EditClinicProfileComponent {
       // } else if (this.currentStep === 2) {
       //   formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
       //   formData.append('zynq_user_id', this.userInfo.id);
-    } else if (this.currentStep === 2) {
+    } else if (this.currentStep === 2 && this.selectedTreatments.length > 0 && this.selectedSkinTypes.length > 0 && this.selectedSecurityLevel.length > 0) {
       formData.append('treatments', JSON.stringify(this.selectedTreatments.map(item => item.treatment_id)));
       formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
       formData.append('skin_types', JSON.stringify(this.selectedSkinTypes.map(item => item.skin_type_id)));
@@ -359,12 +366,17 @@ export class EditClinicProfileComponent {
       formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
       formData.append('language', 'en');;
       formData.append('zynq_user_id', this.userInfo.id);
+    } else {
+      return
     }
 
     this.service.post(`clinic/onboard-clinic`, formData).subscribe((res: any) => {
       if (res.success) {
         this.getClinicProfile()
         this.toster.success('Profile updated successfully');
+        if (this.currentStep === 2) {
+          this.router.navigate(['/clinic/clinic-profile']);
+        }
       } else {
         this.toster.error(res.message);
       }
@@ -428,6 +440,10 @@ export class EditClinicProfileComponent {
     return this.selectedSkinTypes.some(item => item.skin_type_id === skin_type_id);
   }
 
+  isSelected(item: any): boolean {
+    const isSelected = this.selectedTreatments.some((selected: any) => selected.treatment_id === item.treatment_id);
+    return isSelected;
+  }
   getClinicProfile() {
     this.service.get<any>('clinic/get-profile').subscribe((resp) => {
       this.service._clinicProfile.set(resp.data);

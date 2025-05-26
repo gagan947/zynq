@@ -66,6 +66,7 @@
                                                 <th>Fee</th>
                                                 <th>Phone Number</th>
                                                 <th>Email</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                           </tr>
                                     </thead>
@@ -85,16 +86,26 @@
                                                             data-bs-target="#full_view_img">
                                                 </td>
                                                 <td>{{item.name}}</td>
-                                                <td>{{specialityName(item.treatments)}}</td>
+                                                <td><span style="white-space: normal;">
+                                                            {{specialityName(item.treatments)}}
+                                                      </span></td>
                                                 <td>{{item.fee_per_session | currency:'USD'}}</td>
                                                 <td>{{item.phone}}</td>
                                                 <td>{{item.email}}</td>
                                                 <td>
+                                                      <span
+                                                            [ngClass]="item.is_invitation_accepted ? 'text-success' : 'ct_dark_yellow_text'">
+                                                            {{item.is_invitation_accepted ? 'Accepted' : 'Pending'}}
+                                                      </span>
+                                                </td>
+                                                <td>
                                                       <div class="d-flex align-items-center gap-3">
+                                                            @if(item.is_invitation_accepted){
                                                             <a (click)="opanUnlinkModal(item.doctor_id)"
                                                                   class="ct_light_orange_text"><i
                                                                         class="fa-solid fa-link" data-bs-toggle="modal"
                                                                         data-bs-target="#ct_unlink_modal"></i></a>
+                                                            }
                                                             <a routerLink="detail" (click)="viewDrdetail(item)"><i
                                                                         class="fa-regular fa-eye"></i></a>
                                                       </div>
@@ -150,7 +161,7 @@
                         <form [formGroup]="Form" (ngSubmit)="onSubmit()" class="mt-4">
                               <div class="form-group">
                                     <label for="" class="mb-2">Enter Doctor's Email</label>
-                                    <input type="email" placeholder="Enter email or ID" class="form-control ct_input"
+                                    <input type="email" placeholder="Enter email" class="form-control ct_input"
                                           formControlName="email">
                                     <span *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
                                           <span *ngIf="Form.controls['email'].errors?.['required']"

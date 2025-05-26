@@ -23,10 +23,10 @@ function operationHoursValidator(group: AbstractControl): ValidationErrors | nul
   if (!closed) {
     const errors: any = {};
     if (!startTime) {
-      errors.start_time = 'Start time is required when clinic is open.';
+      errors.start_time = 'Start time is required when doctor is available.';
     }
     if (!endTime) {
-      errors.end_time = 'End time is required when clinic is open.';
+      errors.end_time = 'End time is required when doctor is available.';
     }
     return Object.keys(errors).length ? errors : null;
   }
@@ -73,6 +73,7 @@ export class ProfileSetupComponent {
   securityLevel: SecurityLevel[] = []
   selectedSecurityLevel: SecurityLevel[] = [];
   date = null;
+  maxDate: Date = new Date();
   constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router, private i18n: NzI18nService, private toster: NzMessageService, private auth: AuthService) {
 
   }
@@ -89,8 +90,11 @@ export class ProfileSetupComponent {
       biography: ['']
     });
     this.operationHoursForm = this.fb.group({
-      fee_per_session: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      session_duration: ['', Validators.required],
+      fee_per_session: ['', [Validators.required, Validators.min(0)]],
+      session_duration: this.fb.group({
+        hours: ['00', [Validators.required, Validators.min(0)]],
+        minutes: ['30', [Validators.required, Validators.min(0)]]
+      }),
       operation_hours: this.fb.array([])
     });
 
@@ -103,6 +107,9 @@ export class ProfileSetupComponent {
     this.getSkinTypes();
   }
 
+  get session_duration(): FormGroup {
+    return this.operationHoursForm.get('session_duration') as FormGroup;
+  }
   loadFormData() {
     this.apiService.get<DoctorProfileResponse>('doctor/get_profile').subscribe(res => {
       if (res.success == false) {
@@ -200,8 +207,8 @@ export class ProfileSetupComponent {
       }
 
       const isValidEdu = this.education.every(c =>
-        c.institution &&
-        c.degree_name &&
+        c.institution.trim() &&
+        c.degree_name.trim() &&
         c.start_year &&
         c.end_year &&
         c.end_year > c.start_year // "2025-06" > "2025-05" works with string comparison
@@ -211,9 +218,10 @@ export class ProfileSetupComponent {
         this.toster.warning('Please enter valid education details. End date must be after start date.');
         return;
       }
-      const isValidExp = this.experience.every(c => c.organisation_name && c.start_date && c.end_date && c.designation);
+      const isValidExp = this.experience.every(c => c.organisation_name.trim() && c.start_date && c.end_date && c.designation.trim() && c.end_date > c.start_date);
       if (!isValidExp) {
-        this.toster.warning('Please enter all experience details for all entries.');
+        this.toster.warning('Please enter valid experience details. End date must be after start date.');
+
         return;
       }
       this.onSubmitProfessional()
@@ -329,7 +337,7 @@ export class ProfileSetupComponent {
       const formData = {
         fee_per_session: this.operationHoursForm.value.fee_per_session,
         currency: 'INR',
-        session_duration: this.operationHoursForm.value.session_duration,
+        session_duration: this.operationHoursForm.value.session_duration.hours + ':' + this.operationHoursForm.value.session_duration.minutes,
         availability: (payload)
       };
 
@@ -465,8 +473,11 @@ export class ProfileSetupComponent {
   }
 
   addTreatment(treatment: Treatment) {
-    if (!this.selectedTreatments.some((item: any) => item.treatment_id === treatment.treatment_id)) {
+    const index = this.selectedTreatments.findIndex((item) => item.treatment_id === treatment.treatment_id);
+    if (index === -1) {
       this.selectedTreatments.push(treatment);
+    } else {
+      this.selectedTreatments.splice(index, 1);
     }
   }
   removeTreatment(index: number) {
