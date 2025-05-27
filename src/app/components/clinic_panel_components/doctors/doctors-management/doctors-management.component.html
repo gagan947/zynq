@@ -85,12 +85,12 @@
                                                             class="ct_img_30 ct_cursor_pointer" data-bs-toggle="modal"
                                                             data-bs-target="#full_view_img">
                                                 </td>
-                                                <td>{{item.name}}</td>
+                                                <td>{{item.name || '#N/A'}}</td>
                                                 <td><span style="white-space: normal;">
-                                                            {{specialityName(item.treatments)}}
+                                                            {{specialityName(item.treatments) || '#N/A'}}
                                                       </span></td>
-                                                <td>{{item.fee_per_session | currency:'USD'}}</td>
-                                                <td>{{item.phone}}</td>
+                                                <td>{{(item.fee_per_session | currency:'USD') || '#N/A'}}</td>
+                                                <td>{{item.phone || '#N/A'}}</td>
                                                 <td>{{item.email}}</td>
                                                 <td>
                                                       <span

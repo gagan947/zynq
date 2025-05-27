@@ -85,7 +85,7 @@ export class ProfileSetupComponent {
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
       phone: ['', [Validators.required, Validators.min(1)]],
-      age: ['', [Validators.required, Validators.min(1), this.integerValidator]],
+      age: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$'), this.integerValidator]],
       gender: ['', Validators.required],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       biography: ['']
@@ -93,8 +93,8 @@ export class ProfileSetupComponent {
     this.operationHoursForm = this.fb.group({
       fee_per_session: ['', [Validators.required, Validators.min(0)]],
       session_duration: this.fb.group({
-        hours: ['00', [Validators.required, Validators.min(0)]],
-        minutes: ['30', [Validators.required, Validators.min(0)]]
+        hours: ['00', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]+$')]],
+        minutes: ['30', [Validators.required, Validators.min(0), Validators.max(59), Validators.pattern('^[0-9]+$')]]
       }),
       operation_hours: this.fb.array([])
     });
@@ -422,7 +422,15 @@ export class ProfileSetupComponent {
         start_time: [''],
         end_time: [''],
         closed: [false]
-      }, { validators: operationHoursValidator });
+      }, { validators: [operationHoursValidator, timeRangeValidator()] });
+
+      dayGroup.get('start_time')?.valueChanges.subscribe(() => {
+        dayGroup.updateValueAndValidity({ onlySelf: true });
+      });
+
+      dayGroup.get('end_time')?.valueChanges.subscribe(() => {
+        dayGroup.updateValueAndValidity({ onlySelf: true });
+      });
 
       // Subscribe to 'closed' value changes to trigger validation
       dayGroup.get('closed')?.valueChanges.subscribe(() => {

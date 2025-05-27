@@ -3,22 +3,31 @@
     flex-direction: column;
     align-items: start !important;
   }
+
   .chatlist {
     width: 300px;
   }
+
   .chat-list a.d-flex {
     padding-inline: 8px;
   }
+
+  #ct_form_progressbar li {
+    font-size: 15px;
+  }
 }
+
 @media screen and (max-width: 991px) {
   .ct_login_right {
     padding-inline: 60px;
     margin-left: 0px;
     /* margin: 15px; */
   }
+
   .ct_login_left {
     display: none;
   }
+
   .ct_login_main {
     grid-template-columns: auto !important;
   }
@@ -27,16 +36,20 @@
     left: -100%;
     padding-top: 40px;
   }
+
   .ct_right_panel {
     margin-left: 0px;
     width: 100%;
   }
+
   .ct_show .ct_side_bar {
     left: 0px;
   }
+
   .ct_show .ct_side_bar {
     left: 0px;
   }
+
   .ct_close_sidebar {
     position: absolute;
     display: block;
@@ -45,15 +58,19 @@
     font-size: 22px;
     transition: 0.4s ease all;
   }
+
   .ct_close_sidebar:hover {
     transform: rotate(360deg);
   }
+
   .ct_menu_bar {
     display: block;
   }
+
   #ct_form_progressbar li {
     font-size: 14px;
   }
+
   #ct_form_progressbar {
     /* flex-direction: column; */
     display: grid;
@@ -65,27 +82,34 @@
   .ct_fs_44 {
     font-size: 28px;
   }
+
   .ct_fs_18 {
     font-size: 16px;
   }
+
   .ct_p_40 {
     padding: 25px;
   }
+
   .ct_flex_col_767 {
     flex-direction: column;
     align-items: flex-start !important;
   }
+
   .ct_w_100_767 {
     width: 100%;
   }
+
   .ct_grid_30_auto {
     border-left: 0px;
     padding-left: 0px;
   }
+
   .ct_custom_tabs.nav-pills {
     flex-direction: column;
     width: 100%;
   }
+
   .ct_custom_tabs.nav-pills .nav-link {
     width: 100%;
   }
@@ -94,9 +118,11 @@
     display: block;
     margin-right: 5px;
   }
+
   .chatlist {
     width: 100%;
   }
+
   .chatbox {
     width: 100%;
     position: absolute;
@@ -108,20 +134,25 @@
     transition: all 0.5s ease;
     border-left: none;
   }
+
   .showbox {
     left: 0 !important;
     transition: all 0.5s ease;
     padding-inline: 15px;
   }
+
   .msg-head h3 {
     font-size: 14px;
   }
+
   .msg-head p {
     font-size: 12px;
   }
+
   .msg-head .flex-shrink-0 img {
     height: 30px;
   }
+
   .send-box button {
     width: 28%;
   }
@@ -129,9 +160,11 @@
   .chat-list h3 {
     font-size: 14px;
   }
+
   .chat-list p {
     font-size: 12px;
   }
+
   .msg-body ul li.sender {
     font-size: 13px;
     padding: 8px;
@@ -139,6 +172,7 @@
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
   }
+
   .msg-body ul li.repaly p {
     font-size: 13px;
     padding: 8px;
@@ -146,22 +180,27 @@
     border-top-right-radius: 6px;
     border-bottom-left-radius: 6px;
   }
+
   .msg-body ul li img {
     width: 30px;
     height: 30px;
   }
 }
+
 @media screen and (max-width: 575px) {
   .ct_login_right {
     padding: 30px;
   }
+
   .ct_px_30 {
     padding-inline: 15px;
   }
+
   .ct_big_user_img img {
     width: 80px;
     height: 80px;
   }
+
   .ct_pe_30 {
     padding-right: 15px;
   }

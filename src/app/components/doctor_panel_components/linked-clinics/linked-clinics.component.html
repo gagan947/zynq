@@ -11,7 +11,7 @@
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="Search by clinic name...">
+                                                      placeholder="Search by clinic name..." (input)="search($event)">
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           <!-- <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
@@ -62,7 +62,7 @@
                                           </tr>
                                     </thead>
                                     <tbody>
-                                          <tr *ngFor="let clinic of items.data; let i = index">
+                                          <tr *ngFor="let clinic of clinicList; let i = index">
                                                 <td>{{i + 1}}</td>
                                                 <td>{{clinic.clinic_name}}</td>
                                                 <td>{{clinic.org_number}}</td>
@@ -81,6 +81,9 @@
                                                           <a routerLink="detail"><i class="fa-regular fa-eye"></i></a>
                                                     </div>
                                               </td> -->
+                                          </tr>
+                                          <tr *ngIf="clinicList.length == 0">
+                                                <td colspan="7" class="text-center">No Clinics Found</td>
                                           </tr>
 
                                     </tbody>

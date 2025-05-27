@@ -104,19 +104,16 @@ export function gstValidator(): ValidatorFn {
 
 export function timeRangeValidator(): ValidatorFn {
       return (group: AbstractControl): ValidationErrors | null => {
-            const open = group.get('open')?.value;
-            const close = group.get('close')?.value;
+            const open = group.get('start_time')?.value;
+            const close = group.get('end_time')?.value;
 
             if (!open || !close) return null;
 
             const openTime = parseTime(open);
             const closeTime = parseTime(close);
 
-            if (closeTime <= openTime) {
-                  return { timeRangeInvalid: true };
-            }
-
-            return null;
+            if (!openTime || !closeTime) return null;
+            return closeTime <= openTime ? { timeRangeInvalid: true } : null;
       };
 }
 
