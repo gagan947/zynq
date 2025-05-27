@@ -272,16 +272,16 @@ export class EditProfileComponent {
 
     const formData = new FormData();
     const education = this.education.map(edu => ({
-      institute: edu.institution,
-      degree: edu.degree_name,
+      institute: edu.institution.trim(),
+      degree: edu.degree_name.trim(),
       start_year: edu.start_year,
       end_year: edu.end_year
     }));
     const experience = this.experience.map(exp => ({
-      organization: exp.organisation_name,
+      organization: exp.organisation_name.trim(),
       start_date: exp.start_date,
       end_date: exp.end_date,
-      designation: exp.designation
+      designation: exp.designation.trim()
     }))
     formData.append('education', JSON.stringify(education));
     formData.append('experience', JSON.stringify(experience));
