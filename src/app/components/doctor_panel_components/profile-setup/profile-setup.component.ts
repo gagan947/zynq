@@ -84,7 +84,7 @@ export class ProfileSetupComponent {
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
       phone: ['', [Validators.required, Validators.min(1)]],
-      age: ['', [Validators.required, Validators.min(1)]],
+      age: ['', [Validators.required, Validators.min(1), this.integerValidator]],
       gender: ['', Validators.required],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       biography: ['']
@@ -234,6 +234,10 @@ export class ProfileSetupComponent {
     };
   };
 
+  integerValidator(control: AbstractControl) {
+    const value = control.value;
+    return Number.isInteger(Number(value)) ? null : { notInteger: true };
+  }
   previousStep() {
     if (this.currentStep > 0) {
       this.currentStep--;

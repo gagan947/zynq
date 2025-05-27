@@ -363,7 +363,7 @@ export class ClinicSetupComponent {
       formData.append('hsa_id', this.Form.value.hsa_id)
       formData.append('form_stage', '1')
     } else if (this.currentStep === 1) {
-      formData.append('email', this.Form.value.email)
+      // formData.append('email', this.Form.value.email)
       formData.append('mobile_number', this.Form.value.mobile_number)
       formData.append('street_address', this.Form.value.street_address)
       formData.append('city', this.Form.value.city)
@@ -381,7 +381,7 @@ export class ClinicSetupComponent {
       //   formData.append('form_stage', this.currentStep.toString())
     } else if (this.currentStep === 2 && this.selectedTreatments.length > 0 && this.selectedSkinTypes.length > 0 && this.selectedSecurityLevel.length > 0) {
       formData.append('treatments', JSON.stringify(this.selectedTreatments.map(item => item.treatment_id)));
-      formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
+      // formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
       formData.append('skin_types', JSON.stringify(this.selectedSkinTypes.map(item => item.skin_type_id)));
       formData.append('severity_levels', JSON.stringify(this.selectedSecurityLevel.map(item => item.severity_level_id)));
       // formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
@@ -452,8 +452,8 @@ export class ClinicSetupComponent {
         this.Form.patchValue({
           clinic_name: this.clinicPofile.clinic_name,
           clinic_description: this.clinicPofile.clinic_description,
-          ivo_registration_number: this.clinicPofile.ivo_registration_number,
-          hsa_id: this.clinicPofile.hsa_id,
+          ivo_registration_number: this.clinicPofile.ivo_registration_number || '',
+          hsa_id: this.clinicPofile.hsa_id || '',
           email: this.clinicPofile.email,
           mobile_number: this.clinicPofile.mobile_number,
           city: this.clinicPofile.location.city,

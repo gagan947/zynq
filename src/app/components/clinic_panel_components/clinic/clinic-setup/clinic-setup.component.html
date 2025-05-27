@@ -246,7 +246,7 @@
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="email" class="form-control ct_input"
                                                                   placeholder="Enter email address"
-                                                                  formControlName="email">
+                                                                  formControlName="email" readonly>
                                                             <span
                                                                   *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
                                                                   <span *ngIf="Form.controls['email'].errors?.['required']"

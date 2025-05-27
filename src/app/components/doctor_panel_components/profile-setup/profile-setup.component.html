@@ -73,7 +73,7 @@
                                                                         Minimum age must be 1.
                                                                   </div>
                                                                   <div
-                                                                        *ngIf="personalForm.get('age')?.errors?.['pattern']">
+                                                                        *ngIf="personalForm.get('age')?.errors?.['notInteger']">
                                                                         Age is not valid.
                                                                   </div>
                                                             </div>
@@ -175,9 +175,9 @@
                                           </div>
 
                                     </div>
-                                    <input type="button" name="next"
+                                    <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">
+                                          (click)="nextStep()">Next</button>
 
 
 
@@ -380,9 +380,9 @@
 
                                     </div>
 
-                                    <input type="button" name="next"
+                                    <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">
+                                          (click)="nextStep()">Next</button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">
@@ -480,9 +480,9 @@
 
                                           </div>
                                     </div>
-                                    <input type="button" name="next"
+                                    <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">
+                                          (click)="nextStep()">Next</button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">
@@ -616,9 +616,9 @@
 
 
                                     </div>
-                                    <input type="button" name="next"
+                                    <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">
+                                          (click)="nextStep()">Next</button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">

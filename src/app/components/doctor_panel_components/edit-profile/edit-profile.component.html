@@ -60,7 +60,8 @@
                                                             <label for="" class="mb-2 ct_text_black">Age<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="number" class="form-control ct_input"
-                                                                  formControlName="age" placeholder="Enter age">
+                                                                  formControlName="age" placeholder="Enter age"
+                                                                  step="1">
                                                             <div *ngIf="personalForm.get('age')?.touched && personalForm.get('age')?.invalid"
                                                                   class="text-danger">
                                                                   <div
@@ -71,7 +72,7 @@
                                                                         Minimum age must be 1.
                                                                   </div>
                                                                   <div
-                                                                        *ngIf="personalForm.get('age')?.errors?.['pattern']">
+                                                                        *ngIf="personalForm.get('age')?.errors?.['notInteger']">
                                                                         Age is not valid.
                                                                   </div>
                                                             </div>
