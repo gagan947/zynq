@@ -15,6 +15,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environment';
 function operationHoursValidator(group: AbstractControl): ValidationErrors | null {
   const closed = group.get('closed')?.value;
   const startTime = group.get('start_time')?.value;
@@ -41,7 +42,7 @@ function operationHoursValidator(group: AbstractControl): ValidationErrors | nul
   styleUrl: './profile-setup.component.css'
 })
 export class ProfileSetupComponent {
-
+  certificateURl = environment.certificateUrl;
   personalForm!: FormGroup;
   operationHoursForm!: FormGroup;
   daysOfWeek: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -124,9 +125,7 @@ export class ProfileSetupComponent {
         address: data.address,
         biography: data.biography
       });
-      if (data.certifications.length > 0) {
-        this.certificates = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path, id: cert.doctor_certification_id }));
-      }
+   
       if (data.education.length > 0) {
         this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year }));
       }
@@ -193,18 +192,7 @@ export class ProfileSetupComponent {
       this.onSubmitPersonal();
     };
     if (this.currentStep == 1) {
-      const previewFiles = this.certificates.filter(c => c.previewUrl);
-      if (previewFiles.length == 0) {
-        const isValidCer = this.certificates.every(c => c.type && c.file);
-        if (!isValidCer) {
-          this.toster.warning('Please select both certificate type and upload a file for all entries.');
-          return;
-        }
-
-      } else {
-
-
-      }
+ 
 
       const isValidEdu = this.education.every(c =>
         c.institution.trim() &&
@@ -289,9 +277,9 @@ export class ProfileSetupComponent {
     }))
     formData.append('education', JSON.stringify(education));
     formData.append('experience', JSON.stringify(experience));
-    this.certificates.forEach(cert => {
+    this.certificaTeypes.forEach((cert:any) => {
       if (cert.file) {
-        formData.append(cert.type, cert.file, cert.file.name);
+        formData.append(cert.file_name, cert.file, cert.file.name);
       }
     })
 
@@ -445,7 +433,7 @@ export class ProfileSetupComponent {
     });
   }
   getCertificaTeypes() {
-    this.apiService.get<any>(`clinic/get-certificate-type`).subscribe((res) => {
+    this.apiService.get<any>(`doctor/get_doctor_certificates_path`).subscribe((res) => {
       this.certificaTeypes = res.data
     });
   };
@@ -453,9 +441,10 @@ export class ProfileSetupComponent {
   onFileChange(event: any, index: number) {
     const file = event.target.files[0];
     if (file) {
-      this.certificates[index].file = file;
-      this.certificates[index].previewUrl = null;
+      this.certificaTeypes[index].file = file;
+      this.certificaTeypes[index].previewUrl = null;
     }
+    
   };
 
   addEducation() {

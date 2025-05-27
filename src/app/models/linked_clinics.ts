@@ -30,5 +30,9 @@ export interface LinkedClinics {
     ivo_registration_number: string;
     hsa_id: string;
     is_onboarded: number;
+    zip_code: string;
+    city: string;
+    state: string;
+    street_address: string;
   }
   

@@ -16,7 +16,7 @@
                               <!-- progressbar -->
                               <ul id="ct_form_progressbar">
                                     <li *ngFor="let step of steps; let i = index" [id]="step.id" class="cursor-pointer"
-                                          [class.active]="i <= currentStep" (click)="currentStep = i">
+                                          [class.active]="i == currentStep" (click)="currentStep = i">
                                           {{ step.label }}
                                     </li>
                               </ul>
@@ -60,8 +60,7 @@
                                                             <label for="" class="mb-2 ct_text_black">Age<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="number" class="form-control ct_input"
-                                                                  formControlName="age" placeholder="Enter age"
-                                                                  step="1">
+                                                                  formControlName="age" placeholder="Enter age">
                                                             <div *ngIf="personalForm.get('age')?.touched && personalForm.get('age')?.invalid"
                                                                   class="text-danger">
                                                                   <div
@@ -72,10 +71,11 @@
                                                                         Minimum age must be 1.
                                                                   </div>
                                                                   <div
-                                                                        *ngIf="personalForm.get('age')?.errors?.['notInteger']">
-                                                                        Age is not valid.
+                                                                        *ngIf="personalForm.get('age')?.errors?.['noWhitespace']">
+                                                                        Age cannot be just whitespace.
                                                                   </div>
                                                             </div>
+
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -85,7 +85,6 @@
                                                             class="form-control ct_input">
                                                             <nz-option nzValue="Male" nzLabel="Male"></nz-option>
                                                             <nz-option nzValue="Female" nzLabel="Female"></nz-option>
-                                                            <nz-option nzValue="Other" nzLabel="Other"></nz-option>
                                                       </nz-select>
                                                       <div *ngIf="personalForm.get('gender')?.touched && personalForm.get('gender')?.invalid"
                                                             class="text-danger">
@@ -113,8 +112,8 @@
                                                 </div>
                                                 <div class="col-md-12 mt-3">
                                                       <div class="form-group mb-0">
-                                                            <label for="" class="mb-2 ct_text_black">Profile
-                                                                  Image</label>
+                                                            <label for="" class="mb-2 ct_text_black">Profile Image<span
+                                                                        class="ct_red_text">*</span></label>
                                                             <div class="">
                                                                   <div class="ct_upload_product_main"
                                                                         *ngIf="!imagePreview">
@@ -174,11 +173,13 @@
                                           </div>
 
                                     </div>
-                                    <button type="button" name="next"
+                                    <input type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
-                                          (click)="nextStep()">Update</button>
-                                    <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
-                                          value="Next" (click)="next()">Next</button>
+                                          (click)="nextStep()">
+
+
+
+
                               </form>
                               <form *ngIf="currentStep == 1">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
@@ -187,21 +188,15 @@
                                                 <ng-container>
                                                       <div class="ct_big_card_scroll_500 ct_custom_scroll ct_pe_40">
                                                             <div class="row mt-4"
-                                                                  *ngFor="let cert of certificates; let i = index">
+                                                                  *ngFor="let cert of certificaTeypes; let i = index">
                                                                   <div class="col-md-6 mb-4">
                                                                         <label class="mb-2 ct_text_black">Certificate
                                                                               Type <span
                                                                                     class="ct_red_text">*</span></label>
-                                                                        <nz-select class="form-control ct_input"
-                                                                              nzPlaceHolder="Select Certificate Type"
-                                                                              [(ngModel)]="cert.type"
+                                                                        <input type="text" class="form-control ct_input"
+                                                                              placeholder="Enter institute"
+                                                                              [(ngModel)]="cert.certification_name"
                                                                               [ngModelOptions]="{standalone: true}">
-                                                                              <nz-option
-                                                                                    *ngFor="let item of certificaTeypes"
-                                                                                    [nzValue]="item.file_name"
-                                                                                    [nzLabel]="item.name">
-                                                                              </nz-option>
-                                                                        </nz-select>
                                                                   </div>
 
                                                                   <div class="col-md-6">
@@ -213,8 +208,8 @@
                                                                                     class="d-flex align-items-center gap-2 ">
                                                                                     <div class="ct_flex_1">
                                                                                           <div
-                                                                                                *ngIf="cert.previewUrl; else uploadInput">
-                                                                                                <a [href]="cert.previewUrl"
+                                                                                                *ngIf="cert.upload_path; else uploadInput">
+                                                                                                <a [href]="certificateURl+ cert.upload_path"
                                                                                                       target="_blank">
                                                                                                       <i
                                                                                                             class="fa fa-file"></i>
@@ -223,7 +218,7 @@
                                                                                                 </a>
                                                                                                 <button type="button"
                                                                                                       class="btn btn-sm btn-link text-danger p-0 ms-2"
-                                                                                                      (click)="removePreview(i,cert.id)">
+                                                                                                      (click)="removePreview(i,cert.doctor_certification_id)">
                                                                                                       Change
                                                                                                 </button>
                                                                                           </div>
@@ -235,13 +230,15 @@
                                                                                                       (change)="onFileChange($event, i)">
                                                                                           </ng-template>
                                                                                     </div>
-
+                                                                                    @if(cert.upload_path){
                                                                                     <button type="button"
                                                                                           class="ct_red_btn"
-                                                                                          (click)="removeCertificate(i, cert.id)"
+                                                                                          (click)="removePreview(i, cert.doctor_certification_id)"
                                                                                           *ngIf="i > 0">
                                                                                           <i class="fa fa-trash"></i>
                                                                                     </button>
+
+                                                                                    }
 
                                                                               </div>
 
@@ -249,10 +246,7 @@
                                                                   </div>
 
                                                             </div>
-                                                            <a type="button" class="ct_blue_text mt-3"
-                                                                  (click)="addCertificate()">
-                                                                  + Add Certificate
-                                                            </a>
+
                                                       </div>
 
                                                 </ng-container>
@@ -353,8 +347,7 @@
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="date" class="form-control ct_input"
                                                                   [(ngModel)]="exp.start_date"
-                                                                  [ngModelOptions]="{standalone: true}"
-                                                                  [max]="maxDate | date:'yyyy-MM-dd'">
+                                                                  [ngModelOptions]="{standalone: true}">
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -379,15 +372,11 @@
 
                                     </div>
 
-                                    <button type="button" name="next"
+                                    <input type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
-                                          (click)="nextStep()">Update</button>
+                                          (click)="nextStep()">
 
-                                    <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
-                                          value="Next" (click)="next()">Next</button>
-                                    <button type="button"
-                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                          value="Next" (click)="previous()">Previous</button>
+
                               </form>
                               <form *ngIf="currentStep == 2">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
@@ -418,7 +407,7 @@
                                                             track $index) {
                                                             <li class="list_item" (click)="addTreatment(item)">
                                                                   <i class="fa-solid fa-check me-2"
-                                                                        [ngClass]="isSelected(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                                        [ngClass]="selectedTreatments.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
                                                                   {{item.name}}
                                                             </li>
                                                             }
@@ -481,15 +470,11 @@
 
                                           </div>
                                     </div>
-                                    <button type="button" name="next"
+                                    <input type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
-                                          (click)="nextStep()">Update</button>
+                                          (click)="nextStep()">
 
-                                    <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
-                                          value="Next" (click)="next()">Next</button>
-                                    <button type="button"
-                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                          value="Next" (click)="previous()">Previous</button>
+
                                     <!-- <input
                               type="button" name="previous" class="previous action-button-previous"
                               value="Previous" /> -->
@@ -514,52 +499,17 @@
                                                                   *ngIf="operationHoursForm.get('fee_per_session')?.hasError('required') && operationHoursForm.get('fee_per_session')?.touched">
                                                                   Fee per session is required.
                                                             </div>
-                                                            <div class="text-danger mt-1"
-                                                                  *ngIf="operationHoursForm.get('fee_per_session')?.hasError('min') && operationHoursForm.get('fee_per_session')?.touched">
-                                                                  Fee per session can not be negative.
-                                                            </div>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                      <div [formGroup]="session_duration" class="form-group mb-3">
+                                                      <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Session
                                                                   Duration<span class="ct_red_text">*</span></label>
-                                                            <div class="row align-items-center">
-                                                                  <div class=" col-md-4">
-                                                                        <input type="number"
-                                                                              class="form-control ct_input"
-                                                                              formControlName="hours"
-                                                                              placeholder="Enter duration in hours">
-                                                                        <div class="text-danger mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('required') && operationHoursForm.get('session_duration.hours')?.touched">
-                                                                              Hours are required.
-                                                                        </div>
-                                                                        <div class="text-danger mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('min') && operationHoursForm.get('session_duration.hours')?.touched">
-                                                                              Hours can not be negative.
-                                                                        </div>
-                                                                  </div>
-                                                                  hrs
-                                                                  <div class="col-md-4">
-                                                                        <input type="number"
-                                                                              class="form-control ct_input"
-                                                                              formControlName="minutes"
-                                                                              placeholder="Enter duration in minutes">
-                                                                        <div class="text-danger mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('required') && operationHoursForm.get('session_duration.minutes')?.touched">
-                                                                              Minutes are required.
-                                                                        </div>
-                                                                        <div class="text-danger mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('min') && operationHoursForm.get('session_duration.minutes')?.touched">
-                                                                              Minutes can not be negative.
-                                                                        </div>
-                                                                        <div class="text-danger mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.value && operationHoursForm.get('session_duration.minutes')?.value === 00">
-                                                                              Session duration can not be 00:00
-                                                                        </div>
-
-                                                                  </div>
-                                                                  min
+                                                            <input type="time" class="form-control ct_input"
+                                                                  formControlName="session_duration">
+                                                            <div class="text-danger mt-1"
+                                                                  *ngIf="operationHoursForm.get('session_duration')?.hasError('required') && operationHoursForm.get('session_duration')?.touched">
+                                                                  Session duration is required.
                                                             </div>
                                                       </div>
                                                 </div>
@@ -601,24 +551,33 @@
                                                             </div>
                                                             <div class="col-md-2">
                                                                   <div class="form-check">
-                                                                        <input type="checkbox"
-                                                                              class="form-check-input ct_custom_check"
+                                                                        <input type="checkbox" class="form-check-input"
                                                                               formControlName="closed" id="closed{{i}}">
-                                                                        <label class="form-check-label ms-2"
+                                                                        <label class="form-check-label"
                                                                               for="closed{{i}}">Closed</label>
                                                                   </div>
                                                             </div>
+
+
+
                                                       </div>
                                                 </div>
                                           </div>
+
+
+
+
+
+
+
                                     </div>
-                                    <button type="button" name="next"
+                                    <input type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
-                                          (click)="nextStep()">Update</button>
-                                    <button type="button"
-                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                          value="Next" (click)="previous()">Previous</button>
+                                          (click)="nextStep()">
+
+
                               </form>
+
                         </div>
                   </div>
             </div>

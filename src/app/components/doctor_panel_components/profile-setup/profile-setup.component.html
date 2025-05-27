@@ -190,21 +190,15 @@
                                                 <ng-container>
                                                       <div class="ct_big_card_scroll_500 ct_custom_scroll ct_pe_40">
                                                             <div class="row mt-4"
-                                                                  *ngFor="let cert of certificates; let i = index">
+                                                                  *ngFor="let cert of certificaTeypes; let i = index">
                                                                   <div class="col-md-6 mb-4">
                                                                         <label class="mb-2 ct_text_black">Certificate
                                                                               Type <span
                                                                                     class="ct_red_text">*</span></label>
-                                                                        <nz-select class="form-control ct_input"
-                                                                              nzPlaceHolder="Select Certificate Type"
-                                                                              [(ngModel)]="cert.type"
+                                                                        <input type="text" class="form-control ct_input"
+                                                                              placeholder="Enter institute"
+                                                                              [(ngModel)]="cert.certification_name"
                                                                               [ngModelOptions]="{standalone: true}">
-                                                                              <nz-option
-                                                                                    *ngFor="let item of certificaTeypes"
-                                                                                    [nzValue]="item.file_name"
-                                                                                    [nzLabel]="item.name">
-                                                                              </nz-option>
-                                                                        </nz-select>
                                                                   </div>
 
                                                                   <div class="col-md-6">
@@ -216,8 +210,8 @@
                                                                                     class="d-flex align-items-center gap-2 ">
                                                                                     <div class="ct_flex_1">
                                                                                           <div
-                                                                                                *ngIf="cert.previewUrl; else uploadInput">
-                                                                                                <a [href]="cert.previewUrl"
+                                                                                                *ngIf="cert.upload_path; else uploadInput">
+                                                                                                <a [href]="certificateURl+ cert.upload_path"
                                                                                                       target="_blank">
                                                                                                       <i
                                                                                                             class="fa fa-file"></i>
@@ -226,7 +220,7 @@
                                                                                                 </a>
                                                                                                 <button type="button"
                                                                                                       class="btn btn-sm btn-link text-danger p-0 ms-2"
-                                                                                                      (click)="removePreview(i,cert.id)">
+                                                                                                      (click)="removePreview(i,cert.doctor_certification_id)">
                                                                                                       Change
                                                                                                 </button>
                                                                                           </div>
@@ -237,15 +231,16 @@
                                                                                                       style="padding: 13px 20px;"
                                                                                                       (change)="onFileChange($event, i)">
                                                                                           </ng-template>
-                                                                                          {{cert.certification_type_id}}
                                                                                     </div>
-
+                                                                                    @if(cert.upload_path){
                                                                                     <button type="button"
                                                                                           class="ct_red_btn"
-                                                                                          (click)="removeCertificate(i, cert.id)"
+                                                                                          (click)="removePreview(i, cert.doctor_certification_id)"
                                                                                           *ngIf="i > 0">
                                                                                           <i class="fa fa-trash"></i>
                                                                                     </button>
+
+                                                                                    }
 
                                                                               </div>
 
@@ -253,10 +248,7 @@
                                                                   </div>
 
                                                             </div>
-                                                            <a type="button" class="ct_blue_text mt-3"
-                                                                  (click)="addCertificate()">
-                                                                  + Add Certificate
-                                                            </a>
+                                                           
                                                       </div>
 
                                                 </ng-container>
