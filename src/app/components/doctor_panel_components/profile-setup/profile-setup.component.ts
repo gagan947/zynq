@@ -84,7 +84,7 @@ export class ProfileSetupComponent {
 
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      phone: ['', [Validators.required, Validators.min(1)]],
+      phone: ['', [Validators.required, Validators.min(1), this.integerValidator]],
       age: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$'), this.integerValidator]],
       gender: ['', Validators.required],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -396,6 +396,11 @@ export class ProfileSetupComponent {
 
   addCertificate() {
     this.certificates.push({ type: '', file: null });
+  };
+
+  isSelected(item: any): boolean {
+    const isSelected = this.selectedTreatments.some((selected: any) => selected.treatment_id === item.treatment_id);
+    return isSelected;
   }
 
   removeCertificate(index: number, id: any) {

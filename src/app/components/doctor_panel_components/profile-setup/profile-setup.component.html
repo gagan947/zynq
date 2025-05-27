@@ -53,7 +53,6 @@
                                                                   formControlName="phone" placeholder="Enter phone no">
                                                             <div *ngIf="personalForm.get('phone')?.touched && personalForm.get('phone')?.invalid"
                                                                   class="text-danger">
-<<<<<<< HEAD
                                                                   <div
                                                                         *ngIf="personalForm.get('phone')?.errors?.['required']">
                                                                         Phone no is required.
@@ -62,9 +61,10 @@
                                                                         *ngIf="personalForm.get('phone')?.errors?.['min']">
                                                                         Phone no is not valid.
                                                                   </div>
-=======
-                                                                  Phone no is required.
->>>>>>> 43ae4cf (issues fixed)
+                                                                  <div
+                                                                        *ngIf="personalForm.get('phone')?.errors?.['notInteger']">
+                                                                        Phone no is not valid.
+                                                                  </div>
                                                             </div>
                                                       </div>
                                                 </div>
@@ -88,10 +88,6 @@
                                                                         *ngIf="personalForm.get('age')?.errors?.['pattern']">
                                                                         Age is not valid.
                                                                   </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 43ae4cf (issues fixed)
                                                             </div>
                                                       </div>
                                                 </div>
@@ -425,7 +421,7 @@
                                                             track $index) {
                                                             <li class="list_item" (click)="addTreatment(item)">
                                                                   <i class="fa-solid fa-check me-2"
-                                                                        [ngClass]="selectedTreatments.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                                        [ngClass]="isSelected(item) ? 'opacity-100' : 'opacity-0'"></i>
                                                                   {{item.name}}
                                                             </li>
                                                             }
