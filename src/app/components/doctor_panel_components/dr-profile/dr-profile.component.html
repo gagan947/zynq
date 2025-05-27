@@ -197,7 +197,7 @@
                             <li>
                                 <div class="d-flex align-items-start gap-2 ct_outline_border">
                                     <img src="../assets/img/file_img.png" alt="">
-                                    <div>
+                                    <div class="d-flex align-items-center gap-2">
                                         <p class="ct_fs_16 ct_fw_600 mb-1">{{certificate.name}}</p>
                                         <a [href]="certificate.upload_path" target="_blank">
                                             <i class="fa-solid fa-eye ms-2 ct_text_939393"></i>
@@ -228,7 +228,7 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2 ct_text_black">Session Duration<span
                                             class="ct_red_text">*</span></label>
-                                    <input type="time" class="form-control ct_input" disabled
+                                    <input type="text" class="form-control ct_input" disabled
                                         value="{{doctor.data.session_duration}}">
                                 </div>
                             </div>

@@ -36,8 +36,8 @@
                                                 </span>
                                           </div>
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">IVO Registration Number <span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">IVO Registration Number
+                                                </label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter IVO Registration Number"
                                                       formControlName="ivo_registration_number">
@@ -50,11 +50,9 @@
                                                 </span>
                                           </div>
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">HSA Id <span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">HSA Id </label>
                                                 <input type="text" class="form-control ct_input"
-                                                      placeholder="Enter IVO Registration Number"
-                                                      formControlName="hsa_id">
+                                                      placeholder="Enter HSA Id" formControlName="hsa_id">
                                                 <span
                                                       *ngIf="Form.controls['hsa_id'].invalid && Form.controls['hsa_id'].touched">
                                                       <span *ngIf="Form.controls['hsa_id'].errors?.['required']"
@@ -82,8 +80,7 @@
                                                 </span>
                                           </div>
                                           <div class="form-group mb-0">
-                                                <label for="" class="mb-2 ct_text_black">Logo<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">Logo</label>
                                                 <div class="">
                                                       <div *ngIf="!logoPreview" class="ct_upload_product_main"
                                                             (click)="logoInput.click()">
@@ -128,13 +125,12 @@
                                                 </div>
                                           </div>
                                     </div>
-                                    <!-- <input type="button" name="next" class="ct_form_next ct_black_btn float-end mx-1"
-                                          value="Next" /> -->
-
                                     <button (click)="onSubmit()" type="button"
                                           class="ct_form_next action-button ct_black_btn float-end" value="Next">
                                           Update
                                     </button>
+                                    <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
+                                          value="Next" (click)="next()">Next</button>
                               </fieldset>
                               <fieldset *ngIf="currentStep == 1">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
@@ -254,7 +250,7 @@
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="email" class="form-control ct_input"
                                                                   placeholder="Enter email address"
-                                                                  formControlName="email">
+                                                                  formControlName="email" readonly>
                                                             <span
                                                                   *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
                                                                   <span *ngIf="Form.controls['email'].errors?.['required']"
@@ -287,10 +283,15 @@
 
                                     </div>
                                     <!-- <div class="float-end"> -->
-
                                     <button type="button"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1"
                                           (click)="onSubmit()">Update</button>
+                                    <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
+                                          value="Next" (click)="next()">Next</button>
+                                    <button type="button"
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          value="Next" (click)="previous()">Previous</button>
+
                                     <!-- <button type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">Previous</button> -->
@@ -393,7 +394,7 @@
                                                             track $index) {
                                                             <li class="list_item" (click)="addTreatment(item)">
                                                                   <i class="fa-solid fa-check me-2"
-                                                                        [ngClass]="selectedTreatments.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                                        [ngClass]="isSelected(item) ? 'opacity-100' : 'opacity-0'"></i>
                                                                   {{item.name}}
                                                             </li>
                                                             }
@@ -438,7 +439,7 @@
                                                       </div>
                                                 </div>
                                           </div> -->
-                                          <div class="mb-4">
+                                          <!-- <div class="mb-4">
                                                 <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Equipments
                                                       Available-</label>
                                                 <ul
@@ -457,20 +458,19 @@
                                                       <input type="text" class="form-control ct_input ct_pe_122"
                                                             placeholder="Type to add equipment..."
                                                             (input)="searchEquipmentType($event)">
-                                                      <!-- <button class="ct_black_btn ct_btn_position_right">Add</button> -->
-                                                      <ul class="cutom_dropdown_list"
-                                                            *ngIf="filteredEquipmentType.length > 0">
-                                                            @for (item of filteredEquipmentType;
-                                                            track $index) {
-                                                            <li class="list_item" (click)="addEquipmentType(item)">
-                                                                  <i class="fa-solid fa-check me-2"
-                                                                        [ngClass]="selectedEquipmentType.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
-                                                                  {{item.name}}
-                                                            </li>
-                                                            }
-                                                      </ul>
-                                                </div>
-                                          </div>
+                                                     
+                                          <ul class="cutom_dropdown_list" *ngIf="filteredEquipmentType.length > 0">
+                                                @for (item of filteredEquipmentType;
+                                                track $index) {
+                                                <li class="list_item" (click)="addEquipmentType(item)">
+                                                      <i class="fa-solid fa-check me-2"
+                                                            [ngClass]="selectedEquipmentType.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
+                                                      {{item.name}}
+                                                </li>
+                                                }
+                                          </ul>
+                                    </div>
+                  </div> -->
 
                                           <div class="mb-4">
                                                 <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin
@@ -528,10 +528,12 @@
                                                 </span>
                                           </div>
                                     </div>
-
                                     <button type="button" name="next" (click)="onSubmit()"
                                           class="ct_black_btn float-end mx-1  ct_border_radius_10">Update
                                     </button>
+                                    <button type="button"
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          value="Next" (click)="previous()">Previous</button>
                                     <!-- <input type="button" name="previous"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1"
                                           value="Previous" (click)="previousStep()"> -->

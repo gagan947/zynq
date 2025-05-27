@@ -123,6 +123,10 @@ input[type="number"] {
   color: var(--red);
 }
 
+.ct_red_bg {
+  background-color: var(--red) !important;
+}
+
 .ct_text_clr_444 {
   color: var(--text-clr_444);
 }

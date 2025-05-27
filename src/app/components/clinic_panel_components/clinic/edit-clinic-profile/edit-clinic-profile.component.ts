@@ -266,6 +266,13 @@ export class EditClinicProfileComponent {
     this.currentStep = index
   }
 
+  next() {
+    this.currentStep = this.currentStep + 1;
+  }
+
+  previous() {
+    this.currentStep = this.currentStep - 1;
+  }
 
   validateCurrentStep(): boolean {
     const controls = this.stepFields[this.currentStep];
@@ -337,21 +344,25 @@ export class EditClinicProfileComponent {
       formData.append('hsa_id', this.Form.value.hsa_id)
       formData.append('zynq_user_id', this.userInfo.id);
     } else if (this.currentStep === 1) {
-      formData.append('email', this.Form.value.email)
+      // formData.append('email', this.Form.value.email)
       formData.append('mobile_number', this.Form.value.mobile_number)
       formData.append('street_address', this.Form.value.street_address)
       formData.append('city', this.Form.value.city)
       formData.append('state', this.Form.value.state)
       formData.append('zip_code', this.Form.value.zip_code)
-      formData.append('latitude', this.Form.value.latitude)
-      formData.append('longitude', this.Form.value.longitude)
-      formData.append('address', this.selectedLocation)
+      if (this.selectedLocation) {
+        formData.append('address', this.selectedLocation)
+        formData.append('latitude', this.Form.value.latitude)
+        formData.append('longitude', this.Form.value.longitude)
+      } else {
+        this.toster.error('Address is not valid please enter valid address')
+      }
       formData.append('website_url', this.Form.value.website_url)
       formData.append('zynq_user_id', this.userInfo.id);
       // } else if (this.currentStep === 2) {
       //   formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
       //   formData.append('zynq_user_id', this.userInfo.id);
-    } else if (this.currentStep === 2) {
+    } else if (this.currentStep === 2 && this.selectedTreatments.length > 0 && this.selectedSkinTypes.length > 0 && this.selectedSecurityLevel.length > 0) {
       formData.append('treatments', JSON.stringify(this.selectedTreatments.map(item => item.treatment_id)));
       formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
       formData.append('skin_types', JSON.stringify(this.selectedSkinTypes.map(item => item.skin_type_id)));
@@ -359,12 +370,17 @@ export class EditClinicProfileComponent {
       formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
       formData.append('language', 'en');;
       formData.append('zynq_user_id', this.userInfo.id);
+    } else {
+      return
     }
 
     this.service.post(`clinic/onboard-clinic`, formData).subscribe((res: any) => {
       if (res.success) {
         this.getClinicProfile()
         this.toster.success('Profile updated successfully');
+        if (this.currentStep === 2) {
+          this.router.navigate(['/clinic/clinic-profile']);
+        }
       } else {
         this.toster.error(res.message);
       }
@@ -380,8 +396,8 @@ export class EditClinicProfileComponent {
     this.Form.patchValue({
       clinic_name: this.clinicProfile()?.clinic_name,
       clinic_description: this.clinicProfile()?.clinic_description,
-      ivo_registration_number: this.clinicProfile()?.ivo_registration_number,
-      hsa_id: this.clinicProfile()?.hsa_id,
+      ivo_registration_number: this.clinicProfile()?.ivo_registration_number || '',
+      hsa_id: this.clinicProfile()?.hsa_id || '',
       email: this.clinicProfile()?.email,
       mobile_number: this.clinicProfile()?.mobile_number,
       city: this.clinicProfile()?.location.city,
@@ -428,6 +444,10 @@ export class EditClinicProfileComponent {
     return this.selectedSkinTypes.some(item => item.skin_type_id === skin_type_id);
   }
 
+  isSelected(item: any): boolean {
+    const isSelected = this.selectedTreatments.some((selected: any) => selected.treatment_id === item.treatment_id);
+    return isSelected;
+  }
   getClinicProfile() {
     this.service.get<any>('clinic/get-profile').subscribe((resp) => {
       this.service._clinicProfile.set(resp.data);

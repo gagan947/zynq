@@ -53,7 +53,7 @@
                                                                   formControlName="phone" placeholder="Enter phone no">
                                                             <div *ngIf="personalForm.get('phone')?.touched && personalForm.get('phone')?.invalid"
                                                                   class="text-danger">
-                                                                  Valid phone no is required.
+                                                                  Phone no is required.
                                                             </div>
                                                       </div>
                                                 </div>
@@ -65,7 +65,17 @@
                                                                   formControlName="age" placeholder="Enter age">
                                                             <div *ngIf="personalForm.get('age')?.touched && personalForm.get('age')?.invalid"
                                                                   class="text-danger">
-                                                                  Valid age is required.
+                                                                  <div
+                                                                        *ngIf="personalForm.get('age')?.errors?.['required']">
+                                                                        Age is required.
+                                                                  </div>
+                                                                  <div *ngIf="personalForm.get('age')?.errors?.['min']">
+                                                                        Minimum age must be 1.
+                                                                  </div>
+                                                                  <div
+                                                                        *ngIf="personalForm.get('age')?.errors?.['notInteger']">
+                                                                        Age is not valid.
+                                                                  </div>
                                                             </div>
                                                       </div>
                                                 </div>
@@ -76,10 +86,11 @@
                                                             class="form-control ct_input">
                                                             <nz-option nzValue="Male" nzLabel="Male"></nz-option>
                                                             <nz-option nzValue="Female" nzLabel="Female"></nz-option>
+                                                            <nz-option nzValue="Other" nzLabel="Other"></nz-option>
                                                       </nz-select>
                                                       <div *ngIf="personalForm.get('gender')?.touched && personalForm.get('gender')?.invalid"
                                                             class="text-danger">
-                                                            gender is required.
+                                                            Gender is required.
                                                       </div>
                                                 </div>
                                                 <div class="col-md-12 mt-2">
@@ -103,8 +114,8 @@
                                                 </div>
                                                 <div class="col-md-12 mt-3">
                                                       <div class="form-group mb-0">
-                                                            <label for="" class="mb-2 ct_text_black">Profile Image<span
-                                                                        class="ct_red_text">*</span></label>
+                                                            <label for="" class="mb-2 ct_text_black">Profile
+                                                                  Image</label>
                                                             <div class="">
                                                                   <div class="ct_upload_product_main"
                                                                         *ngIf="!imagePreview">
@@ -164,9 +175,9 @@
                                           </div>
 
                                     </div>
-                                    <input type="button" name="next"
+                                    <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">
+                                          (click)="nextStep()">Next</button>
 
 
 
@@ -343,6 +354,7 @@
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="date" class="form-control ct_input"
                                                                   [(ngModel)]="exp.start_date"
+                                                                  [max]="maxDate | date:'yyyy-MM-dd'"
                                                                   [ngModelOptions]="{standalone: true}">
                                                       </div>
                                                 </div>
@@ -368,9 +380,9 @@
 
                                     </div>
 
-                                    <input type="button" name="next"
+                                    <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">
+                                          (click)="nextStep()">Next</button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">
@@ -468,9 +480,9 @@
 
                                           </div>
                                     </div>
-                                    <input type="button" name="next"
+                                    <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">
+                                          (click)="nextStep()">Next</button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">
@@ -490,7 +502,7 @@
                                                             <label for="" class="mb-2 ct_text_black">Fee per
                                                                   Session<span class="ct_red_text">*</span></label>
                                                             <div class="position-relative">
-                                                                  <input type="text" class="form-control ct_input"
+                                                                  <input type="number" class="form-control ct_input"
                                                                         placeholder="Enter fee per session"
                                                                         formControlName="fee_per_session">
                                                                   <span class="ct_show_eye">$</span>
@@ -499,17 +511,52 @@
                                                                   *ngIf="operationHoursForm.get('fee_per_session')?.hasError('required') && operationHoursForm.get('fee_per_session')?.touched">
                                                                   Fee per session is required.
                                                             </div>
+                                                            <div class="text-danger mt-1"
+                                                                  *ngIf="operationHoursForm.get('fee_per_session')?.hasError('min') && operationHoursForm.get('fee_per_session')?.touched">
+                                                                  Fee per session can not be negative.
+                                                            </div>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                      <div class="form-group mb-3">
+                                                      <div [formGroup]="session_duration" class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Session
                                                                   Duration<span class="ct_red_text">*</span></label>
-                                                            <input type="time" class="form-control ct_input"
-                                                                  formControlName="session_duration">
-                                                            <div class="text-danger mt-1"
-                                                                  *ngIf="operationHoursForm.get('session_duration')?.hasError('required') && operationHoursForm.get('session_duration')?.touched">
-                                                                  Session duration is required.
+                                                            <div class="row align-items-center">
+                                                                  <div class=" col-md-4">
+                                                                        <input type="number"
+                                                                              class="form-control ct_input"
+                                                                              formControlName="hours"
+                                                                              placeholder="Enter duration in hours">
+                                                                        <div class="text-danger mt-1"
+                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('required') && operationHoursForm.get('session_duration.hours')?.touched">
+                                                                              Hours are required.
+                                                                        </div>
+                                                                        <div class="text-danger mt-1"
+                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('min') && operationHoursForm.get('session_duration.hours')?.touched">
+                                                                              Hours can not be negative.
+                                                                        </div>
+                                                                  </div>
+                                                                  hrs
+                                                                  <div class="col-md-4">
+                                                                        <input type="number"
+                                                                              class="form-control ct_input"
+                                                                              formControlName="minutes"
+                                                                              placeholder="Enter duration in minutes">
+                                                                        <div class="text-danger mt-1"
+                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('required') && operationHoursForm.get('session_duration.minutes')?.touched">
+                                                                              Minutes are required.
+                                                                        </div>
+                                                                        <div class="text-danger mt-1"
+                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('min') && operationHoursForm.get('session_duration.minutes')?.touched">
+                                                                              Minutes can not be negative.
+                                                                        </div>
+                                                                        <div class="text-danger mt-1"
+                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.value && operationHoursForm.get('session_duration.minutes')?.value === 00">
+                                                                              Session duration can not be 00:00
+                                                                        </div>
+
+                                                                  </div>
+                                                                  min
                                                             </div>
                                                       </div>
                                                 </div>
@@ -569,9 +616,9 @@
 
 
                                     </div>
-                                    <input type="button" name="next"
+                                    <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">
+                                          (click)="nextStep()">Next</button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">

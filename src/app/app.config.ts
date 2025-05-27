@@ -5,6 +5,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { HttpInterceptorService } from './interceptors/http.interceptor';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideMessaging, getMessaging } from '@angular/fire/messaging';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
 const scrollConfig: InMemoryScrollingOptions = {
   scrollPositionRestoration: 'top',
   anchorScrolling: 'enabled',
@@ -12,6 +16,9 @@ const scrollConfig: InMemoryScrollingOptions = {
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes, withInMemoryScrolling(scrollConfig)),
+  provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+  provideMessaging(() => getMessaging()),
+  provideFirestore(() => getFirestore()),
   provideAnimations(),
   provideHttpClient(
     withInterceptorsFromDi()

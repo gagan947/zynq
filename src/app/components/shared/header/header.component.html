@@ -31,10 +31,11 @@
                     <div class="text-start">
                         @if(auth.getRoleName() == 'clinic'){
                         <p class="mb-0 ct_fw_500">{{ this.clinicProfile()?.clinic_name}}</p>
+                        <small class="ct_text_939393">Clinic</small>
                         }@else {
                         <p class="mb-0 ct_fw_500">{{ drProfile()?.name }}</p>
+                        <small class="ct_text_939393">Doctor</small>
                         }
-                        <!-- <small class="ct_text_939393">Admin</small> -->
                     </div>
                 </div>
                 <i class="fa-solid fa-angle-down ms-auto"></i>

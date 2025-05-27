@@ -2,7 +2,6 @@ import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
-import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { passwordMatchValidator, passwordMismatchValidator, strongPasswordValidator } from '../../validators';
 
@@ -18,7 +17,8 @@ export class ChangePasswordComponent {
   isShowCurrentPassword: boolean = false;
   isShowNewPassword: boolean = false;
   isShowConfPassword: boolean = false;
-  constructor(private service: CommonService, private router: Router, private toster: NzMessageService, public location: Location) { }
+  loading: boolean = false
+  constructor(private service: CommonService, private toster: NzMessageService, public location: Location) { }
   ngOnInit() {
     this.initForm()
   }
@@ -41,6 +41,7 @@ export class ChangePasswordComponent {
       this.Form.markAllAsTouched();
       return
     }
+    this.loading = true
     let formData = {
       current_password: this.Form.value.current_password,
       new_password: this.Form.value.newPassword
@@ -51,12 +52,15 @@ export class ChangePasswordComponent {
           this.toster.success(res.message);
           this.Form.reset();
           // this.router.navigate(['/']);
+          this.loading = false
         } else {
           this.toster.error(res.message);
+          this.loading = false
         }
       },
       error: (error) => {
         this.toster.error(error);
+        this.loading = false
       }
     })
   }

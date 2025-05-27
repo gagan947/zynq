@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoaderService } from '../../../services/loader.service';
+import { NoWhitespaceDirective } from '../../../validators';
 
 function operationHoursValidator(group: AbstractControl): ValidationErrors | null {
   const closed = group.get('closed')?.value;
@@ -20,10 +21,10 @@ function operationHoursValidator(group: AbstractControl): ValidationErrors | nul
   if (!closed) {
     const errors: any = {};
     if (!startTime) {
-      errors.start_time = 'Start time is required when clinic is open.';
+      errors.start_time = 'Start time is required when doctor is available.';
     }
     if (!endTime) {
-      errors.end_time = 'End time is required when clinic is open.';
+      errors.end_time = 'End time is required when doctor is available.';
     }
     return Object.keys(errors).length ? errors : null;
   }
@@ -68,6 +69,7 @@ export class EditProfileComponent {
   selectedSkinTypes: SkinType[] = []
   securityLevel: SecurityLevel[] = []
   selectedSecurityLevel: SecurityLevel[] = [];
+  maxDate: Date = new Date();
 
   constructor(private fb: FormBuilder, private http: HttpClient, private loaderService: LoaderService, private apiService: CommonService, private router: Router, private toster: NzMessageService) {
 
@@ -76,16 +78,19 @@ export class EditProfileComponent {
 
   ngOnInit(): void {
     this.personalForm = this.fb.group({
-      fullName: ['', Validators.required],
-      phone: ['', [Validators.required]],
-      age: ['', [Validators.required, Validators.min(1)]],
+      fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      phone: ['', [Validators.required,]],
+      age: ['', [Validators.required, Validators.min(1), this.integerValidator]],
       gender: ['', Validators.required],
-      address: ['', Validators.required],
+      address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       biography: ['']
     });
     this.operationHoursForm = this.fb.group({
-      fee_per_session: ['', Validators.required],
-      session_duration: ['', Validators.required],
+      fee_per_session: ['', [Validators.required, Validators.min(0)]],
+      session_duration: this.fb.group({
+        hours: ['00', [Validators.required, Validators.min(0)]],
+        minutes: ['30', [Validators.required, Validators.min(0)]]
+      }),
       operation_hours: this.fb.array([])
     });
 
@@ -97,6 +102,9 @@ export class EditProfileComponent {
     this.getSkinTypes();
   }
 
+  get session_duration(): FormGroup {
+    return this.operationHoursForm.get('session_duration') as FormGroup;
+  }
   loadFormData() {
     this.loaderService.show();
     this.apiService.get<DoctorProfileResponse>('doctor/get_profile').subscribe(res => {
@@ -136,7 +144,10 @@ export class EditProfileComponent {
       }
       this.operationHoursForm.patchValue({
         fee_per_session: data.fee_per_session,
-        session_duration: data.session_duration,
+        session_duration: {
+          hours: data.session_duration.split(':')[0],
+          minutes: data.session_duration.split(':')[1]
+        }
       });
       this.patchOperationHours(data.availability);
       if (data.profile_image != null && data.profile_image != '') {
@@ -195,8 +206,8 @@ export class EditProfileComponent {
       }
 
       const isValidEdu = this.education.every(c =>
-        c.institution &&
-        c.degree_name &&
+        c.institution.trim() &&
+        c.degree_name.trim() &&
         c.start_year &&
         c.end_year &&
         c.end_year > c.start_year
@@ -206,9 +217,9 @@ export class EditProfileComponent {
         this.toster.warning('Please enter valid education details. End date must be after start date.');
         return;
       }
-      const isValidExp = this.experience.every(c => c.organisation_name && c.start_date && c.end_date && c.designation);
+      const isValidExp = this.experience.every(c => c.organisation_name.trim() && c.start_date && c.end_date && c.designation.trim() && c.end_date > c.start_date);
       if (!isValidExp) {
-        this.toster.warning('Please enter all experience details for all entries.');
+        this.toster.warning('Please enter valid experience details. End date must be after start date.');
         return;
       }
       this.onSubmitProfessional()
@@ -225,6 +236,14 @@ export class EditProfileComponent {
     if (this.currentStep > 0) {
       this.currentStep--;
     }
+  }
+
+  next() {
+    this.currentStep = this.currentStep + 1;
+  }
+
+  previous() {
+    this.currentStep = this.currentStep - 1;
   }
 
   onSubmitPersonal() {
@@ -333,7 +352,7 @@ export class EditProfileComponent {
       const formData = {
         fee_per_session: this.operationHoursForm.value.fee_per_session,
         currency: 'INR',
-        session_duration: this.operationHoursForm.value.session_duration,
+        session_duration: this.operationHoursForm.value.session_duration.hours + ':' + this.operationHoursForm.value.session_duration.minutes,
         availability: (payload)
       };
 
@@ -472,8 +491,11 @@ export class EditProfileComponent {
   }
 
   addTreatment(treatment: Treatment) {
-    if (!this.selectedTreatments.some((item: any) => item.treatment_id === treatment.treatment_id)) {
+    const index = this.selectedTreatments.findIndex((item) => item.treatment_id === treatment.treatment_id);
+    if (index === -1) {
       this.selectedTreatments.push(treatment);
+    } else {
+      this.selectedTreatments.splice(index, 1);
     }
   }
   removeTreatment(index: number) {
@@ -547,5 +569,15 @@ export class EditProfileComponent {
       if (res.success == true) {
       }
     });
+  }
+
+  isSelected(item: any): boolean {
+    const isSelected = this.selectedTreatments.some((selected: any) => selected.treatment_id === item.treatment_id);
+    return isSelected;
+  }
+
+  integerValidator(control: AbstractControl) {
+    const value = control.value;
+    return Number.isInteger(Number(value)) ? null : { notInteger: true };
   }
 }
