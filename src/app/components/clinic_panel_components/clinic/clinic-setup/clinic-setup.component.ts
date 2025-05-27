@@ -80,7 +80,7 @@ export class ClinicSetupComponent {
       ivo_registration_number: [''],
       hsa_id: [''],
       email: ['', [Validators.required, Validators.email]],
-      mobile_number: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      mobile_number: ['', [Validators.required]],
       street_address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       city: ['', [Validators.required, NoWhitespaceDirective.validate]],
       state: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -369,9 +369,14 @@ export class ClinicSetupComponent {
       formData.append('city', this.Form.value.city)
       formData.append('state', this.Form.value.state)
       formData.append('zip_code', this.Form.value.zip_code)
-      formData.append('latitude', this.Form.value.latitude)
-      formData.append('longitude', this.Form.value.longitude)
       formData.append('address', this.selectedLocation)
+      if (this.Form.value.latitude && this.Form.value.longitude) {
+        formData.append('latitude', this.Form.value.latitude)
+        formData.append('longitude', this.Form.value.longitude)
+      } else {
+        this.toster.error('Map location is not valid please enter valid location')
+        return
+      }
       formData.append('zynq_user_id', this.userInfo.id)
       formData.append('website_url', this.Form.value.website_url)
       formData.append('form_stage', '2')

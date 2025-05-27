@@ -78,7 +78,7 @@ export class EditClinicProfileComponent {
       ivo_registration_number: [''],
       hsa_id: [''],
       email: ['', [Validators.required, Validators.email]],
-      mobile_number: ['+46', [Validators.required, NoWhitespaceDirective.validate]],
+      mobile_number: ['', [Validators.required]],
       street_address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       city: ['', [Validators.required, NoWhitespaceDirective.validate]],
       state: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -350,12 +350,13 @@ export class EditClinicProfileComponent {
       formData.append('city', this.Form.value.city)
       formData.append('state', this.Form.value.state)
       formData.append('zip_code', this.Form.value.zip_code)
-      if (this.selectedLocation) {
-        formData.append('address', this.selectedLocation)
+      formData.append('address', this.selectedLocation)
+      if (this.Form.value.latitude && this.Form.value.longitude) {
         formData.append('latitude', this.Form.value.latitude)
         formData.append('longitude', this.Form.value.longitude)
       } else {
-        this.toster.error('Address is not valid please enter valid address')
+        this.toster.error('Map location is not valid please enter valid location')
+        return
       }
       formData.append('website_url', this.Form.value.website_url)
       formData.append('zynq_user_id', this.userInfo.id);
@@ -364,10 +365,10 @@ export class EditClinicProfileComponent {
       //   formData.append('zynq_user_id', this.userInfo.id);
     } else if (this.currentStep === 2 && this.selectedTreatments.length > 0 && this.selectedSkinTypes.length > 0 && this.selectedSecurityLevel.length > 0) {
       formData.append('treatments', JSON.stringify(this.selectedTreatments.map(item => item.treatment_id)));
-      formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
+      // formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
       formData.append('skin_types', JSON.stringify(this.selectedSkinTypes.map(item => item.skin_type_id)));
       formData.append('severity_levels', JSON.stringify(this.selectedSecurityLevel.map(item => item.severity_level_id)));
-      formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
+      // formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
       formData.append('language', 'en');;
       formData.append('zynq_user_id', this.userInfo.id);
     } else {

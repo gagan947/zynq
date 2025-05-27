@@ -1,7 +1,7 @@
 <section class="ct_py_50">
       <div class="container-fluid ">
             <div class="row">
-                  <div class="col-md-10  mx-auto">
+                  <div class="col-md-12  mx-auto">
                         <div class="d-flex align-items-center gap-3 mb-5">
                               <a class="ct_back_icon" routerLink="/doctor/my-profile"><i
                                           class="fa-solid fa-chevron-left"></i></a>
@@ -51,7 +51,14 @@
                                                                   formControlName="phone" placeholder="Enter phone no">
                                                             <div *ngIf="personalForm.get('phone')?.touched && personalForm.get('phone')?.invalid"
                                                                   class="text-danger">
-                                                                  Phone is required.
+                                                                  <div
+                                                                        *ngIf="personalForm.get('phone')?.errors?.['required']">
+                                                                        Phone no is required.
+                                                                  </div>
+                                                                  <div
+                                                                        *ngIf="personalForm.get('phone')?.errors?.['min']">
+                                                                        Phone no is not valid.
+                                                                  </div>
                                                             </div>
                                                       </div>
                                                 </div>
@@ -59,7 +66,7 @@
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">Age<span
                                                                         class="ct_red_text">*</span></label>
-                                                            <input type="number" class="form-control ct_input"
+                                                            <input type="text" class="form-control ct_input"
                                                                   formControlName="age" placeholder="Enter age"
                                                                   step="1">
                                                             <div *ngIf="personalForm.get('age')?.touched && personalForm.get('age')?.invalid"
@@ -72,9 +79,10 @@
                                                                         Minimum age must be 1.
                                                                   </div>
                                                                   <div
-                                                                        *ngIf="personalForm.get('age')?.errors?.['notInteger']">
+                                                                        *ngIf="personalForm.get('age')?.errors?.['pattern']">
                                                                         Age is not valid.
                                                                   </div>
+
                                                             </div>
                                                       </div>
                                                 </div>
@@ -525,11 +533,14 @@
                                                             <label for="" class="mb-2 ct_text_black">Session
                                                                   Duration<span class="ct_red_text">*</span></label>
                                                             <div class="row align-items-center">
-                                                                  <div class=" col-md-4">
-                                                                        <input type="number"
-                                                                              class="form-control ct_input"
-                                                                              formControlName="hours"
-                                                                              placeholder="Enter duration in hours">
+                                                                  <div class=" col-md-6">
+                                                                        <div class="d-flex align-items-center gap-2">
+                                                                              <input type="text"
+                                                                                    class="form-control ct_input"
+                                                                                    formControlName="hours"
+                                                                                    placeholder="In hours">
+                                                                              <span class="ct_white_nowrap">hrs</span>
+                                                                        </div>
                                                                         <div class="text-danger mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('required') && operationHoursForm.get('session_duration.hours')?.touched">
                                                                               Hours are required.
@@ -538,13 +549,20 @@
                                                                               *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('min') && operationHoursForm.get('session_duration.hours')?.touched">
                                                                               Hours can not be negative.
                                                                         </div>
+                                                                        <div class="text-danger mt-1"
+                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('pattern') && operationHoursForm.get('session_duration.hours')?.touched">
+                                                                              Invalid hours
+                                                                        </div>
                                                                   </div>
-                                                                  hrs
-                                                                  <div class="col-md-4">
-                                                                        <input type="number"
-                                                                              class="form-control ct_input"
-                                                                              formControlName="minutes"
-                                                                              placeholder="Enter duration in minutes">
+
+                                                                  <div class="col-md-6">
+                                                                        <div class="d-flex align-items-center gap-2">
+                                                                              <input type="text"
+                                                                                    class="form-control ct_input"
+                                                                                    formControlName="minutes"
+                                                                                    placeholder="In minutes">
+                                                                              <span class="ct_white_nowrap">min</span>
+                                                                        </div>
                                                                         <div class="text-danger mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('required') && operationHoursForm.get('session_duration.minutes')?.touched">
                                                                               Minutes are required.
@@ -554,12 +572,20 @@
                                                                               Minutes can not be negative.
                                                                         </div>
                                                                         <div class="text-danger mt-1"
+                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('max') && operationHoursForm.get('session_duration.minutes')?.touched">
+                                                                              Minutes can not be greater than 59.
+                                                                        </div>
+                                                                        <div class="text-danger mt-1"
+                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('pattern') && operationHoursForm.get('session_duration.minutes')?.touched">
+                                                                              Invalid minutes
+                                                                        </div>
+                                                                        <div class="text-danger mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.hours')?.value && operationHoursForm.get('session_duration.minutes')?.value === 00">
                                                                               Session duration can not be 00:00
                                                                         </div>
 
                                                                   </div>
-                                                                  min
+
                                                             </div>
                                                       </div>
                                                 </div>
@@ -571,13 +597,24 @@
                                           <div class="row align-items-center ct_border_btm_1 py-3"
                                                 *ngFor="let group of operationHours.controls; let i = index"
                                                 [formGroupName]="i">
-                                                <div class="col-md-3">
-                                                      <div class="mb-2 mb-md-0">
+                                                <div class="col-xl-3 col-lg-3">
+                                                      <div
+                                                            class="mb-2 mb-lg-0 d-flex align-items-center justify-content-between gap-2">
                                                             <p class="mb-0 ct_text_clr_444">{{
                                                                   group.get('day_of_week')?.value }}</p>
+                                                            <div class="d-block d-lg-none">
+                                                                  <div class="form-check mb-0">
+                                                                        <input type="checkbox"
+                                                                              class="form-check-input ct_custom_check"
+                                                                              style="width: 16px; height: 16px; margin-top: 0px;"
+                                                                              formControlName="closed" id="closed{{i}}">
+                                                                        <label class="form-check-label ms-2"
+                                                                              for="closed{{i}}">Closed</label>
+                                                                  </div>
+                                                            </div>
                                                       </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-xl-6 col-lg-8 ">
                                                       <div class="d-flex align-items-center gap-3">
                                                             <div class="form-group ct_flex_1">
                                                                   <input type="time" class="form-control ct_input"
@@ -598,9 +635,13 @@
                                                                         class="text-danger">
                                                                         {{ group.errors?.['end_time'] }}
                                                                   </div>
+                                                                  <div *ngIf="group.errors?.['timeRangeInvalid']"
+                                                                        class="text-danger">
+                                                                        End time must be after start time.
+                                                                  </div>
                                                             </div>
-                                                            <div class="col-md-2">
-                                                                  <div class="form-check">
+                                                            <div class="d-none d-lg-block">
+                                                                  <div class="form-check mb-0">
                                                                         <input type="checkbox"
                                                                               class="form-check-input ct_custom_check"
                                                                               formControlName="closed" id="closed{{i}}">

@@ -147,7 +147,8 @@
                                           </div>
                                     </div>
                               </div>
-                              @if(this.clinicProfile()?.hsa_id || this.clinicProfile()?.ivo_registration_number){
+                              @if(this.clinicProfile()?.hsa_id || this.clinicProfile()?.ivo_registration_number ||
+                              this.clinicProfile()?.org_number){
                               <div class="col-xxl-4 mt-4">
                                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 h-100">
                                           <p class="ct_fs_18 mb-3">
@@ -159,6 +160,24 @@
                                                 </svg>
                                                 Registration Details
                                           </p>
+
+                                          @if(this.clinicProfile()?.org_number){
+                                          <div class="form-group mb-4">
+                                                <label for="" class="mb-2">Swedish Organization Number </label>
+                                                <div class="position-relative">
+                                                      <input type="email" [value]="this.clinicProfile()?.org_number"
+                                                            class="form-control ct_input ct_input_ps_40" disabled>
+                                                      <div class="ct_input_icon_left">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                  height="20" viewBox="0 0 24 24">
+                                                                  <path fill="currentColor"
+                                                                        d="M19 9a7 7 0 1 0-10.974 5.76L5 20l2.256.093L8.464 22l3.466-6.004L12 16c.035.002.046-.003.07-.004L15.536 22l1.232-1.866L19 20l-3.026-5.24A6.99 6.99 0 0 0 19 9M7 9a5 5 0 1 1 5 5a5 5 0 0 1-5-5" />
+                                                                  <circle cx="12" cy="9" r="3" fill="currentColor" />
+                                                            </svg>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          }
 
                                           @if(this.clinicProfile()?.hsa_id){
                                           <div class="form-group mb-4">
