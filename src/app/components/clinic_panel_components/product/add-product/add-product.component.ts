@@ -130,10 +130,13 @@ export class AddProductComponent {
           this.previewProductImages.splice(index, 1);
           this.productImages.splice(index, 1);
         } else {
-          this.toster.error(resp.message)
+          // this.toster.error(resp.message)
+          this.previewProductImages.splice(index, 1);
+          this.productImages.splice(index, 1);
         }
       }, (error) => {
-        this.toster.error(error);
+        this.previewProductImages.splice(index, 1);
+        this.productImages.splice(index, 1);
       })
     } else {
       this.previewProductImages.splice(index, 1);

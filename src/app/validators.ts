@@ -74,6 +74,7 @@ export function dateRangeValidator(): ValidatorFn {
 }
 
 export class whiteSpaceValidator {
+      static validate: any | string
       static cannotContainSpace(control: AbstractControl): ValidationErrors | null {
             if ((control.value as string).indexOf(' ') >= 0) {
                   return { cannotContainSpace: true }
@@ -120,4 +121,9 @@ export function timeRangeValidator(): ValidatorFn {
 function parseTime(time: string): number {
       const [hours, minutes] = time.split(':').map(Number);
       return hours * 60 + minutes;
+}
+
+export function integerValidator(control: AbstractControl) {
+      const value = control.value;
+      return Number.isInteger(Number(value)) ? null : { notInteger: true };
 }

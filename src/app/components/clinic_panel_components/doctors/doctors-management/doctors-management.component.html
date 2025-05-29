@@ -94,7 +94,7 @@
                                                 <td>{{item.email}}</td>
                                                 <td>
                                                       <span
-                                                            [ngClass]="item.is_invitation_accepted ? 'text-success' : 'ct_dark_yellow_text'">
+                                                            [ngClass]="item.is_invitation_accepted ? 'ct_green_text' : 'ct_dark_yellow_text'">
                                                             {{item.is_invitation_accepted ? 'Accepted' : 'Pending'}}
                                                       </span>
                                                 </td>
@@ -177,12 +177,9 @@
                                     <button data-bs-dismiss="modal" type="button" aria-label="Close"
                                           class="ct_outline_btn px-5 py-2 w-100" #closeButton>Cancel</button>
                                     <button type="submit" class="ct_black_btn px-5 py-2 w-100">Send Invitation</button>
-
                               </div>
                         </form>
-
                   </div>
-
             </div>
       </div>
 </div>

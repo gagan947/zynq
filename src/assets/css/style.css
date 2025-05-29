@@ -838,7 +838,7 @@ header {
 }
 
 .ct_back_icon:hover {
-  transform: translateX(-5px);
+  /* transform: translateX(-5px); */
 }
 
 .ct_big_user_img img {
@@ -1063,6 +1063,15 @@ header {
   border-radius: 5px;
   outline: none;
   border: 1px solid var(--light_green);
+}
+
+.ct_custom_badge_yellow {
+  background-color: #facc153b;
+  color: var(--dark_yellow);
+  padding: 10px 20px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #fef3d2;
 }
 
 .ct_profile_img {
@@ -2008,7 +2017,7 @@ button:focus {
 }
 
 .msg-body {
-  height: calc(100vh - 51vh);
+  height: calc(100vh - 330px);
   overflow-y: auto;
 }
 

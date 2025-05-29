@@ -5,21 +5,21 @@
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
                               <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Help & Support</h4>
                               <p class="mb-0">View or raise support tickets</p>
-
                               <div
                                     class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
-                                                <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="Search tickets">
+                                                <input type="text" class="form-control ct_input ct_input_pe-40"
+                                                      placeholder="Search by title" (input)="searchTickets($event)"
+                                                      #search>
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                                 <span class="ct_white_nowrap">Filter by:</span>
                                                 <div class="form-group position-relative ct_w_100_767">
-                                                      <input type="date" class="form-control ct_input">
+                                                      <input type="date" class="form-control ct_input"
+                                                            (change)="filterByDate($event)" #date>
                                                 </div>
-
                                           </div>
                                     </div>
                                     <div class="ct_w_100_767">
@@ -33,13 +33,57 @@
                                                 Raise Ticket</a>
                                     </div>
                               </div>
+                              @if(auth.getRoleName() == 'doctor'){
+                              <ul class="nav nav-pills mb-3 ct_custom_tabs" id="pills-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                          <button class="nav-link"
+                                                [ngClass]="{'active': activeTab == 'admin' || activeTab == ''}"
+                                                id="pills-Upcoming-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-Upcoming" type="button" role="tab"
+                                                aria-controls="pills-Upcoming" aria-selected="true"
+                                                (click)="filterBy('admin')">Admin</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                          <button class="nav-link" [ngClass]="{'active': activeTab == 'clinic'}"
+                                                id="pills-Completed-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-Completed" type="button" role="tab"
+                                                aria-controls="pills-Completed" aria-selected="false"
+                                                (click)="filterBy('clinic')">Clinic</button>
+                                    </li>
+                              </ul>
+                              }
+                              @if(auth.getRoleName() == 'clinic'){
+                              <ul class="nav nav-pills mb-3 ct_custom_tabs" id="pills-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                          <button class="nav-link"
+                                                [ngClass]="{'active': activeTab == 'me' || activeTab == ''}"
+                                                id="pills-Upcoming-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-Upcoming" type="button" role="tab"
+                                                aria-controls="pills-Upcoming" aria-selected="true"
+                                                (click)="filterBy('me')">Your Tickets</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                          <button class="nav-link" [ngClass]="{'active': activeTab == 'doctor'}"
+                                                id="pills-Completed-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-Completed" type="button" role="tab"
+                                                aria-controls="pills-Completed" aria-selected="false"
+                                                (click)="filterBy('doctor')">Tickets by Dr.</button>
+                                    </li>
+                              </ul>
+                              }
                         </div>
+
 
                         <div class="table-responsive mt-4 ct_custom_table">
                               <table class="table ">
                                     <thead>
                                           <tr>
-                                                <th>Ticket ID</th>
+                                                <th>S.No</th>
+                                                @if(activeTab == 'clinic' || activeTab == 'doctor'){
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                }
+                                                <th>Ticket Title</th>
                                                 <th>Creation Date</th>
                                                 <th>Issue Description</th>
                                                 <th>Status</th>
@@ -47,74 +91,49 @@
                                           </tr>
                                     </thead>
                                     <tbody>
+                                          @if(tickets$ | async; as items){
+                                          @for(ticket of tickets; track ticket.support_ticket_id; let i = $index){
                                           <tr>
-                                                <td>TK-001</td>
+                                                <td>{{i + 1}}</td>
+                                                @if(activeTab == 'clinic' || activeTab == 'doctor'){
+                                                <td>{{ticket.clinic?.clinic_name || ticket.doctor?.name}}</td>
+                                                <td>{{ticket.clinic?.email || ticket.doctor?.email}}</td>
+                                                }
                                                 <td>
-                                                      Jan 15, 2024
-                                                </td>
-                                                <td>
-                                                      <p class="mb-0 ct_overlay_text">Unable to access patient records
+                                                      <p class="mb-0 ct_overlay_text">
+                                                            {{ticket.issue_title}}
                                                       </p>
                                                 </td>
                                                 <td>
-                                                      <span class="ct_dark_yellow_text">Pending</span>
+                                                      {{ticket.created_at | date:'dd MMM, yyyy'}}
                                                 </td>
                                                 <td>
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <a routerLink="detail"><i class="fa-regular fa-eye"></i></a>
-                                                      </div>
-                                                </td>
-                                          </tr>
-                                          <tr>
-                                                <td>TK-001</td>
-                                                <td>
-                                                      Jan 15, 2024
-                                                </td>
-                                                <td>
-                                                      <p class="mb-0 ct_overlay_text">Unable to access patient records
+                                                      <p class="mb-0 ct_overlay_text">
+                                                            {{ticket.issue_description}}
                                                       </p>
                                                 </td>
                                                 <td>
-                                                      <span class="ct_green_text">Resolved</span>
+                                                      <span
+                                                            [ngClass]="{'ct_green_text': ticket.admin_response || ticket.clinic_response, 'ct_dark_yellow_text': !ticket.admin_response && !ticket.clinic_response}">{{ticket.admin_response || ticket.clinic_response ? 'Resolved' : 'Pending'}}</span>
                                                 </td>
                                                 <td>
                                                       <div class="d-flex align-items-center gap-3">
-                                                            <a routerLink="detail"><i
-                                                                        class=" fa-regular fa-eye"></i></a>
+                                                            <a (click)="viewTicket(ticket)"><i
+                                                                        class="fa-regular fa-eye"></i></a>
                                                       </div>
                                                 </td>
                                           </tr>
+                                          }
+                                          }
+                                          @if(tickets.length == 0){
                                           <tr>
-                                                <td>TK-001</td>
-                                                <td>
-                                                      Jan 15, 2024
-                                                </td>
-                                                <td>
-                                                      <p class="mb-0 ct_overlay_text">Unable to access patient records
-                                                      </p>
-                                                </td>
-                                                <td>
-                                                      <span class="ct_dark_yellow_text">Pending</span>
-                                                </td>
-                                                <td>
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <a routerLink="detail"><i
-                                                                        class=" fa-regular fa-eye"></i></a>
-                                                      </div>
-                                                </td>
+                                                <td colspan="6" class="text-center">No tickets found</td>
                                           </tr>
-
-
+                                          }
                                     </tbody>
-
-
                               </table>
-
                         </div>
-
                   </div>
             </div>
-
-
       </div>
 </div>

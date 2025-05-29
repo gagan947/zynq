@@ -113,7 +113,7 @@ export class DoctorsManagementComponent {
     const searchValue = event.target.value.trim().toLowerCase();
     if (searchValue) {
       this.doctorsList = this.orgDoctorsList.filter(list =>
-        list.name.toLowerCase().includes(searchValue) || list.name.toLowerCase().includes(searchValue)
+        list.name?.toLowerCase().includes(searchValue) || list.email?.toLowerCase().includes(searchValue)
       );
     } else {
       this.doctorsList = [...this.orgDoctorsList];
@@ -142,3 +142,8 @@ export class DoctorsManagementComponent {
     }
   }
 }
+
+
+
+
+

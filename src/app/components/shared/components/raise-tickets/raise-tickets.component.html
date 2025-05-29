@@ -3,7 +3,7 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="d-flex align-items-center gap-3 mb-5">
-                              <a routerLink="/clinic/support" class="ct_back_icon"><i
+                              <a (click)="location.back()" class="ct_back_icon"><i
                                           class="fa-solid fa-chevron-left"></i></a>
                               <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Help & Support </span>
                                     <span class="ct_text_op_07 ct_fs_16"> /
@@ -12,33 +12,95 @@
                         </div>
 
                         <div class="ct_white_bg ct_py_28_px_20 ct_border_radius_10 ct_border_clr_D2D5DB">
-                              <form action="">
-                                    <div class="form-group mb-4">
-                                          <label for="" class="mb-2 ct_text_black">Issue Category<span
-                                                      class="ct_red_text">*</span></label>
-                                          <select class="form-control ct_input">
-                                                <option value="">Select Category</option>
-                                                <option value="">Select Category</option>
-                                                <option value="">Select Category</option>
-                                          </select>
+                              <form [formGroup]="Form" (ngSubmit)="onSubmit()">
+                                    <div class="row">
+                                          @if(auth.getRoleName() == 'doctor'){
+                                          <div class="form-group mb-4"
+                                                [ngClass]="{'col-md-6': Form.controls['for'].value == 'Clinic', 'col-md-12': Form.controls['for'].value == 'Admin'}">
+                                                <label for="" class="mb-2 ct_text_black">Ticket For<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select class="form-control ct_input" nzPlaceHolder="Select"
+                                                      formControlName="for">
+                                                      <nz-option [nzValue]="'Admin'" [nzLabel]="'Admin'">
+                                                      </nz-option>
+                                                      <nz-option [nzValue]="'Clinic'" [nzLabel]="'Clinic'">
+                                                      </nz-option>
+                                                </nz-select>
+                                                <span
+                                                      *ngIf="Form.controls['for'].invalid && Form.controls['for'].touched">
+                                                      <span *ngIf="Form.controls['for'].errors?.['required']"
+                                                            class="ct_text_red mt-2">
+                                                            For is required.
+                                                      </span>
+                                                </span>
+                                          </div>
+                                          @if(Form.controls['for'].value == 'Clinic'){
+                                          @if(clinics$ | async; as items){
+                                          <div class="form-group mb-4"
+                                                [ngClass]="{'col-md-6': Form.controls['for'].value == 'Clinic', 'col-md-12': Form.controls['for'].value == 'Admin'}">
+                                                <label for="" class="mb-2 ct_text_black">Clinic<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select class="form-control ct_input" nzPlaceHolder="Select Clinic"
+                                                      formControlName="clinic_id"
+                                                      [nzNotFoundContent]="'No linked clinic found'">
+                                                      @for(clinic of items.data; track clinic.clinic_id){
+                                                      <nz-option [nzValue]="clinic.clinic_id"
+                                                            [nzLabel]="clinic.clinic_name">
+                                                      </nz-option>
+                                                      }
+                                                </nz-select>
+                                                <span
+                                                      *ngIf="Form.controls['clinic_id'].invalid && Form.controls['clinic_id'].touched">
+                                                      <span *ngIf="Form.controls['clinic_id'].errors?.['required']"
+                                                            class="ct_text_red mt-2">
+                                                            Clinic is required.
+                                                      </span>
+                                                </span>
+                                          </div>
+                                          } } }
                                     </div>
                                     <div class="form-group mb-4">
                                           <label for="" class="mb-2 ct_text_black">Title<span
                                                       class="ct_red_text">*</span></label>
                                           <input type="text" class="form-control ct_input"
-                                                placeholder="Title of the issue">
+                                                placeholder="Title of the issue" formControlName="title">
+                                          <span
+                                                *ngIf="Form.controls['title'].invalid && Form.controls['title'].touched">
+                                                <span *ngIf="Form.controls['title'].errors?.['required']"
+                                                      class="ct_text_red mt-2">
+                                                      Title is required.
+                                                </span>
+                                                <span *ngIf="Form.controls['title'].errors?.['maxlength']"
+                                                      class="ct_text_red mt-2">
+                                                      Title must be less than 100 characters.
+                                                </span>
+                                          </span>
                                     </div>
                                     <div class="form-group mb-4">
                                           <label for="" class="mb-2 ct_text_black">Description<span
                                                       class="ct_red_text">*</span></label>
                                           <textarea type="text" class="form-control ct_input h-auto" rows="4"
-                                                placeholder="Provide detailed information about your issue"></textarea>
+                                                placeholder="Provide detailed information about your issue"
+                                                formControlName="description"></textarea>
+                                          <span
+                                                *ngIf="Form.controls['description'].invalid && Form.controls['description'].touched">
+                                                <span *ngIf="Form.controls['description'].errors?.['required']"
+                                                      class="ct_text_red mt-2">
+                                                      Description is required.
+                                                </span>
+                                          </span>
                                     </div>
 
                                     <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
-                                          <button class="ct_outline_btn">Cancel</button>
-                                          <button class="ct_black_btn">Submit</button>
-
+                                          <button class="ct_outline_btn" type="reset"
+                                                (click)="location.back()">Cancel</button>
+                                          <button class="ct_black_btn" type="submit" [disabled]="loading">
+                                                @if(loading){
+                                                <div class="spinner-border" role="status">
+                                                      <span class="sr-only">Loading...</span>
+                                                </div>
+                                                }@else { Submit }
+                                          </button>
                                     </div>
                               </form>
                         </div>
