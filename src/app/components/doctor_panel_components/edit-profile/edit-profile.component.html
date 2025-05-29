@@ -200,16 +200,10 @@
                                                                         <label class="mb-2 ct_text_black">Certificate
                                                                               Type <span
                                                                                     class="ct_red_text">*</span></label>
-                                                                        <nz-select class="form-control ct_input"
-                                                                              nzPlaceHolder="Select Certificate Type"
-                                                                              [(ngModel)]="cert.type"
-                                                                              [ngModelOptions]="{standalone: true}">
-                                                                              <nz-option
-                                                                                    *ngFor="let item of certificaTeypes"
-                                                                                    [nzValue]="item.file_name"
-                                                                                    [nzLabel]="item.name">
-                                                                              </nz-option>
-                                                                        </nz-select>
+                                                                                    <input type="text" class="form-control ct_input"
+                                                                                    placeholder="Enter institute"
+                                                                                    [(ngModel)]="cert.certification_name"
+                                                                                    [ngModelOptions]="{standalone: true}">
                                                                   </div>
 
                                                                   <div class="col-md-6">
