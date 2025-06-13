@@ -34,6 +34,10 @@ export const routes: Routes = [
       {
             path: 'doctor',
             loadChildren: () => import('./components/doctor_panel_components/doctor.routes').then(m => m.doctorRoutes)
+      },
+      {
+            path: 'choose-role',
+            loadComponent: () => import('./components/shared/components/choose-role/choose-role.component').then(m => m.ChooseRoleComponent)
       }
 
 ];
