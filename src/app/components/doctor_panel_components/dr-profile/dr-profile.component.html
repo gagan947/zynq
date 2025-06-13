@@ -28,7 +28,6 @@
                             <div class="ct_profile_img" data-bs-toggle="modal" data-bs-target="#full_view_img">
                                 <img [src]="doctor.data.profile_image ? doctor.data.profile_image : 'assets/img/doctor.png'"
                                     alt="">
-
                             </div>
                             <h4 class="ct_fs_24 ct_fw_600 mb-0 text-center mt-4">{{doctor.data.name}}</h4>
                         </div>
@@ -58,7 +57,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_px_30 py-4 mt-4 pe-0 mb-4">
                         <h4 class="ct_fs_20 ct_fw_600 mb-2">Biography:</h4>
@@ -68,7 +66,6 @@
                     </div>
                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                         <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Education</h5>
-
                         <div class="row" *ngFor="let edu of doctor.data.education; let i = index">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -106,7 +103,6 @@
                     </div>
                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                         <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Experience</h5>
-
                         <div class="row" *ngFor="let exp of doctor.data.experience; let i = index">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -141,23 +137,17 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                         <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Services & Expertise</h5>
                         <div class="mb-4">
-
                             <ul class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30"
                                 *ngFor="let service of doctor.data.treatments; let i = index">
                                 <li>
                                     <button class="ct_select_badge">{{service.name}} <span></span></button>
                                 </li>
-
                             </ul>
-
-
                         </div>
-
                         <div class="mb-4">
                             <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin Type
                                 Expertise-</label>
@@ -172,9 +162,7 @@
                                         </label>
                                     </div>
                                 </li>
-
                             </ul>
-
                         </div>
                         <div class="mb-4">
                             <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Severity Level
@@ -190,12 +178,9 @@
                                         </label>
                                     </div>
                                 </li>
-
                             </ul>
-
                         </div>
                     </div>
-
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mb-4 pe-0">
                         <h4 class="ct_fs_20 ct_fw_600 mb-4">Uploaded Certifications</h4>
                         <ul class="ct_para_scroll ct_custom_scroll d-flex align-items-center gap-4 flex-wrap ct_pe_30"
@@ -210,13 +195,11 @@
                                         </a>
                                     </div>
                                 </div>
-
                             </li>
                         </ul>
                     </div>
                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                         <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -260,29 +243,21 @@
                                         <input type="time" class="form-control ct_input" value="{{day.end_time}}"
                                             disabled>
                                     </div>
-
                                 </div>
                             </div>
-
                             }@else {
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center gap-3">
                                     <h6>Closed</h6>
-
                                 </div>
                             </div>
                             }
                         </div>
-
-
                     </div>
                 </form>
                 }
                 }
-
             </div>
         </div>
-
-
     </div>
 </div>

@@ -15,6 +15,7 @@ export interface SupportTicket {
       clinic_response: string | null;
       clinic?: ClinicProfile;
       doctor?: DoctorProfile;
+      ticket_id: string;
 }
 
 export interface SupportTicketResponse {

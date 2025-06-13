@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonService } from '../../../services/common.service';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
 import { SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../models/clinic-onboarding';
 import { NoWhitespaceDirective, timeRangeValidator } from '../../../validators';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { getISOWeek } from 'date-fns';
-import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
+import { NzI18nService } from 'ng-zorro-antd/i18n';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -125,7 +124,7 @@ export class ProfileSetupComponent {
         address: data.address,
         biography: data.biography
       });
-   
+
       if (data.education.length > 0) {
         this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year }));
       }
@@ -192,7 +191,7 @@ export class ProfileSetupComponent {
       this.onSubmitPersonal();
     };
     if (this.currentStep == 1) {
- 
+
 
       const isValidEdu = this.education.every(c =>
         c.institution.trim() &&
@@ -277,7 +276,7 @@ export class ProfileSetupComponent {
     }))
     formData.append('education', JSON.stringify(education));
     formData.append('experience', JSON.stringify(experience));
-    this.certificaTeypes.forEach((cert:any) => {
+    this.certificaTeypes.forEach((cert: any) => {
       if (cert.file) {
         formData.append(cert.file_name, cert.file, cert.file.name);
       }
@@ -374,7 +373,7 @@ export class ProfileSetupComponent {
   };
 
   removePreview(index: number, id: any) {
-    this.certificates[index].previewUrl = null;
+    this.certificaTeypes[index].upload_path = null;
     if (id) {
       this.deleteCertificate(id)
     }
@@ -404,8 +403,10 @@ export class ProfileSetupComponent {
   }
 
   removeCertificate(index: number, id: any) {
+    debugger
+    console.log(index, id);
 
-    this.certificates.splice(index, 1);
+    this.certificaTeypes[index].upload_path = null;
     if (id) {
       this.deleteCertificate(id)
     }
@@ -457,7 +458,7 @@ export class ProfileSetupComponent {
       this.certificaTeypes[index].file = file;
       this.certificaTeypes[index].previewUrl = null;
     }
-    
+
   };
 
   addEducation() {
@@ -536,9 +537,10 @@ export class ProfileSetupComponent {
 
   deleteCertificate(id: any) {
     this.apiService.delete<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
-      console.log(res);
+      if (res.success == true) {
+      }
     });
-  };
+  }
 
   onChangeYear(event: any) {
     // this.year = event.year;

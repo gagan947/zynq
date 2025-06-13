@@ -82,7 +82,6 @@
                                                                         *ngIf="personalForm.get('age')?.errors?.['pattern']">
                                                                         Age is not valid.
                                                                   </div>
-
                                                             </div>
                                                       </div>
                                                 </div>
@@ -117,7 +116,6 @@
                                                       <textarea type="text" class="form-control ct_input h-auto"
                                                             formControlName="biography" rows="5"
                                                             placeholder="Enter biography"></textarea>
-
                                                 </div>
                                                 <div class="col-md-12 mt-3">
                                                       <div class="form-group mb-0">
@@ -135,7 +133,6 @@
                                                                                     stroke-linecap="round"
                                                                                     stroke-linejoin="round" />
                                                                         </svg>
-
                                                                         <p
                                                                               class="text-center ct_fs_18 ct_text_op_07 mb-0">
                                                                               Upload
@@ -156,12 +153,7 @@
                                                                                     <span>Browse Files</span>
                                                                               </div>
                                                                         </label>
-
                                                                   </div>
-
-
-
-
                                                                   <div class="ct_uploaded_img123 position-relative w-100 ct_upload_product_main"
                                                                         *ngIf="imagePreview">
 
@@ -172,15 +164,10 @@
                                                                                     (click)="removeImage()"></i>
                                                                         </div>
                                                                   </div>
-
-
                                                             </div>
                                                       </div>
-
                                                 </div>
-
                                           </div>
-
                                     </div>
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
@@ -198,19 +185,17 @@
                                                                   *ngFor="let cert of certificaTeypes; let i = index">
                                                                   <div class="col-md-6 mb-4">
                                                                         <label class="mb-2 ct_text_black">Certificate
-                                                                              Type <span
-                                                                                    class="ct_red_text">*</span></label>
-                                                                                    <input type="text" class="form-control ct_input"
-                                                                                    placeholder="Enter institute"
-                                                                                    [(ngModel)]="cert.certification_name"
-                                                                                    [ngModelOptions]="{standalone: true}">
+                                                                              Type </label>
+                                                                        <input type="text" class="form-control ct_input"
+                                                                              placeholder="Enter institute"
+                                                                              [(ngModel)]="cert.certification_name"
+                                                                              [ngModelOptions]="{standalone: true}">
                                                                   </div>
 
                                                                   <div class="col-md-6">
                                                                         <div class="form-group mb-4 mb-md-0">
                                                                               <label class="mb-2 ct_text_black">Certificate
-                                                                                    <span
-                                                                                          class="ct_red_text">*</span></label>
+                                                                              </label>
                                                                               <div
                                                                                     class="d-flex align-items-center gap-2 ">
                                                                                     <div class="ct_flex_1">
@@ -240,22 +225,15 @@
                                                                                     @if(cert.upload_path){
                                                                                     <button type="button"
                                                                                           class="ct_red_btn"
-                                                                                          (click)="removePreview(i, cert.doctor_certification_id)"
-                                                                                          *ngIf="i > 0">
+                                                                                          (click)="removePreview(i, cert.doctor_certification_id)">
                                                                                           <i class="fa fa-trash"></i>
                                                                                     </button>
-
                                                                                     }
-
                                                                               </div>
-
                                                                         </div>
                                                                   </div>
-
                                                             </div>
-
                                                       </div>
-
                                                 </ng-container>
                                           </ng-container>
                                     </div>
@@ -278,16 +256,13 @@
                                                             <label for="" class="mb-2 ct_text_black">Degree<span
                                                                         class="ct_red_text">*</span></label>
                                                             <div class="d-flex align-items-center gap-2">
-
                                                                   <div class="ct_flex_1">
                                                                         <input type="text" class="form-control ct_input"
                                                                               placeholder="Enter degree"
                                                                               [(ngModel)]="edu.degree_name"
                                                                               [ngModelOptions]="{standalone: true}">
                                                                   </div>
-
                                                             </div>
-
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -298,7 +273,6 @@
                                                                   class="form-control ct_input"
                                                                   [(ngModel)]="edu.start_year"
                                                                   [ngModelOptions]="{standalone: true}" />
-
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -316,18 +290,14 @@
                                                             </button>
                                                       </div>
                                                 </div>
-
                                           </div>
                                           <a href="javascript:void(0)" class="ct_blue_text" (click)="addEducation()">+
                                                 Add Education</a>
-
                                     </div>
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Experience</h5>
-
                                           <div class="row ct_border_btm_1 mb-3"
                                                 *ngFor="let exp of experience; let k = index">
-
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Organization<span
@@ -377,7 +347,6 @@
                                           </div>
                                           <a href="javascript:void(0)" class="ct_blue_text" (click)="addExperience()">+
                                                 Add Experience</a>
-
                                     </div>
 
                                     <button type="button" name="next"
@@ -479,13 +448,11 @@
                                                       *ngIf="selectedSecurityLevel.length == 0">
                                                       Please select at least one severity level.
                                                 </span>
-
                                           </div>
                                     </div>
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
                                           (click)="nextStep()">Update</button>
-
                                     <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
                                           value="Next" (click)="next()">Next</button>
                                     <button type="button"
@@ -499,7 +466,6 @@
                                     (ngSubmit)="onTimeSubmit()">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
-
                                           <div class="row">
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
@@ -576,7 +542,6 @@
                                                                               *ngIf="operationHoursForm.get('session_duration.hours')?.value && operationHoursForm.get('session_duration.minutes')?.value === 00">
                                                                               Session duration can not be 00:00
                                                                         </div>
-
                                                                   </div>
                                                             </div>
                                                       </div>
@@ -657,8 +622,5 @@
             </div>
       </div>
 </section>
-
-
-
 <div *ngIf="filteredTreatments.length > 0 " id="overLay" (click)=" filteredTreatments = []">
 </div>

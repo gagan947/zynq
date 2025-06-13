@@ -27,7 +27,6 @@ export class AuthService {
             localStorage.removeItem('role_uuid');
             localStorage.removeItem('ZynqToken');
             localStorage.removeItem('userInfo');
-            
       };
 
       getRoleUUID(): string | null {
@@ -43,5 +42,4 @@ export class AuthService {
             const roleUUID = this.getRoleUUID();
             return roleUUID ? this.roleMap[roleUUID] || null : null;
       }
-
 }

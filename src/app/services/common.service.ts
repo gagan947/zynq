@@ -19,7 +19,6 @@ export class CommonService {
   _supportTicket = signal<SupportTicket | null>(null);
   baseUrl = environment.apiUrl
 
-
   constructor(private http: HttpClient, private router: Router) { }
 
   get<T>(url: string): Observable<T> {

@@ -1,5 +1,4 @@
 import { Component, computed } from '@angular/core';
-import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-dr-dashboard',

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ProfileSetupComponent } from '../profile-setup/profile-setup.component';
 import { RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';

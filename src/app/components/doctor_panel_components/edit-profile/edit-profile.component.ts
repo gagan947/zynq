@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { SecurityLevel, TreatmentResponse, SkinTypeResponse, SecurityLevelResponse } from '../../../models/clinic-onboarding';
 import { Treatment, SkinType } from '../../../models/clinic-profile';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
@@ -73,7 +72,7 @@ export class EditProfileComponent {
   selectedSecurityLevel: SecurityLevel[] = [];
   maxDate: Date = new Date();
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private loaderService: LoaderService, private apiService: CommonService, private router: Router, private toster: NzMessageService) {
+  constructor(private fb: FormBuilder,private loaderService: LoaderService, private apiService: CommonService, private toster: NzMessageService) {
 
   }
 

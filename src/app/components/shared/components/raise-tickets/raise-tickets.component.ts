@@ -6,8 +6,7 @@ import { CommonModule, Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonService } from '../../../../services/common.service';
 import { AuthService } from '../../../../services/auth.service';
-import { Observable, tap } from 'rxjs';
-import { ClinicProfile } from '../../../../models/clinic-profile';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-raise-tickets',

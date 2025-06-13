@@ -841,6 +841,10 @@ header {
   /* transform: translateX(-5px); */
 }
 
+.ct_input_pe-40 {
+  padding-right: 35px !important;
+}
+
 .ct_big_user_img img {
   width: 130px;
   height: 130px;

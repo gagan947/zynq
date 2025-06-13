@@ -45,7 +45,7 @@
                                                       [nzNotFoundContent]="'No linked clinic found'">
                                                       @for(clinic of items.data; track clinic.clinic_id){
                                                       <nz-option [nzValue]="clinic.clinic_id"
-                                                            [nzLabel]="clinic.clinic_name">
+                                                            [nzLabel]="clinic.clinic_name + ' ( ' + clinic.email + ' )'">
                                                       </nz-option>
                                                       }
                                                 </nz-select>

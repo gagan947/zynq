@@ -20,9 +20,6 @@ export interface LoginUserData {
   on_boarding_status: number;  // optional, for dev/test only
 }
 
-
-
-
 export interface LoginUserData {
   id: string;
   email: string;
