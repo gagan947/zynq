@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { NoWhitespaceDirective, timeRangeValidator } from '../../../../validators';
+import { Router } from '@angular/router';
+import { NoWhitespaceDirective } from '../../../../validators';
 import { CommonService } from '../../../../services/common.service';
-import { CertificationType, EquipmentType, EquipmentTypeResponse, SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
+import { SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { LoginUserData } from '../../../../models/login';
@@ -22,16 +22,10 @@ import { AuthService } from '../../../../services/auth.service';
 export class ClinicSetupComponent {
   Form!: FormGroup
   treatments: Treatment[] = []
-  selectedTreatments: Treatment[] = []
-  filteredTreatments: Treatment[] = []
-  equipments: EquipmentType[] = []
-  selectedEquipmentType: EquipmentType[] = []
-  filteredEquipmentType: EquipmentType[] = []
   skintypes: SkinType[] = []
-  selectedSkinTypes: SkinType[] = []
-  securityLevel: SecurityLevel[] = []
-  selectedSecurityLevel: SecurityLevel[] = []
-  certificaTeypes: CertificationType[] = []
+  skinConditions: any[] = []
+  surgeries: any[] = []
+  devices: any[] = []
   days: string[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   submitted: boolean = false
   currentStep = 0;
@@ -55,7 +49,7 @@ export class ClinicSetupComponent {
     ['clinic_name', 'org_number', 'zynq_user_id', 'clinic_description', 'logo', 'ivo_registration_number', 'hsa_id'],
     ['email', 'mobile_number', 'street_address', 'city', 'state', 'zip_code', 'latitude', 'longitude', 'website_url'],
     // ['clinic_timing'],
-    ['treatments', 'equipments', 'skin_types', 'severity_levels', 'fee_range', 'language']
+    ['treatments', 'skin_types', 'skin_condition', 'surgeries', 'devices']
   ];
 
   constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService) {
@@ -67,8 +61,9 @@ export class ClinicSetupComponent {
     this.inItForm();
     this.getTreatments();
     this.getSkinTypes();
-    this.getSecurityLevel();
-    this.getEquipmentType();
+    this.getSkinConditions();
+    this.getSurgeries();
+    this.getDevices();
     this.getProfile();
   }
 
@@ -87,10 +82,13 @@ export class ClinicSetupComponent {
       zip_code: ['', [Validators.required, NoWhitespaceDirective.validate]],
       latitude: [''],
       longitude: [''],
+      treatments: [[], [Validators.required]],
+      skin_types: [[], [Validators.required]],
+      // severity_levels: [[], [Validators.required]],
+      skin_condition: [[], [Validators.required]],
+      surgeries: [[], [Validators.required]],
+      devices: [[], [Validators.required]],
 
-      treatments: this.fb.array([
-        this.fb.control('')
-      ]),
 
       // clinic_timing: this.fb.group({
       //   monday: this.fb.group({
@@ -132,16 +130,6 @@ export class ClinicSetupComponent {
 
       website_url: ['', [Validators.required, NoWhitespaceDirective.validate]],
       clinic_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
-
-      equipments: this.fb.array([
-        this.fb.control('')
-      ]),
-      skin_types: this.fb.array([
-        this.fb.control('')
-      ]),
-      severity_levels: this.fb.array([
-        this.fb.control('')
-      ]),
 
       // fee_range: this.fb.group({
       //   min: ['', [Validators.required]],
@@ -186,77 +174,28 @@ export class ClinicSetupComponent {
     });
   }
 
-  addTreatment(treatment: Treatment) {
-    const index = this.selectedTreatments.findIndex((item) => item.treatment_id === treatment.treatment_id);
-    if (index === -1) {
-      this.selectedTreatments.push(treatment);
-    } else {
-      this.selectedTreatments.splice(index, 1);
-    }
-  }
-  removeTreatment(index: number) {
-    this.selectedTreatments.splice(index, 1);
-  }
-
-  searchTratment(event: any) {
-    this.filteredTreatments = this.treatments.filter((item) => item.name.toLowerCase().includes(event.target.value.toLowerCase()));
-    if (this.filteredTreatments.length === 0 || event.target.value === '') {
-      this.filteredTreatments = [];
-    }
-  }
-
-  getEquipmentType() {
-    this.service.get<EquipmentTypeResponse>(`clinic/get-equipments`).subscribe((res) => {
-      this.equipments = res.data
-    });
-  }
-
-  addEquipmentType(equipment: EquipmentType) {
-    const index = this.selectedEquipmentType.findIndex((item) => item.equipment_id === equipment.equipment_id);
-    if (index === -1) {
-      this.selectedEquipmentType.push(equipment);
-    } else {
-      this.selectedEquipmentType.splice(index, 1);
-    }
-  }
-  removeEquipmentType(index: number) {
-    this.selectedEquipmentType.splice(index, 1);
-  }
-
-  searchEquipmentType(event: any) {
-    this.filteredEquipmentType = this.equipments.filter((item) => item.name.toLowerCase().includes(event.target.value.toLowerCase()));
-    if (this.filteredEquipmentType.length === 0 || event.target.value === '') {
-      this.filteredEquipmentType = [];
-    }
-  }
-
   getSkinTypes() {
     this.service.get<SkinTypeResponse>(`clinic/get-skin-types`).subscribe((res) => {
       this.skintypes = res.data
     });
   }
 
-  addSkinTypes(skinType: SkinType) {
-    const index = this.selectedSkinTypes.findIndex((item) => item.skin_type_id === skinType.skin_type_id);
-    if (index === -1) {
-      this.selectedSkinTypes.push(skinType);
-    } else {
-      this.selectedSkinTypes.splice(index, 1);
-    }
-  }
-  getSecurityLevel() {
-    this.service.get<SecurityLevelResponse>(`clinic/get-severity-levels`).subscribe((res) => {
-      this.securityLevel = res.data
+  getSkinConditions() {
+    this.service.get<any>(`clinic/get-SkinConditions`).subscribe((res) => {
+      this.skinConditions = res.data
     });
   }
 
-  addSecurityLevel(securityLavel: SecurityLevel) {
-    const index = this.selectedSecurityLevel.findIndex((item) => item.severity_level_id === securityLavel.severity_level_id);
-    if (index === -1) {
-      this.selectedSecurityLevel.push(securityLavel);
-    } else {
-      this.selectedSecurityLevel.splice(index, 1);
-    }
+  getSurgeries() {
+    this.service.get<any>(`clinic/get-surgery`).subscribe((res) => {
+      this.surgeries = res.data
+    });
+  }
+
+  getDevices() {
+    this.service.get<any>(`clinic/get-devices`).subscribe((res) => {
+      this.devices = res.data
+    });
   }
 
   addDrEmail(email: string) {
@@ -325,9 +264,6 @@ export class ClinicSetupComponent {
     })
 
   }
-  onFileChange(event: any, index: number) {
-
-  }
 
   onLogoImage(event: any) {
     const file = event.target.files[0];
@@ -384,12 +320,13 @@ export class ClinicSetupComponent {
       //   formData.append('zynq_user_id', this.userInfo.id)
       //   formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
       //   formData.append('form_stage', this.currentStep.toString())
-    } else if (this.currentStep === 2 && this.selectedTreatments.length > 0 && this.selectedSkinTypes.length > 0 && this.selectedSecurityLevel.length > 0) {
-      formData.append('treatments', JSON.stringify(this.selectedTreatments.map(item => item.treatment_id)));
-      // formData.append('equipments', JSON.stringify(this.selectedEquipmentType.map(item => item.equipment_id)));
-      formData.append('skin_types', JSON.stringify(this.selectedSkinTypes.map(item => item.skin_type_id)));
-      formData.append('severity_levels', JSON.stringify(this.selectedSecurityLevel.map(item => item.severity_level_id)));
-      // formData.append('fee_range', JSON.stringify(this.Form.value.fee_range));
+    } else if (this.currentStep === 2) {
+      formData.append('treatments', JSON.stringify(this.Form.value.treatments));
+      formData.append('skin_types', JSON.stringify(this.Form.value.skin_types));
+      // formData.append('severity_levels', JSON.stringify(this.Form.value.severity_levels));
+      formData.append('surgeries', JSON.stringify(this.Form.value.surgeries));
+      formData.append('aestheticDevices', JSON.stringify(this.Form.value.devices));
+      formData.append('skin_Conditions', JSON.stringify(this.Form.value.skin_condition));
       formData.append('language', 'en');
       formData.append('zynq_user_id', this.userInfo.id);
       formData.append('form_stage', "3");
@@ -468,13 +405,12 @@ export class ClinicSetupComponent {
           latitude: this.clinicPofile.location.latitude,
           longitude: this.clinicPofile.location.longitude,
           website_url: this.clinicPofile.website_url,
-          // fee_range: JSON.parse(this.clinicPofile.fee_range),
-          // clinic_timing: this.patchClinicTiming(this.clinicPofile.operation_hours)
+          treatments: this.clinicPofile?.treatments.map((item: any) => item.treatment_id),
+          skin_types: this.clinicPofile?.skin_types.map((item: any) => item.skin_type_id),
+          surgeries: this.clinicPofile?.surgeries_level.map((item: any) => item.surgery_id),
+          devices: this.clinicPofile?.aestheticDevices.map((item: any) => item.aesthetic_device_id),
+          skin_condition: this.clinicPofile?.skin_Conditions.map((item: any) => item.skin_condition_id),
         });
-        this.selectedTreatments = this.clinicPofile.treatments
-        this.selectedEquipmentType = this.clinicPofile.equipments
-        this.selectedSkinTypes = this.clinicPofile.skin_types
-        this.selectedSecurityLevel = this.clinicPofile.severity_levels
       }
     }
     )
@@ -498,13 +434,5 @@ export class ClinicSetupComponent {
         }
       }
     });
-  }
-
-  issecurityLevelSelected(severity_level_id: string): boolean {
-    return this.selectedSecurityLevel.some(item => item.severity_level_id === severity_level_id);
-  }
-
-  isskintypeselected(skin_type_id: string): boolean {
-    return this.selectedSkinTypes.some(item => item.skin_type_id === skin_type_id);
   }
 }

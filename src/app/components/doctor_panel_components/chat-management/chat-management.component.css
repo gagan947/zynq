@@ -1,0 +1,13 @@
+.ct_empty_chat_box_content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+}
+
+.ct_empty_chat_box_content_text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+}

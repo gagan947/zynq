@@ -8,9 +8,8 @@
                             <h4 class="ct_fs_22 ct_fw_600 mb-0 ct_text_black">Chat Management</h4>
                         </div>
                     </div>
-
                 </div>
-
+                @if (doctorProfile$ | async; as doctor) {
                 <div class="chat-area">
                     <!-- chatlist -->
                     <div class="chatlist ct_chatroom_chatlist">
@@ -18,7 +17,8 @@
                             <div class="modal-content ">
                                 <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-3">
                                     <h4 class="ct_fs_16 mb-0 ct_fw_700 ct_nunito_font">Contacts</h4>
-                                    <h4 class="ct_fs_16 mb-0 ct_fw_700 ct_nunito_font ct_text_op_07">34</h4>
+                                    <h4 class="ct_fs_16 mb-0 ct_fw_700 ct_nunito_font ct_text_op_07">{{chatlist.length}}
+                                    </h4>
 
                                 </div>
                                 <div class="position-relative">
@@ -30,17 +30,19 @@
                                     <!-- chat-list -->
                                     <div class="chat-lists ">
                                         <div class="chat-list">
-                                            <a href="#" class="d-flex active2">
+                                            @for (item of chatlist; track $index) {
+                                            <a (click)="openChat(item)" class="d-flex active2">
                                                 <div class="ct_chat_list_grid">
                                                     <div class="position-relative">
-                                                        <img class="img-fluid ct_img_40" src="../assets/img/user_2.jpg"
+                                                        <img class="img-fluid ct_img_40"
+                                                            [src]="item.profile_image || 'assets/img/doctor.png'"
                                                             alt="user img">
                                                         <span class="active"></span>
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
                                                         <div
                                                             class="d-flex align-items-center gap-2 justify-content-between">
-                                                            <h3 class="ct_fs_16 ct_fw_600">Jane Doe
+                                                            <h3 class="ct_fs_16 ct_fw_600">{{item.full_name}}
                                                             </h3>
                                                             <div class="ct_caht_msg_notify ">
                                                                 <span class="ms-auto">1</span>
@@ -56,194 +58,38 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </a>
-                                            <a href="#" class="d-flex">
-                                                <div class="position-relative">
-                                                    <img class="img-fluid ct_img_40" src="../assets/img/user_2.jpg"
-                                                        alt="user img">
-                                                    <span class="active"></span>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <h3 class="ct_fs_16 ct_fw_600">Jane Doe
-                                                        </h3>
-                                                        <!-- <div class="ct_caht_msg_notify ">
-                                                            <span class="ms-auto">1</span>
-                                                        </div> -->
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                            Hi, i want make enquiries about yo...</p>
-                                                        <span class=" text-end d-block ct_fs_12
-                                                        ct_text_939393">
-                                                            12:55 am</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="d-flex">
-                                                <div class="position-relative">
-                                                    <img class="img-fluid ct_img_40" src="../assets/img/user_2.jpg"
-                                                        alt="user img">
-                                                    <span class="active"></span>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <h3 class="ct_fs_16 ct_fw_600">Jane Doe
-                                                        </h3>
-                                                        <!-- <div class="ct_caht_msg_notify ">
-                                                            <span class="ms-auto">1</span>
-                                                        </div> -->
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                            Hi, i want make enquiries about yo...</p>
-                                                        <span class=" text-end d-block ct_fs_12
-                                                        ct_text_939393">
-                                                            12:55 am</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="d-flex">
-                                                <div class="position-relative">
-                                                    <img class="img-fluid ct_img_40" src="../assets/img/user_2.jpg"
-                                                        alt="user img">
-                                                    <span class="active"></span>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <h3 class="ct_fs_16 ct_fw_600">Jane Doe
-                                                        </h3>
-                                                        <!-- <div class="ct_caht_msg_notify ">
-                                                            <span class="ms-auto">1</span>
-                                                        </div> -->
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                            Hi, i want make enquiries about yo...</p>
-                                                        <span class=" text-end d-block ct_fs_12
-                                                        ct_text_939393">
-                                                            12:55 am</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="d-flex">
-                                                <div class="position-relative">
-                                                    <img class="img-fluid ct_img_40" src="../assets/img/user_2.jpg"
-                                                        alt="user img">
-                                                    <span class="active"></span>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <h3 class="ct_fs_16 ct_fw_600">Jane Doe
-                                                        </h3>
-                                                        <!-- <div class="ct_caht_msg_notify ">
-                                                            <span class="ms-auto">1</span>
-                                                        </div> -->
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                            Hi, i want make enquiries about yo...</p>
-                                                        <span class=" text-end d-block ct_fs_12
-                                                        ct_text_939393">
-                                                            12:55 am</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="d-flex">
-                                                <div class="position-relative">
-                                                    <img class="img-fluid ct_img_40" src="../assets/img/user_2.jpg"
-                                                        alt="user img">
-                                                    <span class="active"></span>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <h3 class="ct_fs_16 ct_fw_600">Jane Doe
-                                                        </h3>
-                                                        <!-- <div class="ct_caht_msg_notify ">
-                                                            <span class="ms-auto">1</span>
-                                                        </div> -->
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                            Hi, i want make enquiries about yo...</p>
-                                                        <span class=" text-end d-block ct_fs_12
-                                                        ct_text_939393">
-                                                            12:55 am</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="d-flex">
-                                                <div class="position-relative">
-                                                    <img class="img-fluid ct_img_40" src="../assets/img/user_2.jpg"
-                                                        alt="user img">
-                                                    <span class="active"></span>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <h3 class="ct_fs_16 ct_fw_600">Jane Doe
-                                                        </h3>
-                                                        <!-- <div class="ct_caht_msg_notify ">
-                                                            <span class="ms-auto">1</span>
-                                                        </div> -->
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center gap-2 justify-content-between">
-                                                        <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                            Hi, i want make enquiries about yo...</p>
-                                                        <span class=" text-end d-block ct_fs_12
-                                                        ct_text_939393">
-                                                            12:55 am</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-
-
+                                            }
                                         </div>
-
                                     </div>
                                     <!-- chat-list -->
                                 </div>
-
                             </div>
                         </div>
                     </div>
                     <!-- chatlist -->
-
-
 
                     <!-- chatbox -->
                     <div class="chatbox ">
                         <div class="ct_white_bg ct_border_radius_10 ct_p_20 h-100">
                             <div class="modal-dialog-scrollable">
                                 <div class="modal-content ct_chatroom_modal_content">
-                                    <div class="d-block">
+                                    @if(activeChatDetails) {
+                                    <div class="">
                                         <div
                                             class="msg-head d-flex align-items-center justify-content-between gap-3 flex-wrap pb-1">
-
                                             <div class="d-flex align-items-center gap-2 ">
                                                 <i class="fa-solid fa-chevron-left chat-icon"></i>
                                                 <div class="ct_grid_50_auto">
-                                                    <img src="../assets/img/user_2.jpg" alt="">
+                                                    <img [src]="activeChatDetails.profile_image || 'assets/img/doctor.png'"
+                                                        alt="">
                                                     <div>
                                                         <h4 class="ct_fs_18 ct_fw_600  mb-0">
-                                                            John
-                                                            Smith
+                                                            {{activeChatDetails.full_name}}
                                                         </h4>
-                                                        <!-- <p class="mb-0 ct_text_op_05">
-                                                            Order #12345
-                                                        </p> -->
+                                                        <span class="mb-0 ct_text_939393">
+                                                            Online
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -263,175 +109,34 @@
                                             </div>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="msg-body ct_custom_scrollbar">
+                                            <div class="msg-body ct_custom_scrollbar"
+                                                [scrollTop]="scrollMe.scrollHeight" #scrollMe>
                                                 <ul>
-                                                    <li>
-
-                                                        <div class="sender">
-                                                            <h5 class="ct_fs_16  mb-2 ">
-                                                                Hey, I have a question about my recent order
-                                                                #12345. When can I expect it to be
-                                                                delivered?
-                                                            </h5>
-
-                                                            <span class="time ms-auto d-block text-white">10:30
-                                                                AM</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="repaly">
-                                                            <p>Hi John, your order is currently in transit
-                                                                and
-                                                                should arrive within 2-3 business days. You
-                                                                can
-                                                                track it using the tracking number sent to
-                                                                your
-                                                                email.</p>
-                                                            <span class="time  text-start">10:06
-                                                                am</span>
-                                                        </div>
-
-                                                    </li>
-                                                    <li>
-
-                                                        <div class="sender">
-                                                            <h5 class="ct_fs_16  mb-2 ">
-                                                                Hey, I have a question about my recent order
-                                                                #12345. When can I expect it to be
-                                                                delivered?
-                                                            </h5>
-
-                                                            <span class="time ms-auto d-block text-white">10:30
-                                                                AM</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="repaly">
-                                                            <p>Hi John, your order is currently in transit
-                                                                and
-                                                                should arrive within 2-3 business days. You
-                                                                can
-                                                                track it using the tracking number sent to
-                                                                your
-                                                                email.</p>
-                                                            <span class="time  text-start">10:06
-                                                                am</span>
-                                                        </div>
-
-                                                    </li>
-                                                    <li>
-
-                                                        <div class="sender">
-                                                            <h5 class="ct_fs_16  mb-2 ">
-                                                                Hey, I have a question about my recent order
-                                                                #12345. When can I expect it to be
-                                                                delivered?
-                                                            </h5>
-
-                                                            <span class="time ms-auto d-block text-white">10:30
-                                                                AM</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="repaly">
-                                                            <p>Hi John, your order is currently in transit
-                                                                and
-                                                                should arrive within 2-3 business days. You
-                                                                can
-                                                                track it using the tracking number sent to
-                                                                your
-                                                                email.</p>
-                                                            <span class="time  text-start">10:06
-                                                                am</span>
-                                                        </div>
-
-                                                    </li>
-                                                    <li>
-
-                                                        <div class="sender">
-                                                            <h5 class="ct_fs_16  mb-2 ">
-                                                                Hey, I have a question about my recent order
-                                                                #12345. When can I expect it to be
-                                                                delivered?
-                                                            </h5>
-
-                                                            <span class="time ms-auto d-block text-white">10:30
-                                                                AM</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="repaly">
-                                                            <p>Hi John, your order is currently in transit
-                                                                and
-                                                                should arrive within 2-3 business days. You
-                                                                can
-                                                                track it using the tracking number sent to
-                                                                your
-                                                                email.</p>
-                                                            <span class="time  text-start">10:06
-                                                                am</span>
-                                                        </div>
-
-
-                                                    </li>
-                                                    <li>
-
-                                                        <div class="sender">
-                                                            <h5 class="ct_fs_16 ct_fw_600 mb-2  ">
-                                                                Hey, I have a question about my recent order
-                                                                #12345. When can I expect it to be
-                                                                delivered?
-                                                            </h5>
-
-                                                            <span class="time ms-auto d-block ct_text_939393">10:30
-                                                                AM</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="repaly">
-                                                            <p>Hi John, your order is currently in transit
-                                                                and
-                                                                should arrive within 2-3 business days. You
-                                                                can
-                                                                track it using the tracking number sent to
-                                                                your
-                                                                email.</p>
-                                                            <span class="time  text-start">10:06
-                                                                am</span>
-                                                        </div>
-
-
-                                                    </li>
+                                                    @for (item of messageList; track $index) {
+                                                    @if(item.sender_id !== doctor.data.id){
                                                     <li>
                                                         <div class="sender">
-                                                            <h5 class="ct_fs_16 ct_fw_600 mb-2  ">
-                                                                Hey, I have a question about my recent order
-                                                                #12345. When can I expect it to be
-                                                                delivered?
-                                                            </h5>
-
-                                                            <span class="time ms-auto d-block ct_text_939393">10:30
-                                                                AM</span>
+                                                            <p class="mb-1">
+                                                                {{item.message}}
+                                                            </p>
+                                                            <span
+                                                                class="time ms-auto d-block ct_text_939393">{{item.createdAt | date:'dd/MM/yyyy - hh:mm a'}}</span>
                                                         </div>
                                                     </li>
+                                                    } @else{
                                                     <li>
                                                         <div class="repaly">
-                                                            <p>Hi John, your order is currently in transit
-                                                                and
-                                                                should arrive within 2-3 business days. You
-                                                                can
-                                                                track it using the tracking number sent to
-                                                                your
-                                                                email.</p>
-                                                            <span class="time  text-start">10:06
-                                                                am</span>
+                                                            <p class="mb-1">{{item.message}}</p>
+                                                            <span
+                                                                class="time text-start">{{item.createdAt | date:'dd/MM/yyyy - hh:mm a'}}</span>
                                                         </div>
-
                                                     </li>
+                                                    }
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="send-box ">
+                                        <div class="send-box">
                                             <form action="" class="position-relative">
                                                 <label for="upload_chat_img_2" class="ct_upload_paper_click_img">
                                                     <input type="text" class="d-none" id="upload_chat_img_2">
@@ -439,20 +144,19 @@
                                                         <i class="fa-solid fa-paperclip"></i>
                                                     </div>
                                                 </label>
-                                                <input type="text" class="form-control"
-                                                    placeholder="Type your message here." />
-
-                                                <div class="ct_right_side_send_chat_btns">
+                                                <input [(ngModel)]="message" type="text" class="form-control"
+                                                    placeholder="Type your message here."
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (keydown.enter)="sendMessage()" />
+                                                <div class="ct_right_side_send_chat_btns" (click)="sendMessage()">
                                                     <i class="fa-regular fa-paper-plane"></i>
                                                 </div>
                                             </form>
-
-
                                         </div>
                                     </div>
-
+                                    } @else{
                                     <!-- when chat is empty then show below content -->
-                                    <div class="ct_empty_chat_box_content d-none">
+                                    <div class="ct_empty_chat_box_content">
                                         <svg width="123" height="123" viewBox="0 0 123 123" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.956267" y="1.3696" width="120.87" height="120.87" rx="60.4348"
@@ -470,7 +174,7 @@
                                             <path d="M52.5244 62.7022H52.544" stroke="#8B8D97" stroke-width="1.73913"
                                                 stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                        <div>
+                                        <div class="ct_empty_chat_box_content_text mt-3">
                                             <h4 class="ct_fs_20 ct_fw_600">Messages</h4>
                                             <p>Click on a contact to view messages.</p>
                                             <div class="">
@@ -491,20 +195,25 @@
                                                             stroke-width="1.73913" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                     </svg>
-                                                    <span> New Message</span></a>
+                                                    <!-- <span> New Message</span> -->
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
+                }
             </div>
         </div>
-
-
     </div>
+</div>
+
+<button (click)="startCall()">Start</button>
+<div class="video_call_section">
+    <video #localVideo autoplay muted></video>
+    <video #remoteVideo autoplay></video>
 </div>

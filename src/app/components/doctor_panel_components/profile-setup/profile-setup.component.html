@@ -37,7 +37,7 @@
                                                                   formControlName="fullName"
                                                                   placeholder="Enter full name">
                                                             <div *ngIf="personalForm.get('fullName')?.touched && personalForm.get('fullName')?.invalid"
-                                                                  class="text-danger">
+                                                                  class="ct_text_red">
                                                                   Full Name is required.
                                                             </div>
                                                       </div>
@@ -50,7 +50,7 @@
                                                             <input type="number" class="form-control ct_input"
                                                                   formControlName="phone" placeholder="Enter phone no">
                                                             <div *ngIf="personalForm.get('phone')?.touched && personalForm.get('phone')?.invalid"
-                                                                  class="text-danger">
+                                                                  class="ct_text_red">
                                                                   <div
                                                                         *ngIf="personalForm.get('phone')?.errors?.['required']">
                                                                         Phone no is required.
@@ -74,7 +74,7 @@
                                                                   formControlName="age" placeholder="Enter age"
                                                                   step="1">
                                                             <div *ngIf="personalForm.get('age')?.touched && personalForm.get('age')?.invalid"
-                                                                  class="text-danger">
+                                                                  class="ct_text_red">
                                                                   <div
                                                                         *ngIf="personalForm.get('age')?.errors?.['required']">
                                                                         Age is required.
@@ -99,7 +99,7 @@
                                                             <nz-option nzValue="Other" nzLabel="Other"></nz-option>
                                                       </nz-select>
                                                       <div *ngIf="personalForm.get('gender')?.touched && personalForm.get('gender')?.invalid"
-                                                            class="text-danger">
+                                                            class="ct_text_red">
                                                             Gender is required.
                                                       </div>
                                                 </div>
@@ -110,7 +110,7 @@
                                                             formControlName="address"
                                                             placeholder="Enter address"></textarea>
                                                       <div *ngIf="personalForm.get('address')?.touched && personalForm.get('address')?.invalid"
-                                                            class="text-danger">
+                                                            class="ct_text_red">
                                                             Address is required.
                                                       </div>
                                                 </div>
@@ -211,7 +211,7 @@
                                                                                                       Certificate
                                                                                                 </a>
                                                                                                 <button type="button"
-                                                                                                      class="btn btn-sm btn-link text-danger p-0 ms-2"
+                                                                                                      class="btn btn-sm btn-link ct_text_red p-0 ms-2"
                                                                                                       (click)="removePreview(i,cert.doctor_certification_id)">
                                                                                                       Change
                                                                                                 </button>
@@ -359,94 +359,90 @@
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">
                               </form>
-                              <form *ngIf="currentStep == 2">
-                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Services & Expertise</h5>
+                              <form *ngIf="currentStep == 2" [formGroup]="Form">
+                                    <div class=" ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
+                                                Services & Expertise</h5>
                                           <div class="mb-4">
-                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Treatments
-                                                      Provided-</label>
-                                                <ul
-                                                      class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of selectedTreatments; track
-                                                      $index) {
-                                                      <li>
-                                                            <button type="button" class="ct_select_badge">{{item.name}}
-                                                                  <span (click)="removeTreatment($index)"><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
+                                                <label for="" class="mb-2 ct_text_black">Treatments
+                                                      Provided<span class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Treatments"
+                                                      class="form-control ct_input" formControlName="treatments"
+                                                      nzNotFoundContent="No Treatments Found">
+                                                      @for (item of treatments; track item) {
+                                                      <nz-option [nzLabel]="item.name"
+                                                            [nzValue]="item.treatment_id"></nz-option>
                                                       }
-                                                </ul>
-
-                                                <div class="position-relative mt-4">
-                                                      <input type="text" class="form-control ct_input ct_pe_122"
-                                                            placeholder="Type to add treatments..."
-                                                            (input)="searchTratment($event)">
-                                                      <!-- <button class="ct_black_btn ct_btn_position_right">Add</button> -->
-                                                      <ul class="cutom_dropdown_list"
-                                                            *ngIf="filteredTreatments.length > 0">
-                                                            @for (item of filteredTreatments;
-                                                            track $index) {
-                                                            <li class="list_item" (click)="addTreatment(item)">
-                                                                  <i class="fa-solid fa-check me-2"
-                                                                        [ngClass]="isSelected(item) ? 'opacity-100' : 'opacity-0'"></i>
-                                                                  {{item.name}}
-                                                            </li>
-                                                            }
-                                                      </ul>
-                                                </div>
-                                          </div>
-
-                                          <div class="mb-4">
-                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin Type
-                                                      Expertise-</label>
-                                                <ul
-                                                      class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of skintypes; track $index) {
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" [value]="item"
-                                                                        (change)="addSkinTypes(item)"
-                                                                        [checked]="isChecked(item)"
-                                                                        id="{{item.skin_type_id}}">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="{{item.skin_type_id}}">
-                                                                        {{item.name}}
-                                                                  </label>
-                                                            </div>
-                                                      </li>
-                                                      }
-                                                </ul>
-                                                <span class="ct_text_red mt-2" *ngIf="selectedSkinTypes.length == 0">
-                                                      Please select at least one expertise.
+                                                </nz-select>
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="Form.get('treatments')?.invalid && Form.get('treatments')?.touched">
+                                                      Please add at least one treatment.
                                                 </span>
                                           </div>
-                                          <div class="mb-4" *ngIf="securityLevel.length > 0">
-                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Severity
-                                                      Level
-                                                      Handled-</label>
-                                                <ul
-                                                      class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of securityLevel; track trackById($index, item))
-                                                      {
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" [value]="item"
-                                                                        (change)="addSecurityLevel(item)"
-                                                                        [checked]="isCheckedLevels(item)"
-                                                                        id="{{item.severity_level_id}}">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="{{item.severity_level_id}}">
-                                                                        {{item.level}}
-                                                                  </label>
-                                                            </div>
-                                                      </li>
+                                          <div class="mb-4">
+                                                <label for="" class="mb-2 ct_text_black">Skin
+                                                      Type
+                                                      Expertise<span class="ct_red_text">*</span>
+                                                </label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Types"
+                                                      class="form-control ct_input" formControlName="skin_types"
+                                                      nzNotFoundContent="No Skin Types Found">
+                                                      @for (item of skintypes; track item) {
+                                                      <nz-option [nzLabel]="item.name"
+                                                            [nzValue]="item.skin_type_id"></nz-option>
                                                       }
-                                                </ul>
+                                                </nz-select>
                                                 <span class="ct_text_red mt-2"
-                                                      *ngIf="selectedSecurityLevel.length == 0">
-                                                      Please select at least one severity level.
+                                                      *ngIf="Form.get('skin_types')?.invalid && Form.get('skin_types')?.touched">
+                                                      Please add at least one skin type.
+                                                </span>
+                                          </div>
+                                          <div class="mb-4">
+                                                <label for="" class="mb-2 ct_text_black">Skin Condition<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Conditions"
+                                                      class="form-control ct_input" formControlName="skin_condition"
+                                                      nzNotFoundContent="No Severity Found">
+                                                      @for (item of skinConditions; track item) {
+                                                      <nz-option [nzLabel]="item.name"
+                                                            [nzValue]="item.skin_condition_id"></nz-option>
+                                                      }
+                                                </nz-select>
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="Form.get('skin_condition')?.invalid && Form.get('skin_condition')?.touched">
+                                                      Please add at least one skin condition.
+                                                </span>
+                                          </div>
+                                          <div class="mb-4">
+                                                <label for="" class="mb-2 ct_text_black">Surgeries Provided<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Surgeries"
+                                                      class="form-control ct_input" formControlName="surgeries"
+                                                      nzNotFoundContent="No Severity Found">
+                                                      @for (item of surgeries; track item) {
+                                                      <nz-option [nzLabel]="item.type"
+                                                            [nzValue]="item.surgery_id"></nz-option>
+                                                      }
+                                                </nz-select>
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="Form.get('surgeries')?.invalid && Form.get('surgeries')?.touched">
+                                                      Please add at least one surgery.
+                                                </span>
+                                          </div>
+                                          <div class="mb-4">
+                                                <label for="" class="mb-2 ct_text_black">Devices<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Devices"
+                                                      class="form-control ct_input" formControlName="devices"
+                                                      nzNotFoundContent="No Device Found">
+                                                      @for (item of devices; track item) {
+                                                      <nz-option [nzLabel]="item.device"
+                                                            [nzValue]="item.aesthetic_device_id"></nz-option>
+                                                      }
+                                                </nz-select>
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="Form.get('devices')?.invalid && Form.get('devices')?.touched">
+                                                      Please add at least one device.
                                                 </span>
                                           </div>
                                     </div>
@@ -476,11 +472,11 @@
                                                                         formControlName="fee_per_session">
                                                                   <span class="ct_show_eye">$</span>
                                                             </div>
-                                                            <div class="text-danger mt-1"
+                                                            <div class="ct_text_red mt-1"
                                                                   *ngIf="operationHoursForm.get('fee_per_session')?.hasError('required') && operationHoursForm.get('fee_per_session')?.touched">
                                                                   Fee per session is required.
                                                             </div>
-                                                            <div class="text-danger mt-1"
+                                                            <div class="ct_text_red mt-1"
                                                                   *ngIf="operationHoursForm.get('fee_per_session')?.hasError('min') && operationHoursForm.get('fee_per_session')?.touched">
                                                                   Fee per session can not be negative.
                                                             </div>
@@ -499,15 +495,15 @@
                                                                                     placeholder="In hours">
                                                                               <span class="ct_white_nowrap">hrs</span>
                                                                         </div>
-                                                                        <div class="text-danger mt-1"
+                                                                        <div class="ct_text_red mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('required') && operationHoursForm.get('session_duration.hours')?.touched">
                                                                               Hours are required.
                                                                         </div>
-                                                                        <div class="text-danger mt-1"
+                                                                        <div class="ct_text_red mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('min') && operationHoursForm.get('session_duration.hours')?.touched">
                                                                               Hours can not be negative.
                                                                         </div>
-                                                                        <div class="text-danger mt-1"
+                                                                        <div class="ct_text_red mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('pattern') && operationHoursForm.get('session_duration.hours')?.touched">
                                                                               Invalid hours
                                                                         </div>
@@ -521,23 +517,23 @@
                                                                                     placeholder="In minutes">
                                                                               <span class="ct_white_nowrap">min</span>
                                                                         </div>
-                                                                        <div class="text-danger mt-1"
+                                                                        <div class="ct_text_red mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('required') && operationHoursForm.get('session_duration.minutes')?.touched">
                                                                               Minutes are required.
                                                                         </div>
-                                                                        <div class="text-danger mt-1"
+                                                                        <div class="ct_text_red mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('min') && operationHoursForm.get('session_duration.minutes')?.touched">
                                                                               Minutes can not be negative.
                                                                         </div>
-                                                                        <div class="text-danger mt-1"
+                                                                        <div class="ct_text_red mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('max') && operationHoursForm.get('session_duration.minutes')?.touched">
                                                                               Minutes can not be greater than 59.
                                                                         </div>
-                                                                        <div class="text-danger mt-1"
+                                                                        <div class="ct_text_red mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('pattern') && operationHoursForm.get('session_duration.minutes')?.touched">
                                                                               Invalid minutes
                                                                         </div>
-                                                                        <div class="text-danger mt-1"
+                                                                        <div class="ct_text_red mt-1"
                                                                               *ngIf="operationHoursForm.get('session_duration.hours')?.value && operationHoursForm.get('session_duration.minutes')?.value === 00">
                                                                               Session duration can not be 00:00
                                                                         </div>
@@ -578,7 +574,7 @@
                                                                         [disabled]="group.get('closed')?.value"
                                                                         [ngClass]="{'is-invalid': group.errors?.['start_time'] && group.get('start_time')?.touched}">
                                                                   <div *ngIf="group.errors?.['start_time'] && group.get('start_time')?.touched"
-                                                                        class="text-danger">
+                                                                        class="ct_text_red">
                                                                         {{ group.errors?.['start_time'] }}
                                                                   </div>
                                                             </div>
@@ -588,11 +584,11 @@
                                                                         [disabled]="group.get('closed')?.value"
                                                                         [ngClass]="{'is-invalid': group.errors?.['end_time'] && group.get('end_time')?.touched}">
                                                                   <div *ngIf="group.errors?.['end_time'] && group.get('end_time')?.touched"
-                                                                        class="text-danger">
+                                                                        class="ct_text_red">
                                                                         {{ group.errors?.['end_time'] }}
                                                                   </div>
                                                                   <div *ngIf="group.errors?.['timeRangeInvalid']"
-                                                                        class="text-danger">
+                                                                        class="ct_text_red">
                                                                         End time must be after start time.
                                                                   </div>
                                                             </div>
@@ -611,7 +607,7 @@
                                     </div>
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">Next</button>
+                                          (click)="nextStep()">Submit</button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">
@@ -621,6 +617,3 @@
             </div>
       </div>
 </section>
-
-<div *ngIf="filteredTreatments.length > 0 " id="overLay" (click)=" filteredTreatments = []">
-</div>

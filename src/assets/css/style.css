@@ -1636,7 +1636,7 @@ a.add img {
 
 .msg-body ul .sender {
   display: block;
-  width: 100%;
+  /* width: 100%; */
   position: relative;
 }
 
@@ -1671,7 +1671,7 @@ a.add img {
 
 .msg-body ul .repaly {
   display: block;
-  width: 100%;
+  /* width: 100%; */
   text-align: right;
   position: relative;
   max-width: 500px;

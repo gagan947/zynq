@@ -5,11 +5,12 @@
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 ">
                               <div class="d-flex align-items-center gap-3 justify-content-between ct_flex_col_767">
                                     <div>
-                                          <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Clinic Profile</h4>
+                                          <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">My Profile</h4>
                                           <p class="mb-0">Basic Info & Specializations</p>
                                     </div>
                                     <div class="ct_w_100_767">
-                                          <a routerLink="edit" class="ct_black_btn gap-2 ct_w_100_767">
+                                          <a routerLink="/solo-doctor/edit-profile"
+                                                class="ct_black_btn gap-2 ct_w_100_767">
                                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                                       xmlns="http://www.w3.org/2000/svg">
                                                       <path d="M9.16751 3.1661L13.8342 7.83276M9.83418 15.1661H15.1675M9.88351 3.08943C10.3802 2.55143 10.6282 2.28276 10.8922 2.12543C11.2038 1.93889 11.5591 1.83777 11.9223 1.83227C12.2855 1.82677 12.6437 1.91708 12.9608 2.0941C13.2295 2.24343 13.4855 2.50476 13.9975 3.02743C14.5095 3.55076 14.7655 3.81276 14.9108 4.08676C15.0843 4.41303 15.1724 4.77783 15.1672 5.14728C15.1619 5.51674 15.0634 5.87888 14.8808 6.2001C14.7275 6.46943 14.4642 6.72343 13.9368 7.23076L7.66818 13.2688C6.66951 14.2308 6.17018 14.7114 5.54618 14.9554C4.92218 15.1994 4.23618 15.1808 2.86418 15.1454L2.67751 15.1401C2.26018 15.1294 2.05085 15.1241 1.93018 14.9861C1.80818 14.8481 1.82485 14.6354 1.85818 14.2101L1.87618 13.9794C1.96951 12.7821 2.01618 12.1834 2.24951 11.6448C2.48285 11.1061 2.88685 10.6694 3.69351 9.79543L9.88351 3.08943Z"
@@ -23,13 +24,16 @@
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                               <div class="d-flex align-items-center gap-4 ct_flex_col_767">
-                                    <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/doctor.png'"
+                                    <img [src]=" this.soloDrProfile().clinic?.clinic_logo ? this.soloDrProfile().clinic?.clinic_logo : 'assets/img/doctor.png'"
                                           alt="" class="ct_flex_shrink_0 ct_medicare_logo ct_cursor_pointer"
                                           data-bs-toggle="modal" data-bs-target="#full_view_img"
-                                          (click)="openModal(this.clinicProfile()?.clinic_logo)">
+                                          (click)="openModal(this.soloDrProfile().clinic?.clinic_logo)">
                                     <div>
-                                          <h5 class="ct_fs_20 ct_fw_600 mb-1">{{this.clinicProfile()?.clinic_name}}</h5>
-                                          <p class="mb-0 ct_grey_text">{{this.clinicProfile()?.clinic_description}}
+                                          <h5 class="ct_fs_20 ct_fw_600 mb-1">
+                                                {{this.soloDrProfile().clinic?.clinic_name}}
+                                          </h5>
+                                          <p class="mb-0 ct_grey_text">
+                                                {{this.soloDrProfile().clinic?.clinic_description}}
                                           </p>
                                     </div>
                               </div>
@@ -52,17 +56,19 @@
                                                 <div class="form-group mb-4">
                                                       <label for="" class="mb-2">Street</label>
                                                       <input type="text"
-                                                            [value]="this.clinicProfile()?.location?.street_address"
+                                                            [value]="this.soloDrProfile().clinic?.location?.street_address"
                                                             class="form-control ct_input" disabled>
                                                 </div>
                                                 <div class="form-group mb-4">
                                                       <label for="" class="mb-2">City</label>
-                                                      <input type="text" [value]="this.clinicProfile()?.location?.city"
+                                                      <input type="text"
+                                                            [value]="this.soloDrProfile().clinic?.location?.city"
                                                             class="form-control ct_input" disabled>
                                                 </div>
                                                 <div class="form-group mb-4">
                                                       <label for="" class="mb-2">State</label>
-                                                      <input type="text" [value]="this.clinicProfile()?.location?.state"
+                                                      <input type="text"
+                                                            [value]="this.soloDrProfile().clinic?.location?.state"
                                                             class="form-control ct_input" disabled>
                                                 </div>
                                                 <div class="form-group mb-0">
@@ -100,7 +106,7 @@
                                                       <label for="" class="mb-2">Phone</label>
                                                       <div class="position-relative">
                                                             <input type="text"
-                                                                  [value]="this.clinicProfile()?.mobile_number"
+                                                                  [value]="this.soloDrProfile()?.mobile_number"
                                                                   class="form-control ct_input ct_input_ps_40" disabled>
                                                             <div class="ct_input_icon_left">
                                                                   <svg width="21" height="20" viewBox="0 0 21 20"
@@ -116,7 +122,7 @@
                                                 <div class="form-group mb-4">
                                                       <label for="" class="mb-2">Email</label>
                                                       <div class="position-relative">
-                                                            <input type="email" [value]="this.clinicProfile()?.email"
+                                                            <input type="email" [value]="this.soloDrProfile()?.email"
                                                                   class="form-control ct_input ct_input_ps_40" disabled>
                                                             <div class="ct_input_icon_left">
                                                                   <img src="assets/img/icons/mail_icon.svg" alt="">
@@ -127,7 +133,7 @@
                                                       <label for="" class="mb-2">Website</label>
                                                       <div class="position-relative">
                                                             <input type="email"
-                                                                  [value]="this.clinicProfile()?.website_url"
+                                                                  [value]="this.soloDrProfile()?.website_url"
                                                                   class="form-control ct_input ct_input_ps_40" disabled>
                                                             <div class="ct_input_icon_left">
                                                                   <svg width="21" height="20" viewBox="0 0 21 20"
@@ -147,8 +153,8 @@
                                           </div>
                                     </div>
                               </div>
-                              @if(this.clinicProfile()?.hsa_id || this.clinicProfile()?.ivo_registration_number ||
-                              this.clinicProfile()?.org_number){
+                              @if(this.soloDrProfile()?.hsa_id || this.soloDrProfile()?.ivo_registration_number ||
+                              this.soloDrProfile()?.org_number){
                               <div class="col-xxl-4 mt-4">
                                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 h-100">
                                           <p class="ct_fs_18 mb-3">
@@ -161,11 +167,11 @@
                                                 Registration Details
                                           </p>
 
-                                          @if(this.clinicProfile()?.org_number){
+                                          @if(this.soloDrProfile()?.org_number){
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2">Swedish Organization Number </label>
                                                 <div class="position-relative">
-                                                      <input type="email" [value]="this.clinicProfile()?.org_number"
+                                                      <input type="email" [value]="this.soloDrProfile()?.org_number"
                                                             class="form-control ct_input ct_input_ps_40" disabled>
                                                       <div class="ct_input_icon_left">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -179,11 +185,11 @@
                                           </div>
                                           }
 
-                                          @if(this.clinicProfile()?.hsa_id){
+                                          @if(this.soloDrProfile()?.hsa_id){
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2">HSA ID</label>
                                                 <div class="position-relative">
-                                                      <input type="email" [value]="this.clinicProfile()?.hsa_id"
+                                                      <input type="email" [value]="this.soloDrProfile()?.hsa_id"
                                                             class="form-control ct_input ct_input_ps_40" disabled>
                                                       <div class="ct_input_icon_left">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -195,12 +201,12 @@
                                                 </div>
                                           </div>
                                           }
-                                          @if(this.clinicProfile()?.ivo_registration_number){
+                                          @if(this.soloDrProfile()?.ivo_registration_number){
                                           <div class="form-group mb-0">
                                                 <label for="" class="mb-2">IVO Registration Number</label>
                                                 <div class="position-relative">
                                                       <input type="email"
-                                                            [value]="this.clinicProfile()?.ivo_registration_number"
+                                                            [value]="this.soloDrProfile()?.ivo_registration_number"
                                                             class="form-control ct_input ct_input_ps_40" disabled>
                                                       <div class="ct_input_icon_left">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -258,7 +264,7 @@
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.clinicProfile()?.treatments; track $index) {
+                                          @for (item of this.soloDrProfile()?.treatments; track $index) {
                                           <li>
                                                 <button class="ct_select_badge">{{item.name}} </button>
                                           </li>
@@ -272,10 +278,10 @@
                                     <div class="col-md-6">
                                           <div class="d-flex align-items-center gap-3">
                                                 <input type="text" class="form-control ct_input" placeholder="Min"
-                                                      [value]="getMinVal(this.clinicProfile()?.fee_range)" disabled>
+                                                      [value]="getMinVal(this.soloDrProfile()?.fee_range)" disabled>
                                                 <span class="ct_white_nowrap">to</span>
                                                 <input type="text" class="form-control ct_input" placeholder="Max"
-                                                      [value]="getMaxVal(this.clinicProfile()?.fee_range)" disabled>
+                                                      [value]="getMaxVal(this.soloDrProfile()?.fee_range)" disabled>
                                           </div>
                                     </div>
                               </div>
@@ -285,7 +291,7 @@
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.clinicProfile()?.equipments; track $index) {
+                                          @for (item of this.soloDrProfile()?.equipments; track $index) {
                                           <li>
                                                 <button class="ct_select_badge">{{item.name}}</button>
                                           </li>
@@ -299,7 +305,7 @@
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.clinicProfile()?.skin_types; track $index) {
+                                          @for (item of this.soloDrProfile()?.skinTypes; track $index) {
                                           <li>
                                                 <div class="d-flex align-items-center gap-2">
                                                       <i class="fa-solid fa-check"></i>
@@ -317,7 +323,7 @@
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.clinicProfile()?.skin_Conditions; track $index) {
+                                          @for (item of this.soloDrProfile()?.skinCondition; track $index) {
                                           <li>
                                                 <div class="d-flex align-items-center gap-2">
                                                       <i class="fa-solid fa-check"></i>
@@ -335,7 +341,7 @@
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.clinicProfile()?.surgeries_level; track $index) {
+                                          @for (item of this.soloDrProfile()?.surgery; track $index) {
                                           <li>
                                                 <div class="d-flex align-items-center gap-2">
                                                       <i class="fa-solid fa-check"></i>
@@ -353,7 +359,7 @@
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.clinicProfile()?.aestheticDevices; track $index) {
+                                          @for (item of this.soloDrProfile()?.aestheticDevices; track $index) {
                                           <li>
                                                 <div class="d-flex align-items-center gap-2">
                                                       <i class="fa-solid fa-check"></i>

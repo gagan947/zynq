@@ -1,21 +1,31 @@
-.ct_role_card_select li + li{
+.ct_role_card_select li+li {
     margin-top: 10px;
 }
+
 .ct_role_card_select li {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.ct_role_card_select li i{
+
+.ct_role_card_select li i {
     font-size: 16px;
     color: #000;
 }
-.ct_role_card_select li span{
+
+.ct_role_card_select li span {
     font-size: 14px;
 }
+
 .ct_role_card_select {
-    display: grid
-;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     place-content: flex-start;
+}
+
+.fa-circle {
+    --fa: "\f111";
+    font-size: 8px;
+    margin-bottom: 5px;
 }

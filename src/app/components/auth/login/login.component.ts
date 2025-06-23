@@ -51,7 +51,7 @@ export class LoginComponent {
         next: (resp) => {
           if (resp.success == true) {
             this.auth.setValues(resp.data.jwt_token, resp.data.role_id, resp.data);
-            if (resp.data.role_id == '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {
+            if (resp.data.role_id == '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {  // Clinic
               if (resp.data.is_onboarded === 1) {
                 this.router.navigateByUrl('/clinic')
               } else if (resp.data.is_password_set === 0) {
@@ -59,13 +59,21 @@ export class LoginComponent {
               } else {
                 this.router.navigateByUrl('/clinic/profile-setup')
               }
-            } else if (resp.data.role_id == '3677a3e6-3196-11f0-9e07-0e8e5d906eef') {
+            } else if (resp.data.role_id == '3677a3e6-3196-11f0-9e07-0e8e5d906eef') { // Doctor
               if (resp.data.on_boarding_status == 4) {
                 this.router.navigateByUrl('/doctor')
               } else if (resp.data.is_password_set === 0) {
                 this.router.navigateByUrl('/set-password')
               } else {
                 this.router.navigateByUrl('/doctor/profile-setup')
+              }
+            } else if (resp.data.role_id == '407595e3-3196-11f0-9e07-0e8e5d906eef') {  // Solo Doctor
+              if (resp.data.is_onboarded === 1) {
+                this.router.navigateByUrl('/solo-doctor')
+              } else if (resp.data.is_password_set === 0) {
+                this.router.navigateByUrl('/set-password')
+              } else {
+                this.router.navigateByUrl('/solo-doctor/profile-setup')
               }
             }
             this.toster.success(resp.message)

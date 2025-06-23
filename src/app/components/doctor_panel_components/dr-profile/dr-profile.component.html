@@ -138,50 +138,92 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Services & Expertise</h5>
-                        <div class="mb-4">
-                            <ul class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30"
-                                *ngFor="let service of doctor.data.treatments; let i = index">
+                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
+                        <h4 class="mb-3 ct_fs_20 ct_fw_600">Treatments Provided-</h4>
+                        <div>
+                            <ul
+                                class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                @for (item of doctor.data.treatments; track $index) {
                                 <li>
-                                    <button class="ct_select_badge">{{service.name}} <span></span></button>
+                                    <button class="ct_select_badge">{{item.name}} </button>
                                 </li>
-                            </ul>
-                        </div>
-                        <div class="mb-4">
-                            <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin Type
-                                Expertise-</label>
-                            <ul class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30"
-                                *ngFor="let skintype of doctor.data.skinTypes; let i = index">
-                                <li>
-                                    <div class="form-check d-flex align-items-center gap-2">
-                                        <input class="form-check-input ct_custom_check" type="checkbox" value="" checked
-                                            id="flexCheckDefault" disabled>
-                                        <label class="form-check-label mb-0" for="flexCheckDefault">
-                                            {{skintype.name}}
-                                        </label>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="mb-4">
-                            <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Severity Level
-                                Handled-</label>
-                            <ul class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30"
-                                *ngFor="let level of doctor.data.severityLevels; let i = index">
-                                <li>
-                                    <div class="form-check d-flex align-items-center gap-2">
-                                        <input class="form-check-input ct_custom_check" type="checkbox" value=""
-                                            id="flexCheckDefault" checked disabled>
-                                        <label class="form-check-label mb-0" for="flexCheckDefault">
-                                            {{level.level}}
-                                        </label>
-                                    </div>
-                                </li>
+                                }
                             </ul>
                         </div>
                     </div>
-                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mb-4 pe-0">
+                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                        <h4 class="mb-3 ct_fs_20 ct_fw_600">Skin Type Expertise-</h4>
+                        <div>
+                            <ul
+                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                @for (item of doctor.data.skinTypes; track $index) {
+                                <li>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-check"></i>
+                                        <label class="form-check-label mb-0" for="flexCheckDefault">
+                                            {{item.name}}
+                                        </label>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                        <h4 class="mb-3 ct_fs_20 ct_fw_600">Skin Conditions-</h4>
+                        <div>
+                            <ul
+                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                @for (item of doctor.data.skinCondition; track $index) {
+                                <li>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-check"></i>
+                                        <label class="form-check-label mb-0" for="flexCheckDefault">
+                                            {{item.name}}
+                                        </label>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                        <h4 class="mb-3 ct_fs_20 ct_fw_600">Surgeries-</h4>
+                        <div>
+                            <ul
+                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                @for (item of doctor.data.surgery; track $index) {
+                                <li>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-check"></i>
+                                        <label class="form-check-label mb-0" for="flexCheckDefault">
+                                            {{item.type}}
+                                        </label>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                        <h4 class="mb-3 ct_fs_20 ct_fw_600">Devices-</h4>
+                        <div>
+                            <ul
+                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                @for (item of doctor.data.aestheticDevices; track $index) {
+                                <li>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-check"></i>
+                                        <label class="form-check-label mb-0" for="flexCheckDefault">
+                                            {{item.device}}
+                                        </label>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mb-4 mt-4 pe-0">
                         <h4 class="ct_fs_20 ct_fw_600 mb-4">Uploaded Certifications</h4>
                         <ul class="ct_para_scroll ct_custom_scroll d-flex align-items-center gap-4 flex-wrap ct_pe_30"
                             *ngFor="let certificate of doctor.data.certifications; let i = index">

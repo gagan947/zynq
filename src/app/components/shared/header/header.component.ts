@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { CommonService } from '../../../services/common.service';
 import { ClinicProfile } from '../../../models/clinic-profile';
 import { DoctorProfile } from '../../../models/doctorProfile';
+import { LoaderService } from '../../../services/loader.service';
 
 @Component({
   selector: 'app-header',
@@ -17,19 +18,25 @@ import { DoctorProfile } from '../../../models/doctorProfile';
 export class HeaderComponent {
   clinicPofile: ClinicProfile | null = null;
   doctorPofile: DoctorProfile | null = null;
+  soloDoctorPofile: any | null = null;
 
   clinicProfile = this.service._clinicProfile;
   drProfile = this.service._doctorProfile;
-  constructor(public auth: AuthService, private service: CommonService, private router: Router) {
+  soloDrProfile = this.service._soloDoctorProfile;
+  constructor(public auth: AuthService, private service: CommonService, private router: Router, public loaderService: LoaderService) {
     effect(() => {
       this.clinicProfile();
       this.drProfile();
+      this.soloDrProfile();
     });
+    this.loaderService.show();
 
     if (this.auth.getRoleName() == 'clinic') {
       this.getClinicProfile();
-    } else {
+    } else if (this.auth.getRoleName() == 'doctor') {
       this.getDoctorProfile();
+    } else {
+      this.getSoloDoctorProfile();
     }
   }
 
@@ -37,6 +44,7 @@ export class HeaderComponent {
     this.service.get<any>('clinic/get-profile').subscribe((resp) => {
       this.clinicPofile = resp.data;
       this.service._clinicProfile.set(this.clinicPofile);
+      this.loaderService.hide();
     })
   };
 
@@ -44,6 +52,15 @@ export class HeaderComponent {
     this.service.get<any>('doctor/get_profile').subscribe((resp) => {
       this.doctorPofile = resp.data;
       this.service._doctorProfile.set(this.doctorPofile);
+      this.loaderService.hide();
+    })
+  };
+
+  getSoloDoctorProfile() {
+    this.service.get<any>('solo_doctor/get_profile').subscribe((resp) => {
+      this.soloDoctorPofile = resp.data;
+      this.service._soloDoctorProfile.set(this.soloDoctorPofile);
+      this.loaderService.hide();
     })
   };
 

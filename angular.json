@@ -31,7 +31,9 @@
               "src/styles.css",
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/sdk/ZegoExpressWebRTC-3.9.0.js"
+            ]
           },
           "configurations": {
             "production": {

@@ -44,6 +44,8 @@
                                                       </owl-carousel-o>
 
                                                       <!-- Thumbnail Carousel -->
+                                                      @if (productData?.product_images &&
+                                                      productData?.product_images!.length > 1) {
                                                       <owl-carousel-o [options]="thumbOptions"
                                                             class="thumb-carousel ct_thumb_gallery_top_20">
                                                             @for (item of productData?.product_images; track $index) {
@@ -54,6 +56,7 @@
                                                             </ng-template>
                                                             }
                                                       </owl-carousel-o>
+                                                      }
                                                 </div>
                                           </div>
                                           <div class="col-xxl-8 col-xl-7 col-lg-6  mb-4 mb-lg-0">

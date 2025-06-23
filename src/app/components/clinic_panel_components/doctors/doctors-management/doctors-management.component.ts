@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, viewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonService } from '../../../../services/common.service';

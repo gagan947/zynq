@@ -36,6 +36,30 @@ export interface ClinicProfile {
       skin_types: SkinType[];
       severity_levels: SeverityLevel[];
       documents: ClinicDocument[];
+      skin_Conditions: SkinCondition[];
+      surgeries_level: Surgery[];
+      aestheticDevices: AestheticDevice[];
+}
+
+export interface SkinCondition {
+      skin_condition_id: string;
+      name: string;
+      description: string;
+      english: string;
+      swedish: string;
+      created_at: string;
+      updated_at: string;
+}
+
+export interface Surgery {
+      surgery_id: string;
+      type: string;
+      area: string;
+      english: string;
+      swedish: string;
+      technique: string;
+      created_at: string;
+      updated_at: string;
 }
 
 export interface ClinicLocation {
@@ -90,4 +114,15 @@ export interface ClinicDocument {
       certification_type_id: string | null;
       created_at: string;
       updated_at: string;
+}
+
+export interface AestheticDevice {
+      aesthetic_device_id: string;
+      device: string;
+      category: string;
+      main_application: string;
+      manufacturer: string;
+      swedish_distributor: string;
+      created_at: string;  // or Date if you plan to convert it
+      updated_at: string;  // or Date if you plan to convert it
 }

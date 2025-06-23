@@ -10,7 +10,6 @@ export class LoaderService {
   showLoader$ = this._showLoader.asObservable();
 
   show() {
-  
     this._showLoader.next(true);
   }
 

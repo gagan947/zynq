@@ -101,13 +101,6 @@
                                                       </div>
                                                       <input type="file" #logoInput class="d-none" accept="image/*"
                                                             formControlName="logo" (change)="onLogoImage($event)">
-                                                      <!-- <span
-                                                            *ngIf="Form.controls['logo'].invalid && Form.controls['logo'].touched">
-                                                            <span *ngIf="Form.controls['logo'].errors?.['required']"
-                                                                  class="ct_text_red mt-2">
-                                                                  Logo is required.
-                                                            </span>
-                                                      </span> -->
                                                       <div class="ct_uploaded_img123 position-relative w-100 ct_upload_product_main"
                                                             *ngIf="logoPreview">
                                                             <div class="ct_uploaded_img_w">
@@ -120,8 +113,6 @@
                                                 </div>
                                           </div>
                                     </div>
-                                    <!-- <input type="button" name="next" class="ct_form_next ct_black_btn float-end mx-1"
-                                          value="Next" /> -->
 
                                     <button type="submit" class="ct_form_next action-button ct_black_btn float-end"
                                           value="Next">
@@ -278,273 +269,107 @@
                                           </div>
 
                                     </div>
-                                    <!-- <div class="float-end"> -->
-
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
                                           (click)="nextStep()">Next</button>
                                     <button type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">Previous</button>
-
-                                    <!-- </div> -->
-
                               </fieldset>
-                              <!-- <fieldset *ngIf="currentStep == 2">
-                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Operation Hours</h5>
-                                          <div [formGroup]="clinicTiming">
-                                                <div *ngFor="let day of days">
-                                                      <div [formGroupName]="day"
-                                                            class="row align-items-center ct_border_btm_1 py-3">
-                                                            <div class="col-md-3">
-                                                                  <p class="mb-0 ct_text_clr_444 text-capitalize">
-                                                                        {{ day }}
-                                                                  </p>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                  <div class="d-flex align-items-center gap-3">
-                                                                        <div class="form-group ct_flex_1">
-                                                                              <input type="time"
-                                                                                    class="form-control ct_input"
-                                                                                    formControlName="open">
-                                                                              <span *ngIf="hasClinicTimingError(day, 'open', 'required')"
-                                                                                    class="ct_text_red mt-2">
-                                                                                    Open time is required.
-                                                                              </span>
-                                                                        </div>
-                                                                        <div class="form-group ct_flex_1">
-                                                                              <input type="time"
-                                                                                    class="form-control ct_input"
-                                                                                    formControlName="close">
-                                                                              <span *ngIf="hasClinicTimingError(day, 'close', 'required')"
-                                                                                    class="ct_text_red mt-2">
-                                                                                    Close time is required.
-                                                                              </span>
-                                                                              <span *ngIf="clinicTiming.get(day)?.errors?.['timeRangeInvalid']"
-                                                                                    class="ct_text_red mt-2">
-                                                                                    Close time must be after open time.
-                                                                              </span>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                  <div class="form-group">
-                                                                        <div class="form-check">
-                                                                              <input class="form-check-input"
-                                                                                    type="checkbox"
-                                                                                    formControlName="is_closed"
-                                                                                    (change)="setClosed(day, $event)">
-                                                                              <label class="form-check-label">
-                                                                                    Closed
-                                                                              </label>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
-                                    <button type="button"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">Next</button>
-                                    <button type="button"
-                                          class="previous action-button-previous mx-1 ct_outline_btn float-end"
-                                          value="Previous" (click)="previousStep()">Previous</button>
-                              </fieldset> -->
+
                               <fieldset *ngIf="currentStep == 2">
-                                    <div *ngIf="filteredTreatments.length > 0 || filteredEquipmentType.length > 0"
-                                          id="overLay" (click)="filteredEquipmentType = []; filteredTreatments = []">
-                                    </div>
                                     <div class=" ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
                                                 Services & Expertise</h5>
                                           <div class="mb-4">
-                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Treatments
-                                                      Provided-</label>
-                                                <ul
-                                                      class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of selectedTreatments; track
-                                                      $index) {
-                                                      <li>
-                                                            <button type="button" class="ct_select_badge">{{item.name}}
-                                                                  <span (click)="removeTreatment($index)"><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
+                                                <label for="" class="mb-2 ct_text_black">Treatments
+                                                      Provided<span class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Treatments"
+                                                      class="form-control ct_input" formControlName="treatments"
+                                                      nzNotFoundContent="No Treatments Found">
+                                                      @for (item of treatments; track item) {
+                                                      <nz-option [nzLabel]="item.name"
+                                                            [nzValue]="item.treatment_id"></nz-option>
                                                       }
-                                                </ul>
-
-                                                <div class="position-relative mt-4">
-                                                      <input type="text" class="form-control ct_input ct_pe_122"
-                                                            placeholder="Type to add treatments..."
-                                                            (input)="searchTratment($event)">
-                                                      <!-- <button class="ct_black_btn ct_btn_position_right">Add</button> -->
-                                                      <ul class="cutom_dropdown_list"
-                                                            *ngIf="filteredTreatments.length > 0">
-                                                            @for (item of filteredTreatments;
-                                                            track $index) {
-                                                            <li class="list_item" (click)="addTreatment(item)">
-                                                                  <i class="fa-solid fa-check me-2"
-                                                                        [ngClass]="selectedTreatments.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
-                                                                  {{item.name}}
-                                                            </li>
-                                                            }
-                                                      </ul>
-                                                </div>
+                                                </nz-select>
                                                 <span class="ct_text_red mt-2"
-                                                      *ngIf="selectedTreatments.length == 0 && submitted">
+                                                      *ngIf="Form.get('treatments')?.invalid && Form.get('treatments')?.touched">
                                                       Please add at least one treatment.
                                                 </span>
                                           </div>
-
-                                          <!-- <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black ">Consultation
-                                                      Fee Range<span class="ct_red_text">*</span></label>
-                                                <div [formGroup]="feeRange">
-                                                      <div class="row">
-                                                            <div class="col-md-6">
-                                                                  <div class="d-flex align-items-center gap-3">
-                                                                        <input type="number"
-                                                                              class="form-control ct_input"
-                                                                              placeholder="Min" formControlName="min">
-                                                                        <span class="ct_white_nowrap">to</span>
-                                                                        <input type="number"
-                                                                              class="form-control ct_input"
-                                                                              placeholder="Max" formControlName="max">
-
-                                                                  </div>
-
-                                                                  <span *ngIf="feeRange.get('min')?.touched && feeRange.get('min')?.errors?.['required'] && feeRange.get('min')?.invalid"
-                                                                        class="ct_text_red mt-2">
-                                                                        Min fee is required.
-                                                                  </span>
-                                                                  <span *ngIf="feeRange.get('max')?.touched && feeRange.get('max')?.errors?.['required'] && feeRange.get('max')?.invalid"
-                                                                        class="ct_text_red mt-2">
-                                                                        Max fee is required.
-                                                                  </span>
-                                                                  <span *ngIf="feeRange.get('max')?.value < feeRange.get('min')?.value && !feeRange.get('max')?.errors?.['required']"
-                                                                        class="ct_text_red mt-2">
-                                                                        Max fee should be greater than min fee
-                                                                  </span>
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                          </div> -->
-                                          <!-- <div class="mb-4">
-                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Equipments
-                                                      Available-</label>
-                                                <ul
-                                                      class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of selectedEquipmentType; track
-                                                      $index) {
-                                                      <li>
-                                                            <button type="button" class="ct_select_badge">{{item.name}}
-                                                                  <span (click)="removeEquipmentType($index)"><i
-                                                                              class="fa-solid fa-xmark"></i></span></button>
-                                                      </li>
-                                                      }
-                                                </ul>
-
-                                                <div class="position-relative mt-4">
-                                                      <input type="text" class="form-control ct_input ct_pe_122"
-                                                            placeholder="Type to add equipment..."
-                                                            (input)="searchEquipmentType($event)">
-                                          <ul class="cutom_dropdown_list" *ngIf="filteredEquipmentType.length > 0">
-                                                @for (item of filteredEquipmentType;
-                                                track $index) {
-                                                <li class="list_item" (click)="addEquipmentType(item)">
-                                                      <i class="fa-solid fa-check me-2"
-                                                            [ngClass]="selectedEquipmentType.includes(item) ? 'opacity-100' : 'opacity-0'"></i>
-                                                      {{item.name}}
-                                                </li>
-                                                }
-                                          </ul>
-                                    </div>
-                  </div> -->
-
                                           <div class="mb-4">
-                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Skin
+                                                <label for="" class="mb-2 ct_text_black">Skin
                                                       Type
-                                                      Expertise-</label>
-                                                <ul
-                                                      class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of skintypes; track $index) {
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" [value]="item"
-                                                                        [checked]="isskintypeselected(item.skin_type_id)"
-                                                                        (change)="addSkinTypes(item)"
-                                                                        id="{{item.skin_type_id}}">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="{{item.skin_type_id}}">
-                                                                        {{item.name}}
-                                                                  </label>
-                                                            </div>
-                                                      </li>
+                                                      Expertise<span class="ct_red_text">*</span>
+                                                </label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Types"
+                                                      class="form-control ct_input" formControlName="skin_types"
+                                                      nzNotFoundContent="No Skin Types Found">
+                                                      @for (item of skintypes; track item) {
+                                                      <nz-option [nzLabel]="item.name"
+                                                            [nzValue]="item.skin_type_id"></nz-option>
                                                       }
-                                                </ul>
+                                                </nz-select>
                                                 <span class="ct_text_red mt-2"
-                                                      *ngIf="selectedSkinTypes.length == 0 && submitted">
-                                                      Please select at least one expertise.
+                                                      *ngIf="Form.get('skin_types')?.invalid && Form.get('skin_types')?.touched">
+                                                      Please add at least one skin type.
                                                 </span>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-3 ct_text_black ct_fw_600 ct_fs_18">Severity
-                                                      Level
-                                                      Handled-</label>
-                                                <ul
-                                                      class="d-flex align-items-center gap-4 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                                      @for (item of securityLevel; track $index)
-                                                      {
-                                                      <li>
-                                                            <div class="form-check d-flex align-items-center gap-2">
-                                                                  <input class="form-check-input ct_custom_check"
-                                                                        type="checkbox" [value]="item"
-                                                                        (change)="addSecurityLevel(item)"
-                                                                        [checked]="issecurityLevelSelected(item.severity_level_id)"
-                                                                        id="{{item.severity_level_id}}">
-                                                                  <label class="form-check-label mb-0"
-                                                                        for="{{item.severity_level_id}}">
-                                                                        {{item.level}}
-                                                                  </label>
-                                                            </div>
-                                                      </li>
+                                                <label for="" class="mb-2 ct_text_black">Skin Condition<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Conditions"
+                                                      class="form-control ct_input" formControlName="skin_condition"
+                                                      nzNotFoundContent="No Severity Found">
+                                                      @for (item of skinConditions; track item) {
+                                                      <nz-option [nzLabel]="item.name"
+                                                            [nzValue]="item.skin_condition_id"></nz-option>
                                                       }
-                                                </ul>
+                                                </nz-select>
                                                 <span class="ct_text_red mt-2"
-                                                      *ngIf="selectedSecurityLevel.length == 0 && submitted">
-                                                      Please select at least one severity level.
+                                                      *ngIf="Form.get('skin_condition')?.invalid && Form.get('skin_condition')?.touched">
+                                                      Please add at least one skin condition.
+                                                </span>
+                                          </div>
+                                          <div class="mb-4">
+                                                <label for="" class="mb-2 ct_text_black">Surgeries Provided<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Surgeries"
+                                                      class="form-control ct_input" formControlName="surgeries"
+                                                      nzNotFoundContent="No Severity Found">
+                                                      @for (item of surgeries; track item) {
+                                                      <nz-option [nzLabel]="item.type"
+                                                            [nzValue]="item.surgery_id"></nz-option>
+                                                      }
+                                                </nz-select>
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="Form.get('surgeries')?.invalid && Form.get('surgeries')?.touched">
+                                                      Please add at least one surgery.
+                                                </span>
+                                          </div>
+                                          <div class="mb-4">
+                                                <label for="" class="mb-2 ct_text_black">Devices<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Devices"
+                                                      class="form-control ct_input" formControlName="devices"
+                                                      nzNotFoundContent="No Device Found">
+                                                      @for (item of devices; track item) {
+                                                      <nz-option [nzLabel]="item.device"
+                                                            [nzValue]="item.aesthetic_device_id"></nz-option>
+                                                      }
+                                                </nz-select>
+                                                <span class="ct_text_red mt-2"
+                                                      *ngIf="Form.get('devices')?.invalid && Form.get('devices')?.touched">
+                                                      Please add at least one device.
                                                 </span>
                                           </div>
                                     </div>
 
                                     <button type="submit" name="next"
-                                          class="ct_black_btn float-end mx-1  ct_border_radius_10">Complete
-                                          Profile Setup</button>
-                                    <input type="button" name="previous"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1"
-                                          value="Previous" (click)="previousStep()">
-                                    <!-- <div class="ct_form-card">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <h2 class="fs-title">Finish:</h2>
-                                    </div>
-                                    <div class="col-5">
-                                        <h2 class="ct_multi_steps">Step 4 - 4</h2>
-                                    </div>
-                                </div> <br><br>
-                                <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
-                                <div class="row justify-content-center">
-                                    <div class="col-3"> <img src="https://i.imgur.com/GwStPmg.png" class="fit-image">
-                                    </div>
-                                </div> <br><br>
-                                <div class="row justify-content-center">
-                                    <div class="col-7 text-center">
-                                        <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
-                                    </div>
-                                </div>
-                            </div> -->
+                                          class="ct_black_btn float-end mx-1 ct_border_radius_10">Submit</button>
+                                    <button type="button" name="previous"
+                                          class="previous action-button-previous ct_outline_btn mx-1 float-end"
+                                          value="Previous" (click)="previousStep()">Previous</button>
                               </fieldset>
                         </form>
                         <fieldset *ngIf="currentStep == 3">
@@ -572,11 +397,10 @@
                               </div>
                               <button type="button" name="next" (click)="inviteDr()"
                                     class="ct_black_btn float-end mx-1 mt-4 ct_border_radius_10">Invite</button>
-                              <input type="button" name="previous"
-                                    class="ct_form_next action-button mt-4 ct_black_btn float-end mx-1" value="Previous"
-                                    (click)="previousStep()">
+                              <button type="button" name="previous"
+                                    class="previous action-button-previous ct_outline_btn mx-1  mt-4  float-end"
+                                    value="Previous" (click)="previousStep()">Previous</button>
                         </fieldset>
-
                   </div>
             </div>
       </div>

@@ -20,8 +20,12 @@ export const routes: Routes = [
             path: 'set-password',
             loadComponent: () => import('./components/auth/set-password/set-password.component').then((m) => m.SetPasswordComponent),
             title: 'Password Setup',
-            data: { roles: ['clinic', 'doctor'] },
+            data: { roles: ['clinic', 'doctor', 'solo-doctor'] },
             canActivate: [AuthGuard],
+      },
+      {
+            path: 'choose-role',
+            loadComponent: () => import('./components/shared/components/choose-role/choose-role.component').then(m => m.ChooseRoleComponent)
       },
       {
             path: 'unauthorized',
@@ -36,8 +40,8 @@ export const routes: Routes = [
             loadChildren: () => import('./components/doctor_panel_components/doctor.routes').then(m => m.doctorRoutes)
       },
       {
-            path: 'choose-role',
-            loadComponent: () => import('./components/shared/components/choose-role/choose-role.component').then(m => m.ChooseRoleComponent)
-      }
+            path: 'solo-doctor',
+            loadChildren: () => import('./components/solo_doctor_components/solo-doctor.routes').then(m => m.soloDoctorRoutes)
+      },
 
 ];

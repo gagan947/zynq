@@ -16,6 +16,7 @@ export class CommonService {
   _clinicProfile = signal<ClinicProfile | null>(null);
   _doctorDetail = signal<Doctor | null>(null);
   _doctorProfile = signal<DoctorProfile | null>(null);
+  _soloDoctorProfile = signal<any | null>(null);
   _supportTicket = signal<SupportTicket | null>(null);
   baseUrl = environment.apiUrl
 

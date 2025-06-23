@@ -24,17 +24,23 @@
                     @if(auth.getRoleName() == 'clinic'){
                     <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/doctor.png'"
                         alt="" class="ct_img_30">
-                    }@else {
+                    }@else if(auth.getRoleName() == 'doctor'){
                     <img [src]="drProfile()?.profile_image ? drProfile()?.profile_image : 'assets/img/doctor.png'"
+                        alt="" class="ct_img_30">
+                    }@else {
+                    <img [src]="soloDrProfile()?.profile_image ? soloDrProfile()?.profile_image : 'assets/img/doctor.png'"
                         alt="" class="ct_img_30">
                     }
                     <div class="text-start" style="height: 13px;">
                         @if(auth.getRoleName() == 'clinic'){
                         <p class="mb-0 ct_fw_500" style="line-height: 7px;">{{ this.clinicProfile()?.clinic_name}}</p>
                         <small class="ct_text_939393">Clinic</small>
-                        }@else {
+                        }@else if(auth.getRoleName() == 'doctor'){
                         <p class="mb-0 ct_fw_500" style="line-height: 7px;">{{ drProfile()?.name }}</p>
                         <small class="ct_text_939393">Doctor</small>
+                        }@else {
+                        <p class="mb-0 ct_fw_500" style="line-height: 7px;">{{ soloDrProfile()?.name }}</p>
+                        <small class="ct_text_939393">Solo Doctor</small>
                         }
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import { Component, computed } from '@angular/core';
+import { SocketService } from '../../../services/socket.service';
 
 @Component({
   selector: 'app-dr-dashboard',
@@ -8,8 +9,8 @@ import { Component, computed } from '@angular/core';
   styleUrl: './dr-dashboard.component.css'
 })
 export class DrDashboardComponent {
-  
-  constructor() {
-    
-   }
+
+  constructor(private socketService: SocketService) {
+    this.socketService.userConnected();
+  }
 }

@@ -1,9 +1,10 @@
 export const environment = {
       production: true,
-      // apiUrl: 'http://192.168.29.82:4000/'
-      // apiUrl: 'http://192.168.29.227:4000/'
-      apiUrl: 'https://51.21.123.99:4000/',
+      // apiUrl: 'http://192.168.29.130:4000/',
+      apiUrl: 'http://192.168.29.241:4000/',
+      // apiUrl: 'https://51.21.123.99:4000/',
       certificateUrl: 'https://51.21.123.99:4000/',
+      socketUrl: 'http://192.168.29.101:4000/',
 
       firebaseConfig: {
             apiKey: "AIzaSyDve8qhgMDHLSU5EexRltguFzyX9UVNmek",
