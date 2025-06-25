@@ -23,7 +23,7 @@ export class TiketsListComponent {
 
   constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService) {
     this.activeTab = sessionStorage.getItem('activeTab') || '';
-    this.loader.show();
+    // this.loader.show();
     if (this.auth.getRoleName() == 'doctor' && this.activeTab == '' || this.activeTab == 'admin') {
       this.tickets$ = this.srevice.get<SupportTicketResponse>(`doctor/get-support-tickets-by-doctor-id`).pipe(
         tap((response: SupportTicketResponse) => {

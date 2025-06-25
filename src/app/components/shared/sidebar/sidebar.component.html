@@ -7,7 +7,7 @@
       </div>
       <ul>
             <li>
-                  <a [routerLink]="roleId === '2fc0b43c-3196-11f0-9e07-0e8e5d906eef' ? '/clinic' : roleId === '3677a3e6-3196-11f0-9e07-0e8e5d906eef' ? '/doctor' : '/login'"
+                  <a [routerLink]="roleName === 'clinic' ? '/clinic' : roleName === 'doctor' ? '/doctor' : '/solo-doctor'"
                         routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M4.16675 8.33341H5.83341C7.50008 8.33341 8.33341 7.50008 8.33341 5.83341V4.16675C8.33341 2.50008 7.50008 1.66675 5.83341 1.66675H4.16675C2.50008 1.66675 1.66675 2.50008 1.66675 4.16675V5.83341C1.66675 7.50008 2.50008 8.33341 4.16675 8.33341Z"
@@ -26,7 +26,7 @@
 
                         Dashboard</a>
             </li>
-            @if (roleId === '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {
+            @if (roleName === 'clinic') {
             <li>
                   <a routerLink="clinic-profile" routerLinkActive="active">
                         <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,8 @@
                         </svg>
                         Doctors Management</a>
             </li>
-
+            }
+            @if(roleName === 'clinic' || roleName === 'solo-doctor'){
             <li>
                   <a routerLink="products" routerLinkActive="active">
                         <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +71,7 @@
                         Product Management</a>
             </li>
             }
-            @if(roleId === '3677a3e6-3196-11f0-9e07-0e8e5d906eef'){
+            @if(roleName === 'doctor'){
             <li>
                   <a routerLink="linked_clinics" routerLinkActive="active">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -112,7 +113,7 @@
 
                         Patient Records</a>
             </li>
-            @if(roleId === '3677a3e6-3196-11f0-9e07-0e8e5d906eef'){
+            @if(roleName === 'doctor' || roleName === 'solo-doctor'){
             <li>
                   <a routerLink="chat-management" routerLinkActive="active">
                         <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +164,7 @@
                         </svg>
                         Help & Support</a>
             </li>
-            @if (roleId === '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {
+            @if (roleName === 'clinic') {
             <li>
                   <a routerLink="order" routerLinkActive="active">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

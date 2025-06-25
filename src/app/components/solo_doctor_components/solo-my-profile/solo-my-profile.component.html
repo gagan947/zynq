@@ -38,7 +38,7 @@
                                     </div>
                               </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-4">
                               <div class="col-xxl-4 mt-4">
                                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 h-100">
                                           <p class="ct_fs_18 mb-3">
@@ -224,41 +224,83 @@
                               }
                         </div>
 
-                        <!-- <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                              <h4 class="ct_fs_20 ct_fw_600 mb-4">Legal Documents & Certifications</h4>
-                              <ul
-                                    class="ct_para_scroll ct_custom_scroll d-flex align-items-center gap-4 flex-wrap ct_pe_30">
-                                    <li>
-                                          <div class="d-flex align-items-start gap-2 ct_outline_border">
-                                                <img src="assets/img/file_img.png" alt="">
-                                                <div>
-                                                      <p class="ct_fs_16 ct_fw_600 mb-1">Medical License</p>
-                                                      <small class="ct_text_op_07">Valid until Dec 2024</small>
-                                                </div>
+                        <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Education</h5>
+                              <div class="row" *ngFor="let edu of soloDrProfile().education; let i = index">
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">Institute<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter institute" value="{{edu.institution}}"
+                                                      disabled>
                                           </div>
-
-                                    </li>
-                                    <li>
-                                          <div class="d-flex align-items-start gap-2 ct_outline_border">
-                                                <img src="assets/img/file_img.png" alt="">
-                                                <div>
-                                                      <p class="ct_fs_16 ct_fw_600 mb-1">Medical License</p>
-                                                      <small class="ct_text_op_07">Valid until Dec 2024</small>
-                                                </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">Degree<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter degree" value="{{edu.degree}}" disabled>
                                           </div>
-                                    </li>
-                                    <li>
-                                          <div class="d-flex align-items-start gap-2 ct_outline_border">
-                                                <img src="assets/img/file_img.png" alt="">
-                                                <div>
-                                                      <p class="ct_fs_16 ct_fw_600 mb-1">Medical License</p>
-                                                      <small class="ct_text_op_07">Valid until Dec 2024</small>
-                                                </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">Start year<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter degree" value="{{edu.start_year}}" disabled>
                                           </div>
-                                    </li>
-
-                              </ul>
-                        </div> -->
+                                    </div>
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">End year<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter degree" value="{{edu.end_year}}" disabled>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Experience</h5>
+                              <div class="row" *ngFor="let exp of soloDrProfile().experience; let i = index">
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">Organization<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter organization" value="{{exp.organization}}"
+                                                      disabled>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">Designation<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter organization" value="{{exp.designation}}"
+                                                      disabled>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">Start Date<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="date" class="form-control ct_input"
+                                                      [value]="exp.start_date | date:'yyyy-MM-dd'" disabled>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">End Date<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="date" class="form-control ct_input"
+                                                      [value]="exp.end_date | date:'yyyy-MM-dd'" disabled>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">Treatments Provided-</h4>
                               <div>
@@ -359,7 +401,7 @@
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.soloDrProfile()?.aestheticDevices; track $index) {
+                                          @for (item of this.soloDrProfile()?.clinic.aestheticDevices; track $index) {
                                           <li>
                                                 <div class="d-flex align-items-center gap-2">
                                                       <i class="fa-solid fa-check"></i>
@@ -370,6 +412,80 @@
                                           </li>
                                           }
                                     </ul>
+                              </div>
+                        </div>
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mb-4 mt-4 pe-0">
+                              <h4 class="ct_fs_20 ct_fw_600 mb-4">Uploaded Certifications</h4>
+                              <ul class="ct_para_scroll ct_custom_scroll d-flex align-items-center gap-4 flex-wrap ct_pe_30"
+                                    *ngFor="let certificate of soloDrProfile().certifications; let i = index">
+                                    <li>
+                                          <div class="d-flex align-items-start gap-2 ct_outline_border">
+                                                <img src="assets/img/file_img.png" alt="">
+                                                <div class="d-flex align-items-center gap-2">
+                                                      <p class="ct_fs_16 ct_fw_600 mb-1">{{certificate.name}}</p>
+                                                      <a [href]="certificate.upload_path" target="_blank">
+                                                            <i class="fa-solid fa-eye ms-2 ct_text_939393"></i>
+                                                      </a>
+                                                </div>
+                                          </div>
+                                    </li>
+                              </ul>
+                        </div>
+                        <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
+                              <div class="row">
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">Fee per Session<span
+                                                            class="ct_red_text">*</span></label>
+                                                <div class="position-relative">
+                                                      <input type="text" class="form-control ct_input"
+                                                            placeholder="Enter fee per session" disabled
+                                                            value="{{soloDrProfile().fee_per_session}}">
+                                                      <span class="ct_show_eye">$</span>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                          <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">Session Duration<span
+                                                            class="ct_red_text">*</span></label>
+                                                <input type="text" class="form-control ct_input" disabled
+                                                      value="{{soloDrProfile().session_duration}}">
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Availability</h5>
+                              <div class="row align-items-center ct_border_btm_1 py-3"
+                                    *ngFor="let item of mapDoctorAvailability(soloDrProfile().availability); let i = index">
+                                    <div class="col-md-3">
+                                          <div class="mb-2 mb-md-0">
+                                                <p class="mb-0 ct_text_clr_444 ct_fs_18 text-capitalize">{{item.day}}
+                                                </p>
+                                          </div>
+                                    </div>
+
+                                    <div class="col-md-9">
+                                          <div class="d-flex align-items-center gap-3 flex-wrap">
+                                                @for (item of item.slots; track $index) {
+                                                <div class="ct_custom_badge12">
+                                                      <div class="d-flex align-items-center gap-3">
+                                                            <h6 class="mb-0">{{item.start_time}} - {{item.end_time}}
+                                                            </h6>
+                                                            <span>{{item.slot_duration}} Minutes</span>
+                                                      </div>
+                                                </div>
+                                                }
+                                          </div>
+                                    </div>
+                                    <!-- <div class="col-md-6">
+                                          <div class="d-flex align-items-center gap-3">
+                                                <h6>Closed</h6>
+                                          </div>
+                                    </div> -->
+
                               </div>
                         </div>
                   </div>

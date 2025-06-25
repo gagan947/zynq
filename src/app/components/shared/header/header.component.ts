@@ -45,7 +45,10 @@ export class HeaderComponent {
       this.clinicPofile = resp.data;
       this.service._clinicProfile.set(this.clinicPofile);
       this.loaderService.hide();
-    })
+    },
+      (error) => {
+        this.loaderService.hide();
+      })
   };
 
   getDoctorProfile() {
@@ -53,15 +56,21 @@ export class HeaderComponent {
       this.doctorPofile = resp.data;
       this.service._doctorProfile.set(this.doctorPofile);
       this.loaderService.hide();
-    })
+    },
+      (error) => {
+        this.loaderService.hide();
+      })
   };
 
   getSoloDoctorProfile() {
-    this.service.get<any>('solo_doctor/get_profile').subscribe((resp) => {
+    this.service.get<any>('solo_doctor/getDoctorProfileByStatus/1').subscribe((resp) => {
       this.soloDoctorPofile = resp.data;
       this.service._soloDoctorProfile.set(this.soloDoctorPofile);
       this.loaderService.hide();
-    })
+    },
+      (error) => {
+        this.loaderService.hide();
+      })
   };
 
   logout() {

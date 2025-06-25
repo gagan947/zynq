@@ -43,6 +43,56 @@ export const soloDoctorRoutes: Routes = [
                         loadComponent: () => import('../clinic_panel_components/product/add-product/add-product.component').then((m) => m.AddProductComponent),
                         title: 'Add Product'
                   },
+                  {
+                        path: 'appointments',
+                        loadComponent: () => import('../appointments/appointments-list/appointments-list.component').then((m) => m.AppointmentsListComponent),
+                        title: 'Appointments'
+                  },
+                  {
+                        path: 'appointments/details',
+                        loadComponent: () => import('../appointments/appointment-detail/appointment-detail.component').then((m) => m.AppointmentDetailComponent),
+                        title: 'Appointment Detail'
+                  },
+                  {
+                        path: 'earning-analytics',
+                        loadComponent: () => import('../clinic_panel_components/earning-analytics/earning-analytics.component').then((m) => m.EarningAnalyticsComponent),
+                        title: 'Earning & Analytics'
+                  },
+                  {
+                        path: 'ratings-reviews',
+                        loadComponent: () => import('../ratings-reviews/ratings-reviews.component').then((m) => m.RatingsReviewsComponent),
+                        title: 'Ratings & Reviews'
+                  },
+                  {
+                        path: 'patient-records',
+                        loadComponent: () => import('../patient-records/patient-records.component').then((m) => m.PatientRecordsComponent),
+                        title: 'Patient Records'
+                  },
+                  {
+                        path: 'support',
+                        loadComponent: () => import('../shared/components/tikets-list/tikets-list.component').then((m) => m.TiketsListComponent),
+                        title: 'Help & Support'
+                  },
+                  {
+                        path: 'support/raise-ticket',
+                        loadComponent: () => import('../shared/components/raise-tickets/raise-tickets.component').then((m) => m.RaiseTicketsComponent),
+                        title: 'Help & Support'
+                  },
+                  {
+                        path: 'support/detail',
+                        loadComponent: () => import('../shared/components/support-detail/support-detail.component').then((m) => m.SupportDetailComponent),
+                        title: 'Help & Support'
+                  },
+                  {
+                        path: 'chat-management',
+                        loadComponent: () => import('../doctor_panel_components//chat-management/chat-management.component').then((m) => m.ChatManagementComponent),
+                        title: 'chat-management'
+                  },
+                  {
+                        path: 'change-password',
+                        loadComponent: () => import('../change-password/change-password.component').then((m) => m.ChangePasswordComponent),
+                        title: 'Change Password'
+                  },
             ]
       }
 ];

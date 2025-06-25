@@ -6,6 +6,7 @@ import { DoctorProfileResponse } from '../../../models/doctorProfile';
 import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
 declare const ZegoExpressEngine: any;
 
 @Component({
@@ -24,17 +25,22 @@ export class ChatManagementComponent {
   chatlist: any[] = [];
   messageList: any[] = [];
   message: string = '';
-  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService) { }
+  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService) { }
 
   ngOnInit(): void {
     this.loaderService.show();
-    this.doctorProfile$ = this.apiService.get<DoctorProfileResponse>('doctor/get_profile').pipe(tap(() => setTimeout(() => this.loaderService.hide(), 100)));
+    let apiUrl = ''
+    if (this.auth.getRoleName() == 'doctor') {
+      apiUrl = 'doctor/get_profile';
+    } else {
+      apiUrl = 'solo_doctor/get_profile';
+    }
+    this.doctorProfile$ = this.apiService.get<DoctorProfileResponse>(apiUrl).pipe(tap(() => setTimeout(() => this.loaderService.hide(), 100)));
 
     // this.socketService.userConnected();
     this.socketService.fetchChats();
     this.socketService.onChatList().subscribe((chats) => {
       this.orgChatList = this.chatlist = chats;
-      console.log(this.chatlist);
     });
 
     this.socketService.onNewMessage().subscribe(message => {

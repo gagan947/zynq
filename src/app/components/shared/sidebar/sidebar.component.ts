@@ -13,9 +13,9 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  roleId: string | null = null;
+  roleName: string | null = null;
 
   constructor(private authService: AuthService) {
-    this.roleId = this.authService.getRoleUUID();
+    this.roleName = this.authService.getRoleName();
   }
 }

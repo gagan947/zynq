@@ -10,14 +10,14 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-dr-profile',
   standalone: true,
-  imports: [ RouterLink, CommonModule,FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   templateUrl: './dr-profile.component.html',
   styleUrl: './dr-profile.component.css'
 })
 export class DrProfileComponent {
   doctorProfile$!: Observable<DoctorProfileResponse>;
 
-  constructor(private apiService: CommonService ,private loaderService: LoaderService) { }
+  constructor(private apiService: CommonService, private loaderService: LoaderService) { }
 
   ngOnInit() {
     this.loaderService.show();
@@ -66,8 +66,29 @@ export class DrProfileComponent {
   //     if(data.profile_image != null && data.profile_image != ''){ 
   //       this.imagePreview = data.profile_image;
   //     }
-  
+
   //   });
   // };
+  mapDoctorAvailability(data: any[]): any[] {
+    const grouped: { [key: string]: any[] } = {};
 
+    data.forEach(item => {
+      const day = item.day.toLowerCase();
+
+      if (!grouped[day]) {
+        grouped[day] = [];
+      }
+
+      grouped[day].push({
+        start_time: item.start_time,
+        end_time: item.end_time,
+        slot_duration: +item.slot_duration
+      });
+    });
+
+    return Object.keys(grouped).map(day => ({
+      day,
+      slots: grouped[day]
+    }));
+  }
 }

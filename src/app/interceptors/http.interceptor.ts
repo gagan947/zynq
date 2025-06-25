@@ -9,7 +9,7 @@ import { LoaderService } from '../services/loader.service';
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
 
-      constructor(private router: Router) { }
+      constructor(private router: Router, private loaderService: LoaderService) { }
 
       intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
             const authToken = localStorage.getItem(`ZynqToken`);
@@ -45,8 +45,9 @@ export class HttpInterceptorService implements HttpInterceptor {
                         let errorMessage = 'An unknown error occurred!';
                         if (error.status === 401) {
                               errorMessage = error.error.message;
-                              localStorage.clear();
-                              this.router.navigate(['/']);
+                              // localStorage.clear();
+                              // this.router.navigate(['/']);
+                              this.loaderService.hide();
                         } else if (error.status === 403) {
                               errorMessage = error.error.message;
                         } else if (error.status === 404) {

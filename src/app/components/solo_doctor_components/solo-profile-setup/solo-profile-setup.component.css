@@ -30,3 +30,27 @@
       top: 0;
       left: 0;
 }
+
+button.ct_delete_icon_l {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      background-color: #d41019;
+      color: #fff;
+      border: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+}
+
+.ct_grid_40_40_20 {
+      display: grid;
+      grid-template-columns: auto auto auto 30px;
+      align-items: center;
+      gap: 15px;
+}
+
+.ct_custom_check.form-check-input:checked {
+      background-color: var(--black);
+      border-color: var(--black);
+}

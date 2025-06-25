@@ -15,23 +15,6 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from '../../../services/auth.service';
 import { environment } from '../../../../environments/environment';
-function operationHoursValidator(group: AbstractControl): ValidationErrors | null {
-  const closed = group.get('closed')?.value;
-  const startTime = group.get('start_time')?.value;
-  const endTime = group.get('end_time')?.value;
-
-  if (!closed) {
-    const errors: any = {};
-    if (!startTime) {
-      errors.start_time = 'Start time is required when doctor is available.';
-    }
-    if (!endTime) {
-      errors.end_time = 'End time is required when doctor is available.';
-    }
-    return Object.keys(errors).length ? errors : null;
-  }
-  return null;
-}
 
 @Component({
   selector: 'app-profile-setup',
@@ -44,8 +27,9 @@ export class ProfileSetupComponent {
   certificateURl = environment.certificateUrl;
   personalForm!: FormGroup;
   Form!: FormGroup;
-  operationHoursForm!: FormGroup;
+  availabilityForm!: FormGroup;
   daysOfWeek: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  sessionDuration: string[] = ['15 Mins', '30 Mins', '45 Mins', '60 Mins', '75 Mins', '90 Mins', '105 Mins', '120 Mins']
   imagePreview: string | null = null;
   profileImage: any;
   certificates: any[] = [{
@@ -88,15 +72,6 @@ export class ProfileSetupComponent {
       biography: ['']
     });
 
-    this.operationHoursForm = this.fb.group({
-      fee_per_session: ['', [Validators.required, Validators.min(0)]],
-      session_duration: this.fb.group({
-        hours: ['00', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]+$')]],
-        minutes: ['30', [Validators.required, Validators.min(0), Validators.max(59), Validators.pattern('^[0-9]+$')]]
-      }),
-      operation_hours: this.fb.array([])
-    });
-
     this.Form = this.fb.group({
       treatments: [[], [Validators.required]],
       skin_types: [[], [Validators.required]],
@@ -105,7 +80,11 @@ export class ProfileSetupComponent {
       devices: [[], [Validators.required]],
     })
 
-    this.initializeOperationHours();
+    this.availabilityForm = this.fb.group({
+      sameForAllDays: [true],
+      fee_per_session: ['', [Validators.required, Validators.min(0)]],
+      days: this.fb.array(this.daysOfWeek.map(() => this.createDay()))
+    });
 
     this.getCertificaTeypes();
     this.getTreatments();
@@ -114,10 +93,6 @@ export class ProfileSetupComponent {
     this.getSurgeries();
     this.getDevices();
     this.loadFormData();
-  }
-
-  get session_duration(): FormGroup {
-    return this.operationHoursForm.get('session_duration') as FormGroup;
   }
   loadFormData() {
     this.apiService.get<DoctorProfileResponse>('doctor/get_profile').subscribe(res => {
@@ -154,12 +129,106 @@ export class ProfileSetupComponent {
       if (data.profile_image != null && data.profile_image != '') {
         this.imagePreview = data.profile_image;
       }
-
       this.currentStep = data.on_boarding_status;
-
     });
   };
 
+  createDay(): FormGroup {
+    return this.fb.group({
+      active: [false],
+      sessions: this.fb.array([this.createSession()])
+    });
+  }
+
+  createSession(): FormGroup {
+    return this.fb.group({
+      start_time: [''],
+      end_time: [''],
+      sessionDuration: [''],
+    });
+  }
+
+  get days(): FormArray {
+    return this.availabilityForm.get('days') as FormArray;
+  }
+
+  getSessions(dayIndex: number): FormArray {
+    return this.days.at(dayIndex).get('sessions') as FormArray;
+  }
+
+  addSession(dayIndex: number): void {
+    this.getSessions(dayIndex).push(this.createSession());
+  }
+
+  removeSession(dayIndex: number, sessionIndex: number): void {
+    this.getSessions(dayIndex).removeAt(sessionIndex);
+  }
+
+  applySameSessionsToAll(): void {
+    const referenceDay = this.days.at(0);
+    const referenceSessions = referenceDay.get('sessions') as FormArray;
+    const sessionData = referenceSessions.value;
+
+    for (let i = 0; i < 7; i++) {
+      const day = this.days.at(i);
+      day.get('active')?.setValue(true);
+      const sessionsArray = day.get('sessions') as FormArray;
+
+      while (sessionsArray.length > 0) {
+        sessionsArray.removeAt(0);
+      }
+      sessionData.forEach((session: any) => {
+        sessionsArray.push(this.fb.group({
+          start_time: [session.start_time, Validators.required],
+          end_time: [session.end_time, Validators.required],
+          sessionDuration: [session.sessionDuration, Validators.required]
+        }));
+      });
+    }
+  }
+
+  transformFormValue(formValue: any) {
+    const daysData = formValue.days
+      .map((day: any, index: number) => {
+        if (!day.active || !day.sessions || !day.sessions.length) return null;
+
+        const slots = day.sessions.map((session: any) => ({
+          start_time: session.start_time,
+          end_time: session.end_time,
+          slot_duration: session.sessionDuration.split(' ')[0]
+        }));
+
+        return {
+          day: this.daysOfWeek[index],
+          slots
+        };
+      })
+      .filter(Boolean);
+
+    return { days: daysData };
+  }
+
+  applyConditionalValidators() {
+    this.days.controls.forEach((dayCtrl: AbstractControl, index: number) => {
+      const isActive = dayCtrl.get('active')?.value;
+      const sessions = (dayCtrl.get('sessions') as FormArray);
+
+      sessions.controls.forEach((sessionGroup: AbstractControl) => {
+        if (isActive) {
+          sessionGroup.get('start_time')?.setValidators([Validators.required]);
+          sessionGroup.get('end_time')?.setValidators([Validators.required]);
+          sessionGroup.get('sessionDuration')?.setValidators([Validators.required]);
+        } else {
+          sessionGroup.get('start_time')?.clearValidators();
+          sessionGroup.get('end_time')?.clearValidators();
+          sessionGroup.get('sessionDuration')?.clearValidators();
+        }
+        sessionGroup.get('start_time')?.updateValueAndValidity();
+        sessionGroup.get('end_time')?.updateValueAndValidity();
+        sessionGroup.get('sessionDuration')?.updateValueAndValidity();
+      });
+    });
+  }
 
   currentStep = 0;
 
@@ -313,48 +382,36 @@ export class ProfileSetupComponent {
   };
 
   onTimeSubmit() {
-    if (this.operationHoursForm.valid) {
-      const formValue = this.operationHoursForm.value;
-      var payload = formValue.operation_hours
-        .filter((entry: any) => entry.closed || (entry.start_time && entry.end_time))
-        .map((entry: any) => ({
-          day_of_week: entry.day_of_week,
-          start_time: entry.closed ? '' : entry.start_time,
-          end_time: entry.closed ? '' : entry.end_time,
-          closed: entry.closed ? 1 : 0
-        }));
-      const formData = {
-        fee_per_session: this.operationHoursForm.value.fee_per_session,
-        currency: 'INR',
-        session_duration: this.operationHoursForm.value.session_duration.hours + ':' + this.operationHoursForm.value.session_duration.minutes,
-        availability: (payload)
-      };
-
-      this.apiService.post<any, any>('doctor/add_fee_availability', formData).subscribe({
-        next: (resp) => {
-          if (resp.success == true) {
-            let data = this.auth.getUserInfo()
-            data.on_boarding_status = 4
-            localStorage.setItem('userInfo', JSON.stringify(data));
-            this.router.navigateByUrl('/doctor');
-            // this.currentStep++;
-          }
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      });
-      // Submit to your API here
-    } else {
-      // Trigger validation messages for fee and duration
-      this.operationHoursForm.markAllAsTouched();
-
-      // Manually trigger validation messages for each operation hours group
-      this.operationHours.controls.forEach((group: AbstractControl) => {
-        group.markAllAsTouched();  // Important: mark nested controls as touched
-        group.updateValueAndValidity(); // Important: to re-evaluate custom validators
-      });
+    if (this.availabilityForm.get('sameForAllDays')?.value === true) {
+      this.applySameSessionsToAll();
     }
+
+    if (this.availabilityForm.invalid) {
+      this.availabilityForm.markAllAsTouched();
+      return;
+    }
+
+    const transformed = this.transformFormValue(this.availabilityForm.value);
+    console.log('Transformed FormData:', transformed);
+
+    let formData = {
+      fee_per_session: this.availabilityForm.value.fee_per_session,
+      ...transformed
+    }
+
+    this.apiService.post<any, any>('doctor/createDoctorAvailability', formData).subscribe({
+      next: (resp) => {
+        if (resp.success == true) {
+          let data = this.auth.getUserInfo()
+          data.is_onboarded = 1
+          localStorage.setItem('userInfo', JSON.stringify(data));
+          this.router.navigate(['/doctor']);
+        }
+      },
+      error: (error) => {
+        this.toster.error(error);
+      }
+    })
   }
 
 
@@ -409,35 +466,7 @@ export class ProfileSetupComponent {
   removeExperience(index: number) {
     this.experience.splice(index, 1);
   }
-  get operationHours(): FormArray {
-    return this.operationHoursForm.get('operation_hours') as FormArray;
-  }
 
-  initializeOperationHours(): void {
-    this.daysOfWeek.forEach(day => {
-      const dayGroup = this.fb.group({
-        day_of_week: [day],
-        start_time: [''],
-        end_time: [''],
-        closed: [false]
-      }, { validators: [operationHoursValidator, timeRangeValidator()] });
-
-      dayGroup.get('start_time')?.valueChanges.subscribe(() => {
-        dayGroup.updateValueAndValidity({ onlySelf: true });
-      });
-
-      dayGroup.get('end_time')?.valueChanges.subscribe(() => {
-        dayGroup.updateValueAndValidity({ onlySelf: true });
-      });
-
-      // Subscribe to 'closed' value changes to trigger validation
-      dayGroup.get('closed')?.valueChanges.subscribe(() => {
-        dayGroup.updateValueAndValidity();
-      });
-
-      this.operationHours.push(dayGroup);
-    });
-  }
   getCertificaTeypes() {
     this.apiService.get<any>(`doctor/get_doctor_certificates_path`).subscribe((res) => {
       this.certificaTeypes = res.data

@@ -9,7 +9,7 @@
                         <!-- progressbar -->
                         <ul id="ct_form_progressbar">
                               <li *ngFor="let step of steps; let i = index" [id]="step.id" class="cursor-pointer"
-                                    [class.active]="i <= currentStep" (click)="isEdit ? currentStep = i : null">
+                                    [class.active]="i <= currentStep" (click)="isEdit ? changeStep(i) : null">
                                     {{ step.label }}
                               </li>
                         </ul>
@@ -335,7 +335,8 @@
 
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Website certificateURl</label>
+                                                            <label for="" class="mb-2 ct_text_black">Website
+                                                                  certificateURl</label>
                                                             <input type="text" class="form-control ct_input"
                                                                   placeholder="Enter website URL"
                                                                   formControlName="website_url">
@@ -660,12 +661,11 @@
                               </form>
                         </fieldset>
                         <fieldset *ngIf="currentStep == 4">
-                              <form [formGroup]="operationHoursForm" (ngSubmit)="onTimeSubmit()">
+                              <form [formGroup]="availabilityForm" (ngSubmit)="onTimeSubmit()">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
-
                                           <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">Fee per
                                                                   Session<span class="ct_red_text">*</span></label>
@@ -676,144 +676,215 @@
                                                                   <span class="ct_show_eye">$</span>
                                                             </div>
                                                             <div class="ct_text_red mt-1"
-                                                                  *ngIf="operationHoursForm.get('fee_per_session')?.hasError('required') && operationHoursForm.get('fee_per_session')?.touched">
+                                                                  *ngIf="availabilityForm.get('fee_per_session')?.hasError('required') && availabilityForm.get('fee_per_session')?.touched">
                                                                   Fee per session is required.
                                                             </div>
                                                             <div class="ct_text_red mt-1"
-                                                                  *ngIf="operationHoursForm.get('fee_per_session')?.hasError('min') && operationHoursForm.get('fee_per_session')?.touched">
+                                                                  *ngIf="availabilityForm.get('fee_per_session')?.hasError('min') && availabilityForm.get('fee_per_session')?.touched">
                                                                   Fee per session can not be negative.
                                                             </div>
                                                       </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                      <div [formGroup]="session_duration" class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">Session
-                                                                  Duration<span class="ct_red_text">*</span></label>
-                                                            <div class="row align-items-center">
-                                                                  <div class=" col-md-6">
-                                                                        <div class="d-flex align-items-center gap-2">
-                                                                              <input type="text"
-                                                                                    class="form-control ct_input"
-                                                                                    formControlName="hours"
-                                                                                    placeholder="In hours">
-                                                                              <span class="ct_white_nowrap">hrs</span>
+                                          </div>
+                                    </div>
+                                    <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Operation Hours</h5>
+                                          <div class="py-3 border-bottom d-flex align-items-center gap-5">
+                                                <label>
+                                                      <input type="radio" class="form-check-input ct_custom_check me-1"
+                                                            formControlName="sameForAllDays" [value]="true" />
+                                                      Same for all days
+                                                </label>
+                                                <label>
+                                                      <input type="radio" class="form-check-input ct_custom_check me-1"
+                                                            formControlName="sameForAllDays" [value]="false" />
+                                                      Customize
+                                                </label>
+                                          </div>
+                                          <div formArrayName="days">
+                                                <!-- If SAME FOR ALL DAYS is selected, show only one day (index 0) -->
+                                                <div *ngIf="availabilityForm.get('sameForAllDays')?.value === true">
+                                                      <div [formGroupName]="0" class="py-3 border-bottom">
+                                                            <h6 class="mb-2">{{ daysOfWeek[0] }} (applies to all days)
+                                                            </h6>
+                                                            <ng-container>
+                                                                  <div formArrayName="sessions">
+                                                                        <div *ngFor="let session of getSessions(0).controls; let j = index"
+                                                                              [formGroupName]="j">
+                                                                              <div class="ct_grid_40_40_20 mb-3">
+                                                                                    <div>
+                                                                                          <div class="form-group">
+                                                                                                <label for=""
+                                                                                                      class="mb-2 ct_text_black">
+                                                                                                      Start Time
+                                                                                                      <span
+                                                                                                            class="ct_red_text">*</span></label>
+                                                                                                <input type="time"
+                                                                                                      class="form-control ct_input"
+                                                                                                      formControlName="start_time" />
+                                                                                          </div>
+                                                                                          <div *ngIf="session.get('start_time')?.touched && session.get('start_time')?.hasError('required')"
+                                                                                                class="ct_text_red">
+                                                                                                Start time is required
+                                                                                          </div>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                          <div class="form-group">
+                                                                                                <label for=""
+                                                                                                      class="mb-2 ct_text_black">End
+                                                                                                      Time<span
+                                                                                                            class="ct_red_text">*</span></label>
+                                                                                                <input type="time"
+                                                                                                      class="form-control ct_input"
+                                                                                                      formControlName="end_time" />
+                                                                                          </div>
+                                                                                          <div *ngIf="session.get('end_time')?.touched && session.get('end_time')?.hasError('required')"
+                                                                                                class="ct_text_red">
+                                                                                                End time is required
+                                                                                          </div>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                          <div class="form-group">
+                                                                                                <label for=""
+                                                                                                      class="mb-2 ct_text_black">Session
+                                                                                                      Duration
+                                                                                                      <span
+                                                                                                            class="ct_red_text">*</span></label>
+                                                                                                <nz-select
+                                                                                                      class="form-control ct_input"
+                                                                                                      formControlName="sessionDuration"
+                                                                                                      nzPlaceHolder="Select session duration">
+                                                                                                      <nz-option
+                                                                                                            *ngFor="let duration of sessionDuration"
+                                                                                                            [nzValue]="duration"
+                                                                                                            [nzLabel]="duration"></nz-option>
+                                                                                                </nz-select>
+                                                                                          </div>
+                                                                                          <div *ngIf="session.get('sessionDuration')?.touched && session.get('sessionDuration')?.hasError('required')"
+                                                                                                class="ct_text_red">
+                                                                                                Session duration is
+                                                                                                required
+                                                                                          </div>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                          <label>&nbsp;</label>
+                                                                                          <button type="button"
+                                                                                                class="ct_delete_icon_l"
+                                                                                                (click)="removeSession(0, j)">
+                                                                                                <i
+                                                                                                      class="fa-solid fa-xmark"></i>
+                                                                                          </button>
+                                                                                    </div>
+                                                                              </div>
                                                                         </div>
-                                                                        <div class="ct_text_red mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('required') && operationHoursForm.get('session_duration.hours')?.touched">
-                                                                              Hours are required.
-                                                                        </div>
-                                                                        <div class="ct_text_red mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('min') && operationHoursForm.get('session_duration.hours')?.touched">
-                                                                              Hours can not be negative.
-                                                                        </div>
-                                                                        <div class="ct_text_red mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.hasError('pattern') && operationHoursForm.get('session_duration.hours')?.touched">
-                                                                              Invalid hours
+                                                                  </div>
+                                                                  <button type="button" class="ct_black_btn py-2 px-3"
+                                                                        (click)="addSession(0)">+ Add Session</button>
+                                                            </ng-container>
+                                                      </div>
+                                                </div>
+
+                                                <!-- If CUSTOMIZE is selected, show all 7 days -->
+                                                <div *ngIf="availabilityForm.get('sameForAllDays')?.value === false">
+                                                      <div *ngFor="let dayCtrl of days.controls; let i = index"
+                                                            [formGroupName]="i" class="py-3 border-bottom">
+                                                            <div class="mb-2">
+                                                                  <label>
+                                                                        <input type="checkbox" formControlName="active"
+                                                                              class="form-check-input ct_custom_check me-2" />
+                                                                        {{ daysOfWeek[i] }}
+                                                                  </label>
+                                                            </div>
+                                                            <div *ngIf="dayCtrl.get('active')?.value">
+                                                                  <div formArrayName="sessions">
+                                                                        <div *ngFor="let session of getSessions(i).controls; let j = index"
+                                                                              [formGroupName]="j" class="ml-4 mb-2">
+                                                                              <div class="ct_grid_40_40_20 mb-3">
+                                                                                    <div>
+                                                                                          <div class="form-group">
+                                                                                                <label for=""
+                                                                                                      class="mb-2 ct_text_black">
+                                                                                                      Start Time
+                                                                                                      <span
+                                                                                                            class="ct_red_text">*</span></label>
+                                                                                                <input type="time"
+                                                                                                      class="form-control ct_input"
+                                                                                                      formControlName="start_time" />
+                                                                                          </div>
+                                                                                          <div *ngIf="session.get('start_time')?.touched && session.get('start_time')?.hasError('required')"
+                                                                                                class="ct_text_red">
+                                                                                                Start time is required
+                                                                                          </div>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                          <div class="form-group">
+                                                                                                <label for=""
+                                                                                                      class="mb-2 ct_text_black">End
+                                                                                                      Time<span
+                                                                                                            class="ct_red_text">*</span></label>
+                                                                                                <input type="time"
+                                                                                                      class="form-control ct_input"
+                                                                                                      formControlName="end_time" />
+                                                                                          </div>
+                                                                                          <div *ngIf="session.get('end_time')?.touched && session.get('end_time')?.hasError('required')"
+                                                                                                class="ct_text_red">
+                                                                                                End time is required
+                                                                                          </div>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                          <div class="form-group">
+                                                                                                <label for=""
+                                                                                                      class="mb-2 ct_text_black">Session
+                                                                                                      Duration
+                                                                                                      <span
+                                                                                                            class="ct_red_text">*</span></label>
+                                                                                                <nz-select
+                                                                                                      class="form-control ct_input"
+                                                                                                      formControlName="sessionDuration"
+                                                                                                      nzPlaceHolder="Select session duration">
+                                                                                                      <nz-option
+                                                                                                            *ngFor="let duration of sessionDuration"
+                                                                                                            [nzValue]="duration"
+                                                                                                            [nzLabel]="duration"></nz-option>
+                                                                                                </nz-select>
+                                                                                          </div>
+                                                                                          <div *ngIf="session.get('sessionDuration')?.touched && session.get('sessionDuration')?.hasError('required')"
+                                                                                                class="ct_text_red">
+                                                                                                Session duration is
+                                                                                                required
+                                                                                          </div>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                          <label>&nbsp;</label>
+                                                                                          <button type="button"
+                                                                                                class="ct_delete_icon_l"
+                                                                                                (click)="removeSession(i, j)">
+                                                                                                <i
+                                                                                                      class="fa-solid fa-xmark"></i>
+                                                                                          </button>
+                                                                                    </div>
+                                                                              </div>
                                                                         </div>
                                                                   </div>
 
-                                                                  <div class="col-md-6">
-                                                                        <div class="d-flex align-items-center gap-2">
-                                                                              <input type="text"
-                                                                                    class="form-control ct_input"
-                                                                                    formControlName="minutes"
-                                                                                    placeholder="In minutes">
-                                                                              <span class="ct_white_nowrap">min</span>
-                                                                        </div>
-                                                                        <div class="ct_text_red mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('required') && operationHoursForm.get('session_duration.minutes')?.touched">
-                                                                              Minutes are required.
-                                                                        </div>
-                                                                        <div class="ct_text_red mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('min') && operationHoursForm.get('session_duration.minutes')?.touched">
-                                                                              Minutes can not be negative.
-                                                                        </div>
-                                                                        <div class="ct_text_red mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('max') && operationHoursForm.get('session_duration.minutes')?.touched">
-                                                                              Minutes can not be greater than 59.
-                                                                        </div>
-                                                                        <div class="ct_text_red mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.minutes')?.hasError('pattern') && operationHoursForm.get('session_duration.minutes')?.touched">
-                                                                              Invalid minutes
-                                                                        </div>
-                                                                        <div class="ct_text_red mt-1"
-                                                                              *ngIf="operationHoursForm.get('session_duration.hours')?.value && operationHoursForm.get('session_duration.minutes')?.value === 00">
-                                                                              Session duration can not be 00:00
-                                                                        </div>
-                                                                  </div>
+                                                                  <button type="button" class="ct_black_btn py-2 px-3"
+                                                                        (click)="addSession(i)">+ Add
+                                                                        Session</button>
                                                             </div>
                                                       </div>
                                                 </div>
                                           </div>
                                     </div>
-                                    <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4"
-                                          formArrayName="operation_hours">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Operation Hours</h5>
-                                          <div class="row align-items-center ct_border_btm_1 py-3"
-                                                *ngFor="let group of operationHours.controls; let i = index"
-                                                [formGroupName]="i">
-                                                <div class="col-xl-3 col-lg-3">
-                                                      <div
-                                                            class="mb-2 mb-lg-0 d-flex align-items-center justify-content-between gap-2">
-                                                            <p class="mb-0 ct_text_clr_444">{{
-                                                                  group.get('day_of_week')?.value }}</p>
-                                                            <div class="d-block d-lg-none">
-                                                                  <div class="form-check mb-0">
-                                                                        <input type="checkbox"
-                                                                              class="form-check-input ct_custom_check"
-                                                                              style="width: 16px; height: 16px; margin-top: 0px;"
-                                                                              formControlName="closed" id="closed{{i}}">
-                                                                        <label class="form-check-label ms-2"
-                                                                              for="closed{{i}}">Closed</label>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-8 ">
-                                                      <div class="d-flex align-items-center gap-3">
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input"
-                                                                        formControlName="start_time"
-                                                                        [disabled]="group.get('closed')?.value"
-                                                                        [ngClass]="{'is-invalid': group.errors?.['start_time'] && group.get('start_time')?.touched}">
-                                                                  <div *ngIf="group.errors?.['start_time'] && group.get('start_time')?.touched"
-                                                                        class="ct_text_red">
-                                                                        {{ group.errors?.['start_time'] }}
-                                                                  </div>
-                                                            </div>
-                                                            <div class="form-group ct_flex_1">
-                                                                  <input type="time" class="form-control ct_input"
-                                                                        formControlName="end_time"
-                                                                        [disabled]="group.get('closed')?.value"
-                                                                        [ngClass]="{'is-invalid': group.errors?.['end_time'] && group.get('end_time')?.touched}">
-                                                                  <div *ngIf="group.errors?.['end_time'] && group.get('end_time')?.touched"
-                                                                        class="ct_text_red">
-                                                                        {{ group.errors?.['end_time'] }}
-                                                                  </div>
-                                                                  <div *ngIf="group.errors?.['timeRangeInvalid']"
-                                                                        class="ct_text_red">
-                                                                        End time must be after start time.
-                                                                  </div>
-                                                            </div>
-                                                            <div class="d-none d-lg-block">
-                                                                  <div class="form-check mb-0">
-                                                                        <input type="checkbox"
-                                                                              class="form-check-input ct_custom_check"
-                                                                              formControlName="closed" id="closed{{i}}">
-                                                                        <label class="form-check-label ms-2"
-                                                                              for="closed{{i}}">Closed</label>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
+
                                     <button type="submit" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1"
                                           value="Next">{{isEdit ? 'Update' : 'Submit'}}</button>
-                                    <input type="button" name="previous"
+                                    <button type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
-                                          value="Previous" (click)="previousStep()">
+                                          value="Previous" (click)="previousStep()">Previous</button>
+
                               </form>
                         </fieldset>
                   </div>
