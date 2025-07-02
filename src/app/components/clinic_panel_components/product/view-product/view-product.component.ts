@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../../../services/common.service';
 import { Product } from '../../../../models/products';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, Location } from '@angular/common';
 import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { LoaderService } from '../../../../services/loader.service';
 @Component({
   selector: 'app-view-product',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe, CarouselModule, NzRateModule, FormsModule],
+  imports: [CurrencyPipe, CarouselModule, NzRateModule, FormsModule],
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.css'
 })
@@ -45,7 +45,7 @@ export class ViewProductComponent {
     this.mainCarousel?.to(slideId);
   }
 
-  constructor(private service: CommonService, private route: ActivatedRoute, private toster: NzMessageService, private loader: LoaderService) {
+  constructor(private service: CommonService, private route: ActivatedRoute, private toster: NzMessageService, private loader: LoaderService, public location: Location) {
     this.route.queryParams.subscribe(param => {
       this.productId = param['id'];
       if (this.productId) {

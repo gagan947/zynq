@@ -37,12 +37,12 @@ export class SocketService {
       }
 
       fetchMessages(chatId: string): void {
-            this.socket.emit('fetch_messages', { chatId });
+            this.socket.emit('fetch_docter_messages', { chatId });
       }
 
       onChatHistory(): Observable<any> {
             return new Observable((observer) => {
-                  this.socket.on('chat_history', (messages) => {
+                  this.socket.on('chat_docter_history', (messages) => {
                         observer.next(messages);
                   });
             });

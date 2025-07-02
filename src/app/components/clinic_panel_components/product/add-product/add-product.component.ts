@@ -7,6 +7,7 @@ import { CommonModule, Location } from '@angular/common';
 import { NoWhitespaceDirective } from '../../../../validators';
 import { Product, ProductImage } from '../../../../models/products';
 import { LoaderService } from '../../../../services/loader.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-add-product',
@@ -30,7 +31,7 @@ export class AddProductComponent {
   @ViewChild('featureInput') featureInput!: ElementRef<HTMLButtonElement>
   @ViewChild('BenefitInput') BenefitInput!: ElementRef<HTMLButtonElement>
   @ViewChild('ingredientInput') ingredientInput!: ElementRef<HTMLButtonElement>
-  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private fb: FormBuilder, public location: Location, private route: ActivatedRoute, private loader: LoaderService) {
+  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private fb: FormBuilder, public location: Location, private route: ActivatedRoute, private loader: LoaderService, private auth: AuthService) {
     this.Form = this.fb.group({
       name: ['', [Validators.required, NoWhitespaceDirective.validate]],
       price: ['', [Validators.required, Validators.min(0)]],
@@ -177,7 +178,11 @@ export class AddProductComponent {
     this.service.post(apiUrl, formData).subscribe((res: any) => {
       if (res.success) {
         this.toster.success(res.message);
-        this.router.navigate(['/clinic/products']);
+        if (this.auth.getRoleName() == 'clinic') {
+          this.router.navigate(['/clinic/products']);
+        } else {
+          this.router.navigate(['/solo-doctor/products'])
+        }
         this.loader.hide()
       } else {
         this.toster.error(res.message);

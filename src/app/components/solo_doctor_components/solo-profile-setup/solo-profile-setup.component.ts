@@ -358,7 +358,11 @@ export class SoloProfileSetupComponent {
     this.service.post<any, any>('solo_doctor/addContactInformation', formData).subscribe({
       next: (res) => {
         if (res.success) {
-          this.currentStep++;
+          if (this.isEdit) {
+            this.toster.success('Profile updated successfully');
+          } else {
+            this.currentStep++;
+          }
         } else {
           this.toster.error(res.message);
         }
@@ -411,7 +415,11 @@ export class SoloProfileSetupComponent {
     this.service.post<any, any>('solo_doctor/add_education_experience', formData).subscribe({
       next: (resp) => {
         if (resp.success == true) {
-          this.currentStep++;
+          if (this.isEdit) {
+            this.toster.success('Profile updated successfully');
+          } else {
+            this.currentStep++;
+          }
         }
       },
       error: (error) => {
@@ -437,7 +445,11 @@ export class SoloProfileSetupComponent {
     this.service.post<any, any>('solo_doctor/add_expertise', formData).subscribe({
       next: (resp) => {
         if (resp.success == true) {
-          this.currentStep++;
+          if (this.isEdit) {
+            this.toster.success('Profile updated successfully');
+          } else {
+            this.currentStep++;
+          }
         }
       },
       error: (error) => {
@@ -458,7 +470,6 @@ export class SoloProfileSetupComponent {
     }
 
     const transformed = this.transformFormValue(this.availabilityForm.value);
-    console.log('Transformed FormData:', transformed);
 
     let formData = {
       fee_per_session: this.availabilityForm.value.fee_per_session,

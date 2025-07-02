@@ -14,7 +14,6 @@ export class LoaderService {
   }
 
   hide() {
-
     this._showLoader.next(false);
   }
 

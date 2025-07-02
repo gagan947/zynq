@@ -17,8 +17,8 @@
                                                             stroke="white" stroke-width="1.25" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                 </svg>
-
-                                                Edit</a>
+                                                Edit
+                                          </a>
                                     </div>
                               </div>
                         </div>
@@ -106,7 +106,7 @@
                                                       <label for="" class="mb-2">Phone</label>
                                                       <div class="position-relative">
                                                             <input type="text"
-                                                                  [value]="this.soloDrProfile()?.mobile_number"
+                                                                  [value]="this.soloDrProfile()?.clinic.mobile_number"
                                                                   class="form-control ct_input ct_input_ps_40" disabled>
                                                             <div class="ct_input_icon_left">
                                                                   <svg width="21" height="20" viewBox="0 0 21 20"
@@ -133,7 +133,7 @@
                                                       <label for="" class="mb-2">Website</label>
                                                       <div class="position-relative">
                                                             <input type="email"
-                                                                  [value]="this.soloDrProfile()?.website_url"
+                                                                  [value]="this.soloDrProfile()?.clinic.website_url || 'N/A'"
                                                                   class="form-control ct_input ct_input_ps_40" disabled>
                                                             <div class="ct_input_icon_left">
                                                                   <svg width="21" height="20" viewBox="0 0 21 20"
@@ -153,8 +153,9 @@
                                           </div>
                                     </div>
                               </div>
-                              @if(this.soloDrProfile()?.hsa_id || this.soloDrProfile()?.ivo_registration_number ||
-                              this.soloDrProfile()?.org_number){
+                              @if(this.soloDrProfile()?.clinic.hsa_id ||
+                              this.soloDrProfile()?.clinic.ivo_registration_number ||
+                              this.soloDrProfile()?.clinic.org_number){
                               <div class="col-xxl-4 mt-4">
                                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 h-100">
                                           <p class="ct_fs_18 mb-3">
@@ -167,11 +168,12 @@
                                                 Registration Details
                                           </p>
 
-                                          @if(this.soloDrProfile()?.org_number){
+                                          @if(this.soloDrProfile()?.clinic.org_number){
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2">Swedish Organization Number </label>
                                                 <div class="position-relative">
-                                                      <input type="email" [value]="this.soloDrProfile()?.org_number"
+                                                      <input type="email"
+                                                            [value]="this.soloDrProfile()?.clinic.org_number"
                                                             class="form-control ct_input ct_input_ps_40" disabled>
                                                       <div class="ct_input_icon_left">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -185,11 +187,11 @@
                                           </div>
                                           }
 
-                                          @if(this.soloDrProfile()?.hsa_id){
+                                          @if(this.soloDrProfile()?.clinic.hsa_id){
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2">HSA ID</label>
                                                 <div class="position-relative">
-                                                      <input type="email" [value]="this.soloDrProfile()?.hsa_id"
+                                                      <input type="email" [value]="this.soloDrProfile()?.clinic.hsa_id"
                                                             class="form-control ct_input ct_input_ps_40" disabled>
                                                       <div class="ct_input_icon_left">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -201,12 +203,12 @@
                                                 </div>
                                           </div>
                                           }
-                                          @if(this.soloDrProfile()?.ivo_registration_number){
+                                          @if(this.soloDrProfile()?.clinic.ivo_registration_number){
                                           <div class="form-group mb-0">
                                                 <label for="" class="mb-2">IVO Registration Number</label>
                                                 <div class="position-relative">
                                                       <input type="email"
-                                                            [value]="this.soloDrProfile()?.ivo_registration_number"
+                                                            [value]="this.soloDrProfile()?.clinic.ivo_registration_number"
                                                             class="form-control ct_input ct_input_ps_40" disabled>
                                                       <div class="ct_input_icon_left">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
@@ -434,7 +436,7 @@
                         <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                               <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
                               <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">Fee per Session<span
                                                             class="ct_red_text">*</span></label>
@@ -446,14 +448,14 @@
                                                 </div>
                                           </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">Session Duration<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input" disabled
                                                       value="{{soloDrProfile().session_duration}}">
                                           </div>
-                                    </div>
+                                    </div> -->
                               </div>
                         </div>
                         <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">

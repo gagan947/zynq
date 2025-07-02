@@ -29,7 +29,7 @@
                                                             [nzMaxTagCount]="1" [nzMaxTagPlaceholder]="tagPlaceHolder"
                                                             (ngModelChange)="filter($event)"
                                                             class="form-control ct_input multi_select"
-                                                            style="min-width: 15rem;">
+                                                            style="min-width: 15rem;" nzNotFoundContent="No Treatments Found">
                                                             @for (item of treatments; track $index) {
                                                             <nz-option [nzLabel]="item.name"
                                                                   [nzValue]="item.treatment_id"></nz-option>

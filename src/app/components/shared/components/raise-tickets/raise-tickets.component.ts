@@ -56,7 +56,7 @@ export class RaiseTicketsComponent {
       }
 
       let apiUrl = ''
-      if (this.auth.getRoleName() == 'clinic') {
+      if (this.auth.getRoleName() == 'clinic' || this.auth.getRoleName() == 'solo-doctor') {
         apiUrl = 'clinic/create-support-ticket'
       } else if (this.Form.value.for == 'Clinic' && this.auth.getRoleName() == 'doctor') {
         apiUrl = 'doctor/create-support-ticket-to-clinic'

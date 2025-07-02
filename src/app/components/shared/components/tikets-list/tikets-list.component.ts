@@ -34,7 +34,7 @@ export class TiketsListComponent {
           this.loader.hide();
         }),
       )
-    } else if (this.auth.getRoleName() == 'clinic' && this.activeTab == '' || this.activeTab == 'me') {
+    } else if (this.auth.getRoleName() == 'clinic' && this.activeTab == '' || this.activeTab == 'me' || this.auth.getRoleName() == 'solo-doctor') {
       this.tickets$ = this.srevice.get<SupportTicketResponse>(`clinic/get-support-tickets`).pipe(
         tap((response: SupportTicketResponse) => {
           this.tickets = response.data;

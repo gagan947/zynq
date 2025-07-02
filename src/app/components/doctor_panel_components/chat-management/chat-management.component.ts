@@ -1,13 +1,16 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { SocketService } from '../../../services/socket.service';
 import { LoaderService } from '../../../services/loader.service';
 import { CommonService } from '../../../services/common.service';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
-import { Observable, tap } from 'rxjs';
+import { finalize, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-declare const ZegoExpressEngine: any;
+import { ZIM } from "zego-zim-web";
+import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+import { ZegoService } from '../../../services/zego.service';
+
 
 @Component({
   selector: 'app-chat-management',
@@ -17,30 +20,24 @@ declare const ZegoExpressEngine: any;
   styleUrl: './chat-management.component.css'
 })
 export class ChatManagementComponent {
-  @ViewChild('localVideo') localVideo!: ElementRef<HTMLVideoElement>;
-  @ViewChild('remoteVideo') remoteVideo!: ElementRef<HTMLVideoElement>;
   doctorProfile$!: Observable<DoctorProfileResponse>;
   activeChatDetails: any;
   orgChatList: any[] = [];
   chatlist: any[] = [];
   messageList: any[] = [];
   message: string = '';
-  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService) { }
+  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService, private zegoService: ZegoService) { }
 
   ngOnInit(): void {
     this.loaderService.show();
-    let apiUrl = ''
-    if (this.auth.getRoleName() == 'doctor') {
-      apiUrl = 'doctor/get_profile';
-    } else {
-      apiUrl = 'solo_doctor/get_profile';
-    }
-    this.doctorProfile$ = this.apiService.get<DoctorProfileResponse>(apiUrl).pipe(tap(() => setTimeout(() => this.loaderService.hide(), 100)));
+    let apiUrl = 'doctor/get_docter_profile'
+    this.doctorProfile$ = this.apiService.get<DoctorProfileResponse>(apiUrl).pipe(finalize(() => this.loaderService.hide()));
 
     // this.socketService.userConnected();
     this.socketService.fetchChats();
     this.socketService.onChatList().subscribe((chats) => {
       this.orgChatList = this.chatlist = chats;
+      console.log(44, chats);
     });
 
     this.socketService.onNewMessage().subscribe(message => {
@@ -54,6 +51,7 @@ export class ChatManagementComponent {
     this.socketService.fetchMessages(item.id);
     this.socketService.onChatHistory().subscribe((messages) => {
       this.messageList = messages;
+      console.log(58, messages);
     });
   }
 
@@ -63,41 +61,9 @@ export class ChatManagementComponent {
     this.message = '';
   }
   async startCall() {
-    const roomID = 'test@123';
-    const userID = '2222';
-    const userName = 'user_' + userID;
-    const appID = 1602450801;
-    const serverSecret = '838170b757bc7b5c7b753a8758a8ae9c';
-    const token = '04AAAAAGhWqoYADC1momAoIa0hmVQBsgCvqM9ZseXgBEH6em3773Zv57n78rVW0qkagYWz8cpeoiKeZ6rZjdiX2myr+QAViHS3AuotgPAv2+AX/II8G25jXJmRz1bz7Ea5n2rPHgM4lCaMrEMNJbumtQeJ5ee5eM33VpR+HtKPUvVLNuSxsa5UD4t05bhcM+xxRGZ8PMf+KW2t8R7c4Tkh5pqd2um7aGnWA/FdYXQ31RoSDpLp21zBOmnAh5kBm4ujqGX0kukMlwE='
-    // const token = ZegoExpressEngine.generateKitTokenForTest(
-    //   appID,
-    //   serverSecret,
-    //   roomID,
-    //   userID,
-    //   userName
-    // );
-
-    const zg = new ZegoExpressEngine(appID, 'wss://webliveroom37.zegocloud.com/ws');
-    // await zg.createEngine();
-
-    await zg.loginRoom(roomID, token, { userID, userName });
-
-
-    const localStream = await zg.createStream({
-      camera: { video: true, audio: true }
-    });
-    this.localVideo.nativeElement.srcObject = localStream;
-    debugger
-    const streamID = 'stream_' + userID;
-    zg.startPublishingStream(streamID, localStream);
-
-
-    zg.on('roomStreamUpdate', async (_roomID: string, updateType: string, streamList: any[]) => {
-      if (updateType === 'ADD' && streamList.length) {
-        const remoteStream = await zg.startPlayingStream(streamList[0].streamID);
-        this.remoteVideo.nativeElement.srcObject = remoteStream;
-      }
-    });
+    const targetUser = {
+      userID: "67d42ad44b4e11f09e070e8e5d906eef", userName: "Nikhil",
+    };
+    this.zegoService.sendCall(targetUser);
   }
-
 }
