@@ -11,3 +11,7 @@
       flex-direction: column;
       align-items: center;
 }
+
+.ct_mt_minus_2{
+      margin-top: -2px;
+}

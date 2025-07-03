@@ -8,11 +8,13 @@ import { NoWhitespaceDirective } from '../../../../validators';
 import { Product, ProductImage } from '../../../../models/products';
 import { LoaderService } from '../../../../services/loader.service';
 import { AuthService } from '../../../../services/auth.service';
-
+import { Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule,NzSelectModule, NzUploadModule],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })
@@ -27,7 +29,8 @@ export class AddProductComponent {
   previewProductImages: any[] = [];
   submitted: boolean = false;
   productId: string | undefined;
-  productData: Product | undefined
+  productData: Product | undefined;
+  treatments: Treatment[] = [];
   @ViewChild('featureInput') featureInput!: ElementRef<HTMLButtonElement>
   @ViewChild('BenefitInput') BenefitInput!: ElementRef<HTMLButtonElement>
   @ViewChild('ingredientInput') ingredientInput!: ElementRef<HTMLButtonElement>
@@ -55,7 +58,7 @@ export class AddProductComponent {
   }
 
   ngOnInit(): void {
-
+this.getTreatments();
   }
 
   addFeature(feature: string) {
@@ -215,6 +218,12 @@ export class AddProductComponent {
     }, (error) => {
       this.toster.error(error);
     })
+  };
+
+  getTreatments() {
+    this.service.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
+      this.treatments = res.data
+    });
   }
 }
 
