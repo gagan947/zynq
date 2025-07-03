@@ -19,6 +19,9 @@ export class AppointmentsListComponent {
   appointments$!: Observable<any>
   appointment: any;
   originalAppointments: any;
+  status: string = '';
+  searchTerm: string = '';
+  selectedDate: string = '';
   constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService) {
   }
 
@@ -28,6 +31,7 @@ export class AppointmentsListComponent {
       tap((response: any) => {
         this.appointment = response.data;
         this.originalAppointments = response.data;
+        this.filterByStatus('Scheduled');
         this.loader.hide();
       }, error => {
         this.loader.hide();
@@ -36,34 +40,46 @@ export class AppointmentsListComponent {
   }
 
 
+  viewDetails(item: any) {
+    this.srevice._Appointment.set(item.appointment_id);
+    sessionStorage.setItem('Appointment', JSON.stringify(item.appointment_id));
+    this.router.navigate(['details'], { relativeTo: this.route });
+  }
+
   searchFilter(event: Event) {
-    const searchTerm = (event.target as HTMLInputElement).value.toLowerCase().trim();
-    if (searchTerm) {
-      this.appointment = this.originalAppointments.filter((item: { full_name: string; clinic_name: string; start_time: string | any[]; }) =>
-      (item.full_name.toLowerCase().includes(searchTerm) || item.clinic_name?.toLowerCase().includes(searchTerm) && item.start_time.includes(this.date.nativeElement.value)
-      ));
-    } else if (this.date.nativeElement.value) {
-      this.appointment = this.originalAppointments.filter((item: { start_time: string | string[]; }) => item.start_time.includes(this.date.nativeElement.value));
-    } else {
-      this.appointment = [...this.originalAppointments];
-    }
+    this.searchTerm = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    this.applyFilters();
   }
 
   filterByDate(event: Event) {
-    const date = (event.target as HTMLInputElement).value;
-    if (date) {
-      this.appointment = this.originalAppointments.filter((item: { start_time: string | string[]; full_name: string; clinic_name: string }) => (item.start_time.includes(date) && (item.full_name.toLowerCase().includes(this.search.nativeElement.value.toLowerCase()) || item.clinic_name?.toLowerCase().includes(this.search.nativeElement.value.toLowerCase())
-      )));
-    } else if (this.search.nativeElement.value) {
-      this.appointment = this.originalAppointments.filter((item: { full_name: string; clinic_name: string; start_time: string | string[]; }) => (item.full_name.toLowerCase().includes(this.search.nativeElement.value.toLowerCase()) || item.clinic_name?.toLowerCase().includes(this.search.nativeElement.value.toLowerCase())));
-    } else {
-      this.appointment = [...this.originalAppointments];
-    }
+    this.selectedDate = (event.target as HTMLInputElement).value;
+    this.applyFilters();
   }
 
-  viewDetails(item: any) {
-    this.srevice._Appointment.set(item);
-    sessionStorage.setItem('Appointment', JSON.stringify(item));
-    this.router.navigate(['details'], { relativeTo: this.route });
+  filterByStatus(status: string) {
+    this.status = status;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.appointment = this.originalAppointments.filter((item: {
+      full_name: string;
+      clinic_name: string;
+      start_time: string;
+      status: string;
+    }) => {
+      const matchSearch =
+        !this.searchTerm ||
+        item.full_name.toLowerCase().includes(this.searchTerm) ||
+        item.clinic_name?.toLowerCase().includes(this.searchTerm);
+
+      const matchDate =
+        !this.selectedDate || item.start_time.includes(this.selectedDate);
+
+      const matchStatus =
+        !this.status || item.status === this.status;
+
+      return matchSearch && matchDate && matchStatus;
+    });
   }
 }

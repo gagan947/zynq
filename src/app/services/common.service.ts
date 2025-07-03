@@ -32,7 +32,7 @@ export class CommonService {
   };
 
   update<T, U>(url: string, data: U): Observable<T> {
-    return this.http.post<T>(this.baseUrl + url, data)
+    return this.http.patch<T>(this.baseUrl + url, data)
   };
 
   delete<T>(url: string): Observable<T> {

@@ -14,7 +14,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule,NzSelectModule, NzUploadModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, NzSelectModule, NzUploadModule],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })
@@ -46,6 +46,7 @@ export class AddProductComponent {
       ingredients: [''],
       benefit_text: [''],
       how_to_use: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      treatments: [[], [Validators.required]],
       product_images: ['']
     })
 
@@ -58,7 +59,7 @@ export class AddProductComponent {
   }
 
   ngOnInit(): void {
-this.getTreatments();
+    this.getTreatments();
   }
 
   addFeature(feature: string) {
@@ -165,6 +166,7 @@ this.getTreatments();
     formData.append('size_label', this.selectedSizes.join(','));
     formData.append('benefit_text', this.selectedBenefits.join(','));
     formData.append('ingredients', this.selectedIngredients.join(','));
+    formData.append('treatment_ids', this.Form.value.treatments.join(','));
     formData.append('how_to_use', this.Form.value.how_to_use);
     for (let i = 0; i < this.productImages.length; i++) {
       formData.append('product_image', this.productImages[i]);

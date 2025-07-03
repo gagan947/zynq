@@ -111,7 +111,7 @@ export class SoloProfileSetupComponent {
       city: ['', [Validators.required, NoWhitespaceDirective.validate]],
       state: ['', [Validators.required, NoWhitespaceDirective.validate]],
       zip_code: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      website_url: [''],
+      website_url: [null],
       latitude: [''],
       longitude: [''],
     })

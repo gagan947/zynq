@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { ZegoService } from '../../../services/zego.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ChatManagementComponent {
   chatlist: any[] = [];
   messageList: any[] = [];
   message: string = '';
-  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService, private zegoService: ZegoService) { }
+  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService, private zegoService: ZegoService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loaderService.show();
@@ -36,6 +37,13 @@ export class ChatManagementComponent {
     this.socketService.onChatList().subscribe((chats) => {
       this.orgChatList = this.chatlist = chats;
       console.log(44, chats);
+      this.route.queryParams.subscribe(params => {
+        if (params['chatId']) {
+          const chatId = +params['chatId'];
+          const chatData = this.orgChatList.filter((item: any) => item.id == chatId);
+          this.openChat(chatData[0]);
+        }
+      })
     });
 
     this.socketService.onNewMessage().subscribe(message => {
@@ -62,6 +70,15 @@ export class ChatManagementComponent {
     const targetUser = {
       userID: this.activeChatDetails.user_id.replace(/-/g, ''), userName: this.activeChatDetails.full_name,
     };
-    this.zegoService.sendCall(targetUser);
+    // this.zegoService.sendCall(targetUser);
+  }
+
+  searchFilter(event: any) {
+    const searchTerm = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    if (searchTerm) {
+      this.chatlist = this.orgChatList.filter((item: any) => item.full_name.toLowerCase().includes(searchTerm));
+    } else {
+      this.chatlist = [...this.orgChatList];
+    }
   }
 }

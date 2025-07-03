@@ -1,3 +1,5 @@
+import { Treatment } from "./clinic-profile";
+
 export interface ProductImage {
       product_image_id: string;
       product_id: string;
@@ -24,6 +26,7 @@ export interface Product {
       stock: number;
       is_deleted: number;
       product_images: ProductImage[];
+      treatments: Treatment[]
 }
 
 export interface ProductResponse {

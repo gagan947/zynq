@@ -53,7 +53,7 @@ export class SocketService {
                   chatId,
                   message,
                   messageType,
-            });
+            })
       }
 
       onNewMessage(): Observable<any> {

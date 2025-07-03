@@ -9,7 +9,7 @@ import { CommonService } from './common.service';
 })
 export class ZegoService {
       private zegoInstance: any;
-
+      private appointment_id: string | null = null;
       constructor(private service: CommonService) { }
 
       initializeZego(appID: number, serverSecret: string, userID: string, userName: string) {
@@ -36,52 +36,56 @@ export class ZegoService {
             console.log('Zego initialized for user:', userName);
       }
 
-      async sendCall(targetUser: any) {
+      async sendCall(targetUser: any, appointment_id: any) {
+            this.appointment_id = appointment_id;
             if (!this.zegoInstance) {
-                  console.warn('Zego is not initialized');
-                  return;
+                  const data = JSON.parse(localStorage.getItem('userInfo') || '{}');
+                  const appID = 1602450801;
+                  const callerUserID = data.id.replace(/-/g, '');
+                  const callerUserName = 'user_' + callerUserID;
+                  const serverSecret = '838170b757bc7b5c7b753a8758a8ae9c';
+                  this.initializeZego(appID, serverSecret, callerUserID, callerUserName);
             }
 
-            try {
-                  const res = await this.zegoInstance.sendCallInvitation({
-                        callees: [targetUser],
-                        callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
-                        timeout: 30,
-                  });
-                  console.log('Call result:', res);
-            } catch (err) {
-                  console.error('Error sending call:', err);
-            }
+            setTimeout(() => {
+                  try {
+                        const res = this.zegoInstance.sendCallInvitation({
+                              callees: [targetUser],
+                              callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
+                              timeout: 45,
+                        });
+                        this.changeStatus({ callStatus: "Ongoing" });
+                        console.log('Call result:', res);
+                  } catch (err) {
+                        console.error('Error sending call:', err);
+                  }
+            }, 1500);
 
             this.zegoInstance.setCallInvitationConfig({
                   onOutgoingCallAccepted: async (callID: string, callee: any) => {
-                        await this.createCallLogAPI({ callStatus: "completed", callID, receiverId: callee.id });
+                        await this.changeStatus({ callStatus: "Completed", callID, receiverId: callee.id });
                   },
 
                   onOutgoingCallDeclined: async (callID: string, callee: any) => {
-                        await this.createCallLogAPI({ callStatus: "rejected", callID, receiverId: callee.id });
+                        // await this.changeStatus({ callStatus: "rejected", callID, receiverId: callee.id });
                   },
 
                   onOutgoingCallTimeout: async (callID: string, callee: any) => {
-                        debugger
-                        await this.createCallLogAPI({ callStatus: "missed", callID, receiverId: callee.id });
+                        // await this.changeStatus({ callStatus: "missed", callID, receiverId: callee.id });
                   },
 
                   onOutgoingCallSent: async (callID: string, callee: any[]) => {
                         const receiverId = callee[0]?.id;
-                        await this.createCallLogAPI({ callStatus: "missed", callID, receiverId: receiverId });
+                        // await this.changeStatus({ callStatus: "Ongoing", callID, receiverId: receiverId });
                   }
             });
       }
 
-      async createCallLogAPI(data: any) {
-            debugger
+      async changeStatus(data: any) {
             let formData = {
-                  call_id: data.callID,
-                  receiver_user_id: data.receiverId,
+                  appointment_id: this.appointment_id,
                   status: data.callStatus,
-                  started_at: new Date(),
             }
-            this.service.post('doctor/create-call-log-doctor', data).subscribe();
+            this.service.update('api/update-appointment-status', formData).subscribe();
       }
 }
