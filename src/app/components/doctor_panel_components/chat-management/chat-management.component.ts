@@ -7,8 +7,6 @@ import { finalize, Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-import { ZIM } from "zego-zim-web";
-import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { ZegoService } from '../../../services/zego.service';
 
 
@@ -62,7 +60,7 @@ export class ChatManagementComponent {
   }
   async startCall() {
     const targetUser = {
-      userID: "67d42ad44b4e11f09e070e8e5d906eef", userName: "Nikhil",
+      userID: this.activeChatDetails.user_id.replace(/-/g, ''), userName: this.activeChatDetails.full_name,
     };
     this.zegoService.sendCall(targetUser);
   }
