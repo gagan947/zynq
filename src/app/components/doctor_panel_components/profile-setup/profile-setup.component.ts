@@ -56,6 +56,7 @@ export class ProfileSetupComponent {
   skinConditions: any[] = []
   surgeries: any[] = []
   devices: any[] = []
+  loading: boolean = false;
   constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router, private i18n: NzI18nService, private toster: NzMessageService, private auth: AuthService) {
 
   }
@@ -392,12 +393,12 @@ export class ProfileSetupComponent {
     }
 
     const transformed = this.transformFormValue(this.availabilityForm.value);
-    console.log('Transformed FormData:', transformed);
-
-    let formData = {
+    const transformedFormData = {
+      ...transformed,
       fee_per_session: this.availabilityForm.value.fee_per_session,
-      ...transformed
-    }
+      dr_type: 0
+    };
+    let formData = transformedFormData;
 
     this.apiService.post<any, any>('doctor/createDoctorAvailability', formData).subscribe({
       next: (resp) => {

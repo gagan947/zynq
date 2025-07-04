@@ -62,7 +62,7 @@ export class ChatManagementComponent {
   }
 
   sendMessage() {
-    if (!this.message) return;
+    if (!this.message || this.message.trim().length == 0) return;
     this.socketService.sendMessage(this.activeChatDetails.id, this.message.trim(), 'text');
     this.message = '';
   }

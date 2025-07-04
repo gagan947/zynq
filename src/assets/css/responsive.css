@@ -185,11 +185,31 @@
     width: 30px;
     height: 30px;
   }
+
+  .ct_grid_40_40_20 {
+
+    grid-template-columns: repeat(2, 1fr) !important;
+
+  }
 }
 
 @media screen and (max-width: 575px) {
   .ct_login_right {
     padding: 30px;
+  }
+
+  .ct_grid_40_40_20 {
+
+    grid-template-columns: repeat(1, 1fr) !important;
+
+  }
+
+  .ct_575_label_none {
+    display: none;
+  }
+
+  .ct_delete_icon_l {
+    margin-left: auto;
   }
 
   .ct_px_30 {
@@ -203,5 +223,10 @@
 
   .ct_pe_30 {
     padding-right: 15px;
+  }
+
+  .ct_flex_col_575 {
+    flex-direction: column;
+    align-items: flex-start !important;
   }
 }

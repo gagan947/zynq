@@ -54,6 +54,7 @@ export class EditProfileComponent {
   skinConditions: any[] = []
   surgeries: any[] = []
   devices: any[] = []
+  loading: boolean = false
   constructor(private fb: FormBuilder, private loaderService: LoaderService, private apiService: CommonService, private toster: NzMessageService, private router: Router) {
 
   }
@@ -306,6 +307,7 @@ export class EditProfileComponent {
       this.personalForm.markAllAsTouched();
       return;
     };
+    this.loading = true;
     const formData = new FormData();
     formData.append('name', this.personalForm.value.fullName);
     formData.append('phone', this.personalForm.value.phone);
@@ -322,16 +324,18 @@ export class EditProfileComponent {
         if (resp.success == true) {
           this.toster.success(resp.message);
           this.loadFormData();
+          this.loading = false;
         }
       },
       error: (error) => {
         console.log(error);
+        this.loading = false;
       }
     });
   };
 
   onSubmitProfessional() {
-
+    this.loading = true;
     const formData = new FormData();
     const education = this.education.map(edu => ({
       institute: edu.institution.trim(),
@@ -359,12 +363,15 @@ export class EditProfileComponent {
           this.toster.success(resp.message);
           this.loadFormData();
           this.getCertificaTeypes();
+          this.loading = false;
         } else {
           this.toster.error(resp.message);
+          this.loading = false;
         }
       },
       error: (error) => {
         console.log(error);
+        this.loading = false;
       }
     });
   };
@@ -374,6 +381,7 @@ export class EditProfileComponent {
       this.Form.markAllAsTouched();
       return
     }
+    this.loading = true
     let formData = {
       treatment_ids: this.Form.value.treatments.join(','),
       skin_type_ids: this.Form.value.skin_types.join(','),
@@ -389,9 +397,11 @@ export class EditProfileComponent {
         } else {
           this.toster.error(resp.message);
         }
+        this.loading = false
       },
       error: (error) => {
         console.log(error);
+        this.loading = false
       }
     });
 
@@ -408,22 +418,25 @@ export class EditProfileComponent {
     }
 
     const transformed = this.transformFormValue(this.availabilityForm.value);
-    console.log('Transformed FormData:', transformed);
-
-    let formData = {
+    const transformedFormData = {
+      ...transformed,
       fee_per_session: this.availabilityForm.value.fee_per_session,
-      ...transformed
-    }
+      dr_type: 0
+    };
+    this.loading = true
+    let formData = transformedFormData;
 
     this.apiService.post<any, any>('doctor/updateDoctorAvailability', formData).subscribe({
       next: (resp) => {
         if (resp.success == true) {
           this.toster.success(resp.message);
           this.router.navigate(['/doctor/my-profile']);
+          this.loading = false
         }
       },
       error: (error) => {
         this.toster.error(error);
+        this.loading = false
       }
     })
   }

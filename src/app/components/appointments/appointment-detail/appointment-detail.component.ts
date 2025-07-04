@@ -54,4 +54,25 @@ export class AppointmentDetailComponent {
   openChat(chatId: string) {
     this.router.navigate(['../../chat-management'], { queryParams: { chatId }, relativeTo: this.route });
   }
+
+  downloadPDF(pdfUrl: string) {
+    const fileName = this.getCleanFileName(pdfUrl);
+    fetch(pdfUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
+  }
+
+  getCleanFileName(pdfUrl: string): string {
+    if (!pdfUrl) return '';
+    const fileName = pdfUrl.split('/').pop() || '';
+    const withoutPrefix = fileName.replace(/^[^-]+-/, ''); // Remove prefix before hyphen
+    return withoutPrefix.replace(/_\d{8}_\d{6}\.pdf$/, '.pdf'); // Remove timestamp before .pdf
+  }
 }

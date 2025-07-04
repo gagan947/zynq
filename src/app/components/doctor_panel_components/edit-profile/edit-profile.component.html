@@ -171,7 +171,15 @@
                                     </div>
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
-                                          (click)="nextStep()">Update</button>
+                                          (click)="nextStep()" [disabled]="loading">
+                                          @if(loading){
+                                          <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                          </div>
+                                          }@else {
+                                          Update
+                                          }
+                                    </button>
                                     <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
                                           value="Next" (click)="next()">Next</button>
                               </form>
@@ -189,7 +197,8 @@
                                                                         <input type="text" class="form-control ct_input"
                                                                               placeholder="Enter institute"
                                                                               [(ngModel)]="cert.certification_name"
-                                                                              [ngModelOptions]="{standalone: true}">
+                                                                              [ngModelOptions]="{standalone: true}"
+                                                                              readonly>
                                                                   </div>
 
                                                                   <div class="col-md-6">
@@ -351,7 +360,15 @@
 
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
-                                          (click)="nextStep()">Update</button>
+                                          (click)="nextStep()" [disabled]="loading">
+                                          @if(loading){
+                                          <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                          </div>
+                                          }@else {
+                                          Update
+                                          }
+                                    </button>
 
                                     <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
                                           value="Next" (click)="next()">Next</button>
@@ -367,7 +384,7 @@
                                                 <label for="" class="mb-2 ct_text_black">Treatments
                                                       Provided<span class="ct_red_text">*</span></label>
                                                 <nz-select nzMode="multiple" nzPlaceHolder="Select Treatments"
-                                                      class="form-control ct_input" formControlName="treatments"
+                                                      class="form-control ct_input h-auto" formControlName="treatments"
                                                       nzNotFoundContent="No Treatments Found">
                                                       @for (item of treatments; track item) {
                                                       <nz-option [nzLabel]="item.name"
@@ -385,7 +402,7 @@
                                                       Expertise<span class="ct_red_text">*</span>
                                                 </label>
                                                 <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Types"
-                                                      class="form-control ct_input" formControlName="skin_types"
+                                                      class="form-control ct_input h-auto" formControlName="skin_types"
                                                       nzNotFoundContent="No Skin Types Found">
                                                       @for (item of skintypes; track item) {
                                                       <nz-option [nzLabel]="item.name"
@@ -401,7 +418,8 @@
                                                 <label for="" class="mb-2 ct_text_black">Skin Condition<span
                                                             class="ct_red_text">*</span></label>
                                                 <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Conditions"
-                                                      class="form-control ct_input" formControlName="skin_condition"
+                                                      class="form-control ct_input h-auto"
+                                                      formControlName="skin_condition"
                                                       nzNotFoundContent="No Severity Found">
                                                       @for (item of skinConditions; track item) {
                                                       <nz-option [nzLabel]="item.name"
@@ -417,10 +435,10 @@
                                                 <label for="" class="mb-2 ct_text_black">Surgeries Provided<span
                                                             class="ct_red_text">*</span></label>
                                                 <nz-select nzMode="multiple" nzPlaceHolder="Select Surgeries"
-                                                      class="form-control ct_input" formControlName="surgeries"
+                                                      class="form-control ct_input h-auto" formControlName="surgeries"
                                                       nzNotFoundContent="No Severity Found">
                                                       @for (item of surgeries; track item) {
-                                                      <nz-option [nzLabel]="item.type"
+                                                      <nz-option [nzLabel]="item.english"
                                                             [nzValue]="item.surgery_id"></nz-option>
                                                       }
                                                 </nz-select>
@@ -433,7 +451,7 @@
                                                 <label for="" class="mb-2 ct_text_black">Devices<span
                                                             class="ct_red_text">*</span></label>
                                                 <nz-select nzMode="multiple" nzPlaceHolder="Select Devices"
-                                                      class="form-control ct_input" formControlName="devices"
+                                                      class="form-control ct_input h-auto" formControlName="devices"
                                                       nzNotFoundContent="No Device Found">
                                                       @for (item of devices; track item) {
                                                       <nz-option [nzLabel]="item.device"
@@ -448,7 +466,15 @@
                                     </div>
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Update"
-                                          (click)="nextStep()">Update</button>
+                                          (click)="nextStep()" [disabled]="loading">
+                                          @if(loading){
+                                          <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                          </div>
+                                          }@else {
+                                          Update
+                                          }
+                                    </button>
 
                                     <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
                                           value="Next" (click)="next()">Next</button>
@@ -534,7 +560,9 @@
                                                                                                             class="ct_red_text">*</span></label>
                                                                                                 <input type="time"
                                                                                                       class="form-control ct_input"
-                                                                                                      formControlName="end_time" />
+                                                                                                      formControlName="end_time"
+                                                                                                      min="00:00"
+                                                                                                      max="24:00" />
                                                                                           </div>
                                                                                           <div *ngIf="session.get('end_time')?.touched && session.get('end_time')?.hasError('required')"
                                                                                                 class="ct_text_red">
@@ -566,7 +594,8 @@
                                                                                     </div>
 
                                                                                     <div>
-                                                                                          <label>&nbsp;</label>
+                                                                                          <label
+                                                                                                class="ct_575_label_none">&nbsp;</label>
                                                                                           <button type="button"
                                                                                                 class="ct_delete_icon_l"
                                                                                                 (click)="removeSession(0, j)">
@@ -625,10 +654,17 @@
                                                                                                       class="form-control ct_input"
                                                                                                       formControlName="end_time" />
                                                                                           </div>
+                                                                                          gfjsdgafsh
                                                                                           <div *ngIf="session.get('end_time')?.touched && session.get('end_time')?.hasError('required')"
                                                                                                 class="ct_text_red">
                                                                                                 End time is required
                                                                                           </div>
+                                                                                          {{session.errors}}
+                                                                                          <!-- <div *ngIf="session.errors['timeRangeInvalid'] && (session.get('end_time')?.touched || session.get('start_time')?.touched)"
+                                                                                                class="ct_text_red">
+                                                                                                End time must be after
+                                                                                                start time.
+                                                                                          </div> -->
                                                                                     </div>
                                                                                     <div>
                                                                                           <div class="form-group">
@@ -678,7 +714,15 @@
 
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()">Update</button>
+                                          (click)="nextStep()" [disabled]="loading">
+                                          @if(loading){
+                                          <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                          </div>
+                                          }@else {
+                                          Update
+                                          }
+                                    </button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">

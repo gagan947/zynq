@@ -15,7 +15,7 @@ import { ZegoService } from '../../services/zego.service';
 export class MainComponent {
   constructor(private service: CommonService, private zegoService: ZegoService) { }
   ngOnInit() {
-    this.service.post('doctor/isDocterOfflineOrOnline', { isOnline: 1 }).subscribe()
+    // this.service.post('doctor/isDocterOfflineOrOnline', { isOnline: 1 }).subscribe()
     const data = JSON.parse(localStorage.getItem('userInfo') || '{}');
     const appID = 1602450801;
     const callerUserID = data.id.replace(/-/g, '');

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginGuard } from './guards/login.guard';
 import { AuthGuard } from './guards/auth.guard';
+import { VerifiedGuard } from './guards/verified.guard';
 
 export const routes: Routes = [
       {
@@ -25,7 +26,8 @@ export const routes: Routes = [
       },
       {
             path: 'choose-role',
-            loadComponent: () => import('./components/shared/components/choose-role/choose-role.component').then(m => m.ChooseRoleComponent)
+            loadComponent: () => import('./components/shared/components/choose-role/choose-role.component').then(m => m.ChooseRoleComponent),
+            canActivate: [VerifiedGuard]
       },
       {
             path: 'unauthorized',

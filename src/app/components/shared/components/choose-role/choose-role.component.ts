@@ -13,7 +13,7 @@ export class ChooseRoleComponent {
   selectedRole: string = '';
   selectedRoleId: string = '';
   userId: string = '';
-
+  loading: boolean = false
   constructor(private service: CommonService, private route: ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe(param => {
       this.userId = param['id'];
@@ -26,6 +26,7 @@ export class ChooseRoleComponent {
   }
 
   confirmRole() {
+    this.loading = true
     let formData = {
       id: this.userId,
       role_id: this.selectedRoleId
@@ -33,10 +34,12 @@ export class ChooseRoleComponent {
     this.service.post('webuser/onboarding-by-role-id', formData).subscribe((res: any) => {
       if (res.success) {
         this.router.navigate(['/']);
+        this.loading = false
       }
     },
       (err: any) => {
         console.log(err);
+        this.loading = false
       }
     )
   }

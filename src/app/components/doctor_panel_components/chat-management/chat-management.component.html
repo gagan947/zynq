@@ -31,11 +31,17 @@
                                     <!-- chat-list -->
                                     <div class="chat-lists ">
                                         <div class="chat-list">
+                                            @if(chatlist.length == 0) {
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <h4 class="ct_fs_16 mb-0 ct_fw_700 ct_nunito_font">No Chats Found</h4>
+                                            </div>
+                                            }
                                             @for (item of chatlist; track $index) {
                                             <a (click)="openChat(item)" class="d-flex active2">
                                                 <div class="ct_chat_list_grid">
                                                     <div class="position-relative">
-                                                        <img class="img-fluid ct_img_40" [src]="'assets/img/doctor.png'"
+                                                        <img class="img-fluid ct_img_40"
+                                                            [src]="item.profile_image || 'assets/img/doctor.png'"
                                                             alt="user img">
                                                         <!-- <span class="active"></span> -->
                                                     </div>
@@ -82,7 +88,8 @@
                                             <div class="d-flex align-items-center gap-2 ">
                                                 <i class="fa-solid fa-chevron-left chat-icon"></i>
                                                 <div class="ct_grid_50_auto">
-                                                    <img [src]="'assets/img/doctor.png'" alt="">
+                                                    <img [src]="activeChatDetails.profile_image || 'assets/img/doctor.png'"
+                                                        alt="">
                                                     <div>
                                                         <h4 class="ct_fs_18 ct_fw_600  mb-0">
                                                             {{activeChatDetails.full_name}}
@@ -177,10 +184,11 @@
                                                         <i class="fa-solid fa-paperclip"></i>
                                                     </div>
                                                 </label>
-                                                <input [(ngModel)]="message" type="text" class="form-control"
+                                                <textarea [(ngModel)]="message" type="text"
+                                                    class="form-control ct_input_h_40"
                                                     placeholder="Type your message here."
                                                     [ngModelOptions]="{standalone: true}"
-                                                    (keydown.enter)="sendMessage()" />
+                                                    (keydown.enter)="sendMessage()"></textarea>
                                                 <div class="ct_right_side_send_chat_btns" (click)="sendMessage()">
                                                     <i class="fa-regular fa-paper-plane"></i>
                                                 </div>

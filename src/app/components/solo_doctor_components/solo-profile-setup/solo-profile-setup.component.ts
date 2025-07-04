@@ -70,6 +70,7 @@ export class SoloProfileSetupComponent {
     { id: 'Operation', label: 'Operation Hours' },
   ];
 
+  loading: boolean = false
   constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
   }
@@ -299,6 +300,7 @@ export class SoloProfileSetupComponent {
       return;
     }
 
+    this.loading = true
     let formData = new FormData();
     formData.append('name', this.besicInfoForm.get('name')?.value);
     formData.append('age', this.besicInfoForm.get('age')?.value);
@@ -327,12 +329,15 @@ export class SoloProfileSetupComponent {
           } else {
             this.currentStep++;
           }
+          this.loading = false
         } else {
           this.toster.error(res.message);
+          this.loading = false
         }
       },
       error: (err) => {
         this.toster.error(err);
+        this.loading = false
       }
     });
   }
@@ -343,6 +348,7 @@ export class SoloProfileSetupComponent {
       return;
     }
 
+    this.loading = true
     let formData = {}
 
     if (this.contactForm.value.latitude && this.contactForm.value.longitude) {
@@ -363,12 +369,15 @@ export class SoloProfileSetupComponent {
           } else {
             this.currentStep++;
           }
+          this.loading = false
         } else {
           this.toster.error(res.message);
+          this.loading = false
         }
       },
       error: (err) => {
         this.toster.error(err);
+        this.loading = false
       }
     });
   }
@@ -391,6 +400,8 @@ export class SoloProfileSetupComponent {
       this.toster.warning('Please enter valid experience details. End date must be after start date.');
       return;
     }
+
+    this.loading = true
     const formData = new FormData();
     const education = this.education.map(edu => ({
       institute: edu.institution?.trim(),
@@ -420,10 +431,12 @@ export class SoloProfileSetupComponent {
           } else {
             this.currentStep++;
           }
+          this.loading = false
         }
       },
       error: (error) => {
         console.log(error);
+        this.loading = false
       }
     });
 
@@ -435,6 +448,7 @@ export class SoloProfileSetupComponent {
       this.ExpertiseForm.markAllAsTouched();
       return
     }
+    this.loading = true
     let formData = {
       treatment_ids: this.ExpertiseForm.value.treatments.join(','),
       skin_type_ids: this.ExpertiseForm.value.skin_types.join(','),
@@ -450,10 +464,12 @@ export class SoloProfileSetupComponent {
           } else {
             this.currentStep++;
           }
+          this.loading = false
         }
       },
       error: (error) => {
         console.log(error);
+        this.loading = false
       }
     });
   };
@@ -471,10 +487,14 @@ export class SoloProfileSetupComponent {
 
     const transformed = this.transformFormValue(this.availabilityForm.value);
 
-    let formData = {
+    const transformedFormData = {
+      ...transformed,
       fee_per_session: this.availabilityForm.value.fee_per_session,
-      ...transformed
-    }
+      dr_type: 1
+    };
+
+    this.loading = true
+    let formData = transformedFormData;
 
     if (this.isEdit) {
       this.service.post<any, any>('doctor/updateDoctorAvailability', formData).subscribe({
@@ -482,10 +502,12 @@ export class SoloProfileSetupComponent {
           if (resp.success == true) {
             this.toster.success(resp.message);
             this.router.navigate(['/solo-doctor/my-profile']);
+            this.loading = false
           }
         },
         error: (error) => {
           this.toster.error(error);
+          this.loading = false
         }
       })
     } else {
@@ -496,10 +518,12 @@ export class SoloProfileSetupComponent {
             data.is_onboarded = 1
             localStorage.setItem('userInfo', JSON.stringify(data));
             this.router.navigate(['/solo-doctor']);
+            this.loading = false
           }
         },
         error: (error) => {
           this.toster.error(error);
+          this.loading = false
         }
       })
     }
@@ -588,7 +612,11 @@ export class SoloProfileSetupComponent {
         if (res.success) {
           const data = res.data;
           if (!this.isEdit) {
-            this.currentStep = data.on_boarding_status
+            if (data.on_boarding_status == undefined || data.on_boarding_status == null) {
+              this.currentStep = data.clinic.on_boarding_status
+            } else {
+              this.currentStep = data.on_boarding_status
+            }
           }
           switch (status) {
             case 1:
@@ -712,7 +740,13 @@ export class SoloProfileSetupComponent {
 
   previousStep() {
     this.currentStep--
-    this.getProfile(this.currentStep + 1)
+    if (this.isEdit) {
+      this.getProfile(this.currentStep + 1)
+    } else {
+      this.service.get<any>(`solo_doctor/updateOnboardingStatus?statusId=${this.currentStep}`).subscribe(res => {
+        this.getProfile(this.currentStep + 1)
+      })
+    }
   }
 
   nextStep() {

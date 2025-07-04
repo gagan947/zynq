@@ -47,7 +47,7 @@ export class EditClinicProfileComponent {
     // ['clinic_timing'],
     ['treatments', 'equipments', 'skin_types', 'severity_levels', 'fee_range', 'language']
   ];
-
+  loading: boolean = false
   constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, public location: Location) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     effect(() => {
@@ -273,6 +273,7 @@ export class EditClinicProfileComponent {
       this.Form.markAllAsTouched();
       return;
     }
+    this.loading = true
     let formData = new FormData()
     if (this.currentStep === 0) {
       formData.append('clinic_name', this.Form.value.clinic_name)
@@ -323,10 +324,13 @@ export class EditClinicProfileComponent {
         if (this.currentStep === 2) {
           this.router.navigate(['/clinic/clinic-profile']);
         }
+        this.loading = false
       } else {
         this.toster.error(res.message);
+        this.loading = false
       }
     }, err => {
+      this.loading = false
       this.toster.error(err);
     })
   }

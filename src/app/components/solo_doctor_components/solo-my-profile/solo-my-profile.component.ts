@@ -56,7 +56,7 @@ export class SoloMyProfileComponent {
   mapDoctorAvailability(data: any[]): any[] {
     const grouped: { [key: string]: any[] } = {};
 
-    data.forEach(item => {
+    data?.forEach(item => {
       const day = item.day.toLowerCase();
 
       if (!grouped[day]) {

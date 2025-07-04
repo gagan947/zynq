@@ -11,6 +11,7 @@ import { LoginUserData } from '../../../../models/login';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ClinicProfile, ClinicProfileResponse } from '../../../../models/clinic-profile';
 import { AuthService } from '../../../../services/auth.service';
+import { LoaderService } from '../../../../services/loader.service';
 
 @Component({
   selector: 'app-clinic-setup',
@@ -52,7 +53,9 @@ export class ClinicSetupComponent {
     ['treatments', 'skin_types', 'skin_condition', 'surgeries', 'devices']
   ];
 
-  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService) {
+  loading: boolean = false
+
+  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService, private loader: LoaderService) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
   }
@@ -282,10 +285,12 @@ export class ClinicSetupComponent {
 
   onSubmit() {
     this.submitted = true;
+
     if (!this.validateCurrentStep()) {
       this.Form.markAllAsTouched();
       return;
     }
+    this.loading = true
     let formData = new FormData()
     if (this.currentStep === 0) {
       formData.append('clinic_name', this.Form.value.clinic_name)
@@ -337,11 +342,14 @@ export class ClinicSetupComponent {
     this.service.post(`clinic/onboard-clinic`, formData).subscribe((res: any) => {
       if (res.success) {
         this.currentStep++;
+        this.loading = false
       } else {
         this.toster.error(res.message);
+        this.loading = false
       }
     }, err => {
       this.toster.error(err);
+      this.loading = false
     })
   }
 
@@ -351,7 +359,7 @@ export class ClinicSetupComponent {
       this.toster.error('Please add at least one email');
       return;
     }
-
+    this.loader.show();
     this.service.post<any, any>('clinic/send-doctor-invitation', { emails: this.selectedDrEmail }).subscribe({
       next: (resp) => {
         if (resp.success) {
@@ -366,19 +374,23 @@ export class ClinicSetupComponent {
                 localStorage.setItem('userInfo', JSON.stringify(data));
                 this.toster.success(resp.message);
                 this.router.navigate(['/clinic']);
+                this.loader.hide();
               }
-              this.currentStep++;
+              // this.currentStep++;
             },
             error: (err) => {
               this.toster.error(err);
+              this.loader.hide();
             }
           });
         } else {
           this.toster.error(resp.message);
+          this.loader.hide();
         }
       },
       error: (error) => {
         this.toster.error(error);
+        this.loader.hide();
       }
     });
   }

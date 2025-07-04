@@ -142,35 +142,44 @@
 
                         </div>
                         <figcaption class="mt-4">
-                            <h4 class="ct_fs_18 ct_fw_600">Confirm Your Selection
+                            <h4 class="ct_fs_24 ct_fw_600 text-center">Confirm Your Selection
                             </h4>
-                            <p class="mb-3">
+                            <p class="mb-3  text-center">
                                 You are about to proceed with continue as {{selectedRole}}.
                             </p>
-                            <strong>Please Note:</strong>
-                            <p class="mb-0 d-flex align-items-center gap-2 ms-2">
+                            <h6 class="mb-2 ct_fs_18 ct_fw_600">Please Note:</h6>
+                            <p class="mb-2 d-flex align-items-center gap-2 ms-2">
                                 <i class="fa fa-circle"></i>
-                                This action will define how your account is set up and the features you can
-                                access.
+                                <span> This action will define how your account is set up and the features you can
+                                    access.</span>
+                            </p>
+                            <p class="mb-2 d-flex align-items-center gap-2 ms-2">
+                                <i class="fa fa-circle"></i>
+                                <span> Once confirmed, this choice <span class="ct_fw_600">cannot be changed from your
+                                        side.</span></span>
                             </p>
                             <p class="mb-0 d-flex align-items-center gap-2 ms-2">
                                 <i class="fa fa-circle"></i>
-                                Once confirmed, this choice<strong>cannot be changed from your
-                                    side.</strong>
+                                <span> If you're unsure, please go back and review your selection.</span>
                             </p>
-                            <p class="mb-0 d-flex align-items-center gap-2 ms-2">
-                                <i class="fa fa-circle"></i>
-                                If you're unsure, please go back and review your selection.
-                            </p>
-                            <h4 class="ct_fs_18 ct_fw_600 mt-3">Are you sure you want to continue?
+                            <h4 class="ct_fs_18 ct_fw_600 mt-3 text-center">Are you sure you want to continue?
                             </h4>
                         </figcaption>
                     </figure>
-                    <div class="d-flex justify-content-center border-0 gap-3 ct_modal_footer">
-                        <button type="button" class="ct_outline_btn ct_h_40 w-100 ct_fw_600" data-bs-dismiss="modal">Go
+                    <div class="d-flex justify-content-center border-0 gap-3 ct_modal_footer py-4 ct_flex_col_575">
+                        <button type="button" class="ct_outline_btn ct_h_40 w-100 ct_fw_500" data-bs-dismiss="modal">Go
                             Back & Change Option</button>
-                        <button class="ct_border_radius_10 ct_h_40 ct_black_btn w-100 ct_fw_600 text-center"
-                            data-bs-dismiss="modal" (click)="confirmRole()">Confirm & Continue </button>
+                        <button class="ct_border_radius_10 ct_h_40 ct_black_btn w-100 ct_fw_500 text-center"
+                            data-bs-dismiss="modal" (click)="confirmRole()" [disabled]="loading">
+                            @if(loading){
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            }@else {
+                            Confirm & Continue
+                            }
+
+                        </button>
                     </div>
                 </div>
             </div>
