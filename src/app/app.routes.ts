@@ -26,6 +26,7 @@ export const routes: Routes = [
       },
       {
             path: 'choose-role',
+            title: 'Choose Role',
             loadComponent: () => import('./components/shared/components/choose-role/choose-role.component').then(m => m.ChooseRoleComponent),
             canActivate: [VerifiedGuard]
       },

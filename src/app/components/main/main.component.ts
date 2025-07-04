@@ -19,8 +19,9 @@ export class MainComponent {
     const data = JSON.parse(localStorage.getItem('userInfo') || '{}');
     const appID = 1602450801;
     const callerUserID = data.id.replace(/-/g, '');
+    const doctorName = data.doctor_name;
     const callerUserName = 'user_' + callerUserID;
     const serverSecret = '838170b757bc7b5c7b753a8758a8ae9c';
-    this.zegoService.initializeZego(appID, serverSecret, callerUserID, callerUserName);
+    this.zegoService.initializeZego(appID, serverSecret, callerUserID, doctorName);
   }
 }

@@ -26,6 +26,7 @@ export class SocketService {
 
       fetchChats(): void {
             this.socket.emit('fetch_chats');
+            console.log('fetch_chats');
       }
 
       onChatList(): Observable<any> {

@@ -7,6 +7,7 @@ export const clinicRoutes: Routes = [
             path: 'profile-setup',
             canActivate: [AuthGuard],
             data: { roles: ['clinic'] },
+            title: 'Profile Setup',
             loadComponent: () => import('../clinic_panel_components/clinic/clinic-setup/clinic-setup.component').then(m => m.ClinicSetupComponent)
       },
       {
@@ -17,6 +18,7 @@ export const clinicRoutes: Routes = [
             children: [
                   {
                         path: '',
+                        title: 'Dashboard',
                         loadComponent: () => import('../clinic_panel_components/dashboard/dashboard.component').then(m => m.DashboardComponent)
                   },
                   {
@@ -42,7 +44,7 @@ export const clinicRoutes: Routes = [
                   {
                         path: 'products',
                         loadComponent: () => import('../clinic_panel_components/product/product-management/product-management.component').then((m) => m.ProductManagementComponent),
-                        title: 'products Management'
+                        title: 'Products Management'
                   },
                   {
                         path: 'products/detail',

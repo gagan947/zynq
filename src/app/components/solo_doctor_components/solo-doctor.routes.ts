@@ -6,6 +6,7 @@ import { DashboardGuard } from '../../guards/dashboard.guard';
 export const soloDoctorRoutes: Routes = [
       {
             path: 'profile-setup',
+            title: 'Profile Setup',
             // canActivate: [AuthGuard],
             // data: { roles: ['solo-doctor'] },
             loadComponent: () => import('./solo-profile-setup/solo-profile-setup.component').then(m => m.SoloProfileSetupComponent)
@@ -18,20 +19,24 @@ export const soloDoctorRoutes: Routes = [
             children: [
                   {
                         path: '',
+                        title: 'Dashboard',
                         loadComponent: () => import('./solo-dashboard/solo-dashboard.component').then(m => m.SoloDashboardComponent)
                   },
                   {
                         path: 'my-profile',
+                        title: 'My Profile',
                         loadComponent: () => import('./solo-my-profile/solo-my-profile.component').then(m => m.SoloMyProfileComponent)
                   },
                   {
                         path: 'edit-profile',
+                        title: 'Edit Profile',
                         loadComponent: () => import('./solo-edit-profile/solo-edit-profile.component').then(m => m.SoloEditProfileComponent)
                   },
                   {
                         path: 'products',
+                        title: 'Products Management',
                         loadComponent: () => import('../clinic_panel_components/product/product-management/product-management.component').then((m) => m.ProductManagementComponent),
-                        title: 'products Management'
+                    
                   },
                   {
                         path: 'products/detail',
@@ -86,7 +91,7 @@ export const soloDoctorRoutes: Routes = [
                   {
                         path: 'chat-management',
                         loadComponent: () => import('../doctor_panel_components//chat-management/chat-management.component').then((m) => m.ChatManagementComponent),
-                        title: 'chat-management'
+                        title: 'Chat Management'
                   },
                   {
                         path: 'change-password',

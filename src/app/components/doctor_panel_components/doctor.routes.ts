@@ -18,6 +18,7 @@ export const doctorRoutes: Routes = [
             children: [
                   {
                         path: '',
+                        title: 'Dashboard',
                         loadComponent: () => import('../doctor_panel_components/dr-dashboard/dr-dashboard.component').then(m => m.DrDashboardComponent)
                   },
                   {
@@ -38,7 +39,7 @@ export const doctorRoutes: Routes = [
                   {
                         path: 'products',
                         loadComponent: () => import('../clinic_panel_components/product/product-management/product-management.component').then((m) => m.ProductManagementComponent),
-                        title: 'products Management'
+                        title: 'Products Management'
                   },
                   {
                         path: 'products/detail',
@@ -118,7 +119,7 @@ export const doctorRoutes: Routes = [
                   {
                         path: 'chat-management',
                         loadComponent: () => import('../doctor_panel_components//chat-management/chat-management.component').then((m) => m.ChatManagementComponent),
-                        title: 'chat-management'
+                        title: 'Chat Management'
                   },
                   {
                         path: 'change-password',
