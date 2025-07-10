@@ -4,6 +4,7 @@ import { CommonModule, Location } from '@angular/common';
 import { ZegoService } from '../../../services/zego.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { SocketService } from '../../../services/socket.service';
 
 @Component({
   selector: 'app-appointment-detail',
@@ -16,7 +17,7 @@ export class AppointmentDetailComponent {
   appointment = this.service._Appointment;
   appointmentData: any;
   imagePreview: string = 'assets/img/doctor.png';
-  constructor(private service: CommonService, public location: Location, private zegoService: ZegoService, private loader: LoaderService, private router: Router, private route: ActivatedRoute) {
+  constructor(private service: CommonService, public location: Location, private zegoService: ZegoService, private loader: LoaderService, private router: Router, private route: ActivatedRoute, private socketService: SocketService) {
     effect(() => {
       this.appointment();
     });
@@ -51,8 +52,10 @@ export class AppointmentDetailComponent {
     });
   }
 
-  openChat(chatId: string) {
-    this.router.navigate(['../../chat-management'], { queryParams: { chatId }, relativeTo: this.route });
+  openChat(chatId: number) {
+    this.socketService.setChatId(+chatId);
+    // this.router.navigate(['../../chat-management']);
+    this.router.navigate(['../../chat-management'], {  relativeTo: this.route });
   }
 
   downloadPDF(pdfUrl: string) {

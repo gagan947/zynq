@@ -7,6 +7,7 @@ import { CommonService } from '../../../services/common.service';
 import { ClinicProfile } from '../../../models/clinic-profile';
 import { DoctorProfile } from '../../../models/doctorProfile';
 import { LoaderService } from '../../../services/loader.service';
+import { SocketService } from '../../../services/socket.service';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,8 @@ export class HeaderComponent {
   clinicProfile = this.service._clinicProfile;
   drProfile = this.service._doctorProfile;
   soloDrProfile = this.service._soloDoctorProfile;
-  constructor(public auth: AuthService, private service: CommonService, private router: Router, public loaderService: LoaderService) {
+  constructor(public auth: AuthService, private service: CommonService, private router: Router, public loaderService: LoaderService, private socketService: SocketService
+  ) {
     effect(() => {
       this.clinicProfile();
       this.drProfile();
@@ -75,6 +77,7 @@ export class HeaderComponent {
 
   logout() {
     this.auth.logout();
+    this.socketService.setChatId(null);
     this.router.navigateByUrl('/');
   }
 }

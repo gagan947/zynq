@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class SocketService {
       private socket: Socket;
-
+      private chatIdSignal = signal<number | null>(null);
       constructor(private auth: AuthService) {
             this.socket = io(environment.socketUrl, {
                   extraHeaders: {
@@ -18,7 +18,15 @@ export class SocketService {
 
                   }
             });
-      }
+      };
+
+      setChatId(chatId: number | null): void {
+            this.chatIdSignal.set(chatId);
+      };
+
+      getChatId(): number | null {
+            return this.chatIdSignal();
+      };
 
       userConnected(): void {
             this.socket.emit('user_connected');
@@ -44,6 +52,7 @@ export class SocketService {
       onChatHistory(): Observable<any> {
             return new Observable((observer) => {
                   this.socket.on('chat_docter_history', (messages) => {
+                        console.log('messages123', messages);
                         observer.next(messages);
                   });
             });
@@ -75,5 +84,11 @@ export class SocketService {
 
       disconnect(): void {
             this.socket.disconnect();
-      }
+      };
+
+      removeAllListeners(): void {
+            this.socket.removeAllListeners('chat_list');
+            this.socket.removeAllListeners('chat_docter_history');
+            this.socket.removeAllListeners('new_message');
+          }
 }

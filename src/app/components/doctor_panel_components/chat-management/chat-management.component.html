@@ -37,7 +37,7 @@
                                             </div>
                                             }
                                             @for (item of chatlist; track $index) {
-                                            <a (click)="openChat(item)" class="d-flex active2">
+                                            <a (click)="openChat(item)" class="d-flex" [ngClass]="{'active2': item.id == activeChatDetails?.id}">
                                                 <div class="ct_chat_list_grid">
                                                     <div class="position-relative">
                                                         <img class="img-fluid ct_img_40"

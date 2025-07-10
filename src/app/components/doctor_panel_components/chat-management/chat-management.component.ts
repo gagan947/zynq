@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { SocketService } from '../../../services/socket.service';
 import { LoaderService } from '../../../services/loader.service';
 import { CommonService } from '../../../services/common.service';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
-import { finalize, Observable, tap } from 'rxjs';
+import { finalize, Observable, skip, Subject, take, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
@@ -25,7 +25,14 @@ export class ChatManagementComponent {
   chatlist: any[] = [];
   messageList: any[] = [];
   message: string = '';
-  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService, private zegoService: ZegoService, private route: ActivatedRoute) { }
+  chatId: number | null = null;
+  private destroy$ = new Subject<void>();
+  hasInitialized: boolean = false;
+  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService, private zegoService: ZegoService, private route: ActivatedRoute) {
+    effect(() => {
+      this.chatId = this.socketService.getChatId();
+    })
+  }
 
   ngOnInit(): void {
     this.loaderService.show();
@@ -34,30 +41,39 @@ export class ChatManagementComponent {
 
     // this.socketService.userConnected();
     this.socketService.fetchChats();
-    this.socketService.onChatList().subscribe((chats) => {
-      this.orgChatList = this.chatlist = chats;
-      console.log(44, chats);
-      this.route.queryParams.subscribe(params => {
-        if (params['chatId']) {
-          const chatId = +params['chatId'];
-          const chatData = this.orgChatList.filter((item: any) => item.id == chatId);
-          this.openChat(chatData[0]);
-        }
-      })
-    });
+ 
+    this.socketService.onChatList()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((chats) => {
+        this.orgChatList = this.chatlist = chats;
 
-    this.socketService.onNewMessage().subscribe(message => {
+        // 👇 Execute only once using the flag
+        if (!this.hasInitialized) {
+          console.log("going init");
+          this.hasInitialized = true; // ✅ flip flag
+          if (this.chatId) {
+            const chatData = this.orgChatList.filter((item: any) => item.id == this.chatId);
+            this.openChat(chatData[0]);
+          } else {
+           
+            this.openChat(this.orgChatList[0]);
+          }
+        }
+      });
+
+    this.socketService.onNewMessage().pipe(takeUntil(this.destroy$)).subscribe(message => {
+      if (message.chat_id !== this.activeChatDetails.id) return;
       this.messageList.push(message);
-      console.log(message);
+      
     })
   }
 
   openChat(item: any) {
     this.activeChatDetails = item;
     this.socketService.fetchMessages(item.id);
-    this.socketService.onChatHistory().subscribe((messages) => {
+    this.socketService.onChatHistory().pipe(takeUntil(this.destroy$)).subscribe((messages) => {
       this.messageList = messages;
-      console.log(58, messages);
+      
     });
   }
 
@@ -80,5 +96,11 @@ export class ChatManagementComponent {
     } else {
       this.chatlist = [...this.orgChatList];
     }
+  };
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.socketService.removeAllListeners(); // remove all socket.on
   }
 }
