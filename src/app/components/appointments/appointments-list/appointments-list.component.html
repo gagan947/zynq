@@ -50,12 +50,12 @@
                                                 aria-controls="pills-Completed" aria-selected="false"
                                                 (click)="filterByStatus('Completed')">Completed</button>
                                     </li>
-                                    <!-- <li class="nav-item" role="presentation">
+                                    <li class="nav-item" role="presentation">
                                           <button class="nav-link" id="pills-Rescheduled-tab" data-bs-toggle="pill"
                                                 data-bs-target="#pills-Rescheduled" type="button" role="tab"
-                                                aria-controls="pills-Rescheduled"
-                                                aria-selected="false" (click)="filterByStatus('')">Rescheduled</button>
-                                    </li> -->
+                                                aria-controls="pills-Rescheduled" aria-selected="false"
+                                                (click)="filterByStatus('Rescheduled')">Rescheduled</button>
+                                    </li>
                               </ul>
                         </div>
 
@@ -102,8 +102,16 @@
                                                             <td>{{item.clinic_name || 'N/A'}}</td>
                                                             <td>
                                                                   <div class="d-flex align-items-center gap-3">
-                                                                        <a (click)="viewDetails(item)"><i
+                                                                        <a (click)="viewDetails(item)"
+                                                                              title="View Details"><i
                                                                                     class="fa-regular fa-eye text-primary"></i></a>
+                                                                        <a (click)="appointment_id = item.appointment_id; slotDate = item.start_time; onChange(item.start_time)"
+                                                                              data-bs-toggle="modal"
+                                                                              data-bs-target="#ct_unlink_modal"
+                                                                              title="Reschedule"><i
+                                                                                    class="fa fa-calendar"
+                                                                                    aria-hidden="true"></i>
+                                                                        </a>
                                                                   </div>
                                                             </td>
                                                       </tr>
@@ -408,40 +416,7 @@
             </div>
       </div>
 </div>
-<!-- invite doctor Modal S -->
-<div class="modal fade modal-md" id="ct_invite_doctor_modal" tabindex="-1" aria-labelledby="ct_invite_doctor_modalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                  <div class="modal-header border-0 pb-0">
-                        <!-- <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0"
-                            id="ct_invite_doctor_modalLabel">
-                            Image Preview
-                        </h5> -->
-                        <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
-                              aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
 
-                        <h4 class="ct_fs_24 ct_fw_600">Link New Doctor</h4>
-                        <form action="" class="mt-4">
-                              <div class="form-group">
-                                    <label for="" class="mb-2">Enter Doctor's Email or ZYNQ ID</label>
-                                    <input type="email" placeholder="Enter email or ID" class="form-control ct_input">
-                              </div>
-                              <div class="d-flex align-items-center gap-3 mt-4 justify-content-center">
-                                    <button class="ct_outline_btn px-5 py-2 w-100">Cancel</button>
-                                    <button class="ct_black_btn px-5 py-2 w-100">Send Invitation</button>
-
-                              </div>
-                        </form>
-
-                  </div>
-
-            </div>
-      </div>
-</div>
-<!-- invite doctor Modal E -->
 <!-- Unlink Modal S -->
 <div class="modal fade modal-md" id="ct_unlink_modal" tabindex="-1" aria-labelledby="ct_unlink_modalLabel"
       aria-hidden="true">
@@ -456,15 +431,37 @@
                               aria-label="Close"></button>
                   </div>
                   <div class="modal-body text-center">
-                        <div class="ct_grey_icon_bg_48 mx-auto mb-4">
-                              <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-                        <h4 class="ct_fs_24 ct_fw_600">Unlink</h4>
-                        <p class="mb-0">Are you sure you want to unlink this doctor?</p>
-                        <div class="d-flex align-items-center gap-3 mt-4 justify-content-center">
-                              <button class="ct_outline_btn px-5 py-2 w-100">No</button>
-                              <button class="ct_black_btn px-5 py-2 w-100">Yes</button>
-
+                        <nz-date-picker nzInline [(ngModel)]="slotDate"
+                              (ngModelChange)="onChange($event)"></nz-date-picker>
+                        <div class="mt-3">
+                              <h2 class="ct_fs_20 ct_fw_600 mb-3">{{slotDate | date}}</h2>
+                              @if (slots.length == 0) {
+                              <p class="ct_fs_18 mb-0 text-center">No Slots Available for {{slotDate | date}}</p>
+                              }
+                              <div class="ct_grid_2 mb-3">
+                                    @for (item of slots; track $index) {
+                                    <button class="ct_white_btn" type="button" [disabled]="item.status == 'booked'"
+                                          [ngClass]="{
+                                                   'opacity-50': item.status == 'booked',
+                                                     'bg-dark text-white':   selectedSlot == item
+                                                   }" (click)="selectSlot(item)">
+                                          {{ item.start_time | date: 'h:mm a' }} - {{ item.end_time | date: 'h:mm a' }}
+                                    </button>
+                                    }
+                              </div>
+                              <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
+                                    <button type="button" class="ct_outline_btn" data-bs-dismiss="modal"
+                                          aria-label="Close" #closeButton>Cancel</button>
+                                    <button type="button" class="ct_black_btn" (click)="schedule()">
+                                          @if(loading){
+                                          <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                          </div>
+                                          }@else {
+                                          Schedule
+                                          }
+                                    </button>
+                              </div>
                         </div>
                   </div>
 

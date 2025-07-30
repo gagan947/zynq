@@ -38,6 +38,20 @@
                                     </div>
                               </div>
                         </div>
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                              <div class="d-flex align-items-center justify-content-between">
+                                    <h4 class="ct_fs_18 mb-3">
+                                          Clinic Images
+                                    </h4>
+                                    <a href="javascript:void(0)" class="ct_see_more_link" data-bs-toggle="modal"
+                                          data-bs-target="#ct_clinic_images   ">View All</a>
+                              </div>
+                              <div class="ct_grid_4_new">
+                                    @for (item of this.soloDrProfile().clinic?.images.slice(0, 4); track $index) {
+                                    <img [src]="item.url" alt="" class="clinic_images">
+                                    }
+                              </div>
+                        </div>
                         <div class="row mb-4">
                               <div class="col-xxl-4 mt-4">
                                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 h-100">
@@ -306,14 +320,41 @@
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">Treatments Provided-</h4>
                               <div>
-                                    <ul
+                                    <!-- <ul
                                           class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
                                           @for (item of this.soloDrProfile()?.treatments; track $index) {
                                           <li>
                                                 <button class="ct_select_badge">{{item.name}} </button>
                                           </li>
                                           }
-                                    </ul>
+                                    </ul> -->
+
+                                    <div class="table-responsive">
+                                          <table class="table ct_custom_table">
+                                                <thead>
+                                                      <tr class="bg-gray-200">
+                                                            <th class="border p-2">Sr. No</th>
+                                                            <th class="border p-2">Treatment</th>
+                                                            <th class="border p-2">Price</th>
+                                                            <th class="border p-2">Session Duration (min)</th>
+                                                            <th class="border p-2">Note</th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody formArrayName="treatments">
+                                                      @for (item of this.soloDrProfile()?.treatments; track $index) {
+                                                      <tr>
+                                                            <td class="border p-2">{{$index + 1}}</td>
+                                                            <td class="border p-2">{{item.name}} </td>
+                                                            <td class="border p-2">{{item.price}} </td>
+                                                            <td class="border p-2">{{item.session_duration || 'N/A'}}
+                                                            </td>
+                                                            <td class="border p-2">{{item.add_notes || 'N/A'}} </td>
+                                                      </tr>
+                                                      }
+                                                </tbody>
+                                          </table>
+
+                                    </div>
                               </div>
                         </div>
                         <!-- <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
@@ -491,6 +532,30 @@
                               </div>
                         </div>
                   </div>
+            </div>
+      </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal-lg" id="ct_clinic_images" tabindex="-1" aria-labelledby="ct_clinic_imagesLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                  <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Clinic Images</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                        <div class="ct_grid_4_new">
+                              @for (item of this.soloDrProfile().clinic?.images; track $index) {
+                              <img [src]="item.url" alt="" class="clinic_images">
+                              }
+                        </div>
+                  </div>
+                  <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                  </div> -->
             </div>
       </div>
 </div>

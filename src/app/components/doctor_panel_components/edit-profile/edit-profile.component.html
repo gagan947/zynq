@@ -47,8 +47,18 @@
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">Phone No.<span
                                                                         class="ct_red_text">*</span></label>
-                                                            <input type="number" class="form-control ct_input"
-                                                                  formControlName="phone" placeholder="Enter phone no">
+                                                            <!-- <input type="number" class="form-control ct_input"
+                                                                  formControlName="phone" placeholder="Enter phone no"> -->
+
+                                                            <ngx-intl-tel-input
+                                                                  [cssClass]="'form-control ct_input w-full'"
+                                                                  [enableAutoCountrySelect]="false"
+                                                                  [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                                                  [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                                                  [selectFirstCountry]="false"
+                                                                  [selectedCountryISO]="selectedCountry"
+                                                                  [maxLength]="15" [phoneValidation]="true"
+                                                                  formControlName="phone"></ngx-intl-tel-input>
                                                             <div *ngIf="personalForm.get('phone')?.touched && personalForm.get('phone')?.invalid"
                                                                   class="text-danger">
                                                                   <div
@@ -56,8 +66,8 @@
                                                                         Phone no is required.
                                                                   </div>
                                                                   <div
-                                                                        *ngIf="personalForm.get('phone')?.errors?.['min']">
-                                                                        Phone no is not valid.
+                                                                        *ngIf="personalForm.get('phone')?.errors?.['validatePhoneNumber']">
+                                                                        Please enter a valid phone number.
                                                                   </div>
                                                             </div>
                                                       </div>
@@ -383,18 +393,80 @@
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">Treatments
                                                       Provided<span class="ct_red_text">*</span></label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Treatments"
-                                                      class="form-control ct_input h-auto" formControlName="treatments"
-                                                      nzNotFoundContent="No Treatments Found">
-                                                      @for (item of treatments; track item) {
-                                                      <nz-option [nzLabel]="item.name"
-                                                            [nzValue]="item.treatment_id"></nz-option>
-                                                      }
-                                                </nz-select>
-                                                <span class="ct_text_red mt-2"
-                                                      *ngIf="Form.get('treatments')?.invalid && Form.get('treatments')?.touched">
-                                                      Please add at least one treatment.
-                                                </span>
+                                                <div class="table-responsive" style="height: 50vh;">
+                                                      <table class="table ct_custom_table">
+                                                            <thead>
+                                                                  <tr class="bg-gray-200">
+                                                                        <th class="border p-2">Sr. No</th>
+                                                                        <th class="border p-2">
+                                                                              <input class="form-check-input ct_custom_check"
+                                                                                    formControlName="selected"
+                                                                                    (change)="onAllCheckboxChange($event)"
+                                                                                    type="checkbox" value=""
+                                                                                    id="flexCheckDefault"
+                                                                                    [indeterminate]="isIndeterminate()">
+                                                                        </th>
+                                                                        <th class="border p-2">Treatment</th>
+                                                                        <th class="border p-2">Price</th>
+                                                                        <th class="border p-2">Session Duration (min)
+                                                                        </th>
+                                                                        <th class="border p-2">Notes (Optional)</th>
+                                                                  </tr>
+                                                            </thead>
+                                                            <tbody formArrayName="treatments">
+                                                                  <tr *ngFor="let treatment of treatmentArray.controls; let i = index"
+                                                                        [formGroupName]="i">
+                                                                        <td class="border p-2">{{ i + 1 }}</td>
+                                                                        <td class="border p-2 text-center">
+                                                                              <!-- <input type="checkbox"
+                                                                              formControlName="selected"
+                                                                              (change)="onCheckboxChange(i)" /> -->
+                                                                              <div class="text-start  ">
+                                                                                    <input class="form-check-input ct_custom_check"
+                                                                                          formControlName="selected"
+                                                                                          (change)="onCheckboxChange(i)"
+                                                                                          type="checkbox" value=""
+                                                                                          id="flexCheckDefault">
+
+                                                                              </div>
+                                                                        </td>
+                                                                        <td class="border p-2">{{ treatments[i].name }}
+                                                                        </td>
+                                                                        <td class="border p-2" style="width: 200px;">
+                                                                              <input type="number"
+                                                                                    formControlName="price"
+                                                                                    style="width: 200px;"
+                                                                                    placeholder="Enter price"
+                                                                                    class="form-control"
+                                                                                    *ngIf="treatment.get('selected')?.value" />
+                                                                              <span class="ct_text_red mt-2"
+                                                                                    *ngIf="treatment.get('price')?.errors?.['required'] && treatment.get('price')?.touched">
+                                                                                    Price is required
+                                                                              </span>
+                                                                              <span class="ct_text_red mt-2"
+                                                                                    *ngIf="treatment.get('price')?.errors?.['min']">
+                                                                                    Minimum price must be 0.
+                                                                              </span>
+                                                                        </td>
+                                                                        <td class="border p-2">
+                                                                              <input *ngIf="treatment.get('selected')?.value"
+                                                                                    type="text"
+                                                                                    formControlName="session_duration"
+                                                                                    style="width: 200px;"
+                                                                                    placeholder="Enter duration"
+                                                                                    class="form-control">
+                                                                        </td>
+                                                                        <td class="border p-2">
+                                                                              <input *ngIf="treatment.get('selected')?.value"
+                                                                                    type="text" formControlName="note"
+                                                                                    style="width: 200px;"
+                                                                                    placeholder="Enter note"
+                                                                                    class="form-control">
+                                                                        </td>
+                                                                  </tr>
+                                                            </tbody>
+                                                      </table>
+                                                </div>
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">Skin

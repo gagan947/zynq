@@ -75,7 +75,7 @@
                                                       </span>
                                                 </span>
                                           </div>
-                                          <div class="form-group mb-0">
+                                          <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black">Logo</label>
                                                 <div class="">
                                                       <div *ngIf="!logoPreview" class="ct_upload_product_main"
@@ -111,6 +111,48 @@
                                                             </div>
                                                       </div>
                                                 </div>
+                                          </div>
+                                          <div class="form-group mb-0">
+                                                <label for="" class="mb-2">Upload Clinic Images</label>
+                                                <div class="ct_upload_product_main ct_upload_product_main_180">
+                                                      <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5.87174 22.0167C4.26376 20.9403 3.20508 19.1073 3.20508 17.027C3.20508 13.9023 5.59376 11.3354 8.64473 11.0528C9.26883 7.25653 12.5654 4.36035 16.5384 4.36035C20.5114 4.36035 23.808 7.25653 24.4321 11.0528C27.4831 11.3354 29.8717 13.9023 29.8717 17.027C29.8717 19.1073 28.8131 20.9403 27.2051 22.0167M11.2051 21.6937L16.5384 16.3604M16.5384 16.3604L21.8717 21.6937M16.5384 16.3604V28.3604"
+                                                                  stroke="#9CA3AF" stroke-width="2.66667"
+                                                                  stroke-linecap="round" stroke-linejoin="round" />
+                                                      </svg>
+
+                                                      <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload clinic
+                                                            images
+                                                            here</p>
+                                                      <label for="ct_upload_product">
+                                                            <input type="file" name="" id="ct_upload_product"
+                                                                  class="d-none" accept="image/*"
+                                                                  (change)="onProductImage($event)" multiple>
+                                                            <div class="ct_browse_btn">
+                                                                  <span>Browse Files</span>
+                                                            </div>
+                                                      </label>
+                                                      <!-- after upload image change url to below image -->
+                                                      <img src="assets/img/hunting_knee.png" alt=""
+                                                            class="ct_uploaded_img d-none">
+                                                </div>
+                                                <div class="ct_multiple_img_div ct_custom_scroll">
+                                                      @for (item of previewProductImages; track $index) {
+                                                      <div class="ct_uploaded_img123 position-relative ">
+                                                            <div class="ct_uploaded_img_w">
+                                                                  <img [src]="item" alt="" />
+                                                                  <i class="fa-solid fa-xmark ct_cursor_pointer"
+                                                                        (click)="removeProductImage($index, item)"></i>
+                                                            </div>
+                                                      </div>
+                                                      }
+                                                </div>
+                                                <!-- <span *ngIf="previewProductImages.length == 0 && submitted">
+                                                      <span class="ct_text_red mt-2">
+                                                            Please upload product image.
+                                                      </span>
+                                                </span> -->
                                           </div>
                                     </div>
 
@@ -225,14 +267,27 @@
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">Phone No<span
                                                                         class="ct_red_text">*</span></label>
-                                                            <input type="number" class="form-control ct_input"
+                                                            <!-- <input type="number" class="form-control ct_input"
                                                                   placeholder="Enter phone number"
-                                                                  formControlName="mobile_number">
+                                                                  formControlName="mobile_number"> -->
+                                                            <ngx-intl-tel-input
+                                                                  [cssClass]="'form-control ct_input w-full'"
+                                                                  [enableAutoCountrySelect]="false"
+                                                                  [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                                                  [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                                                  [selectFirstCountry]="false"
+                                                                  [selectedCountryISO]="selectedCountry"
+                                                                  [maxLength]="15" [phoneValidation]="true"
+                                                                  formControlName="mobile_number"></ngx-intl-tel-input>
                                                             <span
                                                                   *ngIf="Form.controls['mobile_number'].invalid && Form.controls['mobile_number'].touched">
                                                                   <span *ngIf="Form.controls['mobile_number'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
                                                                         Phone number is required.
+                                                                  </span>
+                                                                  <span *ngIf="Form.controls['mobile_number'].errors?.['validatePhoneNumber']"
+                                                                        class="ct_text_red mt-2">
+                                                                        Please enter a valid phone number.
                                                                   </span>
                                                             </span>
                                                       </div>

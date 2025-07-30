@@ -4,16 +4,17 @@ import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Va
 import { Router } from '@angular/router';
 import { NoWhitespaceDirective } from '../../../../validators';
 import { CommonService } from '../../../../services/common.service';
-import { CertificationType, EquipmentType, EquipmentTypeResponse, SecurityLevel, SecurityLevelResponse, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
+import { CertificationType, SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { LoginUserData } from '../../../../models/login';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 
 @Component({
   selector: 'app-edit-clinic-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule],
   templateUrl: './edit-clinic-profile.component.html',
   styleUrl: './edit-clinic-profile.component.css'
 })
@@ -33,7 +34,12 @@ export class EditClinicProfileComponent {
   logoPreview: string | null | undefined = null;
   locations: any[] = [];
   selectedLocation: any = null;
+  productImages: File[] = [];
+  previewProductImages: any[] = [];
   clinicProfile = this.service._clinicProfile;
+  SearchCountryField = SearchCountryField
+  CountryISO = CountryISO;
+  selectedCountry = CountryISO.Sweden
   steps = [
     { id: 'Clinic', label: 'Clinic Details' },
     { id: 'Contact', label: 'Contact Details' },
@@ -214,6 +220,40 @@ export class EditClinicProfileComponent {
     this.currentStep = this.currentStep - 1;
   }
 
+  onProductImage(event: any) {
+    const files = event.target.files;
+    Array.from(files).forEach((file: any) => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.previewProductImages.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+      this.productImages.push(file);
+    });
+  }
+
+  removeProductImage(index: number, image?: string) {
+    if (image) {
+      const imageId = this.clinicProfile()?.images.find((item: any) => item.url == image)?.clinic_image_id
+      this.service.delete<any>(`clinic/images/${imageId}`).subscribe((resp) => {
+        if (resp.success) {
+          this.previewProductImages.splice(index, 1);
+          this.productImages.splice(index, 1);
+        } else {
+          // this.toster.error(resp.message)
+          this.previewProductImages.splice(index, 1);
+          this.productImages.splice(index, 1);
+        }
+      }, (error) => {
+        this.previewProductImages.splice(index, 1);
+        this.productImages.splice(index, 1);
+      })
+    } else {
+      this.previewProductImages.splice(index, 1);
+      this.productImages.splice(index, 1);
+    }
+  }
+
   validateCurrentStep(): boolean {
     const controls = this.stepFields[this.currentStep];
     let isValid = true;
@@ -248,9 +288,6 @@ export class EditClinicProfileComponent {
     })
 
   }
-  onFileChange(event: any, index: number) {
-
-  }
 
   onLogoImage(event: any) {
     const file = event.target.files[0];
@@ -281,12 +318,17 @@ export class EditClinicProfileComponent {
       if (this.LogoImage) {
         formData.append('logo', this.LogoImage!)
       }
+      if (this.productImages.length > 0) {
+        for (let i = 0; i < this.productImages.length; i++) {
+          formData.append('files', this.productImages[i])
+        }
+      }
       formData.append('ivo_registration_number', this.Form.value.ivo_registration_number)
       formData.append('hsa_id', this.Form.value.hsa_id)
       formData.append('zynq_user_id', this.userInfo.id);
     } else if (this.currentStep === 1) {
       // formData.append('email', this.Form.value.email)
-      formData.append('mobile_number', this.Form.value.mobile_number)
+      formData.append('mobile_number', this.Form.value.mobile_number.e164Number)
       formData.append('street_address', this.Form.value.street_address)
       formData.append('city', this.Form.value.city)
       formData.append('state', this.Form.value.state)
@@ -337,8 +379,10 @@ export class EditClinicProfileComponent {
 
 
   patchValue() {
+    this.previewProductImages = []
     this.logoPreview = this.clinicProfile()?.clinic_logo
     this.selectedLocation = this.clinicProfile()?.address
+    this.clinicProfile()?.images.map((item: any) => this.previewProductImages.push(item.url))
     this.Form.patchValue({
       clinic_name: this.clinicProfile()?.clinic_name,
       clinic_description: this.clinicProfile()?.clinic_description,

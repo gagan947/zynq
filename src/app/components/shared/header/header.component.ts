@@ -26,6 +26,7 @@ export class HeaderComponent {
   soloDrProfile = this.service._soloDoctorProfile;
   constructor(public auth: AuthService, private service: CommonService, private router: Router, public loaderService: LoaderService, private socketService: SocketService
   ) {
+    // this.loadScript();
     effect(() => {
       this.clinicProfile();
       this.drProfile();
@@ -80,4 +81,25 @@ export class HeaderComponent {
     this.socketService.setChatId(null);
     this.router.navigateByUrl('/');
   }
+
+
+  loadScript() {
+    const scriptElement = document.createElement('script');
+    scriptElement.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    window['googleTranslateElementInit'] = function () {
+      new google.translate.TranslateElement({
+        includedLanguages: 'en,sv',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    };
+    document.body.appendChild(scriptElement);
+  }
 }
+
+declare var google: any
+declare global {
+  interface Window {
+    googleTranslateElementInit: any;
+  }
+}
+

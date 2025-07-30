@@ -1,22 +1,22 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { SecurityLevel, TreatmentResponse, SkinTypeResponse, SecurityLevelResponse } from '../../../models/clinic-onboarding';
+import { SecurityLevel, TreatmentResponse, SkinTypeResponse } from '../../../models/clinic-onboarding';
 import { Treatment, SkinType } from '../../../models/clinic-profile';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
 import { CommonService } from '../../../services/common.service';
-import { ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoaderService } from '../../../services/loader.service';
-import { NoWhitespaceDirective, timeRangeValidator } from '../../../validators';
+import { NoWhitespaceDirective } from '../../../validators';
 import { environment } from '../../../../environments/environment';
+import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxIntlTelInputModule],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
@@ -48,13 +48,15 @@ export class EditProfileComponent {
     designation: null
   }];
   certificaTeypes: any;
-
   skintypes: SkinType[] = []
   maxDate: Date = new Date();
   skinConditions: any[] = []
   surgeries: any[] = []
   devices: any[] = []
   loading: boolean = false
+  SearchCountryField = SearchCountryField
+  CountryISO = CountryISO;
+  selectedCountry = CountryISO.Sweden
   constructor(private fb: FormBuilder, private loaderService: LoaderService, private apiService: CommonService, private toster: NzMessageService, private router: Router) {
 
   }
@@ -71,7 +73,7 @@ export class EditProfileComponent {
     });
 
     this.Form = this.fb.group({
-      treatments: [[], [Validators.required]],
+      treatments: this.fb.array([]),
       skin_types: [[], [Validators.required]],
       skin_condition: [[], [Validators.required]],
       surgeries: [[], [Validators.required]],
@@ -93,6 +95,22 @@ export class EditProfileComponent {
     this.loadFormData();
   }
 
+  inItTreatMentForm() {
+    this.treatments.forEach(() => {
+      this.treatmentArray.push(this.fb.group({
+        selected: [false],
+        price: [''],
+        session_duration: [''],
+        note: ['']
+      }));
+    });
+  }
+
+  get treatmentArray() {
+    return this.Form.get('treatments') as FormArray;
+  }
+
+
   loadFormData() {
     // this.loaderService.show();
     this.apiService.get<DoctorProfileResponse>('doctor/get_profile').subscribe(res => {
@@ -113,7 +131,22 @@ export class EditProfileComponent {
         this.imagePreview = data.profile_image;
       }
       this.Form.patchValue({
-        treatments: data?.treatments.map((item: any) => item.treatment_id),
+        treatments: data?.treatments.forEach((item: any) => {
+          const index = this.treatments.findIndex(t => t.treatment_id === item.treatment_id);
+
+          if (index !== -1) {
+            const group = this.treatmentArray.at(index);
+
+            group.patchValue({
+              selected: true,
+              price: item.price,
+              note: item.add_notes,
+              session_duration: item.session_duration
+            });
+
+            this.onCheckboxChange(index);
+          }
+        }),
         skin_types: data?.skinTypes.map((item: any) => item.skin_type_id),
         surgeries: data?.surgery.map((item: any) => item.surgery_id),
         devices: data?.aestheticDevices.map((item: any) => item.aesthetic_devices_id),
@@ -302,6 +335,30 @@ export class EditProfileComponent {
     this.currentStep = this.currentStep - 1;
   }
 
+  onAllCheckboxChange(event: any) {
+    this.treatmentArray.controls.forEach((control: AbstractControl) => {
+      control.get('selected')?.setValue(event.target.checked);
+    })
+  }
+  onCheckboxChange(index: number) {
+    const control = this.treatmentArray.at(index);
+    const isChecked = control.get('selected')?.value;
+
+    if (isChecked) {
+      control.get('price')?.setValidators([Validators.required, Validators.min(0)]);
+    } else {
+      control.get('price')?.clearValidators();
+      control.get('price')?.setValue('');
+    }
+
+    control.get('price')?.updateValueAndValidity();
+  }
+
+  isIndeterminate() {
+    const values = this.treatmentArray.controls.map(control => control.get('selected')?.value);
+    const trueCount = values.filter(value => value === true).length;
+    return trueCount > 0 && trueCount < this.treatmentArray.length;
+  }
   onSubmitPersonal() {
     if (this.personalForm.invalid) {
       this.personalForm.markAllAsTouched();
@@ -310,7 +367,7 @@ export class EditProfileComponent {
     this.loading = true;
     const formData = new FormData();
     formData.append('name', this.personalForm.value.fullName);
-    formData.append('phone', this.personalForm.value.phone);
+    formData.append('phone', this.personalForm.value.phone.e164Number);
     formData.append('age', this.personalForm.value.age.toString());
     formData.append('gender', this.personalForm.value.gender);
     formData.append('address', this.personalForm.value.address);
@@ -382,8 +439,24 @@ export class EditProfileComponent {
       return
     }
     this.loading = true
+
+    const selectedTreatments = this.treatmentArray.controls
+      .map((group, i) => {
+        const selected = group.get('selected')?.value;
+
+        if (!selected) return null;
+
+        return {
+          treatment_id: this.treatments[i].treatment_id,
+          price: group.get('price')?.value,
+          session_duration: group.get('session_duration')?.value,
+          add_notes: group.get('note')?.value
+        };
+      })
+      .filter(item => item !== null);
+
     let formData = {
-      treatment_ids: this.Form.value.treatments.join(','),
+      treatments: selectedTreatments,
       skin_type_ids: this.Form.value.skin_types.join(','),
       skin_condition_ids: this.Form.value.skin_condition.join(','),
       surgery_ids: this.Form.value.surgeries.join(','),
@@ -529,6 +602,7 @@ export class EditProfileComponent {
   getTreatments() {
     this.apiService.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
       this.treatments = res.data
+      this.inItTreatMentForm();
     });
   }
 

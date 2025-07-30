@@ -12,11 +12,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ClinicProfile, ClinicProfileResponse } from '../../../../models/clinic-profile';
 import { AuthService } from '../../../../services/auth.service';
 import { LoaderService } from '../../../../services/loader.service';
+import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 
 @Component({
   selector: 'app-clinic-setup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule],
   templateUrl: './clinic-setup.component.html',
   styleUrl: './clinic-setup.component.css'
 })
@@ -27,6 +28,8 @@ export class ClinicSetupComponent {
   skinConditions: any[] = []
   surgeries: any[] = []
   devices: any[] = []
+  productImages: File[] = [];
+  previewProductImages: any[] = [];
   days: string[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   submitted: boolean = false
   currentStep = 0;
@@ -37,6 +40,9 @@ export class ClinicSetupComponent {
   selectedLocation: any = null;
   clinicPofile: ClinicProfile | null = null;
   selectedDrEmail: string[] = [];
+  SearchCountryField = SearchCountryField
+  CountryISO = CountryISO;
+  selectedCountry = CountryISO.Sweden
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   steps = [
     { id: 'Clinic', label: 'Clinic Details' },
@@ -268,6 +274,40 @@ export class ClinicSetupComponent {
 
   }
 
+  onProductImage(event: any) {
+    const files = event.target.files;
+    Array.from(files).forEach((file: any) => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.previewProductImages.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+      this.productImages.push(file);
+    });
+  }
+
+  removeProductImage(index: number, image?: string) {
+    if (image) {
+      const imageId = this.clinicPofile?.images.find((item: any) => item.url == image)?.clinic_image_id
+      this.service.delete<any>(`clinic/images/${imageId}`).subscribe((resp) => {
+        if (resp.success) {
+          this.previewProductImages.splice(index, 1);
+          this.productImages.splice(index, 1);
+        } else {
+          // this.toster.error(resp.message)
+          this.previewProductImages.splice(index, 1);
+          this.productImages.splice(index, 1);
+        }
+      }, (error) => {
+        this.previewProductImages.splice(index, 1);
+        this.productImages.splice(index, 1);
+      })
+    } else {
+      this.previewProductImages.splice(index, 1);
+      this.productImages.splice(index, 1);
+    }
+  }
+
   onLogoImage(event: any) {
     const file = event.target.files[0];
     this.LogoImage = file;
@@ -300,12 +340,17 @@ export class ClinicSetupComponent {
       if (this.LogoImage) {
         formData.append('logo', this.LogoImage!)
       }
+      if (this.productImages.length > 0) {
+        for (let i = 0; i < this.productImages.length; i++) {
+          formData.append('files', this.productImages[i])
+        }
+      }
       formData.append('ivo_registration_number', this.Form.value.ivo_registration_number)
       formData.append('hsa_id', this.Form.value.hsa_id)
       formData.append('form_stage', '1')
     } else if (this.currentStep === 1) {
       // formData.append('email', this.Form.value.email)
-      formData.append('mobile_number', this.Form.value.mobile_number)
+      formData.append('mobile_number', this.Form.value.mobile_number.e164Number)
       formData.append('street_address', this.Form.value.street_address)
       formData.append('city', this.Form.value.city)
       formData.append('state', this.Form.value.state)
@@ -403,6 +448,7 @@ export class ClinicSetupComponent {
         this.logoPreview = this.clinicPofile.clinic_logo
         this.currentStep = this.clinicPofile.form_stage
         this.selectedLocation = this.clinicPofile.address
+        this.clinicPofile?.images.map((item: any) => this.previewProductImages.push(item.url))
         this.Form.patchValue({
           clinic_name: this.clinicPofile.clinic_name,
           clinic_description: this.clinicPofile.clinic_description,

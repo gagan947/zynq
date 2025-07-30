@@ -141,14 +141,41 @@
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
                         <h4 class="mb-3 ct_fs_20 ct_fw_600">Treatments Provided-</h4>
                         <div>
-                            <ul
+                            <!-- <ul
                                 class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
                                 @for (item of doctor.data.treatments; track $index) {
                                 <li>
                                     <button class="ct_select_badge">{{item.name}} </button>
                                 </li>
                                 }
-                            </ul>
+                            </ul> -->
+
+                            <div class="table-responsive">
+                                <table class="table ct_custom_table">
+                                    <thead>
+                                        <tr class="bg-gray-200">
+                                            <th class="border p-2">Sr. No</th>
+                                            <th class="border p-2">Treatment</th>
+                                            <th class="border p-2">Price</th>
+                                            <th class="border p-2">Session Duration (min)</th>
+                                            <th class="border p-2">Note</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="treatments">
+                                        @for (item of doctor.data.treatments; track $index) {
+                                        <tr>
+                                            <td class="border p-2">{{$index + 1}}</td>
+                                            <td class="border p-2">{{item.name}} </td>
+                                            <td class="border p-2">{{item.price}} </td>
+                                            <td class="border p-2">{{item.session_duration || 'N/A'}}
+                                            </td>
+                                            <td class="border p-2">{{item.add_notes || 'N/A'}} </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
                         </div>
                     </div>
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">

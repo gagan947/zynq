@@ -37,7 +37,8 @@
                                             </div>
                                             }
                                             @for (item of chatlist; track $index) {
-                                            <a (click)="openChat(item)" class="d-flex" [ngClass]="{'active2': item.id == activeChatDetails?.id}">
+                                            <a (click)="openChat(item)" class="d-flex"
+                                                [ngClass]="{'active2': item.id == activeChatDetails?.id}">
                                                 <div class="ct_chat_list_grid">
                                                     <div class="position-relative">
                                                         <img class="img-fluid ct_img_40"
@@ -57,7 +58,7 @@
                                                         <div
                                                             class="d-flex align-items-center gap-2 justify-content-between">
                                                             <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                                {{item.last_message}}
+                                                                {{item.last_message === '' ? "Sent an file"  : item.last_message}}
                                                             </p>
                                                             <span class=" text-end d-block ct_fs_12
                                                             ct_text_939393">
@@ -117,12 +118,42 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="msg-body ct_custom_scrollbar"
+                                                [ngClass]="{'ct_chat_ing_preview_active' : previewFiles.length > 0 }"
                                                 [scrollTop]="scrollMe.scrollHeight" #scrollMe>
                                                 <ul>
                                                     @for (item of messageList; track $index) {
                                                     @if(item.sender_id !== doctor.data.id){
                                                     <li>
                                                         <div class="sender">
+                                                            @if (item.files?.length > 0) {
+                                                            <div class="d-flex gap-2 flex-wrap align-items-start">
+                                                                @for (file of item.files; track $index) {
+                                                                @if (file.file?.endsWith('.jpg') ||
+                                                                file.file?.endsWith('.jpeg') ||
+                                                                file.file?.endsWith('.png') ||
+                                                                file.file?.endsWith('.webp')) {
+                                                                <img nz-image [nzSrc]="file.file" class="img-fluid m-1"
+                                                                    style="width: 120px; height: 120px; border-radius: 10px;" />
+                                                                } @else if (file.file?.endsWith('.pdf')) {
+                                                                <a [href]="file.file" target="_blank"
+                                                                    class="d-flex flex-column align-items-center text-decoration-none m-1">
+                                                                    <img src="assets/img/pdf.png"
+                                                                        style="width: 120px; height: 120px; border-radius: 10px;" />
+                                                                </a>
+                                                                } @else if (file.file?.endsWith('.mp4') ||
+                                                                file.file?.endsWith('.webm') ||
+                                                                file.file?.endsWith('.ogg')) {
+                                                                <video controls
+                                                                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;"
+                                                                    class="m-1">
+                                                                    <source [src]="file.file" type="video/mp4" />
+                                                                </video>
+                                                                } @else {
+                                                                <div class="m-1 text-muted">Unsupported file</div>
+                                                                }
+                                                                }
+                                                            </div>
+                                                            }
                                                             <p class="mb-1">
                                                                 {{item.message}}
                                                             </p>
@@ -133,9 +164,38 @@
                                                     } @else{
                                                     <li>
                                                         <div class="repaly">
+                                                            @if (item.files?.length > 0) {
+                                                            <div class="d-flex gap-2 flex-wrap align-items-start">
+                                                                @for (file of item.files; track $index) {
+                                                                @if (file.file?.endsWith('.jpg') ||
+                                                                file.file?.endsWith('.jpeg') ||
+                                                                file.file?.endsWith('.png') ||
+                                                                file.file?.endsWith('.webp')) {
+                                                                <img nz-image [nzSrc]="file.file" class="img-fluid m-1"
+                                                                    style="width: 120px; height: 120px; border-radius: 10px;" />
+                                                                } @else if (file.file?.endsWith('.pdf')) {
+                                                                <a [href]="file.file" target="_blank"
+                                                                    class="d-flex flex-column align-items-center text-decoration-none m-1">
+                                                                    <img src="assets/img/pdf.png"
+                                                                        style="width: 120px; height: 120px; border-radius: 10px;" />
+                                                                </a>
+                                                                } @else if (file.file?.endsWith('.mp4') ||
+                                                                file.file?.endsWith('.webm') ||
+                                                                file.file?.endsWith('.ogg')) {
+                                                                <video controls
+                                                                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;"
+                                                                    class="m-1">
+                                                                    <source [src]="file.file" type="video/mp4" />
+                                                                </video>
+                                                                } @else {
+                                                                <div class="m-1 text-muted">Unsupported file</div>
+                                                                }
+                                                                }
+                                                            </div>
+                                                            }
                                                             <p class="mb-1">{{item.message}}</p>
                                                             <span
-                                                                class="time text-start">{{item.createdAt | date:'dd/MM/yyyy - hh:mm a'}}</span>
+                                                                class="time text-end">{{item.createdAt | date:'dd/MM/yyyy - hh:mm a'}}</span>
                                                         </div>
                                                     </li>
                                                     <!-- <li>
@@ -176,10 +236,24 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="send-box">
+                                        <div class="send-box px-0 position-relative">
+                                            <div *ngIf="previewFiles.length > 0" class="preview-container">
+                                                <div *ngFor="let file of previewFiles" class="preview">
+                                                    <img *ngIf="file.type.startsWith('image/')" [src]="file.url"
+                                                        alt="File preview" />
+                                                    <img *ngIf="file.type.startsWith('video/')"
+                                                        src="assets/img/video.png" alt="File preview" />
+                                                    <img *ngIf="file.type.startsWith('application/pdf')"
+                                                        src="assets/img/pdf.png" alt="File preview" />
+                                                    <i (click)="removeFile(file)" class="fa fa-minus-circle remove"
+                                                        aria-hidden="true"></i>
+                                                </div>
+                                            </div>
                                             <form action="" class="position-relative">
                                                 <label for="upload_chat_img_2" class="ct_upload_paper_click_img">
-                                                    <input type="text" class="d-none" id="upload_chat_img_2">
+                                                    <input type="file" class="d-none" id="upload_chat_img_2"
+                                                        accept="image/*, application/pdf, video/*"
+                                                        (change)="onFileChange($event)" multiple>
                                                     <div>
                                                         <i class="fa-solid fa-paperclip"></i>
                                                     </div>
@@ -189,8 +263,26 @@
                                                     placeholder="Type your message here."
                                                     [ngModelOptions]="{standalone: true}"
                                                     (keydown.enter)="sendMessage()"></textarea>
-                                                <div class="ct_right_side_send_chat_btns" (click)="sendMessage()">
-                                                    <i class="fa-regular fa-paper-plane"></i>
+                                                <div class="ct_right_side_send_chat_btns">
+                                                    @if(uploading){
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill="none" stroke="currentColor" stroke-dasharray="16"
+                                                            stroke-dashoffset="16" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="M12 3c4.97 0 9 4.03 9 9">
+                                                            <animate fill="freeze" attributeName="stroke-dashoffset"
+                                                                dur="0.2s" values="16;0" />
+                                                            <animateTransform attributeName="transform" dur="1.5s"
+                                                                repeatCount="indefinite" type="rotate"
+                                                                values="0 12 12;360 12 12" />
+                                                        </path>
+                                                    </svg>
+                                                    } @else {
+                                                    <i class="fa fa-paper-plane ct_cursor_pointer"
+                                                        (click)="sendMessage()"></i>
+                                                    }
+                                                    <!-- <i class="fa-regular fa-paper-plane"></i> -->
                                                 </div>
                                             </form>
                                         </div>

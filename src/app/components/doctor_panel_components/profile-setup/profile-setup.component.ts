@@ -15,11 +15,12 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from '../../../services/auth.service';
 import { environment } from '../../../../environments/environment';
+import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 
 @Component({
   selector: 'app-profile-setup',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, NzDatePickerModule, NzButtonModule, NzDatePickerModule],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, NzDatePickerModule, NzButtonModule, NzDatePickerModule, NgxIntlTelInputModule],
   templateUrl: './profile-setup.component.html',
   styleUrl: './profile-setup.component.css'
 })
@@ -57,6 +58,9 @@ export class ProfileSetupComponent {
   surgeries: any[] = []
   devices: any[] = []
   loading: boolean = false;
+  SearchCountryField = SearchCountryField
+  CountryISO = CountryISO;
+  selectedCountry = CountryISO.Sweden
   constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router, private i18n: NzI18nService, private toster: NzMessageService, private auth: AuthService) {
 
   }
@@ -66,7 +70,7 @@ export class ProfileSetupComponent {
 
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      phone: ['', [Validators.required, Validators.min(1), this.integerValidator]],
+      phone: ['', [Validators.required]],
       age: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$'), this.integerValidator]],
       gender: ['', Validators.required],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -74,7 +78,7 @@ export class ProfileSetupComponent {
     });
 
     this.Form = this.fb.group({
-      treatments: [[], [Validators.required]],
+      treatments: this.fb.array([]),
       skin_types: [[], [Validators.required]],
       skin_condition: [[], [Validators.required]],
       surgeries: [[], [Validators.required]],
@@ -95,6 +99,21 @@ export class ProfileSetupComponent {
     this.getDevices();
     this.loadFormData();
   }
+
+  inItTreatMentForm() {
+    this.treatments.forEach(() => {
+      this.treatmentArray.push(this.fb.group({
+        selected: [false],
+        price: [''],
+        session_duration: [''],
+        note: ['']
+      }));
+    });
+  }
+
+  get treatmentArray() {
+    return this.Form.get('treatments') as FormArray;
+  }
   loadFormData() {
     this.apiService.get<DoctorProfileResponse>('doctor/get_profile').subscribe(res => {
       if (res.success == false) {
@@ -111,7 +130,22 @@ export class ProfileSetupComponent {
       });
 
       this.Form.patchValue({
-        treatments: data?.treatments.map((item: any) => item.treatment_id),
+        treatments: data?.treatments.forEach((item: any) => {
+          const index = this.treatments.findIndex(t => t.treatment_id === item.treatment_id);
+
+          if (index !== -1) {
+            const group = this.treatmentArray.at(index);
+
+            group.patchValue({
+              selected: true,
+              price: item.price,
+              note: item.add_notes,
+              session_duration: item.session_duration
+            });
+
+            this.onCheckboxChange(index);
+          }
+        }),
         skin_types: data?.skinTypes.map((item: any) => item.skin_type_id),
         surgeries: data?.surgery.map((item: any) => item.surgery_id),
         devices: data?.aestheticDevices.map((item: any) => item.aesthetic_devices_id),
@@ -209,6 +243,32 @@ export class ProfileSetupComponent {
     return { days: daysData };
   }
 
+  onAllCheckboxChange(event: any) {
+    this.treatmentArray.controls.forEach((control: AbstractControl) => {
+      control.get('selected')?.setValue(event.target.checked);
+    })
+  }
+
+  onCheckboxChange(index: number) {
+    const control = this.treatmentArray.at(index);
+    const isChecked = control.get('selected')?.value;
+
+    if (isChecked) {
+      control.get('price')?.setValidators([Validators.required, Validators.min(0)]);
+    } else {
+      control.get('price')?.clearValidators();
+      control.get('price')?.setValue('');
+    }
+
+    control.get('price')?.updateValueAndValidity();
+  }
+
+  isIndeterminate() {
+    const values = this.treatmentArray.controls.map(control => control.get('selected')?.value);
+    const trueCount = values.filter(value => value === true).length;
+    return trueCount > 0 && trueCount < this.treatmentArray.length;
+  }
+
   applyConditionalValidators() {
     this.days.controls.forEach((dayCtrl: AbstractControl, index: number) => {
       const isActive = dayCtrl.get('active')?.value;
@@ -301,7 +361,7 @@ export class ProfileSetupComponent {
     };
     const formData = new FormData();
     formData.append('name', this.personalForm.value.fullName);
-    formData.append('phone', this.personalForm.value.phone);
+    formData.append('phone', this.personalForm.value.phone.e164Number);
     formData.append('age', this.personalForm.value.age.toString());
     formData.append('gender', this.personalForm.value.gender);
     formData.append('address', this.personalForm.value.address);
@@ -363,8 +423,24 @@ export class ProfileSetupComponent {
       this.Form.markAllAsTouched();
       return
     }
+
+    const selectedTreatments = this.treatmentArray.controls
+      .map((group, i) => {
+        const selected = group.get('selected')?.value;
+
+        if (!selected) return null;
+
+        return {
+          treatment_id: this.treatments[i].treatment_id,
+          price: group.get('price')?.value,
+          session_duration: group.get('session_duration')?.value,
+          add_notes: group.get('note')?.value
+        };
+      })
+      .filter(item => item !== null);
+
     let formData = {
-      treatment_ids: this.Form.value.treatments.join(','),
+      treatments: selectedTreatments,
       skin_type_ids: this.Form.value.skin_types.join(','),
       skin_condition_ids: this.Form.value.skin_condition.join(','),
       surgery_ids: this.Form.value.surgeries.join(','),
@@ -497,7 +573,8 @@ export class ProfileSetupComponent {
 
   getTreatments() {
     this.apiService.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
-      this.treatments = res.data
+      this.treatments = res.data;
+      this.inItTreatMentForm();
     });
   }
 

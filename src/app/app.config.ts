@@ -9,6 +9,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 const scrollConfig: InMemoryScrollingOptions = {
   scrollPositionRestoration: 'top',
   anchorScrolling: 'enabled',
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
   provideHttpClient(
     withInterceptorsFromDi()
   ),
+  provideNzI18n(en_US),
   {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpInterceptorService,

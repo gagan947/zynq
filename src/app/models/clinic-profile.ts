@@ -39,6 +39,7 @@ export interface ClinicProfile {
       skin_Conditions: SkinCondition[];
       surgeries_level: Surgery[];
       aestheticDevices: AestheticDevice[];
+      images: any[];
 }
 
 export interface SkinCondition {

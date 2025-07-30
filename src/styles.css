@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+    top: 0 !important;
+}
+
 .ct_text_red {
     color: rgb(180, 0, 0);
 }
@@ -63,4 +68,151 @@
 
 .ant-select-selector {
     height: 100% !important;
+}
+
+
+/* ///////////////////////////////////// */
+
+.goog-te-gadget-simple .VIpgJd-ZVi9od-xl07Ob-lTBxed {
+    display: none !important;
+}
+
+.goog-te-gadget-simple {
+    background-image: url('./assets/img/438-4387359_change-language-earth-icon-png.png') !important;
+}
+
+.goog-te-gadget-simple {
+    height: 23px;
+    width: 25px;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    background-position-y: -3px;
+    background-position-x: -9px;
+    border-left: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    border-right: none !important;
+}
+
+.goog-te-gadget-icon {
+    display: none !important;
+}
+
+.goog-te-gadget {
+    font-size: 6px !important;
+}
+
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+    display: none !important;
+}
+
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc {
+    display: none !important;
+}
+
+.VIpgJd-ZVi9od-vH1Gmf {
+    background-color: #0d1132 !important;
+}
+
+
+.ngx-slider .ngx-slider-selection {
+    background: #2631f8 !important;
+}
+
+.ngx-slider .ngx-slider-pointer {
+    width: 20px !important;
+    height: 20px !important;
+    top: -8px !important;
+    background-color: #2631f8 !important;
+}
+
+.ngx-slider .ngx-slider-pointer:after {
+    width: 4px !important;
+    height: 4px !important;
+    top: 8px !important;
+    left: 8px !important;
+}
+
+.VIpgJd-yAWNEb-L7lbkb {
+    display: none !important;
+}
+
+.VIpgJd-yAWNEb-VIpgJd-fmcmS-sn54Q {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+
+.iti.iti--allow-dropdown {
+    /* height: 48px !important; */
+    width: 100% !important;
+}
+
+.dropdown-menu.iti__dropdown-content.show {
+    padding: 5px !important;
+    overflow: auto !important;
+    height: 15rem !important;
+}
+
+.iti__selected-flag {
+    height: 100% !important;
+}
+
+.dropdown-menu.iti__dropdown-content.show {
+    padding: 5px !important;
+    overflow: auto !important;
+    height: 15rem !important;
+    width: 19rem;
+}
+
+.iti__country-list {
+    overflow-y: hidden !important;
+}
+
+.ct_custom_table thead {
+    position: sticky;
+    top: -1px;
+    z-index: 9;
+}
+
+.ct_see_more_link {
+    color: #0d1132;
+}
+
+.ant-picker-date-panel .ant-picker-content,
+.ant-picker-date-panel,
+.ant-picker-decade-panel,
+.ant-picker-month-panel,
+.ant-picker-quarter-panel,
+.ant-picker-time-panel,
+.ant-picker-week-panel,
+.ant-picker-year-panel {
+    width: 100% !important;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+    background-color: #000 !important;
+    border-radius: 100px !important;
+    width: 30px !important;
+    height: 30px !important;
+
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before,
+.ant-picker-cell .ant-picker-cell-inner {
+    border-radius: 100px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-color: #000 !important;
+    line-height: 35px !important;
+
+
+}
+
+.ant-picker-panel-container {
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    border: 1px solid #eee !important;
 }

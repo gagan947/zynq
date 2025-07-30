@@ -22,6 +22,7 @@
     "@angular/router": "^17.3.0",
     "@zegocloud/zego-uikit-prebuilt": "^2.15.0",
     "ng-zorro-antd": "^19.2.2",
+    "ngx-intl-tel-input": "^17.0.0",
     "ngx-owl-carousel-o": "^19.0.2",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.8.1",

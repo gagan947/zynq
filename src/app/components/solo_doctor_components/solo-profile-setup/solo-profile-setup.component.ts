@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
@@ -9,19 +9,20 @@ import { SkinType, SkinTypeResponse, Treatment, TreatmentResponse } from '../../
 import { LoginUserData } from '../../../models/login';
 import { CommonService } from '../../../services/common.service';
 import { AuthService } from '../../../services/auth.service';
-import { NoWhitespaceDirective, timeRangeValidator } from '../../../validators';
+import { NoWhitespaceDirective } from '../../../validators';
 import { environment } from '../../../../environments/environment';
+import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 
 @Component({
   selector: 'app-solo-profile-setup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule],
   templateUrl: './solo-profile-setup.component.html',
   styleUrl: './solo-profile-setup.component.css'
 })
 export class SoloProfileSetupComponent {
   @Input() isEdit: boolean = false;
-
+  treatmentForm!: FormGroup
   besicInfoForm!: FormGroup
   contactForm!: FormGroup
   ExpertiseForm!: FormGroup
@@ -69,8 +70,13 @@ export class SoloProfileSetupComponent {
     { id: 'Expertise', label: 'Expertise' },
     { id: 'Operation', label: 'Operation Hours' },
   ];
-
+  productImages: File[] = [];
+  previewProductImages: any[] = [];
   loading: boolean = false
+  soloDrData: any;
+  SearchCountryField = SearchCountryField
+  CountryISO = CountryISO;
+  selectedCountry = CountryISO.Sweden
   constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
   }
@@ -118,7 +124,7 @@ export class SoloProfileSetupComponent {
     })
 
     this.ExpertiseForm = this.fb.group({
-      treatments: [[], [Validators.required]],
+      treatments: this.fb.array([]),
       skin_types: [[], [Validators.required]],
       skin_condition: [[], [Validators.required]],
       surgeries: [[], [Validators.required]],
@@ -130,6 +136,21 @@ export class SoloProfileSetupComponent {
       fee_per_session: ['', [Validators.required, Validators.min(0)]],
       days: this.fb.array(this.daysOfWeek.map(() => this.createDay()))
     });
+  }
+
+  inItTreatMentForm() {
+    this.treatments.forEach(() => {
+      this.treatmentArray.push(this.fb.group({
+        selected: [false],
+        price: [''],
+        session_duration: [''],
+        note: ['']
+      }));
+    });
+  }
+
+  get treatmentArray() {
+    return this.ExpertiseForm.get('treatments') as FormArray;
   }
 
   createDay(): FormGroup {
@@ -237,6 +258,7 @@ export class SoloProfileSetupComponent {
   getTreatments() {
     this.service.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
       this.treatments = res.data
+      this.inItTreatMentForm();
     });
   }
 
@@ -294,6 +316,32 @@ export class SoloProfileSetupComponent {
     this.profilePreview = null;
   }
 
+  onAllCheckboxChange(event: any) {
+    this.treatmentArray.controls.forEach((control: AbstractControl) => {
+      control.get('selected')?.setValue(event.target.checked);
+    })
+  }
+
+  onCheckboxChange(index: number) {
+    const control = this.treatmentArray.at(index);
+    const isChecked = control.get('selected')?.value;
+
+    if (isChecked) {
+      control.get('price')?.setValidators([Validators.required, Validators.min(0)]);
+    } else {
+      control.get('price')?.clearValidators();
+      control.get('price')?.setValue('');
+    }
+
+    control.get('price')?.updateValueAndValidity();
+  }
+
+  isIndeterminate() {
+    const values = this.treatmentArray.controls.map(control => control.get('selected')?.value);
+    const trueCount = values.filter(value => value === true).length;
+    return trueCount > 0 && trueCount < this.treatmentArray.length;
+  }
+
   onSubmitBasicInfo() {
     if (this.besicInfoForm.invalid) {
       this.besicInfoForm.markAllAsTouched();
@@ -316,6 +364,12 @@ export class SoloProfileSetupComponent {
     if (this.profileImage) {
       formData.append('profile', this.profileImage!)
     }
+    if (this.productImages.length > 0) {
+      for (let i = 0; i < this.productImages.length; i++) {
+        formData.append('files', this.productImages[i])
+      }
+    }
+
     this.service.post<any, any>('solo_doctor/add_personal_info', formData).subscribe({
       next: (res) => {
         if (res.success) {
@@ -354,7 +408,8 @@ export class SoloProfileSetupComponent {
     if (this.contactForm.value.latitude && this.contactForm.value.longitude) {
       formData = {
         ...this.contactForm.value,
-        address: this.selectedLocation
+        address: this.selectedLocation,
+        mobile_number: this.contactForm.value.mobile_number.e164Number
       }
     } else {
       this.toster.error('Map location is not valid please enter valid location')
@@ -449,8 +504,24 @@ export class SoloProfileSetupComponent {
       return
     }
     this.loading = true
+
+    const selectedTreatments = this.treatmentArray.controls
+      .map((group, i) => {
+        const selected = group.get('selected')?.value;
+
+        if (!selected) return null;
+
+        return {
+          treatment_id: this.treatments[i].treatment_id,
+          price: group.get('price')?.value,
+          session_duration: group.get('session_duration')?.value,
+          add_notes: group.get('note')?.value
+        };
+      })
+      .filter(item => item !== null);
+
     let formData = {
-      treatment_ids: this.ExpertiseForm.value.treatments.join(','),
+      treatments: selectedTreatments,
       skin_type_ids: this.ExpertiseForm.value.skin_types.join(','),
       skin_condition_ids: this.ExpertiseForm.value.skin_condition.join(','),
       surgery_ids: this.ExpertiseForm.value.surgeries.join(','),
@@ -465,6 +536,9 @@ export class SoloProfileSetupComponent {
             this.currentStep++;
           }
           this.loading = false
+        } else {
+          this.toster.error(resp.message);
+          this.loading = false
         }
       },
       error: (error) => {
@@ -473,6 +547,7 @@ export class SoloProfileSetupComponent {
       }
     });
   };
+
 
   onTimeSubmit() {
 
@@ -595,6 +670,40 @@ export class SoloProfileSetupComponent {
   }
 
 
+  onProductImage(event: any) {
+    const files = event.target.files;
+    Array.from(files).forEach((file: any) => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.previewProductImages.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+      this.productImages.push(file);
+    });
+  }
+
+  removeProductImage(index: number, image?: string) {
+    if (image) {
+      const imageId = this.soloDrData?.clinic.images.find((item: any) => item.url == image)?.clinic_image_id
+      this.service.delete<any>(`clinic/images/${imageId}`).subscribe((resp) => {
+        if (resp.success) {
+          this.previewProductImages.splice(index, 1);
+          this.productImages.splice(index, 1);
+        } else {
+          // this.toster.error(resp.message)
+          this.previewProductImages.splice(index, 1);
+          this.productImages.splice(index, 1);
+        }
+      }, (error) => {
+        this.previewProductImages.splice(index, 1);
+        this.productImages.splice(index, 1);
+      })
+    } else {
+      this.previewProductImages.splice(index, 1);
+      this.productImages.splice(index, 1);
+    }
+  }
+
   addEducation() {
     this.education.push({ institution: null, degree_name: null, start_year: null, end_year: null });
   }
@@ -611,6 +720,7 @@ export class SoloProfileSetupComponent {
       next: (res) => {
         if (res.success) {
           const data = res.data;
+          this.soloDrData = data
           if (!this.isEdit) {
             if (data.on_boarding_status == undefined || data.on_boarding_status == null) {
               this.currentStep = data.clinic.on_boarding_status
@@ -622,6 +732,10 @@ export class SoloProfileSetupComponent {
             case 1:
               this.profilePreview = data?.profile_image
               this.logoPreview = data?.clinic?.clinic_logo
+              this.previewProductImages = []
+              data.clinic.images.forEach((element: any) => {
+                this.previewProductImages.push(element.url)
+              })
               this.besicInfoForm.patchValue({
                 name: data.name,
                 age: data.age,
@@ -661,7 +775,22 @@ export class SoloProfileSetupComponent {
 
             case 4:
               this.ExpertiseForm.patchValue({
-                treatments: data.clinic?.treatments.map((item: any) => item.treatment_id),
+                treatments: data.clinic?.treatments.forEach((item: any) => {
+                  const index = this.treatments.findIndex(t => t.treatment_id === item.treatment_id);
+
+                  if (index !== -1) {
+                    const group = this.treatmentArray.at(index);
+
+                    group.patchValue({
+                      selected: true,
+                      price: item.price,
+                      note: item.add_notes,
+                      session_duration: item.session_duration
+                    });
+
+                    this.onCheckboxChange(index);
+                  }
+                }),
                 skin_types: data.clinic?.skin_types.map((item: any) => item.skin_type_id),
                 surgeries: data.clinic?.surgeries_level.map((item: any) => item.surgery_id),
                 devices: data.clinic?.aestheticDevices.map((item: any) => item.aesthetic_device_id),

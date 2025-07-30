@@ -15,6 +15,10 @@ export const environment = {
       // certificateUrl: 'http://192.168.29.241:4000/',
       // socketUrl: 'http://192.168.29.241:4000/',
 
+      // Gaurav
+      // apiUrl: 'http://192.168.29.39:4000/',
+      // certificateUrl: 'http://192.168.29.39:4000/',
+      // socketUrl: 'http://192.168.29.39:4000/',
 
       firebaseConfig: {
             apiKey: "AIzaSyDve8qhgMDHLSU5EexRltguFzyX9UVNmek",

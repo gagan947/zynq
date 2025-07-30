@@ -58,11 +58,12 @@ export class SocketService {
             });
       }
 
-      sendMessage(chatId: string, message: string, messageType: string): void {
+      sendMessage(chatId: string, message: string, messageType: string, files?: any): void {
             this.socket.emit('send_message', {
                   chatId,
                   message,
                   messageType,
+                  files
             })
       }
 
@@ -90,5 +91,5 @@ export class SocketService {
             this.socket.removeAllListeners('chat_list');
             this.socket.removeAllListeners('chat_docter_history');
             this.socket.removeAllListeners('new_message');
-          }
+      }
 }

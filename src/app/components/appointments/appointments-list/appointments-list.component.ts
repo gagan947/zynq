@@ -5,27 +5,44 @@ import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { FormsModule } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-appointments-list',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [CommonModule, NzDatePickerModule, FormsModule],
   templateUrl: './appointments-list.component.html',
-  styleUrl: './appointments-list.component.css'
+  styleUrl: './appointments-list.component.css',
 })
 export class AppointmentsListComponent {
   @ViewChild('date') date!: ElementRef<HTMLInputElement>;
   @ViewChild('search') search!: ElementRef<HTMLInputElement>;
+  @ViewChild('closeButton') closeButton!: ElementRef<HTMLInputElement>;
   appointments$!: Observable<any>
   appointment: any;
   originalAppointments: any;
   status: string = '';
   searchTerm: string = '';
   selectedDate: string = '';
-  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService) {
+  allSlots: any;
+  slotDate = new Date();
+  slots: any = [];
+  selectedSlot: any;
+  appointment_id: any;
+  userData: any
+  loading: boolean = false
+  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService) {
   }
 
   ngOnInit(): void {
+    this.getAppointments();
+    this.userData = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    this.getAllSlots()
+  }
+
+  getAppointments() {
     this.loader.show();
     this.appointments$ = this.srevice.get('doctor/getMyAppointments').pipe(
       tap((response: any) => {
@@ -39,6 +56,11 @@ export class AppointmentsListComponent {
     );
   }
 
+  getAllSlots() {
+    this.srevice.get('doctor/future-slots').subscribe((response: any) => {
+      this.allSlots = response.data;
+    })
+  }
 
   viewDetails(item: any) {
     this.srevice._Appointment.set(item.appointment_id);
@@ -70,7 +92,7 @@ export class AppointmentsListComponent {
     }) => {
       const matchSearch =
         !this.searchTerm ||
-        item.full_name.toLowerCase().includes(this.searchTerm) ||
+        item.full_name?.toLowerCase().includes(this.searchTerm) ||
         item.clinic_name?.toLowerCase().includes(this.searchTerm);
 
       const matchDate =
@@ -81,5 +103,53 @@ export class AppointmentsListComponent {
 
       return matchSearch && matchDate && matchStatus;
     });
+  }
+
+  onChange(event: any) {
+    let selectedDateStr: string;
+    if (typeof event === 'string') {
+      selectedDateStr = new Date(event).toISOString().split('T')[0];
+    } else {
+      selectedDateStr = event.toISOString().split('T')[0];
+    }
+    this.slots = this.allSlots.filter((slot: { start_time: string | number | Date; }) => {
+      const slotDateStr = new Date(slot.start_time).toISOString().split('T')[0];
+      return slotDateStr === selectedDateStr;
+    });
+  }
+
+  selectSlot(slot: any) {
+    if (slot.status === 'booked') {
+      return
+    } else {
+      this.selectedSlot = slot
+    }
+  }
+
+  schedule() {
+    const formData = {
+      appointment_id: this.appointment_id,
+      doctor_id: this.userData.id,
+      start_time: this.selectedSlot.start_time,
+      end_time: this.selectedSlot.end_time,
+    }
+    this.loading = true
+    this.srevice.update('doctor/appointment/reschedule', formData).subscribe({
+      next: (response: any) => {
+        if (response.success == true) {
+          this.loading = false
+          this.closeButton.nativeElement.click();
+          this.toster.success(response.message)
+          this.getAppointments()
+        } else {
+          this.loading = false
+          this.toster.error(response.message)
+        }
+      },
+      error: (error) => {
+        this.loading = false
+        this.toster.error(error)
+      }
+    })
   }
 }

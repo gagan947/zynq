@@ -12,6 +12,82 @@
       align-items: center;
 }
 
-.ct_mt_minus_2{
+.ct_mt_minus_2 {
       margin-top: -2px;
+}
+
+.preview {
+      /* height: 100px; */
+      /* width: 100px; */
+      position: relative;
+}
+
+.preview .remove {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      color: #ef1b30;
+      cursor: pointer;
+      background: #fff;
+      border-radius: 50%;
+}
+
+.preview img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+}
+
+.preview-container {
+      display: flex;
+      /* height: 100px; */
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      /* padding-left: 100PX;
+      padding-right: 160px; */
+}
+
+
+
+
+
+/*  */
+
+/* 
+.modal-dialog-scrollable.modal-body {
+      height: calc(100vh - 350px);
+} */
+
+.preview-container {
+      /* position: absolute; */
+      bottom: 0px;
+      /* background-color: #fff;
+  padding: 10px;
+  width: 100%; */
+}
+
+.ct_chat_back_btn {
+      color: #000;
+      cursor: pointer;
+      display: none;
+}
+
+.modal-content {
+      background-color: #fff;
+      /* padding: 20px; */
+      border-radius: 10px;
+}
+
+.msg-body.ct_chat_ing_preview_active {
+      height: calc(100vh - 442px) !important;
+}
+
+
+
+@media screen and (max-width: 767px) {
+      .ct_flex_direction_col {
+            flex-direction: column;
+      }
 }
