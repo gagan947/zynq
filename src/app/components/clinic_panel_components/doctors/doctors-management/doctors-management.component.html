@@ -29,7 +29,8 @@
                                                             [nzMaxTagCount]="1" [nzMaxTagPlaceholder]="tagPlaceHolder"
                                                             (ngModelChange)="filter($event)"
                                                             class="form-control ct_input multi_select"
-                                                            style="min-width: 15rem;" nzNotFoundContent="No Treatments Found">
+                                                            style="min-width: 15rem;"
+                                                            nzNotFoundContent="No Treatments Found">
                                                             @for (item of treatments; track $index) {
                                                             <nz-option [nzLabel]="item.name"
                                                                   [nzValue]="item.treatment_id"></nz-option>
@@ -89,7 +90,7 @@
                                                 <td><span style="white-space: normal;">
                                                             {{specialityName(item.treatments) || '#N/A'}}
                                                       </span></td>
-                                                <td>{{(item.fee_per_session | currency:'USD') || '#N/A'}}</td>
+                                                <td>{{(item.fee_per_session | currency:'SEK ') || '#N/A'}}</td>
                                                 <td>{{item.phone || '#N/A'}}</td>
                                                 <td>{{item.email}}</td>
                                                 <td>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, viewChild, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -442,15 +442,25 @@ export class SoloProfileSetupComponent {
       c.institution?.trim() &&
       c.degree_name?.trim() &&
       c.start_year &&
-      c.end_year &&
-      c.end_year > c.start_year
+      (
+        c.isOngoing ||
+        (c.end_year && c.end_year > c.start_year)
+      )
     );
 
     if (!isValidEdu) {
       this.toster.warning('Please enter valid education details. End date must be after start date.');
       return;
     }
-    const isValidExp = this.experience.every(c => c.organisation_name?.trim() && c.start_date && c.end_date && c.designation?.trim() && c.end_date > c.start_date);
+    const isValidExp = this.experience.every(c =>
+      c.organisation_name?.trim() &&
+      c.designation?.trim() &&
+      c.start_date &&
+      (
+        c.isCurrent ||
+        (c.end_date && c.end_date > c.start_date)
+      )
+    );
     if (!isValidExp) {
       this.toster.warning('Please enter valid experience details. End date must be after start date.');
       return;
@@ -763,12 +773,16 @@ export class SoloProfileSetupComponent {
 
             case 3:
               if (data.education.length > 0) {
-                this.education = data.education.map((edu: { institution: any; degree: any; start_year: any; end_year: any; }) => ({ institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year }));
+                this.education = data.education.map((edu: { institution: any; degree: any; start_year: any; end_year: any; }) => ({
+                  institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year,
+                  isOngoing: edu.end_year ? false : true
+                }));
               }
               if (data.experience.length > 0) {
                 this.experience = data.experience.map((edu: { organization: any; designation: any; start_date: string; end_date: string; }) => ({
                   organisation_name: edu.organization, designation: edu.designation, start_date: edu.start_date ? edu.start_date.split('T')[0] : '',
-                  end_date: edu.end_date ? edu.end_date.split('T')[0] : ''
+                  end_date: edu.end_date ? edu.end_date.split('T')[0] : null,
+                  isCurrent: edu.end_date ? false : true
                 }));
               }
               break;

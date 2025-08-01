@@ -96,6 +96,7 @@
                         </div>
                   </div>
             </div>
+            @if(appointments$ | async; as appointments){
             <div class="row">
                   <div class="col-md-12">
                         <h4 class="ct_fs_20 ct_fw_600 mb-3">Today’s Appointments</h4>
@@ -104,78 +105,53 @@
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>
-                                                <th>Patient</th>
-                                                <th>Concern</th>
-                                                <th>Date & Time</th>
-                                                <th>Status</th>
+                                                <!-- <th>Doctor Name</th> -->
+                                                <th>Patient Name</th>
+                                                <th>Contact Number</th>
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th>Clinic Name</th>
+                                                <th>Type</th>
                                                 <th>Action</th>
                                           </tr>
                                     </thead>
                                     <tbody>
+                                          @if(appointment.length == 0){
                                           <tr>
-                                                <td>1</td>
-                                                <td>Wade Warren</td>
+                                                <td colspan="7" class="text-center">No data found</td>
+                                          </tr>
+                                          }
+                                          @for (item of appointment; track $index) {
+                                          <tr>
+                                                <td>{{$index + 1}}</td>
+                                                <!-- <td>Dr. John Smith</td> -->
+                                                <td>{{item.full_name}}</td>
+                                                <td>{{item.mobile_number}}</td>
                                                 <td>
-                                                      <p class="ct_overlay_text mb-0">Wrinkle treatment</p>
+                                                      <p class="mb-1">
+                                                            {{item.start_time | date:'dd-MM-yyyy - HH:mm a'}}
+                                                      </p>
                                                 </td>
                                                 <td>
-                                                      <p class="mb-1">May 8, 2025</p>
-                                                      <p class="mb-0">10:00 AM</p>
+                                                      <p class="mb-0">
+                                                            {{item.end_time | date:'dd-MM-yyyy - HH:mm a'}}
+                                                      </p>
                                                 </td>
-                                                <td class="ct_orange_text">Upcoming</td>
+                                                <td>{{item.clinic_name || 'N/A'}}</td>
+                                                <td>{{item.type || 'N/A'}}</td>
                                                 <td>
                                                       <div class="d-flex align-items-center gap-3">
-                                                            <a href="appointments-details.html"><i
-                                                                        class="fa-regular fa-eye"></i></a>
+                                                            <a (click)="viewDetails(item)" title="View Details"><i
+                                                                        class="fa-regular fa-eye text-primary"></i></a>
                                                       </div>
                                                 </td>
                                           </tr>
-                                          <tr>
-                                                <td>1</td>
-                                                <td>Wade Warren</td>
-                                                <td>
-                                                      <p class="ct_overlay_text mb-0">Wrinkle treatment</p>
-                                                </td>
-                                                <td>
-                                                      <p class="mb-1">May 8, 2025</p>
-                                                      <p class="mb-0">10:00 AM</p>
-                                                </td>
-                                                <td>
-                                                      <span class="ct_orange_text">Upcoming</span>
-                                                </td>
-                                                <td>
-                                                      <div class="d-flex align-items-center gap-3">
-
-                                                            <a href="appointments-details.html"><i
-                                                                        class="fa-regular fa-eye"></i></a>
-                                                      </div>
-                                                </td>
-                                          </tr>
-                                          <tr>
-                                                <td>1</td>
-                                                <td>Wade Warren</td>
-                                                <td>
-                                                      <p class="ct_overlay_text mb-0">Wrinkle treatment</p>
-                                                </td>
-                                                <td>
-                                                      <p class="mb-1">May 8, 2025</p>
-                                                      <p class="mb-0">10:00 AM</p>
-                                                </td>
-                                                <td>
-                                                      <span class="ct_green_text">Completed</span>
-                                                </td>
-                                                <td>
-                                                      <div class="d-flex align-items-center gap-3">
-
-                                                            <a href="appointments-details.html"><i
-                                                                        class="fa-regular fa-eye"></i></a>
-                                                      </div>
-                                                </td>
-                                          </tr>
+                                          }
                                     </tbody>
                               </table>
                         </div>
                   </div>
             </div>
+            }
       </div>
 </div>

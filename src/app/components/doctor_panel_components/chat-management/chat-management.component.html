@@ -58,7 +58,7 @@
                                                         <div
                                                             class="d-flex align-items-center gap-2 justify-content-between">
                                                             <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                                {{item.last_message === '' ? "Sent an file"  : item.last_message}}
+                                                                {{item.last_message === '' ? "Sent a file"  : item.last_message}}
                                                             </p>
                                                             <span class=" text-end d-block ct_fs_12
                                                             ct_text_939393">
@@ -262,7 +262,7 @@
                                                     class="form-control ct_input_h_40"
                                                     placeholder="Type your message here."
                                                     [ngModelOptions]="{standalone: true}"
-                                                    (keydown.enter)="sendMessage()"></textarea>
+                                                    (keydown)="onKeyDown($event)"></textarea>
                                                 <div class="ct_right_side_send_chat_btns">
                                                     @if(uploading){
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

@@ -1564,7 +1564,7 @@ a.add img {
   font-weight: 400;
   color: #4b5563;
   line-height: 1.5;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   margin-bottom: 0;
 }
 

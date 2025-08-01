@@ -157,12 +157,16 @@ export class EditProfileComponent {
       //   this.certificaTeypes = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path, id: cert.doctor_certification_id }));
       // }
       if (data.education.length > 0) {
-        this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year }));
+        this.education = data.education.map(edu => ({
+          institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year,
+          isOngoing: edu.end_year ? false : true
+        }));
       }
       if (data.experience.length > 0) {
         this.experience = data.experience.map(edu => ({
           organisation_name: edu.organization, designation: edu.designation, start_date: edu.start_date ? edu.start_date.split('T')[0] : '',
-          end_date: edu.end_date ? edu.end_date.split('T')[0] : ''
+          end_date: edu.end_date ? edu.end_date.split('T')[0] : null,
+          isCurrent: edu.end_date ? false : true
         }));
       }
 
@@ -295,18 +299,28 @@ export class EditProfileComponent {
     if (this.currentStep == 1) {
 
       const isValidEdu = this.education.every(c =>
-        c.institution.trim() &&
-        c.degree_name.trim() &&
+        c.institution?.trim() &&
+        c.degree_name?.trim() &&
         c.start_year &&
-        c.end_year &&
-        c.end_year > c.start_year
+        (
+          c.isOngoing ||
+          (c.end_year && c.end_year > c.start_year)
+        )
       );
 
       if (!isValidEdu) {
         this.toster.warning('Please enter valid education details. End date must be after start date.');
         return;
       }
-      const isValidExp = this.experience.every(c => c.organisation_name.trim() && c.start_date && c.end_date && c.designation.trim() && c.end_date > c.start_date);
+      const isValidExp = this.experience.every(c =>
+        c.organisation_name?.trim() &&
+        c.designation?.trim() &&
+        c.start_date &&
+        (
+          c.isCurrent ||
+          (c.end_date && c.end_date > c.start_date)
+        )
+      );
       if (!isValidExp) {
         this.toster.warning('Please enter valid experience details. End date must be after start date.');
         return;

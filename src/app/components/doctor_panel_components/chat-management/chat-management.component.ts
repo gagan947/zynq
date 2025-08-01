@@ -164,4 +164,11 @@ export class ChatManagementComponent {
     this.destroy$.complete();
     this.socketService.removeAllListeners(); // remove all socket.on
   }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && this.message.trim() && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
 }

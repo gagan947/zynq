@@ -20,6 +20,17 @@
                                                             (change)="filterByDate($event)" #date>
                                                 </div>
                                           </div>
+                                          <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
+                                                <span class="ct_white_nowrap">Filter by:</span>
+                                                <div class="form-group position-relative ct_w_100_767">
+                                                      <select class="form-control ct_input"
+                                                            (change)="filterByType($event)">
+                                                            <option value="">Type</option>
+                                                            <option value="Video Call">Video Call</option>
+                                                            <option value="Clinic Visit">Clinic Visit</option>
+                                                      </select>
+                                                </div>
+                                          </div>
                                     </div>
                               </div>
 
@@ -74,6 +85,7 @@
                                                             <th>Start Time</th>
                                                             <th>End Time</th>
                                                             <th>Clinic Name</th>
+                                                            <th>Type</th>
                                                             <th>Action</th>
                                                       </tr>
                                                 </thead>
@@ -100,11 +112,13 @@
                                                                   </p>
                                                             </td>
                                                             <td>{{item.clinic_name || 'N/A'}}</td>
+                                                            <td>{{item.type || 'N/A'}}</td>
                                                             <td>
                                                                   <div class="d-flex align-items-center gap-3">
                                                                         <a (click)="viewDetails(item)"
                                                                               title="View Details"><i
                                                                                     class="fa-regular fa-eye text-primary"></i></a>
+                                                                        @if(item.status !== 'Completed'){
                                                                         <a (click)="appointment_id = item.appointment_id; slotDate = item.start_time; onChange(item.start_time)"
                                                                               data-bs-toggle="modal"
                                                                               data-bs-target="#ct_unlink_modal"
@@ -112,6 +126,7 @@
                                                                                     class="fa fa-calendar"
                                                                                     aria-hidden="true"></i>
                                                                         </a>
+                                                                        }
                                                                   </div>
                                                             </td>
                                                       </tr>

@@ -546,10 +546,31 @@
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">End year<span
                                                                         class="ct_red_text">*</span></label>
+                                                            <!-- <input type="month" class="form-control ct_input"
+                                                                  [(ngModel)]="edu.end_year"
+                                                                  [ngModelOptions]="{standalone: true}" /> -->
+
+                                                            @if(!edu.isOngoing){
                                                             <input type="month" class="form-control ct_input"
                                                                   [(ngModel)]="edu.end_year"
-                                                                  [ngModelOptions]="{standalone: true}" />
+                                                                  [ngModelOptions]="{ standalone: true }"
+                                                                  [disabled]="edu.isOngoing" />
+                                                            }
+                                                            <div class="form-check mt-2 mt-2">
+                                                                  <input type="checkbox"
+                                                                        class="form-check-input ct_custom_check me-2"
+                                                                        id="ongoingCheck-{{ j }}"
+                                                                        [(ngModel)]="edu.isOngoing"
+                                                                        [ngModelOptions]="{ standalone: true }"
+                                                                        (change)="edu.isOngoing ? edu.end_year = null : null" />
+                                                                  <label class="form-check-label"
+                                                                        for="ongoingCheck-{{ j }}">
+                                                                        Currently Pursuing
+                                                                  </label>
+                                                            </div>
+
                                                       </div>
+
                                                 </div>
                                                 <div class=" ms-auto mb-3">
                                                       <button type="button" class="ms-auto ct_red_btn"
@@ -600,9 +621,24 @@
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">End Date<span
                                                                         class="ct_red_text">*</span></label>
+                                                            @if(!exp.isCurrent){
                                                             <input type="date" class="form-control ct_input"
                                                                   [(ngModel)]="exp.end_date"
-                                                                  [ngModelOptions]="{standalone: true}">
+                                                                  [ngModelOptions]="{standalone: true}"
+                                                                  [disabled]="exp.isCurrent">
+                                                            }
+                                                            <div class="form-check mt-2 mt-2">
+                                                                  <input type="checkbox"
+                                                                        class="form-check-input ct_custom_check me-2"
+                                                                        id="ongoingCheck-{{ k }}"
+                                                                        [(ngModel)]="exp.isCurrent"
+                                                                        [ngModelOptions]="{ standalone: true }"
+                                                                        (change)="exp.isCurrent ? exp.end_date = null : null" />
+                                                                  <label class="form-check-label"
+                                                                        for="ongoingCheck-{{ k }}">
+                                                                        Currently Working
+                                                                  </label>
+                                                            </div>
                                                       </div>
                                                 </div>
                                                 <div class=" ms-auto mb-3">
@@ -826,7 +862,7 @@
                                                                   <input type="number" class="form-control ct_input"
                                                                         placeholder="Enter fee per session"
                                                                         formControlName="fee_per_session">
-                                                                  <span class="ct_show_eye">$</span>
+                                                                  <span class="ct_show_eye">SEK</span>
                                                             </div>
                                                             <div class="ct_text_red mt-1"
                                                                   *ngIf="availabilityForm.get('fee_per_session')?.hasError('required') && availabilityForm.get('fee_per_session')?.touched">

@@ -18,6 +18,7 @@ export class ChooseRoleComponent {
     this.route.queryParams.subscribe(param => {
       this.userId = param['id'];
     })
+    localStorage.clear()
   }
 
   selectRole(role: string, roleId: string) {

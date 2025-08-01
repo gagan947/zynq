@@ -24,6 +24,7 @@ export class AppointmentsListComponent {
   appointment: any;
   originalAppointments: any;
   status: string = '';
+  type: string = '';
   searchTerm: string = '';
   selectedDate: string = '';
   allSlots: any;
@@ -83,8 +84,15 @@ export class AppointmentsListComponent {
     this.applyFilters();
   }
 
+
+  filterByType(event: any) {
+    this.type = event.target.value;
+    this.applyFilters();
+  }
+
   applyFilters() {
     this.appointment = this.originalAppointments.filter((item: {
+      type: string;
       full_name: string;
       clinic_name: string;
       start_time: string;
@@ -101,7 +109,10 @@ export class AppointmentsListComponent {
       const matchStatus =
         !this.status || item.status === this.status;
 
-      return matchSearch && matchDate && matchStatus;
+      const matchType =
+        !this.type || item.type === this.type;
+
+      return matchSearch && matchDate && matchStatus && matchType;
     });
   }
 

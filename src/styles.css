@@ -207,12 +207,14 @@ body {
     height: 30px !important;
     border-color: #000 !important;
     line-height: 35px !important;
-
-
 }
 
 .ant-picker-panel-container {
     border-radius: 10px !important;
     box-shadow: none !important;
     border: 1px solid #eee !important;
+}
+
+.ant-image-preview-operations-wrapper {
+    display: none;
 }

@@ -96,7 +96,7 @@
                                     <label for="" class="mb-2 ct_text_black">End year<span
                                             class="ct_red_text">*</span></label>
                                     <input type="text" class="form-control ct_input" placeholder="Enter degree"
-                                        value="{{edu.end_year}}" disabled>
+                                        value="{{edu.end_year || 'Present'}}" disabled>
                                 </div>
                             </div>
                         </div>
@@ -132,8 +132,9 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2 ct_text_black">End Date<span
                                             class="ct_red_text">*</span></label>
-                                    <input type="date" class="form-control ct_input"
-                                        [value]="exp.end_date | date:'yyyy-MM-dd'" disabled>
+                                    <input type="text" class="form-control ct_input"
+                                        [value]="exp.end_date ? (exp.end_date | date:'yyyy-MM-dd') : 'Present'"
+                                        disabled />
                                 </div>
                             </div>
                         </div>
@@ -166,7 +167,7 @@
                                         <tr>
                                             <td class="border p-2">{{$index + 1}}</td>
                                             <td class="border p-2">{{item.name}} </td>
-                                            <td class="border p-2">{{item.price}} </td>
+                                            <td class="border p-2">{{item.price | currency:'SEK '}} </td>
                                             <td class="border p-2">{{item.session_duration || 'N/A'}}
                                             </td>
                                             <td class="border p-2">{{item.add_notes || 'N/A'}} </td>
@@ -278,7 +279,7 @@
                                         <input type="text" class="form-control ct_input"
                                             placeholder="Enter fee per session" disabled
                                             value="{{doctor.data.fee_per_session}}">
-                                        <span class="ct_show_eye">$</span>
+                                        <span class="ct_show_eye">SEK</span>
                                     </div>
                                 </div>
                             </div>

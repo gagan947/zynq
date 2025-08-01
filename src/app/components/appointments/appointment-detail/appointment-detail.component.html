@@ -248,7 +248,7 @@
                               </div>
                         </div> -->
                         <div class="mt-4">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Prescription & Skin Report:</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Skin Report:</h4>
 
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20">
                                     <ul class="ct_para_scroll ct_custom_scroll">
@@ -279,6 +279,36 @@
                                     </ul>
                               </div>
                         </div>
+
+                        @if(appointmentData?.treatments.length > 0){
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Treatments Provided-</h4>
+                              <div>
+                                    <div class="table-responsive">
+                                          <table class="table ct_custom_table">
+                                                <thead>
+                                                      <tr class="bg-gray-200">
+                                                            <th class="border p-2">Sr. No</th>
+                                                            <th class="border p-2">Treatment</th>
+                                                            <th class="border p-2">Price</th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody formArrayName="treatments">
+                                                      @for (item of appointmentData?.treatments; track $index) {
+                                                      <tr>
+                                                            <td class="border p-2">{{$index + 1}}</td>
+                                                            <td class="border p-2">{{item.name}} </td>
+                                                            <td class="border p-2">{{item.price | currency:'SEK '}}
+                                                            </td>
+                                                      </tr>
+                                                      }
+                                                </tbody>
+                                          </table>
+
+                                    </div>
+                              </div>
+                        </div>
+                        }
                   </div>
             </div>
       </div>
@@ -301,7 +331,6 @@
                               <img [src]="imagePreview" alt="">
                         </div>
                   </div>
-
             </div>
       </div>
 </div>
