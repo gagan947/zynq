@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ export class AppointmentsListComponent {
   @ViewChild('date') date!: ElementRef<HTMLInputElement>;
   @ViewChild('search') search!: ElementRef<HTMLInputElement>;
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLInputElement>;
+  private destroy$ = new Subject<void>();
   appointments$!: Observable<any>
   appointment: any;
   originalAppointments: any;
@@ -58,7 +59,9 @@ export class AppointmentsListComponent {
   }
 
   getAllSlots() {
-    this.srevice.get('doctor/future-slots').subscribe((response: any) => {
+    this.srevice.get('doctor/future-slots').pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((response: any) => {
       this.allSlots = response.data;
     })
   }
@@ -145,13 +148,16 @@ export class AppointmentsListComponent {
       end_time: this.selectedSlot.end_time,
     }
     this.loading = true
-    this.srevice.update('doctor/appointment/reschedule', formData).subscribe({
+    this.srevice.update('doctor/appointment/reschedule', formData).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: (response: any) => {
         if (response.success == true) {
           this.loading = false
           this.closeButton.nativeElement.click();
           this.toster.success(response.message)
           this.getAppointments()
+          this.getAllSlots()
         } else {
           this.loading = false
           this.toster.error(response.message)
@@ -162,5 +168,15 @@ export class AppointmentsListComponent {
         this.toster.error(error)
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  convertTime(time: any): any {
+    const localTime = new Date(time).toLocaleString();
+    return localTime
   }
 }

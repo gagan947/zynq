@@ -47,11 +47,8 @@ export class ChatManagementComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((chats) => {
         this.orgChatList = this.chatlist = chats;
-        console.log(this.orgChatList);
-        // 👇 Execute only once using the flag
         if (!this.hasInitialized) {
-          console.log("going init");
-          this.hasInitialized = true; // ✅ flip flag
+          this.hasInitialized = true;
           if (this.chatId) {
             const chatData = this.orgChatList.filter((item: any) => item.id == this.chatId);
             this.openChat(chatData[0]);
@@ -147,7 +144,6 @@ export class ChatManagementComponent {
         };
         reader.readAsDataURL(file);
       });
-      console.log(this.previewFiles);
     }
   }
 

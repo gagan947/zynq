@@ -34,7 +34,6 @@ export class SocketService {
 
       fetchChats(): void {
             this.socket.emit('fetch_chats');
-            console.log('fetch_chats');
       }
 
       onChatList(): Observable<any> {
@@ -52,7 +51,6 @@ export class SocketService {
       onChatHistory(): Observable<any> {
             return new Observable((observer) => {
                   this.socket.on('chat_docter_history', (messages) => {
-                        console.log('messages123', messages);
                         observer.next(messages);
                   });
             });

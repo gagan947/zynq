@@ -82,7 +82,9 @@ export class DrProfileComponent {
       grouped[day].push({
         start_time: item.start_time,
         end_time: item.end_time,
-        slot_duration: +item.slot_duration
+        slot_duration: +item.slot_duration,
+        start_time_utc: item.start_time_utc,
+        end_time_utc: item.end_time_utc
       });
     });
 
@@ -90,5 +92,10 @@ export class DrProfileComponent {
       day,
       slots: grouped[day]
     }));
+  }
+
+  convertTime(time: any): any {
+    const localTime = new Date(time).toLocaleString();
+    return localTime
   }
 }

@@ -309,7 +309,8 @@
                                     @for (item of item.slots; track $index) {
                                     <div class="ct_custom_badge12">
                                         <div class="d-flex align-items-center gap-3">
-                                            <h6 class="mb-0">{{item.start_time}} - {{item.end_time}}
+                                            <h6 class="mb-0">{{convertTime(item.start_time_utc) | date: 'hh:mm a'}} -
+                                                {{convertTime(item.end_time_utc) | date: 'hh:mm a'}}
                                             </h6>
                                             <span>{{item.slot_duration}} Minutes</span>
                                         </div>

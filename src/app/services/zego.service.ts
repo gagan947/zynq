@@ -32,8 +32,6 @@ export class ZegoService {
             this.zegoInstance.setCallInvitationConfig({
                   enableNotifyWhenAppRunningInBackgroundOrQuit: true,
             });
-
-            console.log('Zego initialized for user:', userName);
       }
 
       async sendCall(targetUser: any, appointment_id: any) {
@@ -53,9 +51,12 @@ export class ZegoService {
                               callees: [targetUser],
                               callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
                               timeout: 45,
+                              data: JSON.stringify({
+                                    appointmentId: this.appointment_id,
+                                    type: 'appointment',
+                              })
                         });
                         this.changeStatus({ callStatus: "Ongoing" });
-                        console.log('Call result:', res);
                   } catch (err) {
                         console.error('Error sending call:', err);
                   }

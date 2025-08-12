@@ -27,7 +27,7 @@ export class VerifiedGuard implements CanActivate {
                               return true;
                         }),
                         catchError(() => {
-                              return of(true); // or false depending on what you want on error
+                              return of(true);
                         })
                   );
             }

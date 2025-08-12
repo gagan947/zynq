@@ -39,7 +39,6 @@ export class ChooseRoleComponent {
       }
     },
       (err: any) => {
-        console.log(err);
         this.loading = false
       }
     )

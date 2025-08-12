@@ -37,9 +37,7 @@ export class NotificationService {
       listenForMessages() {
             const messaging = getMessaging();
             onMessage(messaging, (payload: any) => {
-                  console.log(" noticiation payload componet", payload);
                   this.setMessage(payload)
-
                   const title = payload.notification?.title || 'Notification';
                   const body = payload.notification?.body || '';
                   new Notification(title, {

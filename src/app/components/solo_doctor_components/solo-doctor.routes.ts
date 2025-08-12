@@ -36,7 +36,7 @@ export const soloDoctorRoutes: Routes = [
                         path: 'products',
                         title: 'Products Management',
                         loadComponent: () => import('../clinic_panel_components/product/product-management/product-management.component').then((m) => m.ProductManagementComponent),
-                    
+
                   },
                   {
                         path: 'products/detail',
@@ -97,6 +97,21 @@ export const soloDoctorRoutes: Routes = [
                         path: 'change-password',
                         loadComponent: () => import('../change-password/change-password.component').then((m) => m.ChangePasswordComponent),
                         title: 'Change Password'
+                  },
+                  {
+                        path: 'order',
+                        loadComponent: () => import('../clinic_panel_components/orders/orders-management/orders-management.component').then((m) => m.OrdersManagementComponent),
+                        title: 'Orders Management'
+                  },
+                  {
+                        path: 'order/detail',
+                        loadComponent: () => import('../clinic_panel_components/orders/orders-detail/orders-detail.component').then((m) => m.OrdersDetailComponent),
+                        title: 'Order Detail'
+                  },
+                  {
+                        path: 'notifications',
+                        loadComponent: () => import('../notifications/notifications.component').then((m) => m.NotificationsComponent),
+                        title: 'Notifications'
                   },
             ]
       }

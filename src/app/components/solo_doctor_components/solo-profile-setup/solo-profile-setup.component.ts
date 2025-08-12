@@ -12,6 +12,7 @@ import { AuthService } from '../../../services/auth.service';
 import { NoWhitespaceDirective } from '../../../validators';
 import { environment } from '../../../../environments/environment';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-solo-profile-setup',
@@ -21,6 +22,8 @@ import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-
   styleUrl: './solo-profile-setup.component.css'
 })
 export class SoloProfileSetupComponent {
+  private destroy$ = new Subject<void>();
+
   @Input() isEdit: boolean = false;
   treatmentForm!: FormGroup
   besicInfoForm!: FormGroup
@@ -212,9 +215,27 @@ export class SoloProfileSetupComponent {
       .map((day: any, index: number) => {
         if (!day.active || !day.sessions || !day.sessions.length) return null;
 
+        const toUTCFormatted = (timeStr: string): string => {
+          const [hours, minutes] = timeStr.split(':').map(Number);
+
+          const localDate = new Date();
+          localDate.setHours(hours, minutes, 0, 0);
+
+          const year = localDate.getUTCFullYear();
+          const month = String(localDate.getUTCMonth() + 1).padStart(2, '0');
+          const day = String(localDate.getUTCDate()).padStart(2, '0');
+          const hour = String(localDate.getUTCHours()).padStart(2, '0');
+          const minute = String(localDate.getUTCMinutes()).padStart(2, '0');
+          const second = String(localDate.getUTCSeconds()).padStart(2, '0');
+
+          return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+        };
+
         const slots = day.sessions.map((session: any) => ({
           start_time: session.start_time,
           end_time: session.end_time,
+          start_time_utc: toUTCFormatted(session.start_time),
+          end_time_utc: toUTCFormatted(session.end_time),
           slot_duration: session.sessionDuration.split(' ')[0]
         }));
 
@@ -251,12 +272,16 @@ export class SoloProfileSetupComponent {
   }
 
   getCertificaTeypes() {
-    this.service.get<any>(`doctor/get_doctor_certificates_path`).subscribe((res) => {
+    this.service.get<any>(`doctor/get_doctor_certificates_path`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.certificaTeypes = res.data
     });
   };
   getTreatments() {
-    this.service.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
+    this.service.get<TreatmentResponse>(`clinic/get-treatments`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.treatments = res.data
       this.inItTreatMentForm();
     });
@@ -264,25 +289,33 @@ export class SoloProfileSetupComponent {
 
 
   getSkinTypes() {
-    this.service.get<SkinTypeResponse>(`clinic/get-skin-types`).subscribe((res) => {
+    this.service.get<SkinTypeResponse>(`clinic/get-skin-types`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.skintypes = res.data
     });
   }
 
   getSkinConditions() {
-    this.service.get<any>(`clinic/get-SkinConditions`).subscribe((res) => {
+    this.service.get<any>(`clinic/get-SkinConditions`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.skinConditions = res.data
     });
   }
 
   getSurgeries() {
-    this.service.get<any>(`clinic/get-surgery`).subscribe((res) => {
+    this.service.get<any>(`clinic/get-surgery`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.surgeries = res.data
     });
   }
 
   getDevices() {
-    this.service.get<any>(`clinic/get-devices`).subscribe((res) => {
+    this.service.get<any>(`clinic/get-devices`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.devices = res.data
     });
   }
@@ -370,12 +403,16 @@ export class SoloProfileSetupComponent {
       }
     }
 
-    this.service.post<any, any>('solo_doctor/add_personal_info', formData).subscribe({
+    this.service.post<any, any>('solo_doctor/add_personal_info', formData).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: (res) => {
         if (res.success) {
           if (this.isEdit) {
             this.toster.success('Profile updated successfully');
-            this.service.get<any>(`solo_doctor/getDoctorProfileByStatus/1`).subscribe(res => {
+            this.service.get<any>(`solo_doctor/getDoctorProfileByStatus/1`).pipe(
+              takeUntil(this.destroy$)
+            ).subscribe(res => {
               if (res.success) {
                 this.service._soloDoctorProfile.set(res.data);
               }
@@ -416,7 +453,9 @@ export class SoloProfileSetupComponent {
       return
     }
 
-    this.service.post<any, any>('solo_doctor/addContactInformation', formData).subscribe({
+    this.service.post<any, any>('solo_doctor/addContactInformation', formData).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: (res) => {
         if (res.success) {
           if (this.isEdit) {
@@ -488,7 +527,9 @@ export class SoloProfileSetupComponent {
       }
     })
 
-    this.service.post<any, any>('solo_doctor/add_education_experience', formData).subscribe({
+    this.service.post<any, any>('solo_doctor/add_education_experience', formData).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: (resp) => {
         if (resp.success == true) {
           if (this.isEdit) {
@@ -500,7 +541,6 @@ export class SoloProfileSetupComponent {
         }
       },
       error: (error) => {
-        console.log(error);
         this.loading = false
       }
     });
@@ -537,7 +577,9 @@ export class SoloProfileSetupComponent {
       surgery_ids: this.ExpertiseForm.value.surgeries.join(','),
       aesthetic_devices_ids: this.ExpertiseForm.value.devices.join(','),
     }
-    this.service.post<any, any>('solo_doctor/add_expertise', formData).subscribe({
+    this.service.post<any, any>('solo_doctor/add_expertise', formData).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: (resp) => {
         if (resp.success == true) {
           if (this.isEdit) {
@@ -552,7 +594,6 @@ export class SoloProfileSetupComponent {
         }
       },
       error: (error) => {
-        console.log(error);
         this.loading = false
       }
     });
@@ -582,7 +623,9 @@ export class SoloProfileSetupComponent {
     let formData = transformedFormData;
 
     if (this.isEdit) {
-      this.service.post<any, any>('doctor/updateDoctorAvailability', formData).subscribe({
+      this.service.post<any, any>('doctor/updateDoctorAvailability', formData).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
         next: (resp) => {
           if (resp.success == true) {
             this.toster.success(resp.message);
@@ -596,7 +639,9 @@ export class SoloProfileSetupComponent {
         }
       })
     } else {
-      this.service.post<any, any>('doctor/createDoctorAvailability', formData).subscribe({
+      this.service.post<any, any>('doctor/createDoctorAvailability', formData).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
         next: (resp) => {
           if (resp.success == true) {
             let data = this.auth.getUserInfo()
@@ -622,13 +667,17 @@ export class SoloProfileSetupComponent {
   }
 
   searchLocation(event: any) {
-    this.service.get<any>(`clinic/search-location?input=${event.target.value.trim()}`).subscribe((res) => {
+    this.service.get<any>(`clinic/search-location?input=${event.target.value.trim()}`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.locations = res.data
     })
   }
 
   selectLocation(location: any) {
-    this.service.get<any>(`clinic/get-lat-long?address=${location}`).subscribe((res) => {
+    this.service.get<any>(`clinic/get-lat-long?address=${location}`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.contactForm.patchValue({ latitude: res.data.lat, longitude: res.data.lng });
       this.selectedLocation = location;
       this.locations = [];
@@ -641,8 +690,6 @@ export class SoloProfileSetupComponent {
   };
 
   removeCertificate(index: number, id: any) {
-    console.log(index, id);
-
     this.certificaTeypes[index].upload_path = null;
     if (id) {
       this.deleteCertificate(id)
@@ -695,7 +742,9 @@ export class SoloProfileSetupComponent {
   removeProductImage(index: number, image?: string) {
     if (image) {
       const imageId = this.soloDrData?.clinic.images.find((item: any) => item.url == image)?.clinic_image_id
-      this.service.delete<any>(`clinic/images/${imageId}`).subscribe((resp) => {
+      this.service.delete<any>(`clinic/images/${imageId}`).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe((resp) => {
         if (resp.success) {
           this.previewProductImages.splice(index, 1);
           this.productImages.splice(index, 1);
@@ -719,14 +768,18 @@ export class SoloProfileSetupComponent {
   }
 
   deleteCertificate(id: any) {
-    this.service.delete<any>(`doctor/delete_certification/${id}`).subscribe((res) => {
+    this.service.delete<any>(`doctor/delete_certification/${id}`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       if (res.success == true) {
       }
     });
   }
 
   getProfile(status: any) {
-    this.service.get<any>(`solo_doctor/getDoctorProfileByStatus/${status}`).subscribe({
+    this.service.get<any>(`solo_doctor/getDoctorProfileByStatus/${status}`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: (res) => {
         if (res.success) {
           const data = res.data;
@@ -886,7 +939,9 @@ export class SoloProfileSetupComponent {
     if (this.isEdit) {
       this.getProfile(this.currentStep + 1)
     } else {
-      this.service.get<any>(`solo_doctor/updateOnboardingStatus?statusId=${this.currentStep}`).subscribe(res => {
+      this.service.get<any>(`solo_doctor/updateOnboardingStatus?statusId=${this.currentStep}`).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(res => {
         this.getProfile(this.currentStep + 1)
       })
     }
@@ -900,5 +955,10 @@ export class SoloProfileSetupComponent {
   changeStep(step: number) {
     this.currentStep = step
     this.getProfile(this.currentStep + 1)
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

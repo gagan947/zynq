@@ -46,5 +46,4 @@ export const routes: Routes = [
             path: 'solo-doctor',
             loadChildren: () => import('./components/solo_doctor_components/solo-doctor.routes').then(m => m.soloDoctorRoutes)
       },
-
 ];

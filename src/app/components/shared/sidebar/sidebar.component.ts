@@ -8,7 +8,6 @@ import { AuthService } from '../../../services/auth.service';
   selector: 'app-sidebar',
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
-
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })

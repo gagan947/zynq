@@ -231,9 +231,27 @@ export class ProfileSetupComponent {
       .map((day: any, index: number) => {
         if (!day.active || !day.sessions || !day.sessions.length) return null;
 
+        const toUTCFormatted = (timeStr: string): string => {
+          const [hours, minutes] = timeStr.split(':').map(Number);
+
+          const localDate = new Date();
+          localDate.setHours(hours, minutes, 0, 0);
+
+          const year = localDate.getUTCFullYear();
+          const month = String(localDate.getUTCMonth() + 1).padStart(2, '0');
+          const day = String(localDate.getUTCDate()).padStart(2, '0');
+          const hour = String(localDate.getUTCHours()).padStart(2, '0');
+          const minute = String(localDate.getUTCMinutes()).padStart(2, '0');
+          const second = String(localDate.getUTCSeconds()).padStart(2, '0');
+
+          return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+        };
+
         const slots = day.sessions.map((session: any) => ({
           start_time: session.start_time,
           end_time: session.end_time,
+          start_time_utc: toUTCFormatted(session.start_time),
+          end_time_utc: toUTCFormatted(session.end_time),
           slot_duration: session.sessionDuration.split(' ')[0]
         }));
 
@@ -391,7 +409,6 @@ export class ProfileSetupComponent {
         }
       },
       error: (error) => {
-        console.log(error);
       }
     });
 
@@ -426,7 +443,6 @@ export class ProfileSetupComponent {
         }
       },
       error: (error) => {
-        console.log(error);
       }
     });
 
@@ -467,7 +483,6 @@ export class ProfileSetupComponent {
         }
       },
       error: (error) => {
-        console.log(error);
       }
     });
   };
@@ -544,8 +559,6 @@ export class ProfileSetupComponent {
   };
 
   removeCertificate(index: number, id: any) {
-    console.log(index, id);
-
     this.certificaTeypes[index].upload_path = null;
     if (id) {
       this.deleteCertificate(id)

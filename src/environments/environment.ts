@@ -4,6 +4,8 @@ export const environment = {
       certificateUrl: 'https://51.21.123.99:4000/',
       socketUrl: 'https://51.21.123.99:4000/',
 
+      // Testing
+
       firebaseConfig: {
             apiKey: "AIzaSyDve8qhgMDHLSU5EexRltguFzyX9UVNmek",
             authDomain: "ebookink-57739.firebaseapp.com",

@@ -18,7 +18,6 @@ export function strongPasswordValidator(
             hasSpecialCharacter &&
             isValidLength
 
-      // Return errors object or null
       if (!passwordValid) {
             return {
                   strongPassword: {

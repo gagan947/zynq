@@ -9,7 +9,7 @@
                         <form id="msform" [formGroup]="Form" (ngSubmit)="onSubmit()">
                               <!-- progressbar -->
                               <ul id="ct_form_progressbar">
-                                    <li *ngFor="let step of steps; let i = index" [id]="step.id"
+                                    <li *ngFor="let step of steps; let i = index;" [id]="step.id"
                                           [class.active]="i <= currentStep">
                                           {{ step.label }}
                                     </li>

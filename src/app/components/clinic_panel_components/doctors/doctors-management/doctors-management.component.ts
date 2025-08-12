@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { LoaderService } from '../../../../services/loader.service';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-doctors-management',
   standalone: true,
@@ -16,6 +17,7 @@ import { LoaderService } from '../../../../services/loader.service';
   styleUrl: './doctors-management.component.css'
 })
 export class DoctorsManagementComponent {
+  private destroy$ = new Subject<void>();
   doctorsList: Doctor[] = [];
   orgDoctorsList: Doctor[] = [];
   treatments: Treatment[] = [];
@@ -45,7 +47,9 @@ export class DoctorsManagementComponent {
 
   getDoctors() {
     this.loader.show();
-    this.service.get<DoctorResponse>(`clinic/get-all-doctors`).subscribe(res => {
+    this.service.get<DoctorResponse>(`clinic/get-all-doctors`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(res => {
       if (res.success) {
         this.doctorsList = this.orgDoctorsList = res.data;
         this.loader.hide();
@@ -57,7 +61,9 @@ export class DoctorsManagementComponent {
   }
 
   getTreatments() {
-    this.service.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
+    this.service.get<TreatmentResponse>(`clinic/get-treatments`).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res) => {
       this.treatments = res.data
     });
   }
@@ -69,7 +75,9 @@ export class DoctorsManagementComponent {
   }
 
   onSubmit() {
-    this.service.post<any, any>('clinic/send-doctor-invitation', { emails: [this.Form.value.email] }).subscribe({
+    this.service.post<any, any>('clinic/send-doctor-invitation', { emails: [this.Form.value.email] }).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: (resp) => {
         if (resp.success) {
           this.toster.success(resp.message)
@@ -90,7 +98,9 @@ export class DoctorsManagementComponent {
 
   unlinkDoctor() {
     this.loader.show();
-    this.service.post<any, any>('clinic/unlink-doctor', { doctor_id: this.doctorId }).subscribe({
+    this.service.post<any, any>('clinic/unlink-doctor', { doctor_id: this.doctorId }).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: (resp) => {
         if (resp.success) {
           this.toster.success(resp.message)
@@ -140,6 +150,11 @@ export class DoctorsManagementComponent {
         )
       );
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 
