@@ -124,7 +124,7 @@
                             <tr>
                                 <td>{{$index + 1}}</td>
                                 <!-- <td>Dr. John Smith</td> -->
-                                <td>{{item.full_name}}</td>
+                                <td class="notranslate">{{item.full_name}}</td>
                                 <td>{{item.mobile_number}}</td>
                                 <td>
                                     <p class="mb-1">
@@ -136,7 +136,7 @@
                                         {{item.end_time | date:'dd-MM-yyyy - HH:mm a'}}
                                     </p>
                                 </td>
-                                <td>{{item.clinic_name || 'N/A'}}</td>
+                                <td class="notranslate">{{item.clinic_name || 'N/A'}}</td>
                                 <td>{{item.type || 'N/A'}}</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-3">

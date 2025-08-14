@@ -23,4 +23,9 @@ export class EarningAnalyticsComponent {
       console.log(res);
     });
   }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

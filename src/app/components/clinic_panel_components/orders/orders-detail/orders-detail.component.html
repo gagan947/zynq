@@ -3,7 +3,7 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="d-flex align-items-center gap-3 mb-5">
-                              <a routerLink="/clinic/order" class="ct_back_icon"><i
+                              <a (click)="location.back()" class="ct_back_icon"><i
                                           class="fa-solid fa-chevron-left"></i></a>
                               <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Order Management </span>
                                     <span class="ct_text_op_07 ct_fs_16"> / Order Details</span>
@@ -11,8 +11,9 @@
                         </div>
 
                         <div class="col-md-12">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-4">Order Details #PD01001 <span
-                                          class="ct_green_text ct_fs_16">(Delivered)</span></h4>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-4">Order Details (<span
+                                          [ngClass]="orderData.shipment_status == 'PENDING' ? 'ct_dark_yellow_text' : orderData.shipment_status == 'SHIPPED' ? 'ct_orange_text' : 'ct_green_text'"
+                                          class="ct_fs_16">{{orderData.shipment_status}}</span>)</h4>
                               <div
                                     class="table-responsive ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-2">
                                     <h4 class="ct_fs_22 ct_fw_600 mb-2">Order Summary</h4>
@@ -20,28 +21,28 @@
                                           <tbody>
                                                 <tr>
                                                       <td class="ct_text_op_05 w-50">Order ID:</td>
-                                                      <td>ORD-1023</td>
+                                                      <td>ORD-{{orderData.purchase_id}}</td>
                                                 </tr>
                                                 <tr>
                                                       <td class="ct_text_op_05  w-50">Order Date:</td>
-                                                      <td>Feb 18, 2025 - 2:45 PM</td>
+                                                      <td>{{orderData.purchase_date | date:'dd-MM-yyyy - HH:mm a'}}</td>
                                                 </tr>
                                                 <tr>
                                                       <td class="ct_text_op_05  w-50">Total Amount:</td>
-                                                      <td>$150.00</td>
+                                                      <td>{{orderData.total_price | currency:'SEK '}}</td>
                                                 </tr>
-                                                <tr>
+                                                <!-- <tr>
                                                       <td class="ct_text_op_05  w-50">Payment Status:</td>
                                                       <td>Paid</td>
-                                                </tr>
-                                                <tr>
+                                                </tr> -->
+                                                <!-- <tr>
                                                       <td class="ct_text_op_05 w-50">Shipping Method</td>
                                                       <td>Standard Delivery (5-7 Days)</td>
                                                 </tr>
                                                 <tr>
                                                       <td class="ct_text_op_05 w-50">Tracking Number:</td>
                                                       <td>1234567890</td>
-                                                </tr>
+                                                </tr> -->
                                           </tbody>
                                     </table>
                               </div>
@@ -54,15 +55,15 @@
                                           <tbody>
                                                 <tr>
                                                       <td class="ct_text_op_05 w-50">Customer Name:</td>
-                                                      <td>John Doe</td>
+                                                      <td class="notranslate">{{orderData.user.name}}</td>
                                                 </tr>
                                                 <tr>
                                                       <td class="ct_text_op_05 w-50">Phone:</td>
-                                                      <td>+1 234 567 890</td>
+                                                      <td>{{orderData.user.mobile_number}}</td>
                                                 </tr>
                                                 <tr>
                                                       <td class="ct_text_op_05 w-50">Shipping Address:</td>
-                                                      <td>1234 Elm Street, Apartment 5B, New York, NY, 10001</td>
+                                                      <td>{{orderData.address}}</td>
                                                 </tr>
                                           </tbody>
                                     </table>
@@ -78,7 +79,6 @@
                                           <thead>
                                                 <tr>
                                                       <th class="ct_fw_600">Product Image</th>
-
                                                       <th class="ct_fw_600">Product Name</th>
                                                       <th class="ct_fw_600">Quantity</th>
                                                       <th class="ct_fw_600">Price</th>
@@ -86,31 +86,24 @@
                                                 </tr>
                                           </thead>
                                           <tbody>
+                                                @for (item of orderData.products; track $index) {
                                                 <tr>
                                                       <td>
-                                                            <img src="../assets/img/product_img.png"
-                                                                  class="ct_img_40" />
+                                                            <img [src]="item.product_images[0]" class="ct_img_40" />
                                                       </td>
-                                                      <td class="ct_text_op_05">Acne Gel</td>
-                                                      <td class="ct_text_op_05">1</td>
-                                                      <td class="ct_text_op_05">$100.00</td>
-                                                      <td class="ct_text_op_05">$50.00</td>
+                                                      <td class="ct_text_op_05 notranslate">{{item.name}}</td>
+                                                      <td class="ct_text_op_05">{{item.cart_quantity}}</td>
+                                                      <td class="ct_text_op_05 notranslate">
+                                                            {{item.price | currency:'SEK '}}</td>
+                                                      <td class="ct_text_op_05 notranslate">
+                                                            {{(item.price) | currency:'SEK '}}</td>
                                                 </tr>
-                                                <tr>
-                                                      <td>
-                                                            <img src="../assets/img/product_img.png"
-                                                                  class="ct_img_40" />
-                                                      </td>
-                                                      <td class="ct_text_op_05">Acne Gel</td>
-                                                      <td class="ct_text_op_05">2</td>
-                                                      <td class="ct_text_op_05">$25.00</td>
-                                                      <td class="ct_text_op_05">$100.00</td>
-                                                </tr>
+                                                }
                                           </tbody>
                                     </table>
                               </div>
                         </div>
-                        <div class="col-md-12 mt-4 ">
+                        <!-- <div class="col-md-12 mt-4 ">
                               <h4 class="ct_fs_22 ct_fw_600 mb-3">Order Timeline</h4>
                               <ul class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20">
                                     <li class="mt-0">
@@ -118,7 +111,7 @@
                                           2:45 PM
                                     </li>
                               </ul>
-                        </div>
+                        </div> -->
                   </div>
             </div>
       </div>

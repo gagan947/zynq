@@ -77,6 +77,16 @@ export const doctorRoutes: Routes = [
                         title: 'Patient Records'
                   },
                   {
+                        path: 'patient-records/detail',
+                        loadComponent: () => import('../patient-records/patient-detail/patient-detail.component').then((m) => m.PatientDetailComponent),
+                        title: 'Patient Records'
+                  },
+                  {
+                        path: 'patient-records/detail/reports',
+                        loadComponent: () => import('../patient-records/patient-skin-report/patient-skin-report.component').then((m) => m.PatientSkinReportComponent),
+                        title: 'Patient Records'
+                  },
+                  {
                         path: 'support',
                         loadComponent: () => import('../shared/components/tikets-list/tikets-list.component').then((m) => m.TiketsListComponent),
                         title: 'Help & Support'

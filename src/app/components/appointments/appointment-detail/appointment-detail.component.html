@@ -66,14 +66,14 @@
 
                                           <div class="d-flex  gap-4 ct_flex_1 ">
                                                 <div class="">
-                                                      <img [src]="appointmentData?.profile_image || 'assets/img/doctor.png'"
+                                                      <img [src]="appointmentData?.profile_image || 'assets/img/np_pro.png'"
                                                             alt="" data-bs-toggle="modal"
                                                             data-bs-target="#full_view_img" class="ct_img_w_40"
                                                             (click)="openModal(appointmentData.profile_image)">
                                                 </div>
                                                 <div class="ct_flex_1">
                                                       <div>
-                                                            <h4 class="ct_fs_20 ct_fw_600 mb-1">
+                                                            <h4 class="ct_fs_20 ct_fw_600 mb-1 no translate">
                                                                   {{appointmentData?.full_name}}
                                                             </h4>
                                                             <ul class="d-flex align-items-center flex-wrap gap-3 mt-3">
@@ -298,7 +298,8 @@
                                                       <tr>
                                                             <td class="border p-2">{{$index + 1}}</td>
                                                             <td class="border p-2">{{item.name}} </td>
-                                                            <td class="border p-2">{{item.price | currency:'SEK '}}
+                                                            <td class="border p-2 notranslate">
+                                                                  {{item.price | currency:'SEK '}}
                                                             </td>
                                                       </tr>
                                                       }

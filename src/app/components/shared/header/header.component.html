@@ -3,11 +3,34 @@
         <i class="fa-solid fa-bars me-3 ct_fs_18 ct_menu_bar"></i>
     </div>
     <div class="d-flex align-items-center gap-3">
-        <!-- <div class="p-2">
+        <div class="p-2">
             <div id="google_translate_element"></div>
-        </div> -->
+        </div>
+
+
+        <div class="ct_language_select dropdown notranslate">
+            <img [src]="selectedLang == 'sv' ? 'assets/img/Flag_of_Sweden.svg.png' : 'assets/img/Flag_of_the_United_States.svg.png'"
+                alt="" class="dropdown_img" style="width: 20px; margin-right: 5px;">
+            <button class="dropdown-toggle  py-2 mt-0" data-bs-toggle="dropdown" aria-expanded="false">{{selectedLang == 'sv' ?
+                  'Swedish' : 'English'}}</button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" (click)="onCustomLangChange('sv')">
+                        <img src="assets/img/Flag_of_Sweden.svg.png" alt="" style="width: 20px;">
+                        Swedish
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="onCustomLangChange('en')">
+                        <img src="assets/img/Flag_of_the_United_States.svg.png" alt="" style="width: 20px;">
+                        English
+                    </a>
+                </li>
+            </ul>
+        </div>
+
         <div class="ct_border_right_1">
-            <a routerLink="notifications" class="ct_notification_icon">
+            <a routerLink="notifications" class="ct_notification_icon position-relative">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 6.43994V9.76994" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
                         stroke-linecap="round" />
@@ -18,31 +41,35 @@
                         d="M15.3299 18.8201C15.3299 20.6501 13.8299 22.1501 11.9999 22.1501C11.0899 22.1501 10.2499 21.7701 9.64992 21.1701C9.04992 20.5701 8.66992 19.7301 8.66992 18.8201"
                         stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" />
                 </svg>
-                <span></span>
+                @if (notificationList.length > 0) {
+                <span class="ct_notification_count">{{this.service._notifications().length}}</span>
+                }
             </a>
         </div>
         <div class="ct_right_dropdown dropdown">
             <button id="dropdownMenuButton" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="d-flex align-items-center gap-2">
                     @if(auth.getRoleName() == 'clinic'){
-                    <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/doctor.png'"
+                    <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/np_pro.png'"
                         alt="" class="ct_img_30">
                     }@else if(auth.getRoleName() == 'doctor'){
-                    <img [src]="drProfile()?.profile_image ? drProfile()?.profile_image : 'assets/img/doctor.png'"
+                    <img [src]="drProfile()?.profile_image ? drProfile()?.profile_image : 'assets/img/np_pro.png'"
                         alt="" class="ct_img_30">
                     }@else {
-                    <img [src]="soloDrProfile()?.profile_image ? soloDrProfile()?.profile_image : 'assets/img/doctor.png'"
+                    <img [src]="soloDrProfile()?.profile_image ? soloDrProfile()?.profile_image : 'assets/img/np_pro.png'"
                         alt="" class="ct_img_30">
                     }
                     <div class="text-start" style="height: 13px;">
                         @if(auth.getRoleName() == 'clinic'){
-                        <p class="mb-0 ct_fw_500" style="line-height: 7px;">{{ this.clinicProfile()?.clinic_name}}</p>
+                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">
+                            {{ this.clinicProfile()?.clinic_name}}
+                        </p>
                         <small class="ct_text_939393">Clinic</small>
                         }@else if(auth.getRoleName() == 'doctor'){
-                        <p class="mb-0 ct_fw_500" style="line-height: 7px;">{{ drProfile()?.name }}</p>
+                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">{{ drProfile()?.name }}</p>
                         <small class="ct_text_939393">Doctor</small>
                         }@else {
-                        <p class="mb-0 ct_fw_500" style="line-height: 7px;">{{ soloDrProfile()?.name }}</p>
+                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">{{ soloDrProfile()?.name }}</p>
                         <small class="ct_text_939393">Solo Doctor</small>
                         }
                     </div>

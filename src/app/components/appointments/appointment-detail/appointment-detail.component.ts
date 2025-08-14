@@ -18,7 +18,7 @@ export class AppointmentDetailComponent {
   private destroy$ = new Subject<void>();
   appointment = this.service._Appointment;
   appointmentData: any;
-  imagePreview: string = 'assets/img/doctor.png';
+  imagePreview: string = 'assets/img/np_pro.png';
 
   constructor(private service: CommonService, public location: Location, private zegoService: ZegoService, private loader: LoaderService, private router: Router, private route: ActivatedRoute, private socketService: SocketService) {
     effect(() => {

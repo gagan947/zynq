@@ -1,0 +1,45 @@
+<div class="ct_px_30 mt-4 pb-4">
+      <div class="container-fluid">
+            <div class="row">
+                  <div class="col-md-12">
+                        <div class="d-flex align-items-center gap-3 mb-5">
+                              <a (click)="location.back()" class="ct_back_icon"><i
+                                          class="fa-solid fa-chevron-left"></i></a>
+                              <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Patient Records</span>
+                                    <span class="ct_text_op_07 ct_fs_16">/
+                                          Patient Details</span> <span class="ct_text_op_07 ct_fs_16">/
+                                          Skin Reports</span>
+                              </h4>
+                        </div>
+                        <h4 class="mb-2 ct_fs_20 ct_fw_600">Skin Reports:</h4>
+                        <div class="table-responsive mt-3 ct_custom_table">
+                              <table class="table ">
+                                    <thead>
+                                          <tr>
+                                                <th>S.No</th>
+                                                <th>Date</th>
+                                                <th>Skin Concerns</th>
+                                                <th>Action</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          @for (item of patientReport(); track $index) {
+                                          <tr>
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{item.created_at | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{item.skin_concerns || 'N/A'}}</td>
+                                                <td>
+                                                      <div class="d-flex align-items-center gap-3">
+                                                            <a [href]="item.pdf" target="_blank"><i
+                                                                        class="fa-regular fa-eye"></i></a>
+                                                      </div>
+                                                </td>
+                                          </tr>
+                                          }
+                                    </tbody>
+                              </table>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>

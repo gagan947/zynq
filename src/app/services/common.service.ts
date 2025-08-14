@@ -19,6 +19,10 @@ export class CommonService {
   _soloDoctorProfile = signal<any | null>(null);
   _supportTicket = signal<SupportTicket | null>(null);
   _Appointment = signal<any | null>(null);
+  _notifications = signal<any | null>(null);
+  _order = signal<any | null>(null);
+  _patient = signal<any | null>(null);
+  _report = signal<any | null>(null);
   baseUrl = environment.apiUrl
 
   constructor(private http: HttpClient, private router: Router) { }

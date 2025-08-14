@@ -11,17 +11,8 @@
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="Search by patient name">
+                                                      placeholder="Search" #search (input)="searchFilter($event)">
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
-                                          </div>
-                                          <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
-                                                <span class="ct_white_nowrap">Sort by:</span>
-                                                <div class="form-group position-relative ct_w_100_767">
-                                                      <select class="form-control ct_input">
-                                                            <option value="">Newest</option>
-                                                            <option value="">Oldest</option>
-                                                      </select>
-                                                </div>
                                           </div>
                                     </div>
                               </div>
@@ -41,27 +32,34 @@
                                           </tr>
                                     </thead>
                                     <tbody>
+                                          @if(patientList.length == 0){
                                           <tr>
-                                                <td>1</td>
+                                                <td colspan="7" class="text-center">No data found</td>
+                                          </tr>
+                                          }
+                                          @for (item of patientList; track $index) {
+                                          <tr>
+                                                <td>{{$index + 1}}</td>
                                                 <td>
-                                                      <img src="../assets/img/user_1.png" alt=""
-                                                            class="ct_img_30 ct_cursor_pointer" data-bs-toggle="modal"
-                                                            data-bs-target="#full_view_img">
+                                                      <img [src]="item.profile_image ? item.profile_image : 'assets/img/np_pro.png'"
+                                                            alt="" class="ct_img_30 ct_cursor_pointer"
+                                                            data-bs-toggle="modal" data-bs-target="#full_view_img"
+                                                            (click)="openModal(item.profile_image)">
                                                 </td>
-                                                <td>Emma Thompson</td>
-                                                <td>+0123456789</td>
-                                                <td>15 Jan 2024</td>
+                                                <td class="notranslate">{{item.name}}</td>
+                                                <td>{{item.mobile_number}}</td>
+                                                <td>{{item.lastBooked | date:'dd-MM-yyyy'}}</td>
                                                 <td>
-                                                      23
+                                                      {{item.appointments.length}}
                                                 </td>
                                                 <td>
                                                       <div class="d-flex align-items-center gap-3">
-                                                            <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                                  data-bs-target="#ct_feedback_detail_modal"><i
+                                                            <a (click)="viewPatient(item)" class="ct_blue_text"><i
                                                                         class="fa-regular fa-eye"></i></a>
                                                       </div>
                                                 </td>
                                           </tr>
+                                          }
                                     </tbody>
                               </table>
                         </div>
@@ -142,7 +140,7 @@
                   </div>
                   <div class="modal-body">
                         <div class="ct_full_view_img">
-                              <img src="../assets/img/user_3.png" alt="">
+                              <img [src]="imagePreview" alt="">
                         </div>
                   </div>
             </div>

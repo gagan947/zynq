@@ -13,7 +13,7 @@ export class NotificationService {
       message$ = this.messageSource.asObservable();
 
       constructor() {
-            // this.listenForMessages();
+            this.listenForMessages();
       }
 
       async requestPermission() {
@@ -37,6 +37,7 @@ export class NotificationService {
       listenForMessages() {
             const messaging = getMessaging();
             onMessage(messaging, (payload: any) => {
+                  console.log('Message received. ', payload);
                   this.setMessage(payload)
                   const title = payload.notification?.title || 'Notification';
                   const body = payload.notification?.body || '';

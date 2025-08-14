@@ -38,8 +38,6 @@ export class HttpInterceptorService implements HttpInterceptor {
                   });
             }
 
-
-
             return next.handle(modifiedRequest).pipe(
                   catchError(error => {
                         let errorMessage = 'An unknown error occurred!';

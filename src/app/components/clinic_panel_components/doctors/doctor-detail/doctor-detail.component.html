@@ -14,14 +14,15 @@
                               <div class="d-flex gap-3 justify-content-between ct_flex_col_767">
                                     <div class="d-flex  gap-4 ct_flex_1 ">
                                           <div class="ct_big_user_img">
-                                                <img [src]="doctorDetail()?.profile_image ? doctorDetail()?.profile_image : 'assets/img/doctor.png'"
+                                                <img [src]="doctorDetail()?.profile_image ? doctorDetail()?.profile_image : 'assets/img/np_pro.png'"
                                                       alt="" data-bs-toggle="modal" data-bs-target="#full_view_img"
                                                       (click)="openModal(doctorDetail()?.profile_image)">
                                           </div>
                                           <div class="ct_flex_1">
                                                 <div class="d-flex  gap-3 justify-content-between flex-wrap">
                                                       <div>
-                                                            <h4 class="ct_fs_20 ct_fw_600 mb-1">{{doctorDetail()?.name}}
+                                                            <h4 class="ct_fs_20 ct_fw_600 mb-1 notranslate">
+                                                                  {{doctorDetail()?.name}}
                                                             </h4>
                                                             <p class="ct_fs_16 ct_dark_grey_text mb-0">
                                                                   {{specialityName(doctorDetail()!.treatments)}}

@@ -15,7 +15,7 @@ import { Location } from '@angular/common';
 })
 export class DoctorDetailComponent {
   doctorDetail = this.service._doctorDetail;
-  imagePreview: string = 'assets/img/doctor.png';
+  imagePreview: string = 'assets/img/np_pro.png';
   constructor(private service: CommonService, public location: Location) {
     effect(() => {
       this.doctorDetail();

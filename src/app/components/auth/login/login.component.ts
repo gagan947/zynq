@@ -25,7 +25,6 @@ export class LoginComponent {
   }
 
   ngOnInit(): void {
-    localStorage.clear();
     sessionStorage.clear();
     this.initForm();
   }
@@ -44,7 +43,8 @@ export class LoginComponent {
 
       let formData = {
         email: this.Form.value.email,
-        password: this.Form.value.password
+        password: this.Form.value.password,
+        fcm_token: localStorage.getItem('fcm_token') || ''
       }
 
       this.srevice.post<LoginResponse, any>('webuser/login', formData).subscribe({
