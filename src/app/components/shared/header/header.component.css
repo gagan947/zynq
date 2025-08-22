@@ -27,17 +27,9 @@
       border: 0px;
       padding: 0px 20px;
       border-radius: 10px;
-      display: flex;
-      align-items: center;
 }
 
 .ct_language_select button.dropdown-toggle.py-2.mt-0 {
       background-color: transparent;
       border: 0;
-}
-
-@media screen and (max-width:575px) {
-      .ct_overlay_w_45_575 {
-            width: 29px;
-      }
 }

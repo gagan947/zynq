@@ -32,6 +32,9 @@
                                                 </div>
                                           </div>
                                     </div>
+                                    <button
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          (click)="exportTableToCSV()">Export CSV</button>
                               </div>
 
                               <ul class="nav nav-pills mb-3 ct_custom_tabs" id="pills-tab" role="tablist">
@@ -81,7 +84,7 @@
                               <div class="tab-pane fade show active" id="pills-Upcoming" role="tabpanel"
                                     aria-labelledby="pills-Upcoming-tab">
                                     <div class="table-responsive mt-4 ct_custom_table">
-                                          <table class="table">
+                                          <table class="table" id="myTable">
                                                 <thead>
                                                       <tr>
                                                             <th>S.No</th>
@@ -98,7 +101,7 @@
                                                 <tbody>
                                                       @if(appointment.length == 0){
                                                       <tr>
-                                                            <td colspan="7" class="text-center">No data found</td>
+                                                            <td colspan="8" class="text-center">No data found</td>
                                                       </tr>
                                                       }
                                                       @for (item of appointment; track $index) {

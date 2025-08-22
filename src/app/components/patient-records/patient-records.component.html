@@ -15,11 +15,14 @@
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                     </div>
+                                    <button
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          (click)="exportTableToCSV()">Export CSV</button>
                               </div>
                         </div>
 
                         <div class="table-responsive mt-4 ct_custom_table">
-                              <table class="table ">
+                              <table class="table" id="myTable">
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>

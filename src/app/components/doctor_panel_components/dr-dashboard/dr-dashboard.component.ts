@@ -3,7 +3,7 @@ import { SocketService } from '../../../services/socket.service';
 import { CommonService } from '../../../services/common.service';
 import { ZegoService } from '../../../services/zego.service';
 import { LoaderService } from '../../../services/loader.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -18,12 +18,15 @@ export class DrDashboardComponent {
   appointments$!: Observable<any>
   appointment: any;
   date = new Date();
+    dashboardData: any;
+    private destroy$ = new Subject<void>();
   constructor(private socketService: SocketService, private loader: LoaderService, private srevice: CommonService, private zegoService: ZegoService, private router: Router, private route: ActivatedRoute) {
     this.socketService.userConnected();
   }
 
   ngOnInit(): void {
     this.getAppointments();
+    this.getData();
   }
 
   getAppointments() {
@@ -43,4 +46,20 @@ export class DrDashboardComponent {
     sessionStorage.setItem('Appointment', JSON.stringify(item.appointment_id));
     this.router.navigate(['/doctor/appointments/details'], { relativeTo: this.route });
   }
+
+
+  getData() {
+    this.loader.show()
+    this.srevice.get('doctor/dashboard').pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
+      this.dashboardData = res.data;
+      this.loader.hide()
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  
 }
+

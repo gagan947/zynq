@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { FormsModule } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+// import * as XLSX from 'xlsx';
+// import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-appointments-list',
@@ -178,5 +180,35 @@ export class AppointmentsListComponent {
   convertTime(time: any): any {
     const localTime = new Date(time).toLocaleString();
     return localTime
+  }
+
+  exportTableToCSV() {
+    const table = document.getElementById("myTable") as HTMLTableElement;
+    if (this.appointment.length == 0) {
+      this.toster.warning("No data found to export!");
+      return;
+    }
+
+    let csv: string[] = [];
+
+    for (let i = 0; i < table.rows.length; i++) {
+      let row: string[] = [];
+      const cols = table.rows[i].cells;
+
+      for (let j = 0; j < cols.length; j++) {
+        const headerText = table.rows[0].cells[j].innerText.trim();
+        if (headerText === 'Action') {
+          continue;
+        }
+        row.push('"' + cols[j].innerText.replace(/"/g, '""') + '"');
+      }
+
+      csv.push(row.join(","));
+    }
+    const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+    const downloadLink = document.createElement("a");
+    downloadLink.download = "Appointments.csv";
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.click();
   }
 }

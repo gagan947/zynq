@@ -7,6 +7,7 @@ import { LoaderService } from '../../services/loader.service';
 import { CommonModule } from '@angular/common';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { FormsModule } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-ratings-reviews',
@@ -24,7 +25,7 @@ export class RatingsReviewsComponent {
   searchTerm: string = '';
   selectedDate: string = '';
   feedbackDetail: any
-  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService) {
+  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService) {
   }
 
   ngOnInit(): void {
@@ -68,5 +69,35 @@ export class RatingsReviewsComponent {
         !this.selectedDate || item.created_at?.includes(this.selectedDate);
       return matchSearch && matchDate
     });
+  }
+
+  exportTableToCSV() {
+    const table = document.getElementById("myTable") as HTMLTableElement;
+    if (this.ratingReviewsList.length == 0) {
+      this.toster.warning("No data found to export!");
+      return;
+    }
+
+    let csv: string[] = [];
+
+    for (let i = 0; i < table.rows.length; i++) {
+      let row: string[] = [];
+      const cols = table.rows[i].cells;
+
+      for (let j = 0; j < cols.length; j++) {
+        const headerText = table.rows[0].cells[j].innerText.trim();
+        if (headerText === 'Action') {
+          continue;
+        }
+        row.push('"' + cols[j].innerText.replace(/"/g, '""') + '"');
+      }
+
+      csv.push(row.join(","));
+    }
+    const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+    const downloadLink = document.createElement("a");
+    downloadLink.download = "Ratings-&-Reviews.csv";
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.click();
   }
 }

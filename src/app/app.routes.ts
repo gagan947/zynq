@@ -35,6 +35,14 @@ export const routes: Routes = [
             loadComponent: () => import('./components/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent)
       },
       {
+            path: 'payment-success',
+            loadComponent: () => import('./components/shared/components/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent)
+      },
+            {
+            path: 'payment-cancel',
+            loadComponent: () => import('./components/shared/components/payment-fail/payment-fail.component').then(m => m.PaymentFailComponent)
+      },
+      {
             path: 'clinic',
             loadChildren: () => import('./components/clinic_panel_components/clinic.routes').then(m => m.clinicRoutes)
       },

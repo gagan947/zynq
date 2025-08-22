@@ -31,7 +31,7 @@
                                                 </div>
                                           </div> -->
                                     </div>
-                                    <div class="ct_w_100_767">
+                                    <div class="ct_w_100_767 d-flex justify-content-end gap-3">
                                           <a routerLink="add" class="ct_black_btn gap-2 ct_w_100_767"><svg width="20"
                                                       height="21" viewBox="0 0 20 21" fill="none"
                                                       xmlns="http://www.w3.org/2000/svg">
@@ -41,12 +41,15 @@
                                                 </svg>
                                                 Add Product
                                           </a>
+                                          <button
+                                                class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                                (click)="exportTableToCSV()">Export CSV</button>
                                     </div>
                               </div>
                         </div>
 
                         <div class="table-responsive mt-4 ct_custom_table">
-                              <table class="table ">
+                              <table class="table" id="myTable">
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>

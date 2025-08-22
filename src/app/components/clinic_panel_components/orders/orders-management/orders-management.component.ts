@@ -72,8 +72,64 @@ export class OrdersManagementComponent {
     });
   }
 
+  getBgColor(status: string): string {
+    switch (status) {
+      case 'PENDING':
+        return '#FFECB3';
+      case 'SHIPPED':
+        return '#BBDEFB';
+      case 'DELIVERED':
+        return '#C8E6C9';
+      default:
+        return '#FFFFFF';
+    }
+  }
+
+  getTextColor(status: string): string {
+    switch (status) {
+      case 'PENDING':
+        return '#EF6C00';
+      case 'SHIPPED':
+        return '#1565C0';
+      case 'DELIVERED':
+        return '#2E7D32';
+      default:
+        return '#000000';
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  exportTableToCSV() {
+    const table = document.getElementById("myTable") as HTMLTableElement;
+    if (this.ordersList.length == 0) {
+      this.toster.warning("No data found to export!");
+      return;
+    }
+
+    let csv: string[] = [];
+
+    for (let i = 0; i < table.rows.length; i++) {
+      let row: string[] = [];
+      const cols = table.rows[i].cells;
+
+      for (let j = 0; j < cols.length; j++) {
+        const headerText = table.rows[0].cells[j].innerText.trim();
+        if (headerText === 'Action' || headerText === 'Product Image') {
+          continue;
+        }
+        row.push('"' + cols[j].innerText.replace(/"/g, '""') + '"');
+      }
+
+      csv.push(row.join(","));
+    }
+    const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+    const downloadLink = document.createElement("a");
+    downloadLink.download = "Orders.csv";
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.click();
   }
 }

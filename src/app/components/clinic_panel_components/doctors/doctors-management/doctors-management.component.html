@@ -42,7 +42,7 @@
                                                 </div>
                                           </div>
                                     </div>
-                                    <div class="ct_w_100_767">
+                                    <div class="ct_w_100_767 d-flex justify-content-end gap-3">
                                           <button class="ct_black_btn gap-2 ct_w_100_767" data-bs-toggle="modal"
                                                 data-bs-target="#ct_invite_doctor_modal"><svg width="20" height="21"
                                                       viewBox="0 0 20 21" fill="none"
@@ -52,12 +52,15 @@
                                                             stroke-linejoin="round" />
                                                 </svg>
                                                 Invite Doctor</button>
+                                          <button
+                                                class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                                (click)="exportTableToCSV()">Export CSV</button>
                                     </div>
                               </div>
                         </div>
 
                         <div class="table-responsive mt-4 ct_custom_table">
-                              <table class="table ">
+                              <table class="table" id="myTable">
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>

@@ -80,4 +80,34 @@ export class ProductManagementComponent {
       this.imagePreview = imageUrl
     }
   }
+
+  exportTableToCSV() {
+    const table = document.getElementById("myTable") as HTMLTableElement;
+    if (this.productsList.length == 0) {
+      this.toster.warning("No data found to export!");
+      return;
+    }
+
+    let csv: string[] = [];
+
+    for (let i = 0; i < table.rows.length; i++) {
+      let row: string[] = [];
+      const cols = table.rows[i].cells;
+
+      for (let j = 0; j < cols.length; j++) {
+        const headerText = table.rows[0].cells[j].innerText.trim();
+        if (headerText === 'Action' || headerText === 'Product Image') {
+          continue;
+        }
+        row.push('"' + cols[j].innerText.replace(/"/g, '""') + '"');
+      }
+
+      csv.push(row.join(","));
+    }
+    const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+    const downloadLink = document.createElement("a");
+    downloadLink.download = "Products.csv";
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.click();
+  }
 }

@@ -23,11 +23,14 @@
                                                 </div>
                                           </div>
                                     </div>
+                                    <button
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          (click)="exportTableToCSV()">Export CSV</button>
                               </div>
                         </div>
                         @if(ratingReviews$ | async; as data){
                         <div class="table-responsive mt-4 ct_custom_table">
-                              <table class="table">
+                              <table class="table" id="myTable">
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>

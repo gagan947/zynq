@@ -3,7 +3,7 @@
         <i class="fa-solid fa-bars me-3 ct_fs_18 ct_menu_bar"></i>
     </div>
     <div class="d-flex align-items-center gap-3">
-        <div class="position-absolute">
+        <div class="p-2">
             <div id="google_translate_element"></div>
         </div>
 
@@ -47,8 +47,7 @@
             </a>
         </div>
         <div class="ct_right_dropdown dropdown">
-            <button id="dropdownMenuButton" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                class="ps-0">
+            <button id="dropdownMenuButton" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="d-flex align-items-center gap-2">
                     @if(auth.getRoleName() == 'clinic'){
                     <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/np_pro.png'"
@@ -62,23 +61,17 @@
                     }
                     <div class="text-start" style="height: 13px;">
                         @if(auth.getRoleName() == 'clinic'){
-                        <p class="mb-0 ct_fw_500 notranslate ct_overlay_w_45_575 ct_white_nowrap ct_overlay_text"
-                            style="line-height: 7px;">
+                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">
                             {{ this.clinicProfile()?.clinic_name}}
                         </p>
                         <small class="ct_text_939393">Clinic</small>
                         }@else if(auth.getRoleName() == 'doctor'){
-                        <p class="mb-0 ct_fw_500 notranslate  ct_white_nowrap ct_overlay_text"
-                            style="line-height: 7px;">
-                            {{ drProfile()?.name }}
-                        </p>
+                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">{{ drProfile()?.name }}</p>
                         <small class="ct_text_939393">Doctor</small>
                         }@else {
-                        <p class="mb-0 ct_fw_500 notranslate ct_overlay_w_45_575 ct_white_nowrap ct_overlay_text"
-                            style="line-height: 7px; ">
-                            {{ soloDrProfile()?.name }}
-                        </p>
-                        <small class="ct_text_939393">Solo Doctor</small>
+                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">{{ soloDrProfile()?.name }}</p>
+                        
+                        <small class="ct_text_939393 notranslate">Solo Doctor</small>
                         }
                     </div>
                 </div>

@@ -3,12 +3,18 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Order Management</h4>
-                              <p class="mb-0">Track and Manage All Clinic Product Orders</p>
+                              <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                          <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Order Management</h4>
+                                          <p class="mb-0">Track and Manage All Clinic Product Orders</p>
+                                    </div>
+                                    <button
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          (click)="exportTableToCSV()">Export CSV</button>
+                              </div>
                         </div>
-
                         <div class="table-responsive mt-4 ct_custom_table">
-                              <table class="table ">
+                              <table class="table " id="myTable">
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>
@@ -32,7 +38,7 @@
                                           @for (item of ordersList; track $index) {
                                           <tr>
                                                 <td>{{$index + 1}}</td>
-                                                <td>ORD-{{item.purchase_id}}</td>
+                                                <td>ZYNQ-{{item.purchase_id}}</td>
                                                 <td class="notranslate">{{item.user.name}}</td>
                                                 <!-- <td>{{item.clinic.clinic_name}}</td> -->
                                                 <td>
@@ -45,8 +51,11 @@
                                                       {{item.purchase_date | date:'dd-MM-yyyy - HH:mm a'}}
                                                 </td>
                                                 <td>
-                                                      <span
-                                                            [ngClass]="item.shipment_status == 'PENDING' ? 'ct_dark_yellow_text' : item.shipment_status == 'SHIPPED' ? 'ct_orange_text' : 'ct_green_text'">{{item.shipment_status | titlecase}}</span>
+                                                      <span [style.color]="getTextColor(item.shipment_status)"
+                                                            [ngStyle]="{'background-color': getBgColor(item.shipment_status)}"
+                                                            class="p-2 rounded">
+                                                            {{ item.shipment_status | titlecase }}
+                                                      </span>
                                                 </td>
                                                 <td>
                                                       <span class="ct_green_text">
