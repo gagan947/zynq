@@ -119,15 +119,18 @@
             </div>
             <div class="d-flex align-items-center justify-content-between">
                   <ul class="nav nav-pills mb-3 ct_custom_tabs" id="pills-tab" role="tablist">
+                        @if(data.dashboardData.role !== 'CLINIC'){
                         <li class="nav-item" role="presentation">
                               <button class="nav-link" [ngClass]="{'active': status === 'Appointmens'}" ngClass=""
                                     id="pills-Appointmens-tab" data-bs-toggle="pill" data-bs-target="#pills-Appointmens"
                                     type="button" role="tab" aria-controls="pills-Appointmens" aria-selected="false"
                                     (click)="filterByType('Appointmens')">Appointmens</button>
                         </li>
+                        }
                         @if(data.dashboardData.role !== 'DOCTOR'){
                         <li class="nav-item" role="presentation">
-                              <button class="nav-link" [ngClass]="{'active': status === 'Products'}"
+                              <button class="nav-link"
+                                    [ngClass]="{'active': status === 'Products' || data.dashboardData.role === 'CLINIC'}"
                                     id="pills-Products-tab" data-bs-toggle="pill" data-bs-target="#pills-Products"
                                     type="button" role="tab" aria-controls="pills-Products" aria-selected="false"
                                     (click)="filterByType('Products')">Products</button>
@@ -140,7 +143,7 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="mb-4">
-                              @if(status === 'Products'){
+                              @if(status === 'Products' || data.dashboardData.role === 'CLINIC'){
                               <div class="table-responsive mt-4 ct_custom_table">
                                     <table class="table" id="myTable">
                                           <thead>

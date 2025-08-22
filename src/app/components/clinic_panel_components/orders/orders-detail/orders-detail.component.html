@@ -94,9 +94,11 @@
                                                       <td class="ct_text_op_05 notranslate">{{item.name}}</td>
                                                       <td class="ct_text_op_05">{{item.cart_quantity}}</td>
                                                       <td class="ct_text_op_05 notranslate">
-                                                            {{item.price | currency:'SEK '}}</td>
+                                                            {{item.price | currency:'SEK '}}
+                                                      </td>
                                                       <td class="ct_text_op_05 notranslate">
-                                                            {{(item.price) | currency:'SEK '}}</td>
+                                                            {{(item.price * item.cart_quantity) | currency:'SEK '}}
+                                                      </td>
                                                 </tr>
                                                 }
                                           </tbody>

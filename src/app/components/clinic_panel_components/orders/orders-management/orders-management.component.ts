@@ -16,12 +16,19 @@ import { LoaderService } from '../../../../services/loader.service';
   styleUrl: './orders-management.component.css'
 })
 export class OrdersManagementComponent {
+  @ViewChild('date') date!: ElementRef<HTMLInputElement>;
+  @ViewChild('search') search!: ElementRef<HTMLInputElement>;
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
   private destroy$ = new Subject<void>();
   ordersList: any[] = [];
   shipmentStatus: any;
   purchaseId: number | null = null
   loading: boolean = false
+  originalAppointments: any[] = [];
+  status: string = '';
+  type: string = '';
+  searchTerm: string = '';
+  selectedDate: string = '';
   constructor(private service: CommonService, private toster: NzMessageService, private router: Router, private route: ActivatedRoute, private loader: LoaderService) { }
 
   ngOnInit() {
@@ -31,7 +38,7 @@ export class OrdersManagementComponent {
   getData() {
     this.loader.show()
     this.service.get('doctor/payments/get-purchased-products').pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
-      this.ordersList = res.data.products;
+      this.ordersList = this.originalAppointments = res.data.products;
       this.loader.hide()
     });
   }
@@ -45,6 +52,38 @@ export class OrdersManagementComponent {
     this.service._order.set(item.purchase_id);
     sessionStorage.setItem('order', JSON.stringify(item.purchase_id));
     this.router.navigate(['detail'], { relativeTo: this.route });
+  }
+
+  searchFilter(event: Event) {
+    this.searchTerm = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    this.applyFilters();
+  }
+
+  filterByDate(event: Event) {
+    this.selectedDate = (event.target as HTMLInputElement).value;
+    this.applyFilters();
+  }
+
+
+  filterByStatus(event: any) {
+    this.status = event.target.value;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.ordersList = this.originalAppointments.filter((item: any) => {
+      const matchSearch =
+        !this.searchTerm ||
+        item.user.name?.toLowerCase().includes(this.searchTerm)
+
+      const matchDate =
+        !this.selectedDate || item.purchase_date.includes(this.selectedDate);
+
+      const matchStatus =
+        !this.status || item.shipment_status === this.status;
+
+      return matchSearch && matchDate && matchStatus;
+    });
   }
 
   updateShipmentStatus() {

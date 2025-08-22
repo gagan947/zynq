@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PaymentSuccessComponent {
 
   redirectUrl: any;
-
+  countdown: number = 5;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -22,15 +22,24 @@ export class PaymentSuccessComponent {
 
       if (sessionId) {
         this.redirectUrl = `${baseUrl}?session_id=${sessionId}`;
-        console.log(this.redirectUrl);
       } else if (appointmentId) {
         this.redirectUrl = `${baseUrl}?appointment_id=${appointmentId}`;
-        console.log(this.redirectUrl);
       } else {
         this.redirectUrl = baseUrl;
       }
+
+      this.startCountdown();
     });
   }
 
+  startCountdown() {
+    const interval = setInterval(() => {
+      this.countdown--;
 
+      if (this.countdown === 0) {
+        clearInterval(interval);
+        window.location.href = this.redirectUrl;
+      }
+    }, 1000);
+  }
 }
