@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SocketService } from '../../../services/socket.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { CommonService } from '../../../services/common.service';
 import { LoaderService } from '../../../services/loader.service';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-solo-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './solo-dashboard.component.html',
   styleUrl: './solo-dashboard.component.css'
 })

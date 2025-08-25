@@ -5,12 +5,12 @@ import { ZegoService } from '../../../services/zego.service';
 import { LoaderService } from '../../../services/loader.service';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dr-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dr-dashboard.component.html',
   styleUrl: './dr-dashboard.component.css'
 })
@@ -18,8 +18,8 @@ export class DrDashboardComponent {
   appointments$!: Observable<any>
   appointment: any;
   date = new Date();
-    dashboardData: any;
-    private destroy$ = new Subject<void>();
+  dashboardData: any;
+  private destroy$ = new Subject<void>();
   constructor(private socketService: SocketService, private loader: LoaderService, private srevice: CommonService, private zegoService: ZegoService, private router: Router, private route: ActivatedRoute) {
     this.socketService.userConnected();
   }
@@ -60,6 +60,6 @@ export class DrDashboardComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
+
 }
 

@@ -229,4 +229,12 @@
     flex-direction: column;
     align-items: flex-start !important;
   }
+
+  header {
+    padding-inline: 10px;
+  }
+
+  .ct_language_select button {
+    font-size: 13px;
+  }
 }

@@ -8,10 +8,12 @@
 <div class="ct_px_30 mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
-                  <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4">
+                  <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/clinic/doctors">
                         <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                               <div>
-                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">{{dashboardData?.total_doctors || 0}}</h3>
+                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
+                                          {{dashboardData?.total_doctors || 0}}
+                                    </h3>
                                     <p class="mb-0">Total Doctors</p>
                               </div>
                               <div class="ct_dash_icon">
@@ -24,10 +26,12 @@
                               </div>
                         </div>
                   </div>
-                  <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4">
+                  <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/clinic/patient-records">
                         <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                               <div>
-                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">{{dashboardData?.total_patients || 0}}</h3>
+                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
+                                          {{dashboardData?.total_patients || 0}}
+                                    </h3>
                                     <p class="mb-0">Total Patients</p>
                               </div>
                               <div class="ct_dash_icon">
@@ -40,10 +44,12 @@
                               </div>
                         </div>
                   </div>
-                  <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4">
+                  <!-- <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4" routerLink="/clinic/appointments">
                         <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                               <div>
-                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">{{dashboardData?.total_appointments || 0}}</h3>
+                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
+                                          {{dashboardData?.total_appointments || 0}}
+                                    </h3>
                                     <p class="mb-0">Total Appointments</p>
                               </div>
                               <div class="ct_dash_icon">
@@ -58,11 +64,13 @@
                                     </svg>
                               </div>
                         </div>
-                  </div>
-                  <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4">
+                  </div> -->
+                  <!-- <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4">
                         <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                               <div>
-                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">{{dashboardData?.clinic_appointment_earnings || 0 | currency:'SEK '}}</h3>
+                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
+                                          {{dashboardData?.clinic_appointment_earnings || 0 | currency:'SEK '}}
+                                    </h3>
                                     <p class="mb-0">Appointments Earning</p>
                               </div>
                               <div class="ct_dash_icon">
@@ -82,11 +90,13 @@
                                     </svg>
                               </div>
                         </div>
-                  </div>
-                  <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4">
+                  </div> -->
+                  <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/clinic/earning-analytics">
                         <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                               <div>
-                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">{{dashboardData?.clinic_product_earnings || 0 | currency:'SEK '}}</h3>
+                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
+                                          {{dashboardData?.clinic_product_earnings || 0 | currency:'SEK '}}
+                                    </h3>
                                     <p class="mb-0">Products Earning</p>
                               </div>
                               <div class="ct_dash_icon">
@@ -107,11 +117,13 @@
                               </div>
                         </div>
                   </div>
-                  <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4">
+                  <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/clinic/ratings-reviews">
                         <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                               <div>
-                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">{{dashboardData?.average_rating || 0}}</h3>
-                                    <p class="mb-0">Average Doctor Rating</p>
+                                    <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
+                                          {{dashboardData?.average_rating || 0}}
+                                    </h3>
+                                    <p class="mb-0">Average Rating</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="16" viewBox="0 0 19 16" fill="none"

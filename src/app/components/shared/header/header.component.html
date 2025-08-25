@@ -3,7 +3,7 @@
         <i class="fa-solid fa-bars me-3 ct_fs_18 ct_menu_bar"></i>
     </div>
     <div class="d-flex align-items-center gap-3">
-        <div class="p-2">
+        <div class="  position-absolute">
             <div id="google_translate_element"></div>
         </div>
 
@@ -59,23 +59,28 @@
                     <img [src]="soloDrProfile()?.profile_image ? soloDrProfile()?.profile_image : 'assets/img/np_pro.png'"
                         alt="" class="ct_img_30">
                     }
-                    <div class="text-start" style="height: 13px;">
+                    <div class="text-start" style="height: 36px;">
                         @if(auth.getRoleName() == 'clinic'){
-                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">
+                        <p class="mb-0 ct_fw_500 notranslate ct_overlay_text" style="width:58px">
                             {{ this.clinicProfile()?.clinic_name}}
                         </p>
-                        <small class="ct_text_939393">Clinic</small>
+                        <small class="ct_text_939393 ct_overlay_text" style=" width:58px">Clinic</small>
                         }@else if(auth.getRoleName() == 'doctor'){
-                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">{{ drProfile()?.name }}</p>
-                        <small class="ct_text_939393">Doctor</small>
+                        <p class="mb-0 ct_fw_500 notranslate ct_overlay_text" style="  width:58px">
+                            {{ drProfile()?.name }}
+                        </p>
+                        <small class="ct_text_939393 ct_overlay_text" style=" width:58px">Doctor</small>
                         }@else {
-                        <p class="mb-0 ct_fw_500 notranslate" style="line-height: 7px;">{{ soloDrProfile()?.name }}</p>
-                        
-                        <small class="ct_text_939393 notranslate">Solo Doctor</small>
+                        <p class="mb-0 ct_fw_500 notranslate ct_overlay_text" style="  width:58px">
+                            {{ soloDrProfile()?.name }}
+                        </p>
+
+                        <small class="ct_text_939393 notranslate ct_overlay_text" style=" width:58px">Solo
+                            Doctor</small>
                         }
                     </div>
                 </div>
-                <i class="fa-solid fa-angle-down ms-auto"></i>
+                <i class=" fa-solid fa-angle-down ms-auto"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 @if(auth.getRoleName() == 'clinic'){

@@ -755,7 +755,7 @@ header {
 
 .ct_right_dropdown button {
   border: 0px;
-  padding: 11px 16px;
+  padding: 11px 0px;
   background-color: transparent;
   display: flex;
   align-items: center;
