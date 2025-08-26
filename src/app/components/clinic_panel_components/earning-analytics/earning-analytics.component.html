@@ -186,7 +186,7 @@
                                                             10.00%
                                                       </td>
                                                       <td>
-                                                            {{item.purchase_date | date:'dd-MM-yyyy - HH:mm a'}}
+                                                            {{item.purchase_date | date:'dd-MM-yyyy - HH:mm'}}
                                                       </td>
                                                 </tr>
                                                 }
@@ -229,12 +229,12 @@
                                                       }
                                                       <td>
                                                             <p class="mb-1">
-                                                                  {{item.start_time | date:'dd-MM-yyyy - HH:mm a'}}
+                                                                  {{item.start_time | date:'dd-MM-yyyy - HH:mm'}}
                                                             </p>
                                                       </td>
                                                       <td>
                                                             <p class="mb-0">
-                                                                  {{item.end_time | date:'dd-MM-yyyy - HH:mm a'}}
+                                                                  {{item.end_time | date:'dd-MM-yyyy - HH:mm'}}
                                                             </p>
                                                       </td>
                                                       <td>{{item.type || 'N/A'}}</td>
