@@ -254,7 +254,8 @@
                                     <!-- <input type="button" name="next" class="ct_form_next ct_black_btn float-end mx-1"
                                     value="Next" /> -->
 
-                                    <button type="submit" class="ct_form_next action-button ct_black_btn float-end"
+                                    <button type="submit"
+                                          class="ct_form_next action-button ct_black_btn float-end notranslate"
                                           value="Next" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
@@ -376,7 +377,7 @@
                                                                   formControlName="mobile_number"> -->
                                                             <ngx-intl-tel-input
                                                                   [cssClass]="'form-control ct_input w-full'"
-                                                                  [enableAutoCountrySelect]="false"
+                                                                  [enableAutoCountrySelect]="true"
                                                                   [enablePlaceholder]="true" [searchCountryFlag]="true"
                                                                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                                                                   [selectFirstCountry]="false"
@@ -417,7 +418,7 @@
                                     </div>
                                     <div class="float-end">
                                           <button type="submit" name="next"
-                                                class="ct_form_next action-button  ct_black_btn float-end mx-1"
+                                                class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
                                                 value="Next" [disabled]="loading">
                                                 @if(loading){
                                                 <div class="spinner-border" role="status">
@@ -435,7 +436,6 @@
                                           <button type="button" name="previous"
                                                 class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                                 value="Previous" (click)="previousStep()">Previous</button>
-
                                     </div>
                               </form>
                         </fieldset>
@@ -653,8 +653,8 @@
                                     </div>
 
                                     <button type="submit" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="onSubmitProfessional()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
+                                          value="Next" (click)="onSubmitProfessional()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -826,8 +826,8 @@
                                           </div>
                                     </div>
                                     <button type="submit" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
+                                          value="Next" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -1058,7 +1058,6 @@
                                                                               </div>
                                                                         </div>
                                                                   </div>
-
                                                                   <button type="button" class="ct_black_btn py-2 px-3"
                                                                         (click)="addSession(i)">+ Add
                                                                         Session</button>
@@ -1069,8 +1068,8 @@
                                     </div>
 
                                     <button type="submit" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          [disabled]="loading">
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 notranslate"
+                                          value="Next" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -1082,7 +1081,6 @@
                                     <button type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="Previous" (click)="previousStep()">Previous</button>
-
                               </form>
                         </fieldset>
                   </div>

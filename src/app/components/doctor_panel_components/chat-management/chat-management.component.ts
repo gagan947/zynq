@@ -111,7 +111,7 @@ export class ChatManagementComponent {
   searchFilter(event: any) {
     const searchTerm = (event.target as HTMLInputElement).value.toLowerCase().trim();
     if (searchTerm) {
-      this.chatlist = this.orgChatList.filter((item: any) => item.full_name.toLowerCase().includes(searchTerm));
+      this.chatlist = this.orgChatList.filter((item) => item.full_name?.toLowerCase().includes(searchTerm));
     } else {
       this.chatlist = [...this.orgChatList];
     }

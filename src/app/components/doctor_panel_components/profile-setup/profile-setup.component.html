@@ -52,7 +52,7 @@
 
                                                             <ngx-intl-tel-input
                                                                   [cssClass]="'form-control ct_input w-full'"
-                                                                  [enableAutoCountrySelect]="false"
+                                                                  [enableAutoCountrySelect]="true"
                                                                   [enablePlaceholder]="true" [searchCountryFlag]="true"
                                                                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                                                                   [selectFirstCountry]="false"
@@ -180,8 +180,8 @@
                                           </div>
                                     </div>
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
+                                          value="Next" (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -404,8 +404,8 @@
                                     </div>
 
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
+                                          value="Next" (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -570,8 +570,8 @@
                                           </div>
                                     </div>
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
+                                          value="Next" (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -805,8 +805,8 @@
                                     </div>
 
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1" value="Next"
-                                          (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
+                                          value="Next" (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
