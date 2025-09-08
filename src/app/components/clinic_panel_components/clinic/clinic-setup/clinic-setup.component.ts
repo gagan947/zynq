@@ -43,6 +43,7 @@ export class ClinicSetupComponent {
   SearchCountryField = SearchCountryField
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
+  preferredCountries: CountryISO[] = [CountryISO.Sweden];
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   steps = [
     { id: 'Clinic', label: 'Clinic Details' },

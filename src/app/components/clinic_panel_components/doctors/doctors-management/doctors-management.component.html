@@ -3,7 +3,7 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Doctors Management</h4>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Experts Management</h4>
                               <p class="mb-0">Manage your clinic's healthcare professionals</p>
 
                               <div
@@ -51,7 +51,7 @@
                                                             stroke="white" stroke-width="1.8" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                 </svg>
-                                                Invite Doctor</button>
+                                                Invite Expert</button>
                                           <button
                                                 class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
                                                 (click)="exportTableToCSV()">Export CSV</button>
@@ -77,7 +77,7 @@
                                     <tbody>
                                           @if(doctorsList.length == 0) {
                                           <tr>
-                                                <td colspan="8" class="text-center">No Doctors Found</td>
+                                                <td colspan="8" class="text-center">No Experts Found</td>
                                           </tr>
                                           }
                                           @for (item of doctorsList; track $index) {
@@ -146,7 +146,7 @@
             </div>
       </div>
 </div>
-<!-- invite doctor Modal S -->
+<!-- invite Expert Modal S -->
 <div class="modal fade modal-md" id="ct_invite_doctor_modal" tabindex="-1" aria-labelledby="ct_invite_doctor_modalLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -161,10 +161,10 @@
                   </div>
                   <div class="modal-body">
 
-                        <h4 class="ct_fs_24 ct_fw_600">Link New Doctor</h4>
+                        <h4 class="ct_fs_24 ct_fw_600">Link New Expert</h4>
                         <form [formGroup]="Form" (ngSubmit)="onSubmit()" class="mt-4">
                               <div class="form-group">
-                                    <label for="" class="mb-2">Enter Doctor's Email</label>
+                                    <label for="" class="mb-2">Enter Expert's Email</label>
                                     <input type="email" placeholder="Enter email" class="form-control ct_input"
                                           formControlName="email">
                                     <span *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
@@ -187,7 +187,7 @@
             </div>
       </div>
 </div>
-<!-- invite doctor Modal E -->
+<!-- invite Expert Modal E -->
 <!-- Unlink Modal S -->
 <div class="modal fade modal-md" id="ct_unlink_modal" tabindex="-1" aria-labelledby="ct_unlink_modalLabel"
       aria-hidden="true">
@@ -206,7 +206,7 @@
                               <i class="fa-solid fa-triangle-exclamation"></i>
                         </div>
                         <h4 class="ct_fs_24 ct_fw_600">Unlink</h4>
-                        <p class="mb-0">Are you sure you want to unlink this doctor?</p>
+                        <p class="mb-0">Are you sure you want to unlink this Expert?</p>
                         <div class="d-flex align-items-center gap-3 mt-4 justify-content-center notranslate">
                               <button class="ct_outline_btn px-5 py-2 w-100" data-bs-dismiss="modal" aria-label="Close"
                                     #closeButton2>No</button>

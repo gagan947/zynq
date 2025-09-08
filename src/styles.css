@@ -151,7 +151,7 @@ body {
 .dropdown-menu.iti__dropdown-content.show {
     padding: 5px !important;
     overflow: auto !important;
-    height: 15rem !important;
+    height: auto !important;
 }
 
 .iti__selected-flag {
@@ -161,7 +161,7 @@ body {
 .dropdown-menu.iti__dropdown-content.show {
     padding: 5px !important;
     overflow: auto !important;
-    height: 15rem !important;
+    height: auto !important;
     width: 19rem;
 }
 

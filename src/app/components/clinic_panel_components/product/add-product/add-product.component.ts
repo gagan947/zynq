@@ -42,7 +42,7 @@ export class AddProductComponent {
       short_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(100)]],
       full_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
       feature_text: [''],
-      size_label: [''],
+      // size_label: [''],
       ingredients: [''],
       benefit_text: [''],
       how_to_use: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -151,7 +151,7 @@ export class AddProductComponent {
 
   onSubmit() {
     this.submitted = true;
-    if (this.Form.invalid || this.selectedFeatures.length == 0 || this.selectedBenefits.length == 0 || this.selectedIngredients.length == 0 || this.previewProductImages.length == 0 || this.selectedSizes.length == 0) {
+    if (this.Form.invalid || this.selectedFeatures.length == 0 || this.selectedBenefits.length == 0 || this.selectedIngredients.length == 0 || this.previewProductImages.length == 0) {
       this.Form.markAllAsTouched();
       return
     }
@@ -207,11 +207,12 @@ export class AddProductComponent {
       if (res.success) {
         this.productData = res.data;
         this.Form.patchValue(this.productData || {});
+        this.Form.patchValue({ treatments: this.productData?.treatments.map((item: any) => item.treatment_id) });
         this.productData?.product_images.forEach((element: ProductImage) => {
           this.previewProductImages.push(element.image);
         })
         this.selectedFeatures = this.productData?.feature_text.split(',') || [];
-        this.selectedSizes = this.productData?.size_label.split(',') || [];
+        // this.selectedSizes = this.productData?.size_label.split(',') || [];
         this.selectedBenefits = this.productData?.benefit_text.split(',') || [];
         this.selectedIngredients = this.productData?.ingredients.split(',') || [];
       } else {

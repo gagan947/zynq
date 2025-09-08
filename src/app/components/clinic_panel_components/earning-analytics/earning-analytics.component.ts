@@ -3,6 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { LoaderService } from '../../../services/loader.service';
 
 @Component({
   selector: 'app-earning-analytics',
@@ -15,15 +16,19 @@ export class EarningAnalyticsComponent {
   private destroy$ = new Subject<void>();
   status: string = 'Appointmens';
   data: any
-  constructor(private service: CommonService, private toster: NzMessageService) { }
+  constructor(private service: CommonService, private toster: NzMessageService, private loader: LoaderService) { }
 
   ngOnInit() {
     this.getData();
   }
 
   getData() {
+    this.loader.show()
     this.service.get('doctor/earnings').pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       this.data = res.data || {};
+      this.loader.hide()
+    }, error => {
+      this.loader.hide()
     });
   }
 

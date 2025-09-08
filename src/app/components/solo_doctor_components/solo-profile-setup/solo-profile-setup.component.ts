@@ -80,6 +80,7 @@ export class SoloProfileSetupComponent {
   SearchCountryField = SearchCountryField
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
+  preferredCountries: CountryISO[] = [CountryISO.Sweden]
   constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
   }

@@ -274,9 +274,10 @@
                                                             <ngx-intl-tel-input
                                                                   [cssClass]="'form-control ct_input w-full'"
                                                                   [enableAutoCountrySelect]="true"
-                                                                  [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                                                  [enablePlaceholder]="true" [searchCountryFlag]="false"
                                                                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                                                                   [selectFirstCountry]="false"
+                                                                  [preferredCountries]="preferredCountries"
                                                                   [selectedCountryISO]="selectedCountry"
                                                                   [maxLength]="15" [phoneValidation]="true"
                                                                   formControlName="mobile_number"></ngx-intl-tel-input>

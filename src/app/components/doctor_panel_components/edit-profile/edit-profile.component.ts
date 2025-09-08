@@ -57,6 +57,7 @@ export class EditProfileComponent {
   SearchCountryField = SearchCountryField
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
+  preferredCountries: CountryISO[] = [CountryISO.Sweden];
   constructor(private fb: FormBuilder, private loaderService: LoaderService, private apiService: CommonService, private toster: NzMessageService, private router: Router) {
 
   }

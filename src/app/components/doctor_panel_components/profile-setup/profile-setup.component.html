@@ -53,7 +53,8 @@
                                                             <ngx-intl-tel-input
                                                                   [cssClass]="'form-control ct_input w-full'"
                                                                   [enableAutoCountrySelect]="true"
-                                                                  [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                                                  [enablePlaceholder]="true" [searchCountryFlag]="false"
+                                                                  [onlyCountries]="preferredCountries"
                                                                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                                                                   [selectFirstCountry]="false"
                                                                   [selectedCountryISO]="selectedCountry"

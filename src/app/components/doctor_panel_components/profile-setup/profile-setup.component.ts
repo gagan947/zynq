@@ -61,6 +61,7 @@ export class ProfileSetupComponent {
   SearchCountryField = SearchCountryField
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
+  preferredCountries: CountryISO[] = [CountryISO.Sweden];
   constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router, private i18n: NzI18nService, private toster: NzMessageService, private auth: AuthService) {
 
   }

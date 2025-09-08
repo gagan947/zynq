@@ -53,11 +53,12 @@
                                                             <ngx-intl-tel-input
                                                                   [cssClass]="'form-control ct_input w-full'"
                                                                   [enableAutoCountrySelect]="true"
-                                                                  [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                                                  [enablePlaceholder]="true" [searchCountryFlag]="false"
                                                                   [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
                                                                   [selectFirstCountry]="false"
                                                                   [selectedCountryISO]="selectedCountry"
-                                                                  [maxLength]="15" [phoneValidation]="true"
+                                                                  [onlyCountries]="preferredCountries" [maxLength]="15"
+                                                                  [phoneValidation]="true"
                                                                   formControlName="phone"></ngx-intl-tel-input>
                                                             <div *ngIf="personalForm.get('phone')?.touched && personalForm.get('phone')?.invalid"
                                                                   class="text-danger">

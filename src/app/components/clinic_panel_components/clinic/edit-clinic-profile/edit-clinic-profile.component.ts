@@ -40,6 +40,7 @@ export class EditClinicProfileComponent {
   SearchCountryField = SearchCountryField
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
+  preferredCountries: CountryISO[] = [CountryISO.Sweden]
   steps = [
     { id: 'Clinic', label: 'Clinic Details' },
     { id: 'Contact', label: 'Contact Details' },
