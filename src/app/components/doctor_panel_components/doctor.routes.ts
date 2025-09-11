@@ -67,9 +67,19 @@ export const doctorRoutes: Routes = [
                         title: 'Earning & Analytics'
                   },
                   {
+                        path: 'transactions',
+                        loadComponent: () => import('../shared/components/transaction-history/transaction-history.component').then((m) => m.TransactionHistoryComponent),
+                        title: 'Transactions'
+                  },
+                  {
                         path: 'ratings-reviews',
                         loadComponent: () => import('../ratings-reviews/ratings-reviews.component').then((m) => m.RatingsReviewsComponent),
                         title: 'Ratings & Reviews'
+                  },
+                  {
+                        path: 'faqs',
+                        loadComponent: () => import('../shared/components/faq-list/faq-list.component').then((m) => m.FaqListComponent),
+                        title: 'FAQs'
                   },
                   {
                         path: 'patient-records',

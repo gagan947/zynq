@@ -1,0 +1,90 @@
+<div class="ct_px_30 mt-4 pb-4">
+      <div class="container-fluid">
+            <div class="row">
+                  <div class="col-md-12">
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Transaction History</h4>
+                              <p class="mb-0">Track all payments in one place</p>
+
+                              <div
+                                    class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
+                                    <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
+                                          <div class="form-group position-relative ct_w_100_767">
+                                                <input type="text" class="form-control ct_input ct_input_pe_40"
+                                                      placeholder="Search" #search (input)="searchFilter($event)">
+                                                <i class="fa-solid fa-search ct_show_eye"></i>
+                                          </div>
+                                          @if(roleName === 'solo-doctor'){
+                                          <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
+                                                <span class="ct_white_nowrap">Filter by:</span>
+                                                <div class="form-group position-relative ct_w_100_767 notranslate">
+                                                      <select class="form-control ct_input"
+                                                            (change)="filterByType($event)">
+                                                            <option value="">Type</option>
+                                                            <option value="PURCHASE">Purchase</option>
+                                                            <option value="APPOINTMENT">Appointmens</option>
+                                                      </select>
+                                                </div>
+                                          </div>
+                                          }
+                                    </div>
+                                    <button
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          (click)="exportTableToCSV()">Export CSV</button>
+                              </div>
+                        </div>
+                        @if(ratingReviews$ | async; as data){
+                        <div class="table-responsive mt-4 ct_custom_table">
+                              <table class="table" id="myTable">
+                                    <thead>
+                                          <tr>
+                                                <th>S.No</th>
+                                                <th>User Name</th>
+                                                <th>Order Type</th>
+                                                <th>Total Amount</th>
+                                                <th>Admin Earning</th>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          @if(faqList.length == 0){
+                                          <tr>
+                                                <td colspan="6" class="text-center">No data found</td>
+                                          </tr>
+                                          }
+                                          @for (item of faqList; track $index) {
+                                          <tr>
+                                                <td>{{$index + 1}}</td>
+                                                <td class="notranslate">
+                                                      {{item.details?.user?.name || item.details.user_name}}
+                                                </td>
+                                                <td class="notranslate">
+                                                      {{item.order_type}}
+                                                </td>
+                                                <td class="notranslate">
+                                                      {{item.details.total_price | currency:'SEK '}}
+                                                </td>
+                                                <td class="notranslate">
+                                                      {{item.details.admin_earnings | currency:'SEK '}}
+                                                </td>
+                                                <td class="notranslate">
+                                                      {{item.amount | currency:'SEK '}}
+                                                </td>
+                                                <td>
+                                                      {{item.created_at | date:'dd-MM-yyyy - HH:mm'}}
+                                                </td>
+                                                <td>
+                                                      <span class="ct_green_text">Paid</span>
+                                                </td>
+                                          </tr>
+                                          }
+                                    </tbody>
+                              </table>
+                        </div>
+                        }
+                  </div>
+            </div>
+      </div>
+</div>

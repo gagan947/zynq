@@ -1,0 +1,98 @@
+<div class="ct_px_30 mt-4 pb-4">
+      <div class="container-fluid">
+            <div class="row">
+                  <div class="col-md-12">
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">FAQ’s Management</h4>
+                              <p class="mb-0">Manage and maintain your list of FAQ’s</p>
+
+                              <div
+                                    class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
+                                    <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
+                                          <div class="form-group position-relative ct_w_100_767">
+                                                <input type="text" class="form-control ct_input ct_input_pe_40"
+                                                      placeholder="Search" #search (input)="searchFilter($event)">
+                                                <i class="fa-solid fa-search ct_show_eye"></i>
+                                          </div>
+                                          <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
+                                                <span class="ct_white_nowrap">Filter by:</span>
+                                                <div class="form-group position-relative ct_w_100_767">
+                                                      <select class="form-control ct_input"
+                                                            (change)="filterByType($event)">
+                                                            <option value="">Category</option>
+                                                            @if(categories$ | async; as data){
+                                                            @for(item of data.data; track $index){
+                                                            <option [value]="item.name">{{item.name}}</option>
+                                                            }
+                                                            }
+                                                      </select>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <button
+                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
+                                          (click)="exportTableToCSV()">Export CSV</button>
+                              </div>
+                        </div>
+                        @if(ratingReviews$ | async; as data){
+                        <div class="table-responsive mt-4 ct_custom_table">
+                              <table class="table" id="myTable">
+                                    <thead>
+                                          <tr>
+                                                <th>S.No</th>
+                                                <th>Question</th>
+                                                <th>Answer</th>
+                                                <th>Action</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          @if(faqList.length == 0){
+                                          <tr>
+                                                <td colspan="6" class="text-center">No data found</td>
+                                          </tr>
+                                          }
+                                          @for (item of faqList; track $index) {
+                                          <tr>
+                                                <td>{{$index + 1}}</td>
+                                                <td>
+                                                      <p class="ct_overlay_text mb-0">{{item.question}}</p>
+                                                </td>
+                                                <td>
+                                                      <p class="ct_overlay_text mb-0">{{item.answer}}</p>
+                                                </td>
+                                                <td>
+                                                      <div class="d-flex align-items-center gap-3">
+                                                            <a (click)="openModal(item)" data-bs-toggle="modal"
+                                                                  data-bs-target="#ct_feedback_detail_modal"><i
+                                                                        class="fa-regular fa-eye"></i></a>
+                                                      </div>
+                                                </td>
+                                          </tr>
+                                          }
+                                    </tbody>
+                              </table>
+                        </div>
+                        }
+                  </div>
+            </div>
+      </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal-lg" id="ct_feedback_detail_modal" tabindex="-1"
+      aria-labelledby="ct_feedback_detail_modalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                  <div class="modal-header border-0">
+                        <h5 class="modal-title" id="ct_feedback_detail_modalLabel">FAQ’s Detail</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body pb-5">
+                        <div>
+                              <p class="question ct_fw_600">{{feedbackDetail?.question}}</p>
+                              <p class="awnser">{{feedbackDetail?.answer}}</p>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
