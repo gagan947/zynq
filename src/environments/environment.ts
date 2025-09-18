@@ -1,8 +1,8 @@
 export const environment = {
       production: true,
-      apiUrl: 'https://51.21.123.99:4000/',
-      certificateUrl: 'https://51.21.123.99:4000/',
-      socketUrl: 'https://51.21.123.99:4000/',
+      apiUrl: 'https://getzynq.io:4000/',
+      certificateUrl: 'https://getzynq.io:4000/',
+      socketUrl: 'https://getzynq.io:4000/',
 
       // Testing
 

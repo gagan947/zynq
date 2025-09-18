@@ -18,7 +18,7 @@ export class PatientRecordsComponent {
   patientList: any[] = [];
   patientId: number | null = null
   orgPatientList: any[] = [];
-  imagePreview: string = 'assets/img/np_pro.png';
+  imagePreview: string = 'assets/img/np_pro.jpg';
   searchTerm: string = '';
   constructor(private service: CommonService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService) { }
 

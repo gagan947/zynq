@@ -1,0 +1,17 @@
+.ct_wallet_btn {
+      padding: 13px 30px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 10px;
+      outline: none;
+      border: 1px solid #e6e6e6;
+      background-color: #e6e6e6;
+      position: relative;
+      z-index: 1;
+      transition: 0.4s ease all;
+      color: #000;
+      overflow: hidden;
+}

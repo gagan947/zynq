@@ -24,7 +24,7 @@ export class TransactionHistoryComponent {
   selectedCategory: string = '';
   feedbackDetail: any;
   roleName: string | null = null;
-
+  totalAmount: number = 0;
   constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService, private authService: AuthService) {
     this.roleName = this.authService.getRoleName();
   }
@@ -35,6 +35,7 @@ export class TransactionHistoryComponent {
       tap((response: any) => {
         this.faqList = response.data;
         this.orgFaqList = response.data;
+        this.totalAmount = this.orgFaqList.reduce((total: number, item: any) => Number(total) + Number(item.amount), 0);
         this.loader.hide();
       }, error => {
         this.loader.hide();
@@ -94,7 +95,7 @@ export class TransactionHistoryComponent {
     }
     const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
     const downloadLink = document.createElement("a");
-    downloadLink.download = "FAQ's.csv";
+    downloadLink.download = "Transactions.csv";
     downloadLink.href = window.URL.createObjectURL(csvFile);
     downloadLink.click();
   }

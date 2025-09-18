@@ -50,13 +50,13 @@
             <button id="dropdownMenuButton" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="d-flex align-items-center gap-2">
                     @if(auth.getRoleName() == 'clinic'){
-                    <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/np_pro.png'"
+                    <img [src]=" this.clinicProfile()?.clinic_logo ? this.clinicProfile()?.clinic_logo : 'assets/img/np_pro.jpg'"
                         alt="" class="ct_img_30">
                     }@else if(auth.getRoleName() == 'doctor'){
-                    <img [src]="drProfile()?.profile_image ? drProfile()?.profile_image : 'assets/img/np_pro.png'"
+                    <img [src]="drProfile()?.profile_image ? drProfile()?.profile_image : 'assets/img/np_pro.jpg'"
                         alt="" class="ct_img_30">
                     }@else {
-                    <img [src]="soloDrProfile()?.profile_image ? soloDrProfile()?.profile_image : 'assets/img/np_pro.png'"
+                    <img [src]="soloDrProfile()?.profile_image ? soloDrProfile()?.profile_image : 'assets/img/np_pro.jpg'"
                         alt="" class="ct_img_30">
                     }
                     <div class="text-start" style="height: 36px;">

@@ -17,11 +17,11 @@ export class MainComponent {
   ngOnInit() {
     // this.service.post('doctor/isDocterOfflineOrOnline', { isOnline: 1 }).subscribe()
     const data = JSON.parse(localStorage.getItem('userInfo') || '{}');
-    const appID = 1602450801;
+    const appID = 1107673050;
     const callerUserID = data.id.replace(/-/g, '');
     const doctorName = data.doctor_name;
     const callerUserName = 'user_' + callerUserID;
-    const serverSecret = '838170b757bc7b5c7b753a8758a8ae9c';
+    const serverSecret = 'ee4c4f96155128036920c19b9e997b3d';
     this.zegoService.initializeZego(appID, serverSecret, callerUserID, doctorName);
   }
 }

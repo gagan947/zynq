@@ -15,7 +15,7 @@ export class ClinicProfileComponent {
   clinicProfile = this.service._clinicProfile;
   center: google.maps.LatLngLiteral = { lat: 28.6139, lng: 77.2090 };
   zoom = 12;
-  imagePreview: string = 'assets/img/np_pro.png';
+  imagePreview: string = 'assets/img/np_pro.jpg';
   constructor(private fb: FormBuilder, private service: CommonService) {
     effect(() => {
       this.clinicProfile();

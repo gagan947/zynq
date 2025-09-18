@@ -16,7 +16,7 @@ export class SoloMyProfileComponent {
   soloDrProfile = this.service._soloDoctorProfile;
   center: google.maps.LatLngLiteral = { lat: 28.6139, lng: 77.2090 };
   zoom = 12;
-  imagePreview: string = 'assets/img/np_pro.png';
+  imagePreview: string = 'assets/img/np_pro.jpg';
   constructor(private service: CommonService, private loaderService: LoaderService) {
     this.getSoloDoctorProfile()
     effect(() => {

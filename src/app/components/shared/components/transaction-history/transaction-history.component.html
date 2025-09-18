@@ -21,16 +21,24 @@
                                                       <select class="form-control ct_input"
                                                             (change)="filterByType($event)">
                                                             <option value="">Type</option>
-                                                            <option value="PURCHASE">Purchase</option>
-                                                            <option value="APPOINTMENT">Appointmens</option>
+                                                            <option value="PURCHASE">Products</option>
+                                                            <option value="APPOINTMENT">Appointments</option>
                                                       </select>
                                                 </div>
                                           </div>
                                           }
                                     </div>
-                                    <button
-                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                          (click)="exportTableToCSV()">Export CSV</button>
+                                    <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
+                                          <button class="ct_wallet_btn ct_w_100_767 notranslate">
+                                                <img src="assets/img/solar_wallet-linear.svg" alt=""
+                                                      class="ct_img_20 me-2">
+                                                {{totalAmount | currency:'SEK '}}
+                                          </button>
+
+                                          <button
+                                                class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn ct_w_100_767"
+                                                (click)="exportTableToCSV()">Export CSV</button>
+                                    </div>
                               </div>
                         </div>
                         @if(ratingReviews$ | async; as data){
@@ -43,7 +51,7 @@
                                                 <th>Order Type</th>
                                                 <th>Total Amount</th>
                                                 <th>Admin Earning</th>
-                                                <th>Amount</th>
+                                                <th>Received Amount</th>
                                                 <th>Date</th>
                                                 <th>Status</th>
                                           </tr>

@@ -19,7 +19,7 @@ export class ProductManagementComponent {
   ProductId: string | undefined;
   productsList: Product[] = [];
   orgProductsList: Product[] = [];
-  imagePreview: string = 'assets/img/np_pro.png';
+  imagePreview: string = 'assets/img/np_pro.jpg';
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
   constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private loader: LoaderService) { }
 
