@@ -71,10 +71,10 @@
                                           <tr>
                                                 <td>{{$index + 1}}</td>
                                                 <td>
-                                                      <img [src]="item.product_images[0].image || 'assets/img/np_pro.jpg'"
+                                                      <img [src]="item.cover_image || item.product_images[0].image || 'assets/img/np_pro.jpg'"
                                                             alt="" class="ct_img_40 ct_cursor_pointer"
                                                             data-bs-toggle="modal" data-bs-target="#full_view_img"
-                                                            (click)="openModal(item.product_images[0].image)">
+                                                            (click)="openModal(item.cover_image || item.product_images[0].image)">
                                                 </td>
                                                 <td>{{item.name}}</td>
                                                 <td class="notranslate">{{item.price | currency:'SEK '}}</td>

@@ -11,10 +11,12 @@ import { AuthService } from '../../../../services/auth.service';
 import { Treatment, TreatmentResponse } from '../../../../models/clinic-onboarding';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+declare var bootstrap: any;
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, NzSelectModule, NzUploadModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, NzSelectModule, NzUploadModule, ImageCropperComponent],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })
@@ -31,9 +33,12 @@ export class AddProductComponent {
   productId: string | undefined;
   productData: Product | undefined;
   treatments: Treatment[] = [];
+  coverImage: File | null = null;
+  coverPreview: string | null | undefined = null;
   @ViewChild('featureInput') featureInput!: ElementRef<HTMLButtonElement>
   @ViewChild('BenefitInput') BenefitInput!: ElementRef<HTMLButtonElement>
   @ViewChild('ingredientInput') ingredientInput!: ElementRef<HTMLButtonElement>
+  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private fb: FormBuilder, public location: Location, private route: ActivatedRoute, private loader: LoaderService, private auth: AuthService) {
     this.Form = this.fb.group({
       name: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -47,7 +52,8 @@ export class AddProductComponent {
       benefit_text: [''],
       how_to_use: ['', [Validators.required, NoWhitespaceDirective.validate]],
       treatments: [[], [Validators.required]],
-      product_images: ['']
+      product_images: [''],
+      coverImg: [null]
     })
 
     this.route.queryParams.subscribe(param => {
@@ -149,9 +155,14 @@ export class AddProductComponent {
     }
   }
 
+  removeCoverImage() {
+    this.coverImage = null;
+    this.coverPreview = null;
+  }
+
   onSubmit() {
     this.submitted = true;
-    if (this.Form.invalid || this.selectedFeatures.length == 0 || this.selectedBenefits.length == 0 || this.selectedIngredients.length == 0 || this.previewProductImages.length == 0) {
+    if (this.Form.invalid || this.selectedFeatures.length == 0 || this.selectedBenefits.length == 0 || this.selectedIngredients.length == 0 || this.previewProductImages.length == 0 || !this.coverPreview) {
       this.Form.markAllAsTouched();
       return
     }
@@ -170,6 +181,9 @@ export class AddProductComponent {
     formData.append('how_to_use', this.Form.value.how_to_use);
     for (let i = 0; i < this.productImages.length; i++) {
       formData.append('product_image', this.productImages[i]);
+    }
+    if (this.coverImage) {
+      formData.append('cover_image', this.coverImage!)
     }
 
     let apiUrl = ''
@@ -211,6 +225,7 @@ export class AddProductComponent {
         this.productData?.product_images.forEach((element: ProductImage) => {
           this.previewProductImages.push(element.image);
         })
+        this.coverPreview = this.productData?.cover_image
         this.selectedFeatures = this.productData?.feature_text.split(',') || [];
         // this.selectedSizes = this.productData?.size_label.split(',') || [];
         this.selectedBenefits = this.productData?.benefit_text.split(',') || [];
@@ -227,6 +242,35 @@ export class AddProductComponent {
     this.service.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
       this.treatments = res.data
     });
+  }
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  croppedImageBlob: any = '';
+  onCoverImage(event: any): void {
+    this.imageChangedEvent = event
+    this.openModal()
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImageBlob = event.blob
+    this.croppedImage = event.objectUrl
+  }
+
+  onDone() {
+    this.coverPreview = this.croppedImage
+    this.coverImage = new File([this.croppedImageBlob], 'cover.png', {
+      type: 'image/png'
+    })
+    this.closeBtn.nativeElement.click()
+  }
+
+  openModal() {
+    const modalElement = document.getElementById('ct_feedback_detail_modal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
   }
 }
 

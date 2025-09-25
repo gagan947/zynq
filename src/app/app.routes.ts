@@ -38,7 +38,7 @@ export const routes: Routes = [
             path: 'payment-success',
             loadComponent: () => import('./components/shared/components/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent)
       },
-            {
+      {
             path: 'payment-cancel',
             loadComponent: () => import('./components/shared/components/payment-fail/payment-fail.component').then(m => m.PaymentFailComponent)
       },
@@ -53,5 +53,25 @@ export const routes: Routes = [
       {
             path: 'solo-doctor',
             loadChildren: () => import('./components/solo_doctor_components/solo-doctor.routes').then(m => m.soloDoctorRoutes)
+      },
+      {
+            path: 'delete-account',
+            loadComponent: () => import('./components/landig-pages/delete-account/delete-account.component').then(m => m.DeleteAccountComponent),
+            title: 'Delete Account'
+      },
+      {
+            path: 'contact-us',
+            loadComponent: () => import('./components/landig-pages/contact-us/contact-us.component').then(m => m.ContactUsComponent),
+            title: 'Contact Us'
+      },
+      {
+            path: 'privacy-policy',
+            loadComponent: () => import('./components/landig-pages/privecy-policy/privecy-policy.component').then(m => m.PrivecyPolicyComponent),
+            title: 'Privacy Policy'
+      },
+      {
+            path: 'terms-and-conditions',
+            loadComponent: () => import('./components/landig-pages/terms-conditions/terms-conditions.component').then(m => m.TermsConditionsComponent),
+            title: 'Terms & Conditions'
       },
 ];

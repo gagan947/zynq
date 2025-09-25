@@ -1,0 +1,69 @@
+<app-landing-header />
+<section class="ct_contact_main">
+      <div class="container">
+            <div class="row g-5">
+                  <!-- Right Section -->
+                  <div class="col-lg-7 mx-auto">
+                        <div class="ct_white_bg">
+                              <div class="text-center">
+                                    <h3 class="ct_fs_28 mb-5">Contact Us</h3>
+                              </div>
+                              <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                                    <div class="mb-3">
+                                          <input type="email" class="form-control ct_input ct_input_grey_bg"
+                                                placeholder="Email Address" formControlName="email">
+                                          <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+                                                class="text-danger">
+                                                Email is required.
+                                          </div>
+                                    </div>
+
+                                    <div class="row g-3">
+                                          <div class="col-md-6">
+                                                <input type="text" class="form-control ct_input ct_input_grey_bg"
+                                                      placeholder="First Name" formControlName="first_name">
+                                                <div *ngIf="contactForm.get('first_name')?.invalid && contactForm.get('first_name')?.touched"
+                                                      class="text-danger">
+                                                      First name is required.
+                                                </div>
+                                          </div>
+
+                                          <div class="col-md-6">
+                                                <input type="text" class="form-control ct_input ct_input_grey_bg"
+                                                      placeholder="Last Name" formControlName="last_name">
+                                                <div *ngIf="contactForm.get('last_name')?.invalid && contactForm.get('last_name')?.touched"
+                                                      class="text-danger">
+                                                      Last name is required.
+                                                </div>
+                                          </div>
+
+                                          <div class="col-md-12">
+                                                <input type="tel" class="form-control ct_input ct_input_grey_bg"
+                                                      placeholder="Phone Number" formControlName="phone_number">
+                                                <div *ngIf="contactForm.get('phone_number')?.invalid && contactForm.get('phone_number')?.touched"
+                                                      class="text-danger">
+                                                      Phone number is required.
+                                                </div>
+                                          </div>
+
+                                          <div class="mt-3">
+                                                <textarea class="form-control ct_input ct_input_grey_bg h-auto" rows="4"
+                                                      placeholder="Message" formControlName="message"></textarea>
+                                                <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+                                                      class="text-danger">
+                                                      Message is required.
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <div class="mt-4">
+                                          <button type="submit" class="ct_black_btn mx-auto" [disabled]="isSubmitting">
+                                                {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+                                          </button>
+                                    </div>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</section>

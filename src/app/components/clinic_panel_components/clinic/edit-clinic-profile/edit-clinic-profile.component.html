@@ -79,6 +79,45 @@
                                                       </span>
                                                 </span>
                                           </div>
+
+                                          <!-- <div class="form-group mb-4">
+                                                <label for="" class="mb-2 ct_text_black">Upload Cover Image</label>
+                                                <div class="">
+                                                      <div *ngIf="!coverPreview" class="ct_upload_product_main"
+                                                            (click)="coverInput.click()">
+                                                            <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
+                                                                  xmlns="http://www.w3.org/2000/svg">
+                                                                  <path d="M5.87174 22.0167C4.26376 20.9403 3.20508 19.1073 3.20508 17.027C3.20508 13.9023 5.59376 11.3354 8.64473 11.0528C9.26883 7.25653 12.5654 4.36035 16.5384 4.36035C20.5114 4.36035 23.808 7.25653 24.4321 11.0528C27.4831 11.3354 29.8717 13.9023 29.8717 17.027C29.8717 19.1073 28.8131 20.9403 27.2051 22.0167M11.2051 21.6937L16.5384 16.3604M16.5384 16.3604L21.8717 21.6937M16.5384 16.3604V28.3604"
+                                                                        stroke="#9CA3AF" stroke-width="2.66667"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                            </svg>
+
+                                                            <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload
+                                                                  cover image here</p>
+                                                            <small
+                                                                  class="text-center d-block ct_text_9CA3AF py-2">(190*135)</small>
+                                                            <label>
+                                                                  <div class="ct_browse_btn">
+                                                                        <span>Browse Files</span>
+                                                                  </div>
+                                                            </label>
+                                                      </div>
+                                                      <input type="file" #coverInput class="d-none" accept="image/*"
+                                                            formControlName="coverImg" (change)="onCoverImage($event)">
+                                                      <div class="ct_uploaded_img123 position-relative w-100 ct_upload_product_main"
+                                                            *ngIf="coverPreview">
+                                                            <div class="ct_uploaded_img_w">
+                                                                  <img [src]="coverPreview" alt=""
+                                                                        style="object-fit: contain;" />
+                                                                  <i class="fa-solid fa-xmark"
+                                                                        (click)="removeCoverImage()"></i>
+                                                            </div>
+                                                      </div>
+
+                                                </div>
+                                          </div> -->
+
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black">Logo</label>
                                                 <div class="">
@@ -97,6 +136,8 @@
                                                             <small class="text-center d-block ct_text_9CA3AF py-2">PNG,
                                                                   JPG up to
                                                                   5MB</small>
+                                                            <small
+                                                                  class="text-center d-block ct_text_9CA3AF py-2">(190*135)</small>
                                                             <label>
                                                                   <div class="ct_browse_btn">
                                                                         <span>Browse Files</span>

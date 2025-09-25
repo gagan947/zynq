@@ -23,6 +23,7 @@ export interface Product {
       created_at: string;
       updated_at: string;
       ingredients: string;
+      cover_image: string;
       stock: number;
       is_deleted: number;
       product_images: ProductImage[];

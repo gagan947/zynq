@@ -1,0 +1,29 @@
+    h2 {
+          font-size: 20px;
+          font-weight: 600;
+          margin-top: 30px;
+    }
+
+    p,
+    li {
+          font-size: 16px;
+    }
+
+    .privacy-policy {
+          margin: 0px auto;
+          padding: 20px;
+    }
+
+    .ct_fs_28 {
+          font-size: 28px;
+    }
+
+    .ct_fw_600 {
+          font-weight: 600;
+    }
+
+    .ct_logo img {
+          width: 124px;
+          margin-bottom: 0px;
+          object-fit: contain;
+    }

@@ -32,6 +32,8 @@ export class EditClinicProfileComponent {
   userInfo: LoginUserData;
   LogoImage: File | null = null;
   logoPreview: string | null | undefined = null;
+  coverImage: File | null = null;
+  coverPreview: string | null | undefined = null;
   locations: any[] = [];
   selectedLocation: any = null;
   productImages: File[] = [];
@@ -144,6 +146,7 @@ export class EditClinicProfileComponent {
 
       language: ['en'],
       logo: [null],
+      coverImg: [null]
     });
   }
   get clinicTiming(): FormGroup {
@@ -303,6 +306,21 @@ export class EditClinicProfileComponent {
   removeImage() {
     this.LogoImage = null;
     this.logoPreview = null;
+  }
+
+  onCoverImage(event: any) {
+    const file = event.target.files[0];
+    this.coverImage = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.coverPreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  removeCoverImage() {
+    this.coverImage = null;
+    this.coverPreview = null;
   }
 
   onSubmit() {

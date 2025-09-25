@@ -62,6 +62,13 @@ export class ViewProductComponent {
     this.service.post('clinic/get-product-by-id', formData).subscribe((res: any) => {
       if (res.success) {
         this.productData = res.data;
+        this.productData?.product_images.unshift({
+          image: this.productData.cover_image,
+          product_image_id: '',
+          product_id: '',
+          created_at: '',
+          updated_at: ''
+        });
         this.selectedFeatures = this.productData?.feature_text.split(',') || [];
         this.selectedSizes = this.productData?.size_label.split(',') || [];
         this.selectedBenefits = this.productData?.benefit_text.split(',') || [];
