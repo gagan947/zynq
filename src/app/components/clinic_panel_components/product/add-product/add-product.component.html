@@ -130,7 +130,7 @@
                                                       formControlName="coverImg" (change)="onCoverImage($event)">
                                                 <div class="ct_uploaded_img123 position-relative w-100 ct_upload_product_main"
                                                       *ngIf="coverPreview">
-                                                      <div class="ct_uploaded_img_w">
+                                                      <div class="ct_uploaded_img_1234">
                                                             <img [src]="coverPreview" alt=""
                                                                   style="object-fit: contain;" />
                                                             <i class="fa-solid fa-xmark"
@@ -343,9 +343,7 @@
             <div class="modal-content">
                   <div class="modal-body">
                         <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-                              [aspectRatio]="190 / 135" [resizeToWidth]="190" [resizeToHeight]="135"
-                              [cropperMinWidth]="190" [cropperMinHeight]="135" [cropperMaxWidth]="190"
-                              [cropperMaxHeight]="135" [onlyScaleDown]="true" format="png"
+                              [aspectRatio]="38 / 27" [resizeToWidth]="190" [resizeToHeight]="135" format="png"
                               (imageCropped)="imageCropped($event)">
                         </image-cropper>
                   </div>
