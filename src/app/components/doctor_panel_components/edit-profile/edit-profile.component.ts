@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { SecurityLevel, TreatmentResponse, SkinTypeResponse } from '../../../models/clinic-onboarding';
@@ -12,15 +12,17 @@ import { LoaderService } from '../../../services/loader.service';
 import { NoWhitespaceDirective } from '../../../validators';
 import { environment } from '../../../../environments/environment';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
-
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+declare var bootstrap: any;
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxIntlTelInputModule],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxIntlTelInputModule, ImageCropperComponent],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
 export class EditProfileComponent {
+  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   certificateURl = environment.certificateUrl;
   @Input() isEdit: boolean = false; // default value
   personalForm!: FormGroup;
@@ -543,17 +545,34 @@ export class EditProfileComponent {
       }
     })
   }
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  croppedImageBlob: any = '';
+  onProfileImage(event: any): void {
+    this.imageChangedEvent = event
+    this.openModal()
+  }
 
-  onProfileImage(event: any) {
-    const file = event.target.files[0];
-    this.profileImage = file;
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImageBlob = event.blob
+    this.croppedImage = event.objectUrl
+  }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  };
+  onDone() {
+    this.imagePreview = this.croppedImage
+    this.profileImage = new File([this.croppedImageBlob], 'profile.png', {
+      type: 'image/png'
+    })
+    this.closeBtn.nativeElement.click()
+  }
+
+  openModal() {
+    const modalElement = document.getElementById('ct_feedback_detail_modal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
 
   removePreview(index: number, id: any) {
     this.certificaTeypes[index].upload_path = null;

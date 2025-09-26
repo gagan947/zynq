@@ -13,17 +13,19 @@ import { NoWhitespaceDirective } from '../../../validators';
 import { environment } from '../../../../environments/environment';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 import { Subject, takeUntil } from 'rxjs';
-
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+declare var bootstrap: any;
 @Component({
   selector: 'app-solo-profile-setup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent],
   templateUrl: './solo-profile-setup.component.html',
   styleUrl: './solo-profile-setup.component.css'
 })
 export class SoloProfileSetupComponent {
   private destroy$ = new Subject<void>();
-
+  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
+  @ViewChild('closeBtn2') closeBtn2!: ElementRef<HTMLButtonElement>
   @Input() isEdit: boolean = false;
   treatmentForm!: FormGroup
   besicInfoForm!: FormGroup
@@ -320,30 +322,67 @@ export class SoloProfileSetupComponent {
       this.devices = res.data
     });
   }
-  onLogoImage(event: any) {
-    const file = event.target.files[0];
-    this.LogoImage = file;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.logoPreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  };
+  imageChangedEvent2: any = '';
+  croppedImage2: any = '';
+  croppedImageBlob2: any = '';
+  onLogoImage(event: any): void {
+    this.imageChangedEvent = event
+    this.openModal2()
+  }
 
+  imageCropped2(event: ImageCroppedEvent) {
+    this.croppedImageBlob2 = event.blob
+    this.croppedImage2 = event.objectUrl
+  }
+
+  onDone2() {
+    this.logoPreview = this.croppedImage2
+    this.LogoImage = new File([this.croppedImageBlob2], 'logo.png', {
+      type: 'image/png'
+    })
+    this.closeBtn2.nativeElement.click()
+  }
+
+  openModal2() {
+    const modalElement = document.getElementById('ct_feedback_detail_modal_2');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
   removeImage() {
     this.LogoImage = null;
     this.logoPreview = null;
   }
 
-  onProfileImageChange(event: any) {
-    const file = event.target.files[0];
-    this.profileImage = file;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.profilePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  };
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  croppedImageBlob: any = '';
+  onProfileImageChange(event: any): void {
+    this.imageChangedEvent = event
+    this.openModal()
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImageBlob = event.blob
+    this.croppedImage = event.objectUrl
+  }
+
+  onDone() {
+    this.profilePreview = this.croppedImage
+    this.profileImage = new File([this.croppedImageBlob], 'profile.png', {
+      type: 'image/png'
+    })
+    this.closeBtn.nativeElement.click()
+  }
+
+  openModal() {
+    const modalElement = document.getElementById('ct_feedback_detail_modal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
 
   removeProfileImage() {
     this.profileImage = null;
@@ -658,8 +697,6 @@ export class SoloProfileSetupComponent {
         }
       })
     }
-
-
   }
 
   integerValidator(control: AbstractControl) {

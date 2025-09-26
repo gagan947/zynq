@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -16,15 +16,17 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from '../../../services/auth.service';
 import { environment } from '../../../../environments/environment';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
-
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+declare var bootstrap: any;
 @Component({
   selector: 'app-profile-setup',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, NzDatePickerModule, NzButtonModule, NzDatePickerModule, NgxIntlTelInputModule],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, NzDatePickerModule, NzButtonModule, NzDatePickerModule, NgxIntlTelInputModule, ImageCropperComponent],
   templateUrl: './profile-setup.component.html',
   styleUrl: './profile-setup.component.css'
 })
 export class ProfileSetupComponent {
+  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   certificateURl = environment.certificateUrl;
   personalForm!: FormGroup;
   Form!: FormGroup;
@@ -522,17 +524,34 @@ export class ProfileSetupComponent {
   }
 
 
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  croppedImageBlob: any = '';
+  onProfileImage(event: any): void {
+    this.imageChangedEvent = event
+    this.openModal()
+  }
 
-  onProfileImage(event: any) {
-    const file = event.target.files[0];
-    this.profileImage = file;
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImageBlob = event.blob
+    this.croppedImage = event.objectUrl
+  }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  };
+  onDone() {
+    this.imagePreview = this.croppedImage
+    this.profileImage = new File([this.croppedImageBlob], 'profile.png', {
+      type: 'image/png'
+    })
+    this.closeBtn.nativeElement.click()
+  }
+
+  openModal() {
+    const modalElement = document.getElementById('ct_feedback_detail_modal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
 
   removePreview(index: number, id: any) {
     this.certificaTeypes[index].upload_path = null;

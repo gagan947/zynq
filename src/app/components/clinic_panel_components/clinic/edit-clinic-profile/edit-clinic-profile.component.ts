@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, effect } from '@angular/core';
+import { Component, effect, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NoWhitespaceDirective } from '../../../../validators';
@@ -10,15 +10,17 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { LoginUserData } from '../../../../models/login';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
-
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+declare var bootstrap: any;
 @Component({
   selector: 'app-edit-clinic-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent],
   templateUrl: './edit-clinic-profile.component.html',
   styleUrl: './edit-clinic-profile.component.css'
 })
 export class EditClinicProfileComponent {
+  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
   Form!: FormGroup
   treatments: Treatment[] = []
   skinConditions: any[] = []
@@ -293,15 +295,35 @@ export class EditClinicProfileComponent {
 
   }
 
-  onLogoImage(event: any) {
-    const file = event.target.files[0];
-    this.LogoImage = file;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.logoPreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  };
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  croppedImageBlob: any = '';
+  onLogoImage(event: any): void {
+    this.imageChangedEvent = event
+    this.openModal()
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImageBlob = event.blob
+    this.croppedImage = event.objectUrl
+  }
+
+  onDone() {
+    this.logoPreview = this.croppedImage
+    this.LogoImage = new File([this.croppedImageBlob], 'clinic.png', {
+      type: 'image/png'
+    })
+    this.closeBtn.nativeElement.click()
+  }
+
+  openModal() {
+    const modalElement = document.getElementById('ct_feedback_detail_modal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
 
   removeImage() {
     this.LogoImage = null;

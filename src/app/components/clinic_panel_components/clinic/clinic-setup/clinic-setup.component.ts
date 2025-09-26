@@ -13,11 +13,13 @@ import { ClinicProfile, ClinicProfileResponse } from '../../../../models/clinic-
 import { AuthService } from '../../../../services/auth.service';
 import { LoaderService } from '../../../../services/loader.service';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-clinic-setup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent],
   templateUrl: './clinic-setup.component.html',
   styleUrl: './clinic-setup.component.css'
 })
@@ -45,6 +47,8 @@ export class ClinicSetupComponent {
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden];
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
+  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
+
   steps = [
     { id: 'Clinic', label: 'Clinic Details' },
     { id: 'Contact', label: 'Contact Details' },
@@ -309,15 +313,36 @@ export class ClinicSetupComponent {
     }
   }
 
-  onLogoImage(event: any) {
-    const file = event.target.files[0];
-    this.LogoImage = file;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.logoPreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  };
+
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  croppedImageBlob: any = '';
+  onLogoImage(event: any): void {
+    this.imageChangedEvent = event
+    this.openModal()
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImageBlob = event.blob
+    this.croppedImage = event.objectUrl
+  }
+
+  onDone() {
+    this.logoPreview = this.croppedImage
+    this.LogoImage = new File([this.croppedImageBlob], 'clinic.png', {
+      type: 'image/png'
+    })
+    this.closeBtn.nativeElement.click()
+  }
+
+  openModal() {
+    const modalElement = document.getElementById('ct_feedback_detail_modal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
 
   removeImage() {
     this.LogoImage = null;
