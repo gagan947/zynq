@@ -223,3 +223,9 @@ img.ngx-ic-source-image {
     max-width: 500px !important;
     max-height: 500px !important;
 }
+
+.alert-message p {
+    color: #c91308;
+    font-size: 18px;
+    font-weight: 500;
+}

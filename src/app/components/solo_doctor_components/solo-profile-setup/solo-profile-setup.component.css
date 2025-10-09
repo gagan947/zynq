@@ -54,3 +54,9 @@ button.ct_delete_icon_l {
       background-color: var(--black);
       border-color: var(--black);
 }
+
+.status-div {
+      position: absolute;
+      top: 20px;
+      right: 0;
+}

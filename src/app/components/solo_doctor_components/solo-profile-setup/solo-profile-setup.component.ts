@@ -720,7 +720,6 @@ export class SoloProfileSetupComponent {
       this.selectedLocation = location;
       this.locations = [];
     })
-
   }
 
   addCertificate() {

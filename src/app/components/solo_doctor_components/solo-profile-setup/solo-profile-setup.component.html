@@ -2,9 +2,18 @@
       <div class="container-fluid ">
             <div class="row">
                   <div class="mx-auto" [ngClass]="{ 'col-md-10 mt-5': !isEdit, 'col-md-12': isEdit }">
-                        <div class="text-center mb-5 ct_hide_on_edit">
+                        <div class="text-center alert-message ct_hide_on_edit">
+                              <p>Disclaimer : Your competitors are already verified — complete your
+                                    onboarding now to earn your
+                                    Verified Badge and stay in the spotlight.
+                              </p>
+                        </div>
+                        <div class="text-center mb-5 ct_hide_on_edit position-relative ">
                               <h4 class="ct_fs_20 ct_fw_600 mb-2">Complete Your Professional Profile</h4>
                               <p class="mb-0">Please fill in your professional details to complete your profile</p>
+                              <div class="mb-3 ct_fs_18 status-div"> <span
+                                          class="ct_custom_badge_yellow">Onboarding</span>
+                              </div>
                         </div>
                         <!-- progressbar -->
 

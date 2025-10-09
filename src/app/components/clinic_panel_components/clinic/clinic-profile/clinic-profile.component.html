@@ -27,10 +27,14 @@
                                           alt="" class="ct_flex_shrink_0 ct_medicare_logo ct_cursor_pointer"
                                           data-bs-toggle="modal" data-bs-target="#full_view_img"
                                           (click)="openModal(this.clinicProfile()?.clinic_logo)">
-                                    <div>
-                                          <h5 class="ct_fs_20 ct_fw_600 mb-1 notranslate">
-                                                {{this.clinicProfile()?.clinic_name}}
-                                          </h5>
+                                    <div class="w-100">
+                                          <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <h5 class="ct_fs_20 ct_fw_600 mb-1 notranslate">
+                                                      {{this.clinicProfile()?.clinic_name}}
+                                                </h5>
+                                                <span
+                                                      class="ct_custom_badge">{{this.clinicProfile()?.profile_status}}</span>
+                                          </div>
                                           <p class="mb-0 ct_grey_text">{{this.clinicProfile()?.clinic_description}}
                                           </p>
                                     </div>
