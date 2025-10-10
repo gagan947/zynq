@@ -41,6 +41,7 @@ export interface ClinicProfile {
       aestheticDevices: AestheticDevice[];
       images: any[];
       profile_status: string;
+      is_onboarded: number;
 }
 
 export interface SkinCondition {

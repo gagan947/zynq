@@ -33,7 +33,7 @@
                                                       {{this.clinicProfile()?.clinic_name}}
                                                 </h5>
                                                 <span
-                                                      class="ct_custom_badge">{{this.clinicProfile()?.profile_status}}</span>
+                                                      class="ct_custom_badge">{{this.clinicProfile()?.profile_status == 'ONBOARDING' && this.clinicProfile()?.is_onboarded == 1 ? 'UNVERIFIED' : this.clinicProfile()?.profile_status }}</span>
                                           </div>
                                           <p class="mb-0 ct_grey_text">{{this.clinicProfile()?.clinic_description}}
                                           </p>
