@@ -110,8 +110,8 @@ export class SoloProfileSetupComponent {
       age: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$'), this.integerValidator]],
       gender: ['', Validators.required],
       org_number: [''],
-      ivo_registration_number: [''],
-      hsa_id: [''],
+      // ivo_registration_number: [''],
+      // hsa_id: [''],
       clinic_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
       language: ['en'],
       logo: [null],
@@ -429,8 +429,8 @@ export class SoloProfileSetupComponent {
     formData.append('clinic_name', this.besicInfoForm.get('clinic_name')?.value || '');
     formData.append('clinic_description', this.besicInfoForm.get('clinic_description')?.value || '');
     formData.append('language', 'en');
-    formData.append('ivo_registration_number', this.besicInfoForm.get('ivo_registration_number')?.value || '');
-    formData.append('hsa_id', this.besicInfoForm.get('hsa_id')?.value || '');
+    formData.append('org_number', this.besicInfoForm.get('org_number')?.value || '');
+    // formData.append('hsa_id', this.besicInfoForm.get('hsa_id')?.value || '');
     if (this.LogoImage) {
       formData.append('logo', this.LogoImage!)
     }
@@ -842,8 +842,8 @@ export class SoloProfileSetupComponent {
                 gender: data.gender,
                 clinic_name: data.clinic.clinic_name,
                 clinic_description: data.clinic.clinic_description,
-                ivo_registration_number: data.clinic.ivo_registration_number,
-                hsa_id: data.clinic.hsa_id
+                // ivo_registration_number: data.clinic.ivo_registration_number,
+                org_number: data.clinic.org_number
               })
               break;
 

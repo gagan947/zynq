@@ -56,6 +56,7 @@ export class ZegoService {
                                     type: 'appointment',
                               })
                         });
+                        document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.add('show');
                         this.changeStatus({ callStatus: "Ongoing" });
                   } catch (err) {
                         console.error('Error sending call:', err);

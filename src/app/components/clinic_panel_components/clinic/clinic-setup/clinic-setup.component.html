@@ -28,6 +28,20 @@
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Basic Clinic Information</h5>
                                           <div class="form-group mb-4">
+                                                <label for="" class="mb-2 ct_text_black">Organization Number
+                                                </label>
+                                                <input type="text" class="form-control ct_input"
+                                                      placeholder="Enter Organization Number"
+                                                      formControlName="org_number">
+                                                <span
+                                                      *ngIf="Form.controls['org_number'].invalid && Form.controls['org_number'].touched">
+                                                      <span *ngIf="Form.controls['org_number'].errors?.['required']"
+                                                            class="ct_text_red mt-2">
+                                                            Organization number is required.
+                                                      </span>
+                                                </span>
+                                          </div>
+                                          <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black">Clinic Name <span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
@@ -40,7 +54,7 @@
                                                       </span>
                                                 </span>
                                           </div>
-                                          <div class="form-group mb-4">
+                                          <!-- <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black">IVO Registration Number
                                                 </label>
                                                 <input type="text" class="form-control ct_input"
@@ -65,7 +79,7 @@
                                                             HSA id is required.
                                                       </span>
                                                 </span>
-                                          </div>
+                                          </div> -->
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black">Description<span
                                                             class="ct_red_text">*</span></label>

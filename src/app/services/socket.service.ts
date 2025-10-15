@@ -15,7 +15,6 @@ export class SocketService {
                   extraHeaders: {
                         Authorization: `Bearer ${this.auth.getToken()}`,
                         'user-type': '1'
-
                   }
             });
       };

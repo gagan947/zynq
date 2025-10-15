@@ -360,7 +360,7 @@ export class ClinicSetupComponent {
     let formData = new FormData()
     if (this.currentStep === 0) {
       formData.append('clinic_name', this.Form.value.clinic_name)
-      // formData.append('org_number', this.Form.value.org_number)
+      formData.append('org_number', this.Form.value.org_number)
       formData.append('zynq_user_id', this.userInfo.id)
       formData.append('clinic_description', this.Form.value.clinic_description)
       if (this.LogoImage) {
@@ -478,8 +478,8 @@ export class ClinicSetupComponent {
         this.Form.patchValue({
           clinic_name: this.clinicPofile.clinic_name,
           clinic_description: this.clinicPofile.clinic_description,
-          ivo_registration_number: this.clinicPofile.ivo_registration_number || '',
-          hsa_id: this.clinicPofile.hsa_id || '',
+          org_number: this.clinicPofile.org_number || '',
+          // hsa_id: this.clinicPofile.hsa_id || '',
           email: this.clinicPofile.email,
           mobile_number: this.clinicPofile.mobile_number,
           city: this.clinicPofile.location.city,
