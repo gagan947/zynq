@@ -3,14 +3,12 @@
             <div class="row">
                   <div class="col-md-10  mx-auto">
                         <div class="text-center alert-message">
-                              <p>Disclaimer : Your competitors are already verified — complete your
-                                    onboarding now to earn your
-                                    Verified Badge and stay in the spotlight.
+                              <p>{{'Disclaimer' | translate}}
                               </p>
                         </div>
                         <div class="text-center mb-5 position-relative ">
-                              <h4 class="ct_fs_20 ct_fw_600 mb-2">Complete Your Professional Profile</h4>
-                              <p class="mb-0">Please fill in your professional details to complete your profile</p>
+                              <h4 class="ct_fs_20 ct_fw_600 mb-2">{{'completeYourProfile' | translate}}</h4>
+                              <p class="mb-0">{{'pleaseFill' | translate}}</p>
                               <div class="mb-3 ct_fs_18 status-div"> <span
                                           class="ct_custom_badge_yellow">ONBOARDING</span>
                               </div>
@@ -21,7 +19,7 @@
                               <ul id="ct_form_progressbar">
                                     <li *ngFor="let step of steps; let i = index" [id]="step.id"
                                           [class.active]="i <= currentStep">
-                                          {{ step.label }}
+                                          {{ step.label | translate }}
                                     </li>
                               </ul>
                               <!-- <div class="progress">
@@ -29,26 +27,31 @@
                                   </div> -->
                               <form [formGroup]="personalForm" (ngSubmit)="onSubmitPersonal()" *ngIf="currentStep == 0">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Personal Information</h5>
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
+                                                {{'PersonalDetails' | translate}}
+                                          </h5>
 
                                           <div class="row">
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Full Name<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'FullName' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
                                                                   formControlName="fullName"
-                                                                  placeholder="Enter full name">
+                                                                  placeholder="{{'Enter' | translate}} {{'FullName' | translate}}">
                                                             <div *ngIf="personalForm.get('fullName')?.touched && personalForm.get('fullName')?.invalid"
                                                                   class="ct_text_red">
-                                                                  Full Name is required.
+                                                                  {{'FullName' | translate}}
+                                                                  {{'isRequired' | translate}}.
                                                             </div>
                                                       </div>
                                                 </div>
 
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Phone No.<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'PhoneNo' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <!-- <input type="number" class="form-control ct_input"
                                                                   formControlName="phone" placeholder="Enter phone no"> -->
@@ -67,34 +70,39 @@
                                                                   class="ct_text_red">
                                                                   <div
                                                                         *ngIf="personalForm.get('phone')?.errors?.['required']">
-                                                                        Phone no is required.
+                                                                        {{'PhoneNo' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </div>
                                                                   <div
                                                                         *ngIf="personalForm.get('phone')?.errors?.['validatePhoneNumber']">
-                                                                        Please enter a valid phone number.
+                                                                        {{'Invalid' | translate}}
+                                                                        {{'PhoneNo' | translate}}.
                                                                   </div>
                                                             </div>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Age<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'Age' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  formControlName="age" placeholder="Enter age"
+                                                                  formControlName="age"
+                                                                  placeholder="{{'Enter' | translate}} {{'Age' | translate}}"
                                                                   step="1">
                                                             <div *ngIf="personalForm.get('age')?.touched && personalForm.get('age')?.invalid"
                                                                   class="ct_text_red">
                                                                   <div
                                                                         *ngIf="personalForm.get('age')?.errors?.['required']">
-                                                                        Age is required.
+                                                                        {{'Age' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </div>
                                                                   <div *ngIf="personalForm.get('age')?.errors?.['min']">
                                                                         Minimum age must be 1.
                                                                   </div>
                                                                   <div
                                                                         *ngIf="personalForm.get('age')?.errors?.['pattern']">
-                                                                        Age is not valid.
+                                                                        {{'invalid' | translate}} {{'Age' | translate}}.
                                                                   </div>
                                                             </div>
                                                       </div>
@@ -184,8 +192,8 @@
                                           </div>
                                     </div>
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
-                                          value="Next" (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 " value="Next"
+                                          (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -408,8 +416,8 @@
                                     </div>
 
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
-                                          value="Next" (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 " value="Next"
+                                          (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -574,8 +582,8 @@
                                           </div>
                                     </div>
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
-                                          value="Next" (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 " value="Next"
+                                          (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -809,8 +817,8 @@
                                     </div>
 
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
-                                          value="Next" (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 " value="Next"
+                                          (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>

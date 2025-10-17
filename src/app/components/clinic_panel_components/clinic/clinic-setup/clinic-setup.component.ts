@@ -14,12 +14,13 @@ import { AuthService } from '../../../../services/auth.service';
 import { LoaderService } from '../../../../services/loader.service';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-clinic-setup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent, TranslateModule],
   templateUrl: './clinic-setup.component.html',
   styleUrl: './clinic-setup.component.css'
 })
@@ -50,11 +51,10 @@ export class ClinicSetupComponent {
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
 
   steps = [
-    { id: 'Clinic', label: 'Clinic Details' },
-    { id: 'Contact', label: 'Contact Details' },
-    // { id: 'Operation', label: 'Operation Hours' },
+    { id: 'Clinic', label: 'ClinicDetails' },
+    { id: 'Contact', label: 'ContactDetails' },
     { id: 'Expertise', label: 'Expertise' },
-    { id: 'invite', label: 'Invite Doctors' }
+    { id: 'invite', label: 'InviteDoctors' }
   ];
 
   stepFields = [
@@ -66,7 +66,8 @@ export class ClinicSetupComponent {
 
   loading: boolean = false
 
-  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService, private loader: LoaderService) {
+  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService, private loader: LoaderService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
   }
@@ -387,6 +388,7 @@ export class ClinicSetupComponent {
         formData.append('longitude', this.Form.value.longitude)
       } else {
         this.toster.error('Map location is not valid please enter valid location')
+        this.loading = false
         return
       }
       formData.append('zynq_user_id', this.userInfo.id)

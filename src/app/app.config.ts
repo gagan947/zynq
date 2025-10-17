@@ -10,6 +10,8 @@ import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from "@ngx-translate/http-loader"
 const scrollConfig: InMemoryScrollingOptions = {
   scrollPositionRestoration: 'top',
   anchorScrolling: 'enabled',
@@ -31,5 +33,14 @@ export const appConfig: ApplicationConfig = {
     multi: true,
   },
   provideAnimationsAsync(),
+  provideHttpClient(),
+  provideTranslateService({
+    lang: 'en',
+    fallbackLang: 'en',
+    loader: provideTranslateHttpLoader({
+      prefix: 'assets/i18n/',
+      suffix: '.json'
+    })
+  }),
   ]
 };

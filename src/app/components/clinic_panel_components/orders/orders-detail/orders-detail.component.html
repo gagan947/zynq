@@ -55,7 +55,7 @@
                                           <tbody>
                                                 <tr>
                                                       <td class="ct_text_op_05 w-50">Customer Name:</td>
-                                                      <td class="notranslate">{{orderData.user.name}}</td>
+                                                      <td class="">{{orderData.user.name}}</td>
                                                 </tr>
                                                 <tr>
                                                       <td class="ct_text_op_05 w-50">Phone:</td>
@@ -91,12 +91,12 @@
                                                       <td>
                                                             <img [src]="item.product_images[0]" class="ct_img_40" />
                                                       </td>
-                                                      <td class="ct_text_op_05 notranslate">{{item.name}}</td>
+                                                      <td class="ct_text_op_05 ">{{item.name}}</td>
                                                       <td class="ct_text_op_05">{{item.cart_quantity}}</td>
-                                                      <td class="ct_text_op_05 notranslate">
+                                                      <td class="ct_text_op_05 ">
                                                             {{item.price | currency:'SEK '}}
                                                       </td>
-                                                      <td class="ct_text_op_05 notranslate">
+                                                      <td class="ct_text_op_05 ">
                                                             {{(item.price * item.cart_quantity) | currency:'SEK '}}
                                                       </td>
                                                 </tr>

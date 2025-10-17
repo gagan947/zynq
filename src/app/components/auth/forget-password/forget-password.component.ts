@@ -4,18 +4,20 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonService } from '../../../services/common.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forget-password',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.css'
 })
 export class ForgetPasswordComponent {
   forgotPasswordForm: FormGroup;
   loading: boolean = false
-  constructor(private fb: FormBuilder, private srevice: CommonService, private toster: NzMessageService, private router: Router) {
+  constructor(private fb: FormBuilder, private srevice: CommonService, private toster: NzMessageService, private router: Router, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });

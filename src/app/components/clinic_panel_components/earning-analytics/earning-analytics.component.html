@@ -169,7 +169,7 @@
                                                 <tr>
                                                       <td>{{$index + 1}}</td>
                                                       <td>ZYNQ-{{item.purchase_id}}</td>
-                                                      <td class="notranslate">{{item.user.name}}</td>
+                                                      <td class="">{{item.user.name}}</td>
                                                       <td>
                                                             {{item.products.length}}
                                                       </td>
@@ -223,9 +223,9 @@
                                                 <tr>
                                                       <td>{{$index + 1}}</td>
                                                       @if(data.dashboardData.role !== 'DOCTOR'){
-                                                      <td class="notranslate">{{item.name}}</td>
+                                                      <td class="">{{item.name}}</td>
                                                       }@else{
-                                                      <td class="notranslate">{{item.clinic_name}}</td>
+                                                      <td class="">{{item.clinic_name}}</td>
                                                       }
                                                       <td>
                                                             <p class="mb-1">

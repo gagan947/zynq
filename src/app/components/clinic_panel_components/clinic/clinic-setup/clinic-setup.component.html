@@ -3,14 +3,12 @@
             <div class="row">
                   <div class="col-md-10 mx-auto">
                         <div class="text-center alert-message">
-                              <p>Disclaimer : Your competitors are already verified — complete your
-                                    onboarding now to earn your
-                                    Verified Badge and stay in the spotlight.
+                              <p>{{'Disclaimer' | translate}}
                               </p>
                         </div>
                         <div class="text-center mb-5 position-relative">
-                              <h4 class="ct_fs_20 ct_fw_600 mb-2">Complete Your Professional Profile</h4>
-                              <p class="mb-0">Please fill in your professional details to complete your profile</p>
+                              <h4 class="ct_fs_20 ct_fw_600 mb-2">{{'completeYourProfile' | translate}}</h4>
+                              <p class="mb-0">{{'pleaseFill' | translate}}</p>
                               <div class="mb-3 ct_fs_18 status-div"> <span
                                           class="ct_custom_badge_yellow">ONBOARDING</span>
                               </div>
@@ -20,37 +18,43 @@
                               <ul id="ct_form_progressbar">
                                     <li *ngFor="let step of steps; let i = index;" [id]="step.id"
                                           [class.active]="i <= currentStep">
-                                          {{ step.label }}
+                                          {{ step.label | translate }}
                                     </li>
                               </ul>
 
                               <fieldset *ngIf="currentStep == 0">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Basic Clinic Information</h5>
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Basic' | translate}}
+                                                {{'Clinic' | translate}} {{'Information' | translate}}
+                                          </h5>
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Organization Number
+                                                <label for="" class="mb-2 ct_text_black">{{'Organization' | translate}}
+                                                      {{'Number' | translate}}
                                                 </label>
                                                 <input type="text" class="form-control ct_input"
-                                                      placeholder="Enter Organization Number"
+                                                      placeholder="{{'Enter' | translate}} {{'Organization' | translate}} {{'Number' | translate}}"
                                                       formControlName="org_number">
                                                 <span
                                                       *ngIf="Form.controls['org_number'].invalid && Form.controls['org_number'].touched">
                                                       <span *ngIf="Form.controls['org_number'].errors?.['required']"
                                                             class="ct_text_red mt-2">
-                                                            Organization number is required.
+                                                            {{'Organization' | translate}} {{'Number' | translate}}
+                                                            {{'isRequired' | translate}}.
                                                       </span>
                                                 </span>
                                           </div>
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Clinic Name <span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'Clinic' | translate}}
+                                                      {{'Name' | translate}} <span class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
-                                                      placeholder="Enter clinic name" formControlName="clinic_name">
+                                                      placeholder="{{'Enter' | translate}} {{'Clinic' | translate}} {{'Name' | translate}}"
+                                                      formControlName="clinic_name">
                                                 <span
                                                       *ngIf="Form.controls['clinic_name'].invalid && Form.controls['clinic_name'].touched">
                                                       <span *ngIf="Form.controls['clinic_name'].errors?.['required']"
                                                             class="ct_text_red mt-2">
-                                                            Clinic name is required.
+                                                            {{'Clinic' | translate}} {{'Name' | translate}}
+                                                            {{'isRequired' | translate}}.
                                                       </span>
                                                 </span>
                                           </div>
@@ -81,25 +85,26 @@
                                                 </span>
                                           </div> -->
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Description<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'Description' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <textarea type="text" class="form-control ct_input h-auto" rows="4"
-                                                      placeholder="Enter description"
+                                                      placeholder="{{'Enter' | translate}} {{'Description' | translate}}"
                                                       formControlName="clinic_description"></textarea>
                                                 <span
                                                       *ngIf="Form.controls['clinic_description'].invalid && Form.controls['clinic_description'].touched">
                                                       <span *ngIf="Form.controls['clinic_description'].errors?.['required']"
                                                             class="ct_text_red mt-2">
-                                                            Description is required.
+                                                            {{'Description' | translate}} {{'isRequired' | translate}}.
                                                       </span>
                                                       <span *ngIf="Form.controls['clinic_description'].errors?.['maxlength']"
                                                             class="ct_text_red mt-2">
-                                                            Full description is too long.
+                                                            {{'desacriptionTooLong' | translate}}
                                                       </span>
                                                 </span>
                                           </div>
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Logo</label>
+                                                <label for="" class="mb-2 ct_text_black">{{'Logo' | translate}}</label>
                                                 <div class="">
                                                       <div *ngIf="!logoPreview" class="ct_upload_product_main"
                                                             (click)="logoInput.click()">
@@ -111,14 +116,15 @@
                                                                         stroke-linejoin="round" />
                                                             </svg>
 
-                                                            <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload
-                                                                  your image here</p>
+                                                            <p class="text-center ct_fs_18 ct_text_op_07 mb-0">
+                                                                  {{'UploadYourImage' | translate}}
+                                                            </p>
                                                             <small class="text-center d-block ct_text_9CA3AF py-2">PNG,
                                                                   JPG up to
                                                                   5MB</small>
                                                             <label>
                                                                   <div class="ct_browse_btn">
-                                                                        <span>Browse Files</span>
+                                                                        <span>{{'browseFile' | translate}}</span>
                                                                   </div>
                                                             </label>
                                                       </div>
@@ -136,7 +142,8 @@
                                                 </div>
                                           </div>
                                           <div class="form-group mb-0">
-                                                <label for="" class="mb-2">Upload Clinic Images</label>
+                                                <label for="" class="mb-2">{{'Upload' | translate}}
+                                                      {{'Clinic' | translate}} {{'Images' | translate}}</label>
                                                 <div class="ct_upload_product_main ct_upload_product_main_180">
                                                       <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -145,15 +152,15 @@
                                                                   stroke-linecap="round" stroke-linejoin="round" />
                                                       </svg>
 
-                                                      <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload clinic
-                                                            images
-                                                            here</p>
+                                                      <p class="text-center ct_fs_18 ct_text_op_07 mb-0">
+                                                            {{'UploadYourImage' | translate}}
+                                                      </p>
                                                       <label for="ct_upload_product">
                                                             <input type="file" name="" id="ct_upload_product"
                                                                   class="d-none" accept="image/*"
                                                                   (change)="onProductImage($event)" multiple>
                                                             <div class="ct_browse_btn">
-                                                                  <span>Browse Files</span>
+                                                                  <span>{{'browseFile' | translate}}</span>
                                                             </div>
                                                       </label>
                                                       <!-- after upload image change url to below image -->
@@ -179,66 +186,74 @@
                                           </div>
                                     </div>
 
-                                    <button type="submit"
-                                          class="ct_form_next action-button ct_black_btn float-end notranslate"
+                                    <button type="submit" class="ct_form_next action-button ct_black_btn float-end "
                                           value="Next" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
                                           </div>
                                           }@else {
-                                          Next
+                                          {{'Next' | translate}}
                                           }
                                     </button>
                               </fieldset>
                               <fieldset *ngIf="currentStep == 1">
                                     <div class="ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Location & Contact Details</h5>
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
+                                                {{'LocationContactDetails' | translate}}
+                                          </h5>
 
                                           <div class="row">
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Street Address<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'streetAddress' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter street address"
+                                                                  placeholder="{{'Enter' | translate}} {{'streetAddress' | translate}}"
                                                                   formControlName="street_address">
                                                             <span
                                                                   *ngIf="Form.controls['street_address'].invalid && Form.controls['street_address'].touched">
                                                                   <span *ngIf="Form.controls['street_address'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
-                                                                        Street address is required.
+                                                                        {{'streetAddress' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </span>
                                                             </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">City<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'City' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter city name" formControlName="city">
+                                                                  placeholder="{{'Enter' | translate}} {{'City' | translate}}"
+                                                                  formControlName="city">
                                                             <span
                                                                   *ngIf="Form.controls['city'].invalid && Form.controls['city'].touched">
                                                                   <span *ngIf="Form.controls['city'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
-                                                                        City is required.
+                                                                        {{'City' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </span>
                                                             </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">State<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'State' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter state name"
+                                                                  placeholder="{{'Enter' | translate}} {{'State' | translate}}"
                                                                   formControlName="state">
                                                             <span
                                                                   *ngIf="Form.controls['state'].invalid && Form.controls['state'].touched">
                                                                   <span *ngIf="Form.controls['state'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
-                                                                        State is required.
+                                                                        {{'State' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </span>
                                                             </span>
                                                       </div>
@@ -246,26 +261,29 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Zip Code<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'ZipCode' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter ZIP code"
+                                                                  placeholder="{{'Enter' | translate}} {{'ZipCode' | translate}}"
                                                                   formControlName="zip_code">
                                                             <span
                                                                   *ngIf="Form.controls['zip_code'].invalid && Form.controls['zip_code'].touched">
                                                                   <span *ngIf="Form.controls['zip_code'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
-                                                                        Zip code is required.
+                                                                        {{'ZipCode' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </span>
                                                             </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Map Location<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'MapLocatiom' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter map location"
+                                                                  placeholder="{{'Enter' | translate}} {{'MapLocatiom' | translate}}"
                                                                   (input)="searchLocation($event)"
                                                                   [value]="selectedLocation">
                                                             <!-- when user enter location then show this div -->
@@ -282,14 +300,16 @@
                                                             <span>
                                                                   <span *ngIf="!selectedLocation && submitted"
                                                                         class="ct_text_red mt-2">
-                                                                        Map location is required.
+                                                                        {{'MapLocatiom' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </span>
                                                             </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Phone No<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'PhoneNo' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <!-- <input type="number" class="form-control ct_input"
                                                                   placeholder="Enter phone number"
@@ -308,46 +328,54 @@
                                                                   *ngIf="Form.controls['mobile_number'].invalid && Form.controls['mobile_number'].touched">
                                                                   <span *ngIf="Form.controls['mobile_number'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
-                                                                        Phone number is required.
+                                                                        {{'PhoneNo' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </span>
                                                                   <span *ngIf="Form.controls['mobile_number'].errors?.['validatePhoneNumber']"
                                                                         class="ct_text_red mt-2">
-                                                                        Please enter a valid phone number.
+                                                                        {{'Invalid' | translate}}
+                                                                        {{'PhoneNo' | translate}}.
                                                                   </span>
                                                             </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Email Address<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'Email' | translate}}
+                                                                  {{'Address' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="email" class="form-control ct_input"
-                                                                  placeholder="Enter email address"
+                                                                  placeholder="{{'Enter' | translate}} {{'Email' | translate}} {{'Address' | translate}}"
                                                                   formControlName="email" readonly>
                                                             <span
                                                                   *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
                                                                   <span *ngIf="Form.controls['email'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
-                                                                        Email is required.
+                                                                        {{'Email' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </span>
                                                                   <span *ngIf="Form.controls['email'].errors?.['email'] && !Form.controls['email'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
-                                                                        Invalid email format.</span>
+                                                                        {{'Invalid' | translate}}
+                                                                        {{'Email' | translate}}.</span>
                                                             </span>
                                                       </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-4">
-                                                            <label for="" class="mb-2 ct_text_black">Website URL<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'WebsiteURL' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter website URL"
+                                                                  placeholder="{{'Enter' | translate}} {{'WebsiteURL' | translate}}"
                                                                   formControlName="website_url">
                                                             <span
                                                                   *ngIf="Form.controls['website_url'].invalid && Form.controls['website_url'].touched">
                                                                   <span *ngIf="Form.controls['website_url'].errors?.['required']"
                                                                         class="ct_text_red mt-2">
-                                                                        Website URL is required.
+                                                                        {{'WebsiteURL' | translate}}
+                                                                        {{'isRequired' | translate}}.
                                                                   </span>
                                                             </span>
                                                       </div>
@@ -356,29 +384,32 @@
 
                                     </div>
                                     <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 notranslate"
-                                          value="Next" (click)="nextStep()" [disabled]="loading">
+                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 " value="Next"
+                                          (click)="nextStep()" [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
                                           </div>
                                           }@else {
-                                          Next
+                                          {{'Next' | translate}}
                                           }
                                     </button>
                                     <button type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
-                                          value="Previous" (click)="previousStep()">Previous</button>
+                                          value="Previous" (click)="previousStep()">{{'Previous' | translate}}</button>
                               </fieldset>
 
                               <fieldset *ngIf="currentStep == 2">
                                     <div class=" ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
-                                                Services & Expertise</h5>
+                                                {{'ServicesExpertise' | translate}}
+                                          </h5>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Treatments
-                                                      Provided<span class="ct_red_text">*</span></label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Treatments"
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'TreatmentsProvided' | translate}}<span
+                                                            class="ct_red_text">*</span></label>
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'Treatment' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="treatments"
                                                       nzNotFoundContent="No Treatments Found">
                                                       @for (item of treatments; track item) {
@@ -388,15 +419,16 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('treatments')?.invalid && Form.get('treatments')?.touched">
-                                                      Please add at least one treatment.
+                                                      {{'pleaseAddAtleast' | translate}} {{'Treatment' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Skin
-                                                      Type
-                                                      Expertise<span class="ct_red_text">*</span>
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'SkinTypeExpertise' | translate}}<span
+                                                            class="ct_red_text">*</span>
                                                 </label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Types"
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'SkinType' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="skin_types"
                                                       nzNotFoundContent="No Skin Types Found">
                                                       @for (item of skintypes; track item) {
@@ -406,13 +438,15 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('skin_types')?.invalid && Form.get('skin_types')?.touched">
-                                                      Please add at least one skin type.
+                                                      {{'pleaseAddAtleast' | translate}} {{'SkinType' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Skin Condition<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'SkinCondition' | translate}}<span
                                                             class="ct_red_text">*</span></label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Conditions"
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'SkinCondition' | translate}}"
                                                       class="form-control ct_input h-auto"
                                                       formControlName="skin_condition"
                                                       nzNotFoundContent="No Severity Found">
@@ -423,13 +457,16 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('skin_condition')?.invalid && Form.get('skin_condition')?.touched">
-                                                      Please add at least one skin condition.
+                                                      {{'pleaseAddAtleast' | translate}}
+                                                      {{'SkinCondition' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Surgeries Provided<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'SurgeriesProvided' | translate}}<span
                                                             class="ct_red_text">*</span></label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Surgeries"
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'Surgeries' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="surgeries"
                                                       nzNotFoundContent="No Severity Found">
                                                       @for (item of surgeries; track item) {
@@ -439,13 +476,14 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('surgeries')?.invalid && Form.get('surgeries')?.touched">
-                                                      Please add at least one surgery.
+                                                      {{'pleaseAddAtleast' | translate}} {{'Surgery' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Devices<span
+                                                <label for="" class="mb-2 ct_text_black">{{'Devices' | translate}}<span
                                                             class="ct_red_text">*</span></label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Devices"
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'Devices' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="devices"
                                                       nzNotFoundContent="No Device Found">
                                                       @for (item of devices; track item) {
@@ -455,30 +493,29 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('devices')?.invalid && Form.get('devices')?.touched">
-                                                      Please add at least one device.
+                                                      {{'pleaseAddAtleast' | translate}} {{'Device' | translate}}.
                                                 </span>
                                           </div>
                                     </div>
 
                                     <button type="submit" name="next"
-                                          class="ct_black_btn float-end mx-1 ct_border_radius_10 notranslate"
-                                          [disabled]="loading">
+                                          class="ct_black_btn float-end mx-1 ct_border_radius_10 " [disabled]="loading">
                                           @if(loading){
                                           <div class="spinner-border" role="status">
                                                 <span class="sr-only">Loading...</span>
                                           </div>
                                           }@else {
-                                          Submit
+                                          {{'Submit' | translate}}
                                           }
                                     </button>
                                     <button type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
-                                          value="Previous" (click)="previousStep()">Previous</button>
+                                          value="Previous" (click)="previousStep()">{{'Previous' | translate}}</button>
                               </fieldset>
                         </form>
                         <fieldset *ngIf="currentStep == 3">
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">Dr. Email</h4>
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">Expert {{'Email' | translate}}</h4>
                                     <div>
                                           <ul
                                                 class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -493,17 +530,18 @@
                                           </ul>
                                           <div class="position-relative mt-4">
                                                 <input type="text" class="form-control ct_input ct_pe_122"
-                                                      placeholder="Type to add email..." #drEmail>
+                                                      placeholder="{{'TypeToAdd' | translate}} {{'Email' | translate}}..."
+                                                      #drEmail>
                                                 <button type="button" class="ct_black_btn ct_btn_position_right"
-                                                      (click)="addDrEmail(drEmail.value)">Add</button>
+                                                      (click)="addDrEmail(drEmail.value)">{{'Add' | translate}}</button>
                                           </div>
                                     </div>
                               </div>
                               <button type="button" name="next" (click)="inviteDr()"
-                                    class="ct_black_btn float-end mx-1 mt-4 ct_border_radius_10">Invite</button>
+                                    class="ct_black_btn float-end mx-1 mt-4 ct_border_radius_10">{{'Invite' | translate}}</button>
                               <button type="button" name="previous"
                                     class="previous action-button-previous ct_outline_btn mx-1  mt-4  float-end"
-                                    value="Previous" (click)="previousStep()">Previous</button>
+                                    value="Previous" (click)="previousStep()">{{'Previous' | translate}}</button>
                         </fieldset>
                   </div>
             </div>
@@ -521,8 +559,9 @@
                         </image-cropper>
                   </div>
                   <div class="modal-footer">
-                        <button type="button" class="ct_outline_btn" data-bs-dismiss="modal" #closeBtn>Cancel</button>
-                        <button type="button" class="ct_black_btn" (click)="onDone()">Done</button>
+                        <button type="button" class="ct_outline_btn" data-bs-dismiss="modal"
+                              #closeBtn>{{'Cancel' | translate}}</button>
+                        <button type="button" class="ct_black_btn" (click)="onDone()">{{'Done' | translate}}</button>
                   </div>
             </div>
       </div>

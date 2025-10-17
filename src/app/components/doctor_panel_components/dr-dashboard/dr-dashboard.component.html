@@ -8,7 +8,7 @@
             <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/doctor/patient-records">
                 <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                     <div>
-                        <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black notranslate">
+                        <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                             {{dashboardData?.total_patients || 0}}
                         </h3>
                         <p class="mb-0">Total Patients</p>
@@ -32,7 +32,7 @@
             <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/doctor/appointments">
                 <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                     <div>
-                        <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black notranslate">
+                        <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                             {{dashboardData?.total_appointments || 0}}
                         </h3>
                         <p class="mb-0">Total Appointments</p>
@@ -61,7 +61,7 @@
             <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/doctor/earning-analytics">
                 <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                     <div class="ct_white_nowrap">
-                        <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black notranslate">
+                        <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                             {{dashboardData?.clinic_appointment_earnings || 0 | currency:'SEK '}}
                         </h3>
                         <p class="mb-0">Total Earnings</p>
@@ -88,8 +88,9 @@
             <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/doctor/ratings-reviews">
                 <div class="ct_white_bg ct_py_28_px_20 ct_dash_card ct_border_radius_10 ct_border_clr_D2D5DB">
                     <div>
-                        <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black notranslate">
-                            {{dashboardData?.average_rating || 0}}</h3>
+                        <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
+                            {{dashboardData?.average_rating || 0}}
+                        </h3>
                         <p class="mb-0">Average Rating</p>
                     </div>
                     <div class="ct_dash_icon">
@@ -131,7 +132,7 @@
                             <tr>
                                 <td>{{$index + 1}}</td>
                                 <!-- <td>Dr. John Smith</td> -->
-                                <td class="notranslate">{{item.full_name}}</td>
+                                <td class="">{{item.full_name}}</td>
                                 <td>{{item.mobile_number}}</td>
                                 <td>
                                     <p class="mb-1">
@@ -143,7 +144,7 @@
                                         {{item.end_time | date:'dd-MM-yyyy - HH:mm'}}
                                     </p>
                                 </td>
-                                <td class="notranslate">{{item.clinic_name || 'N/A'}}</td>
+                                <td class="">{{item.clinic_name || 'N/A'}}</td>
                                 <td>{{item.type || 'N/A'}}</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-3">

@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { passwordMatchValidator, strongPasswordValidator } from '../../../validators';
 import { CommonModule, Location } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-set-password',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, TranslateModule],
   templateUrl: './set-password.component.html',
   styleUrl: './set-password.component.css'
 })
@@ -20,7 +21,9 @@ export class SetPasswordComponent {
   isShowNewPassword: boolean = false;
   isShowConfPassword: boolean = false;
   loading: boolean = false
-  constructor(private service: CommonService, private router: Router, private toster: NzMessageService, public location: Location, private auth: AuthService) { }
+  constructor(private service: CommonService, private router: Router, private toster: NzMessageService, public location: Location, private auth: AuthService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
+  }
   ngOnInit() {
     this.initForm()
   }

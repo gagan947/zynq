@@ -30,7 +30,7 @@
                                           (click)="openModal(this.soloDrProfile().clinic?.clinic_logo)">
                                     <div class="w-100">
                                           <div class="d-flex align-items-center justify-content-between mb-3">
-                                                <h5 class="ct_fs_20 ct_fw_600 mb-1 notranslate">
+                                                <h5 class="ct_fs_20 ct_fw_600 mb-1 ">
                                                       {{this.soloDrProfile().clinic?.clinic_name}}
                                                 </h5>
                                                 <span
@@ -171,9 +171,7 @@
                                           </div>
                                     </div>
                               </div>
-                              @if(this.soloDrProfile()?.clinic.hsa_id ||
-                              this.soloDrProfile()?.clinic.ivo_registration_number ||
-                              this.soloDrProfile()?.clinic.org_number){
+                              @if(this.soloDrProfile()?.clinic.org_number){
                               <div class="col-xxl-4 mt-4">
                                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 h-100">
                                           <p class="ct_fs_18 mb-3">
@@ -186,7 +184,7 @@
                                                 Registration Details
                                           </p>
 
-                                          @if(this.soloDrProfile()?.clinic.org_number){
+
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2">Swedish Organization Number </label>
                                                 <div class="position-relative">
@@ -203,9 +201,9 @@
                                                       </div>
                                                 </div>
                                           </div>
-                                          }
 
-                                          @if(this.soloDrProfile()?.clinic.hsa_id){
+
+                                          <!-- @if(this.soloDrProfile()?.clinic.hsa_id){
                                           <div class="form-group mb-4">
                                                 <label for="" class="mb-2">HSA ID</label>
                                                 <div class="position-relative">
@@ -238,7 +236,7 @@
                                                       </div>
                                                 </div>
                                           </div>
-                                          }
+                                          } -->
                                     </div>
                               </div>
                               }
@@ -351,7 +349,7 @@
                                                       <tr>
                                                             <td class="border p-2">{{$index + 1}}</td>
                                                             <td class="border p-2">{{item.name}} </td>
-                                                            <td class="border p-2 notranslate">
+                                                            <td class="border p-2 ">
                                                                   {{item.price | currency:'SEK '}}
                                                             </td>
                                                             <td class="border p-2">{{item.session_duration || 'N/A'}}

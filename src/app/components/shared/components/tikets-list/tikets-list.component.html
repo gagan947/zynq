@@ -98,7 +98,7 @@
                                           <tr>
                                                 <td>{{i + 1}}</td>
                                                 @if(activeTab == 'clinic' || activeTab == 'doctor'){
-                                                <td class="notranslate">
+                                                <td class="">
                                                       {{ticket.clinic?.clinic_name || ticket.doctor?.name}}
                                                 </td>
                                                 <td>{{ticket.clinic?.email || ticket.doctor?.email}}</td>

@@ -17,11 +17,12 @@ import { AuthService } from '../../../services/auth.service';
 import { environment } from '../../../../environments/environment';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 @Component({
   selector: 'app-profile-setup',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, NzDatePickerModule, NzButtonModule, NzDatePickerModule, NgxIntlTelInputModule, ImageCropperComponent],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, NzDatePickerModule, NzButtonModule, NzDatePickerModule, NgxIntlTelInputModule, ImageCropperComponent, TranslateModule],
   templateUrl: './profile-setup.component.html',
   styleUrl: './profile-setup.component.css'
 })
@@ -64,8 +65,8 @@ export class ProfileSetupComponent {
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden];
-  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router, private i18n: NzI18nService, private toster: NzMessageService, private auth: AuthService) {
-
+  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router, private i18n: NzI18nService, private toster: NzMessageService, private auth: AuthService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
   }
 
 
@@ -319,10 +320,10 @@ export class ProfileSetupComponent {
   currentStep = 0;
 
   steps = [
-    { id: 'Personal', label: 'Personal Details' },
-    { id: 'Education', label: 'Education & Experience' },
+    { id: 'Personal', label: 'PersonalDetails' },
+    { id: 'Education', label: 'EducationExperience' },
     { id: 'Expertise', label: 'Expertise' },
-    { id: 'Fee', label: 'Fee & Availability' }
+    { id: 'Fee', label: 'FeeAvailability' }
   ];
 
   get progress(): string {

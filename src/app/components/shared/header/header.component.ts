@@ -10,11 +10,12 @@ import { LoaderService } from '../../../services/loader.service';
 import { SocketService } from '../../../services/socket.service';
 import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslateModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -26,9 +27,11 @@ export class HeaderComponent {
   clinicProfile = this.service._clinicProfile;
   drProfile = this.service._doctorProfile;
   soloDrProfile = this.service._soloDoctorProfile;
-  constructor(public auth: AuthService, public service: CommonService, private router: Router, public loaderService: LoaderService, private socketService: SocketService, private notification: NotificationService
-  ) {
-    this.loadScript();
+  constructor(public auth: AuthService, public service: CommonService, private router: Router, public loaderService: LoaderService, private socketService: SocketService, private notification: NotificationService, private translate: TranslateService) {
+    this.translate.setDefaultLang('en');
+    this.translate.use(localStorage.getItem('lang') || 'en');
+    this.selectedLang = localStorage.getItem('lang') || 'en';
+
     effect(() => {
       this.clinicProfile();
       this.drProfile();
@@ -110,64 +113,13 @@ export class HeaderComponent {
   }
 
 
-  loadScript() {
-    const existingScript = document.querySelector('script[src*="translate_a/element.js"]');
-    if (existingScript) {
-      this.onCustomLangChange('en');
-      return;
-    }
 
-    const scriptElement = document.createElement('script');
-    scriptElement.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-
-    window['googleTranslateElementInit'] = () => {
-      new google.translate.TranslateElement({
-        includedLanguages: 'sv,en',
-        autoDisplay: false,
-        layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
-      }, 'google_translate_element');
-
-      setTimeout(() => {
-        this.onCustomLangChange('en');
-      }, 1000);
-    };
-
-    document.body.appendChild(scriptElement);
-  }
-
-  setGoogleTranslateValue(selectedLang: string) {
-    let attempts = 0;
-    const maxAttempts = 0;
-    const interval = 500;
-
-    const trySetLang = () => {
-      const selectEl: HTMLSelectElement | null = document.querySelector('.goog-te-combo');
-      if (selectEl) {
-        selectEl.value = selectedLang;
-        selectEl.dispatchEvent(new Event('change'));
-      } else if (attempts < maxAttempts) {
-        attempts++;
-        setTimeout(trySetLang, interval);
-      } else {
-        console.warn('Google Translate dropdown not found after max attempts');
-      }
-    };
-
-    trySetLang();
-  }
 
   onCustomLangChange(lang: any) {
-    this.selectedLang = lang
-    const selectedLang = lang
-    // this.service.language.set(selectedLang)
-    this.setGoogleTranslateValue(selectedLang);
+    this.selectedLang = lang;
+    this.translate.use(lang);
+    localStorage.setItem('lang', lang);
   }
 }
 
-declare var google: any
-declare global {
-  interface Window {
-    googleTranslateElementInit: any;
-  }
-}
 

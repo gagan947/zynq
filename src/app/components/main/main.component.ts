@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from "../shared/sidebar/sidebar.component";
 import { CommonService } from '../../services/common.service';
 import { ZegoService } from '../../services/zego.service';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,7 @@ import { ZegoService } from '../../services/zego.service';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
-  constructor(private service: CommonService, private zegoService: ZegoService) { }
+  constructor(private service: CommonService, private zegoService: ZegoService, private socketService: SocketService) { }
   ngOnInit() {
     // this.service.post('doctor/isDocterOfflineOrOnline', { isOnline: 1 }).subscribe()
     const data = JSON.parse(localStorage.getItem('userInfo') || '{}');
@@ -23,5 +24,6 @@ export class MainComponent {
     const callerUserName = 'user_' + callerUserID;
     const serverSecret = 'ee4c4f96155128036920c19b9e997b3d';
     this.zegoService.initializeZego(appID, serverSecret, callerUserID, doctorName);
+    this.socketService.connect(data.id);
   }
 }

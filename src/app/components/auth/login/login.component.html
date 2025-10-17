@@ -6,23 +6,44 @@
             </div>
       </div>
       <div class="ct_login_right">
-            <h4 class="ct_fs_44  ct_fw_600 mb-5">Welcome to ZYNQ</h4>
+            <div class="ct_language_select dropdown ">
+                  <img [src]="selectedLang == 'sv' ? 'assets/img/Flag_of_Sweden.svg.png' : 'assets/img/Flag_of_the_United_States.svg.png'"
+                        alt="" class="dropdown_img" style="width: 20px; margin-right: 5px;">
+                  <button class="dropdown-toggle  py-2 mt-0" data-bs-toggle="dropdown"
+                        aria-expanded="false">{{selectedLang == 'sv' ?
+                  'Swedish' : 'English'}}</button>
+                  <ul class="dropdown-menu">
+                        <li>
+                              <a class="dropdown-item" (click)="onCustomLangChange('sv')">
+                                    <img src="assets/img/Flag_of_Sweden.svg.png" alt="" style="width: 20px;">
+                                    Swedish
+                              </a>
+                        </li>
+                        <li>
+                              <a class="dropdown-item" (click)="onCustomLangChange('en')">
+                                    <img src="assets/img/Flag_of_the_United_States.svg.png" alt="" style="width: 20px;">
+                                    English
+                              </a>
+                        </li>
+                  </ul>
+            </div>
+            <h4 class="ct_fs_44  ct_fw_600 mb-5">{{'Welcome' | translate}}</h4>
             <form [formGroup]="Form" (ngSubmit)="onSubmit()">
                   <div class="form-group mb-4">
                         <div class="position-relative">
                               <div class="ct_input_icon_left">
                                     <img src="assets/img/icons/oui_email.svg" alt="">
                               </div>
-                              <input type="email" placeholder="Email address" formControlName="email"
-                                    class="form-control ct_input ct_input_ps_40 ct_input_pe_40">
+                              <input type="email" placeholder="{{'Enter' | translate}} {{'Email' | translate}}"
+                                    formControlName="email" class="form-control ct_input ct_input_ps_40 ct_input_pe_40">
                         </div>
                         <span *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
                               <span *ngIf="Form.controls['email'].errors?.['required']" class="ct_text_red mt-2">
-                                    Email is required.
+                                    {{'Email' | translate}} {{'isRequired' | translate}}.
                               </span>
                               <span *ngIf="Form.controls['email'].errors?.['email'] && !Form.controls['email'].errors?.['required']"
                                     class="ct_text_red mt-2">
-                                    Invalid email format.</span>
+                                    {{'Invalid' | translate}} {{'Email' | translate}}.</span>
                         </span>
                   </div>
                   <div class="form-group mb-4">
@@ -30,7 +51,8 @@
                               <div class="ct_input_icon_left">
                                     <img src="assets/img/icons/lock.svg" alt="">
                               </div>
-                              <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Password"
+                              <input [type]="isPasswordVisible ? 'text' : 'password'"
+                                    placeholder="{{'Enter' | translate}} {{'Password' | translate}}"
                                     formControlName="password"
                                     class="form-control ct_input ct_input_ps_40 ct_input_pe_40">
                               <i class="fa-solid ct_show_eye" [ngClass]="isPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"
@@ -38,19 +60,20 @@
                         </div>
                         <span *ngIf="Form.controls['password'].invalid && Form.controls['password'].touched">
                               <span *ngIf="Form.controls['password'].errors?.['required']" class="ct_text_red mt-2">
-                                    Password is required.
+                                    {{'Password' | translate}} {{'isRequired' | translate}}.
                               </span>
                         </span>
                   </div>
-                  <a routerLink="/forgot-password" class="ct_text_black">Forgot Password?</a>
+                  <a routerLink="/forgot-password" class="ct_text_black">{{'Forgot' | translate}}
+                        {{'Password' | translate}}?</a>
                   <div class="mt-5">
-                        <button type="submit" class="ct_black_btn w-100 notranslate" [disabled]="loading">
+                        <button type="submit" class="ct_black_btn w-100 " [disabled]="loading">
                               @if(loading){
                               <div class="spinner-border" role="status">
                                     <span class="sr-only">Loading...</span>
                               </div>
                               }@else {
-                              Login
+                              {{'Login' | translate}}
                               }
                         </button>
                   </div>

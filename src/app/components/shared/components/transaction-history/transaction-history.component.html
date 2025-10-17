@@ -17,7 +17,7 @@
                                           @if(roleName === 'solo-doctor'){
                                           <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                                 <span class="ct_white_nowrap">Filter by:</span>
-                                                <div class="form-group position-relative ct_w_100_767 notranslate">
+                                                <div class="form-group position-relative ct_w_100_767 ">
                                                       <select class="form-control ct_input"
                                                             (change)="filterByType($event)">
                                                             <option value="">Type</option>
@@ -29,7 +29,7 @@
                                           }
                                     </div>
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
-                                          <button class="ct_wallet_btn ct_w_100_767 notranslate">
+                                          <button class="ct_wallet_btn ct_w_100_767 ">
                                                 <img src="assets/img/solar_wallet-linear.svg" alt=""
                                                       class="ct_img_20 me-2">
                                                 {{totalAmount | currency:'SEK '}}
@@ -65,19 +65,19 @@
                                           @for (item of faqList; track $index) {
                                           <tr>
                                                 <td>{{$index + 1}}</td>
-                                                <td class="notranslate">
+                                                <td class="">
                                                       {{item.details?.user?.name || item.details.user_name}}
                                                 </td>
-                                                <td class="notranslate">
+                                                <td class="">
                                                       {{item.order_type}}
                                                 </td>
-                                                <td class="notranslate">
+                                                <td class="">
                                                       {{item.details.total_price | currency:'SEK '}}
                                                 </td>
-                                                <td class="notranslate">
+                                                <td class="">
                                                       {{item.details.admin_earnings | currency:'SEK '}}
                                                 </td>
-                                                <td class="notranslate">
+                                                <td class="">
                                                       {{item.amount | currency:'SEK '}}
                                                 </td>
                                                 <td>

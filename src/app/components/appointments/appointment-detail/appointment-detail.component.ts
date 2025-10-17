@@ -40,6 +40,11 @@ export class AppointmentDetailComponent {
 
   ngOnInit(): void {
     this.getAppointmentDetails()
+    this.socketService.onAppoinmentstart()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.add('show');
+      });
 
   }
   openModal(imageUrl: string | undefined) {
@@ -111,21 +116,33 @@ export class AppointmentDetailComponent {
     );
   }
 
-
+  errorMessage: string = '';
   calculateDiscount() {
+    this.errorMessage = '';
+
     if (!this.discount || this.totalAmount === null) {
       this.discountAmount = 0;
-      this.netAmount = this.totalAmount;
+      this.netAmount = this.totalAmount ?? 0;
       return;
+    }
+
+    if (this.discountType === 'SEK' && this.discount > this.totalAmount) {
+      this.errorMessage = 'Discount amount cannot exceed total amount.';
+      this.discount = this.totalAmount;
+    }
+
+    if (this.discountType === 'PERCENTAGE' && this.discount > 100) {
+      this.errorMessage = 'Discount percentage cannot exceed 100%.';
+      this.discount = 100;
     }
 
     if (this.discountType === 'SEK') {
       this.discountAmount = this.discount;
-      this.netAmount = this.totalAmount - this.discountAmount;
     } else {
       this.discountAmount = (this.totalAmount * this.discount) / 100;
-      this.netAmount = this.totalAmount - this.discountAmount;
     }
+
+    this.netAmount = this.totalAmount - this.discountAmount;
 
     if (this.netAmount < 0) {
       this.netAmount = 0;
@@ -146,6 +163,7 @@ export class AppointmentDetailComponent {
       user_id: this.appointmentData.user_id,
       clinic_id: this.appointmentData.clinic_id,
       report_id: this.appointmentData.report_id,
+      origin_appointment_id: this.appointmentData.appointment_id,
       discount_type: this.discountType,
       discount_value: this.discountAmount,
       treatments: this.suggestedTreatment
@@ -200,7 +218,13 @@ export class AppointmentDetailComponent {
   closeVideoRightSidebar() {
     document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.remove('show');
     const element = document.getElementsByClassName('H6djxujDyBWSH05jmS1c')[0] as HTMLElement;
-    element.style.setProperty('width', '100vw', 'important');
+    const element2 = document.getElementsByClassName('BYpXSnOHfrC2td4QRijO')[0] as HTMLElement;
+    if (element) {
+      element.style.setProperty('width', '100vw', 'important');
+    }
+    if (element2) {
+      element2.style.setProperty('width', '100vw', 'important');
+    }
   }
 
   ngOnDestroy() {

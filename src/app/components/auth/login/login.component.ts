@@ -6,11 +6,11 @@ import { CommonService } from '../../../services/common.service';
 import { AuthService } from '../../../services/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoginResponse } from '../../../models/login';
-
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, TranslateModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -19,9 +19,11 @@ export class LoginComponent {
   isPasswordVisible: boolean = false;
   loading: boolean = false;
   public publicRoleId: string = '';
-
-  constructor(private router: Router, private srevice: CommonService, private toster: NzMessageService, private auth: AuthService) {
-
+  selectedLang: string = 'en';
+  constructor(private router: Router, private srevice: CommonService, private toster: NzMessageService, private auth: AuthService, private translate: TranslateService) {
+    this.translate.setDefaultLang('en');
+    this.translate.use(localStorage.getItem('lang') || 'en');
+    this.selectedLang = localStorage.getItem('lang') || 'en';
   }
 
   ngOnInit(): void {
@@ -89,6 +91,12 @@ export class LoginComponent {
         }
       });
     }
+  }
+
+  onCustomLangChange(lang: any) {
+    this.selectedLang = lang;
+    this.translate.use(lang);
+    localStorage.setItem('lang', lang);
   }
 }
 

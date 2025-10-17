@@ -27,7 +27,7 @@
                                                       </svg>
                                                       <p class="mb-0">Date</p>
                                                 </div>
-                                                <p class="mb-0 ct_grey_text notranslate">
+                                                <p class="mb-0 ct_grey_text ">
                                                       {{appointmentData?.start_time | date }} |
                                                       {{appointmentData?.start_time | date:'hh:mm a'}}
                                                 </p>
@@ -104,7 +104,7 @@
                                                                         </svg>
 
                                                                         <span
-                                                                              class="notranslate">{{appointmentData?.gender || 'N/A'}}</span>
+                                                                              class="">{{appointmentData?.gender || 'N/A'}}</span>
                                                                   </li>
                                                                   <li class="d-flex align-items-center flex-wrap gap-2">
                                                                         <svg width="19" height="19" viewBox="0 0 19 19"
@@ -115,7 +115,7 @@
                                                                                     fill-opacity="0.77" />
                                                                         </svg>
 
-                                                                        <span class="notranslate">
+                                                                        <span class="">
                                                                               {{appointmentData?.age ? (appointmentData.age + ' Years') : 'N/A'}}</span>
                                                                   </li>
                                                             </ul>
@@ -299,7 +299,7 @@
                                                       <tr>
                                                             <td class="border p-2">{{$index + 1}}</td>
                                                             <td class="border p-2">{{item.name}} </td>
-                                                            <td class="border p-2 notranslate">
+                                                            <td class="border p-2 ">
                                                                   {{item.price | currency:'SEK '}}
                                                             </td>
                                                       </tr>
@@ -308,6 +308,46 @@
                                           </table>
 
                                     </div>
+                              </div>
+                        </div>
+                        }
+
+                        @if(appointmentData?.suggestedTreatments.treatments.length > 0){
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Suggested Treatments-</h4>
+                              <div>
+                                    <div class="table-responsive">
+                                          <table class="table ct_custom_table">
+                                                <thead>
+                                                      <tr class="bg-gray-200">
+                                                            <th class="border p-2">Sr. No</th>
+                                                            <th class="border p-2">Treatment</th>
+                                                            <th class="border p-2">Price</th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody formArrayName="treatments">
+                                                      @for (item of appointmentData?.suggestedTreatments.treatments;
+                                                      track $index) {
+                                                      <tr>
+                                                            <td class="border p-2">{{$index + 1}}</td>
+                                                            <td class="border p-2">{{item.name}} </td>
+                                                            <td class="border p-2 ">
+                                                                  {{item.price | currency:'SEK '}}
+                                                            </td>
+                                                      </tr>
+                                                      }
+                                                </tbody>
+                                          </table>
+
+                                    </div>
+                              </div>
+                              <div class="d-flex justify-content-end gap-4">
+                                    <span><strong>Total Price : </strong>
+                                          {{appointmentData?.suggestedTreatments.total_price | currency:'SEK '}}</span>
+                                    <span><strong>Discount : </strong>
+                                          {{appointmentData?.suggestedTreatments.discount_value | currency:'SEK '}}</span>
+                                    <span><strong>Net Amount : </strong>
+                                          {{appointmentData?.suggestedTreatments.total_price_with_discount | currency:'SEK '}}</span>
                               </div>
                         </div>
                         }
@@ -381,6 +421,7 @@
                   <input class="form-control ct_input" type="number" [(ngModel)]="discount"
                         [ngModelOptions]="{standalone:true}" (ngModelChange)="calculateDiscount()"
                         placeholder="Enter discount {{discountType == 'PERCENTAGE' ? 'percentage' : 'amount'}}">
+                  <p *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
             </div>
             }
             <div class="mt-4">
@@ -391,13 +432,14 @@
                         <p class="ct_fs_16 ct_fw_600 d-flex align-items-center gap-2 justify-content-between">
                               <span>Discount :</span> <span>{{discountAmount | currency:'SEK '}}</span>
                         </p>
-                        <p class="ct_fs_16 ct_fw_600 d-flex align-items-center gap-2 justify-content-between"><span>Net
+                        <p class="ct_fs_16 ct_fw_600 d-flex align-items-center gap-2 justify-content-between">
+                              <span>Net
                                     Amount
-                                    :</span><span> {{netAmount | currency:'SEK '}}</span></p>
+                                    :</span><span> {{netAmount | currency:'SEK '}}</span>
+                        </p>
                   </div>
             </div>
-            <button class="ct_black_btn gap-2 w-100 mt-4 notranslate" (click)="suggestTreatments()"
-                  [disabled]="loading">
+            <button class="ct_black_btn gap-2 w-100 mt-4 " (click)="suggestTreatments()" [disabled]="loading">
                   @if(loading){
                   <div class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
@@ -407,25 +449,25 @@
                   }
             </button>
       </div>
+</div>
 
-      <!-- Image preview Modal S -->
-      <div class="modal fade modal-md" id="full_view_img" tabindex="-1" aria-labelledby="full_view_imgLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                        <div class="modal-header border-0 pb-0">
-                              <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0"
-                                    id="full_view_imgLabel">
-                                    Image Preview
-                              </h5>
-                              <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                              <div class="ct_full_view_img">
-                                    <img [src]="imagePreview" alt="">
-                              </div>
+<!-- Image preview Modal S -->
+<div class="modal fade modal-md" id="full_view_img" tabindex="-1" aria-labelledby="full_view_imgLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                  <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0" id="full_view_imgLabel">
+                              Image Preview
+                        </h5>
+                        <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                        <div class="ct_full_view_img">
+                              <img [src]="imagePreview" alt="">
                         </div>
                   </div>
             </div>
       </div>
+</div>

@@ -82,8 +82,8 @@ export class EditClinicProfileComponent {
       clinic_name: ['', [Validators.required, NoWhitespaceDirective.validate]],
       org_number: [''],
       zynq_user_id: [''],
-      ivo_registration_number: [''],
-      hsa_id: [''],
+      // ivo_registration_number: [''],
+      // hsa_id: [''],
       email: ['', [Validators.required, Validators.email]],
       mobile_number: ['', [Validators.required]],
       street_address: ['', [Validators.required, NoWhitespaceDirective.validate]],
@@ -364,8 +364,8 @@ export class EditClinicProfileComponent {
           formData.append('files', this.productImages[i])
         }
       }
-      formData.append('ivo_registration_number', this.Form.value.ivo_registration_number)
-      formData.append('hsa_id', this.Form.value.hsa_id)
+      formData.append('org_number', this.Form.value.org_number)
+      // formData.append('hsa_id', this.Form.value.hsa_id)
       formData.append('zynq_user_id', this.userInfo.id);
     } else if (this.currentStep === 1) {
       // formData.append('email', this.Form.value.email)
@@ -427,8 +427,8 @@ export class EditClinicProfileComponent {
     this.Form.patchValue({
       clinic_name: this.clinicProfile()?.clinic_name,
       clinic_description: this.clinicProfile()?.clinic_description,
-      ivo_registration_number: this.clinicProfile()?.ivo_registration_number || '',
-      hsa_id: this.clinicProfile()?.hsa_id || '',
+      org_number: this.clinicProfile()?.org_number || '',
+      // hsa_id: this.clinicProfile()?.hsa_id || '',
       email: this.clinicProfile()?.email,
       mobile_number: this.clinicProfile()?.mobile_number,
       city: this.clinicProfile()?.location.city,

@@ -19,6 +19,10 @@ export class SocketService {
             });
       };
 
+      connect(id: any) {
+            this.socket.emit('register', id);
+      }
+
       setChatId(chatId: number | null): void {
             this.chatIdSignal.set(chatId);
       };
@@ -76,6 +80,14 @@ export class SocketService {
             return new Observable((observer) => {
                   this.socket.on('chat_list', (chats) => {
                         observer.next(chats);
+                  });
+            });
+      }
+
+      onAppoinmentstart(): Observable<any> {
+            return new Observable((observer) => {
+                  this.socket.on('appointmentCompleted', (res) => {
+                        observer.next(res);
                   });
             });
       }

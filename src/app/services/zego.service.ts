@@ -56,7 +56,6 @@ export class ZegoService {
                                     type: 'appointment',
                               })
                         });
-                        document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.add('show');
                         this.changeStatus({ callStatus: "Ongoing" });
                   } catch (err) {
                         console.error('Error sending call:', err);
@@ -65,15 +64,32 @@ export class ZegoService {
 
             this.zegoInstance.setCallInvitationConfig({
                   onOutgoingCallAccepted: async (callID: string, callee: any) => {
+                        document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.add('show');
                         await this.changeStatus({ callStatus: "Completed", callID, receiverId: callee.id });
                   },
 
                   onOutgoingCallDeclined: async (callID: string, callee: any) => {
-                        // await this.changeStatus({ callStatus: "rejected", callID, receiverId: callee.id });
+                        document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.remove('show');
+                        const element = document.getElementsByClassName('H6djxujDyBWSH05jmS1c')[0] as HTMLElement;
+                        const element2 = document.getElementsByClassName('BYpXSnOHfrC2td4QRijO')[0] as HTMLElement;
+                        if (element) {
+                              element.style.setProperty('width', '100vw', 'important');
+                        }
+                        if (element2) {
+                              element2.style.setProperty('width', '100vw', 'important');
+                        }
                   },
 
                   onOutgoingCallTimeout: async (callID: string, callee: any) => {
-                        // await this.changeStatus({ callStatus: "missed", callID, receiverId: callee.id });
+                        document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.remove('show');
+                        const element = document.getElementsByClassName('H6djxujDyBWSH05jmS1c')[0] as HTMLElement;
+                        const element2 = document.getElementsByClassName('BYpXSnOHfrC2td4QRijO')[0] as HTMLElement;
+                        if (element) {
+                              element.style.setProperty('width', '100vw', 'important');
+                        }
+                        if (element2) {
+                              element2.style.setProperty('width', '100vw', 'important');
+                        }
                   },
 
                   onOutgoingCallSent: async (callID: string, callee: any[]) => {
