@@ -7,11 +7,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SocketService } from '../../../services/socket.service';
 import { Subject, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-appointment-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,TranslateModule],
   templateUrl: './appointment-detail.component.html',
   styleUrl: './appointment-detail.component.css'
 })
@@ -29,7 +30,8 @@ export class AppointmentDetailComponent {
   netAmount: number = 0;
   discount: number = 0;
   loading: boolean = false
-  constructor(private service: CommonService, public location: Location, private zegoService: ZegoService, private loader: LoaderService, private router: Router, private route: ActivatedRoute, private socketService: SocketService) {
+  constructor(private service: CommonService, public location: Location, private zegoService: ZegoService, private loader: LoaderService, private router: Router, private route: ActivatedRoute, private socketService: SocketService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.appointment();
     });

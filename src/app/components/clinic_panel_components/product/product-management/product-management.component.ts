@@ -6,11 +6,12 @@ import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Product, ProductResponse } from '../../../../models/products';
 import { LoaderService } from '../../../../services/loader.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, TranslateModule],
   templateUrl: './product-management.component.html',
   styleUrl: './product-management.component.css'
 })
@@ -21,7 +22,11 @@ export class ProductManagementComponent {
   orgProductsList: Product[] = [];
   imagePreview: string = 'assets/img/np_pro.jpg';
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
-  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private loader: LoaderService) { }
+  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private loader: LoaderService,
+    private translate: TranslateService
+  ) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
+   }
 
   ngOnInit(): void {
     this.getProductList()

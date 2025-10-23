@@ -4,11 +4,12 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-notifications',
   standalone: true,
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.css',
   providers: [DatePipe]
@@ -20,7 +21,8 @@ export class NotificationsComponent {
   loading: boolean = false
   private destroy$ = new Subject<void>();
   notificationId: any
-  constructor(public service: CommonService, private datePipe: DatePipe, private router: Router, private route: ActivatedRoute, private toster: NzMessageService) {
+  constructor(public service: CommonService, private datePipe: DatePipe, private router: Router, private route: ActivatedRoute, private toster: NzMessageService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.notificationList()
     })
@@ -65,6 +67,10 @@ export class NotificationsComponent {
 
       case 'PURCHASE':
         this.router.navigate(['../doctors'], { relativeTo: this.route });
+        break;
+
+      case 'REVIEW':
+        this.router.navigate(['../ratings-reviews'], { relativeTo: this.route });
         break;
     }
   }

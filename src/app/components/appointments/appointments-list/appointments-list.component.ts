@@ -8,13 +8,14 @@ import { CommonModule } from '@angular/common';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { FormsModule } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 // import * as XLSX from 'xlsx';
 // import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-appointments-list',
   standalone: true,
-  imports: [CommonModule, NzDatePickerModule, FormsModule],
+  imports: [CommonModule, NzDatePickerModule, FormsModule, TranslateModule],
   templateUrl: './appointments-list.component.html',
   styleUrl: './appointments-list.component.css',
 })
@@ -37,7 +38,8 @@ export class AppointmentsListComponent {
   appointment_id: any;
   userData: any
   loading: boolean = false
-  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService) {
+  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
   }
 
   ngOnInit(): void {

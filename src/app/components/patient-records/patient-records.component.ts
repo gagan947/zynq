@@ -5,11 +5,12 @@ import { CommonService } from '../../services/common.service';
 import { LoaderService } from '../../services/loader.service';
 import { CommonModule } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-patient-records',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './patient-records.component.html',
   styleUrl: './patient-records.component.css'
 })
@@ -20,7 +21,9 @@ export class PatientRecordsComponent {
   orgPatientList: any[] = [];
   imagePreview: string = 'assets/img/np_pro.jpg';
   searchTerm: string = '';
-  constructor(private service: CommonService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService) { }
+  constructor(private service: CommonService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
+   }
 
   ngOnInit() {
     this.getData();

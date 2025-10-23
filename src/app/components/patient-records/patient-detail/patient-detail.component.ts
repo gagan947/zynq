@@ -3,14 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonService } from '../../../services/common.service';
 import { LoaderService } from '../../../services/loader.service';
-import { SocketService } from '../../../services/socket.service';
-import { ZegoService } from '../../../services/zego.service';
 import { CommonModule, Location } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-patient-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './patient-detail.component.html',
   styleUrl: './patient-detail.component.css'
 })
@@ -18,7 +17,8 @@ export class PatientDetailComponent {
   private destroy$ = new Subject<void>();
   patientId = this.service._patient;
   patientData: any
-  constructor(private service: CommonService, public location: Location, private zegoService: ZegoService, private loader: LoaderService, private router: Router, private route: ActivatedRoute, private socketService: SocketService) {
+  constructor(private service: CommonService, public location: Location, private loader: LoaderService, private router: Router, private route: ActivatedRoute, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.patientId();
     });

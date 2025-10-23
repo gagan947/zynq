@@ -5,104 +5,103 @@
                         <div class="d-flex align-items-center gap-3 mb-3">
                               <a (click)="location.back()" class="ct_back_icon"><i
                                           class="fa-solid fa-chevron-left"></i></a>
-                              <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Product
-                                          Management </span>
+                              <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">{{'ProductManagement' | translate}} </span>
                                     <span class="ct_text_op_07 ct_fs_16"> /
-                                          {{productId ? 'Update' : 'Add New'}} Product</span>
+                                          {{(productId ? 'Update' : 'AddNew') | translate}} {{'Product' | translate}}</span>
                               </h4>
                         </div>
                         <form [formGroup]="Form" (ngSubmit)="onSubmit()">
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20">
-                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">Product Information</h4>
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'ProductInformation' | translate}}</h4>
                                     <div class="row">
                                           <div class="col-md-6">
                                                 <div class="form-group mb-3">
-                                                      <label for="" class="mb-2">Product Name</label>
-                                                      <input type="text" placeholder="Enter Product Name"
+                                                      <label for="" class="mb-2">{{'ProductName' | translate}}</label>
+                                                      <input type="text" placeholder="{{'Enter' | translate}} {{'ProductName' | translate}}"
                                                             class="form-control ct_input" formControlName="name">
                                                       <span
                                                             *ngIf="Form.controls['name'].invalid && Form.controls['name'].touched">
                                                             <span *ngIf="Form.controls['name'].errors?.['required']"
                                                                   class="ct_text_red mt-2">
-                                                                  Product name is required.
+                                                                  {{'Product' | translate}} {{'Name' | translate | lowercase}} {{'isRequired' | translate}}.
                                                             </span>
                                                       </span>
                                                 </div>
                                           </div>
                                           <div class="col-md-3">
                                                 <div class="form-group mb-3">
-                                                      <label for="" class="mb-2">Price</label>
-                                                      <input type="number" placeholder="Enter Price"
+                                                      <label for="" class="mb-2">{{'Price' | translate}}</label>
+                                                      <input type="number" placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
                                                             class="form-control ct_input" formControlName="price">
                                                       <span
                                                             *ngIf="Form.controls['price'].invalid && Form.controls['price'].touched">
                                                             <span *ngIf="Form.controls['price'].errors?.['required']"
                                                                   class="ct_text_red mt-2">
-                                                                  Price is required.
+                                                                 {{'Price' | translate}} {{'isRequired' | translate}}.
                                                             </span>
                                                             <span *ngIf="Form.controls['price'].errors?.['min']"
                                                                   class="ct_text_red mt-2">
-                                                                  Minimum price should be 0.
+                                                                  {{'Invalid' | translate}} {{'Price' | translate}}.
                                                             </span>
                                                       </span>
                                                 </div>
                                           </div>
                                           <div class="col-md-3">
                                                 <div class="form-group mb-3">
-                                                      <label for="" class="mb-2">Stock</label>
-                                                      <input type="number" placeholder="Enter Stock Quantity"
+                                                      <label for="" class="mb-2">{{'Stock' | translate}}</label>
+                                                      <input type="number" placeholder="{{'Enter' | translate}} {{'Stock' | translate}}"
                                                             class="form-control ct_input" formControlName="stock">
                                                       <span
                                                             *ngIf="Form.controls['stock'].invalid && Form.controls['stock'].touched">
                                                             <span *ngIf="Form.controls['stock'].errors?.['required']"
                                                                   class="ct_text_red mt-2">
-                                                                  Stock is required.
+                                                                  {{'Stock' | translate}} {{'isRequired' | translate}}.
                                                             </span>
                                                             <span *ngIf="Form.controls['stock'].errors?.['min']"
                                                                   class="ct_text_red mt-2">
-                                                                  Minimum stock should be 1.
+                                                                  {{'Invalid' | translate}} {{'Stock' | translate}}.
                                                             </span>
                                                       </span>
                                                 </div>
                                           </div>
                                     </div>
                                     <div class="form-group mb-3">
-                                          <label for="" class="mb-2">Short Tagline</label>
-                                          <input type="text" placeholder="Enter Short Tagline"
+                                          <label for="" class="mb-2">{{'ShortTagline' | translate}}</label>
+                                          <input type="text" placeholder="{{'Enter' | translate}} {{'ShortTagline' | translate}}"
                                                 class="form-control ct_input" formControlName="short_description">
                                           <span
                                                 *ngIf="Form.controls['short_description'].invalid && Form.controls['short_description'].touched">
                                                 <span *ngIf="Form.controls['short_description'].errors?.['required']"
                                                       class="ct_text_red mt-2">
-                                                      Short description is required.
+                                                      {{'ShortDescription' | translate}} {{'isRequired' | translate}}.
                                                 </span>
                                                 <span *ngIf="Form.controls['short_description'].errors?.['maxlength']"
                                                       class="ct_text_red mt-2">
-                                                      Short description is too long.
+                                                      {{'ShortDescription' | translate}} {{'isTooLong' | translate}}.
                                                 </span>
                                           </span>
                                     </div>
 
                                     <div class="form-group mb-3">
-                                          <label for="" class="mb-2">Description</label>
-                                          <textarea type="text" placeholder="Write here..."
+                                          <label for="" class="mb-2">{{'Description' | translate}}</label>
+                                          <textarea type="text" placeholder="{{'WriteHere' | translate}}..."
                                                 class="form-control ct_input h-auto" rows="4"
                                                 formControlName="full_description"></textarea>
                                           <span
                                                 *ngIf="Form.controls['full_description'].invalid && Form.controls['full_description'].touched">
                                                 <span *ngIf="Form.controls['full_description'].errors?.['required']"
                                                       class="ct_text_red mt-2">
-                                                      Full description is required.
+                                                     {{'Description' | translate}} {{'isRequired' | translate}}.
                                                 </span>
                                                 <span *ngIf="Form.controls['full_description'].errors?.['maxlength']"
                                                       class="ct_text_red mt-2">
-                                                      Full description is too long.
+                                                      {{'Description' | translate}} {{'isTooLong' | translate}}.
                                                 </span>
                                           </span>
                                     </div>
 
                                     <div class="form-group mb-4">
-                                          <label for="" class="mb-2 ct_text_black">Upload Cover Image</label>
+                                          <label for="" class="mb-2 ct_text_black">{{'Upload' | translate}} {{'CoverImage' | translate}}</label>
                                           <div class="">
                                                 <div *ngIf="!coverPreview" class="ct_upload_product_main"
                                                       (click)="coverInput.click()">
@@ -113,8 +112,7 @@
                                                                   stroke-linecap="round" stroke-linejoin="round" />
                                                       </svg>
 
-                                                      <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload
-                                                            cover image here</p>
+                                                      <p class="text-center ct_fs_18 ct_text_op_07 mb-0">{{'Upload' | translate}} {{'CoverImage' | translate}} {{'here' | translate}}</p>
                                                       <!-- <small class="text-center d-block ct_text_9CA3AF py-2">PNG,
                                                                   JPG up to
                                                                   5MB</small> -->
@@ -122,7 +120,7 @@
                                                             class="text-center d-block ct_text_9CA3AF py-2">(190*135)</small>
                                                       <label>
                                                             <div class="ct_browse_btn">
-                                                                  <span>Browse Files</span>
+                                                                  <span>{{'browseFile' | translate}}</span>
                                                             </div>
                                                       </label>
                                                 </div>
@@ -139,14 +137,14 @@
                                                 </div>
                                                 <span *ngIf="!coverPreview && submitted">
                                                       <span class="ct_text_red mt-2">
-                                                            Please upload product cover image.
+                                                            {{'pleaseUploadCoverImage' | translate}}
                                                       </span>
                                                 </span>
                                           </div>
                                     </div>
 
                                     <div class="form-group mb-0">
-                                          <label for="" class="mb-2">Upload Product Image</label>
+                                          <label for="" class="mb-2">{{'Upload' | translate}} {{'ProductImage' | translate}}</label>
                                           <div class="ct_upload_product_main ct_upload_product_main_180">
                                                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
                                                       xmlns="http://www.w3.org/2000/svg">
@@ -155,13 +153,12 @@
                                                             stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
 
-                                                <p class="text-center ct_fs_18 ct_text_op_07 mb-0">Upload product images
-                                                      here</p>
+                                                <p class="text-center ct_fs_18 ct_text_op_07 mb-0">{{'Upload' | translate}} {{'ProductImage' | translate}} {{'here' | translate}}</p>
                                                 <label for="ct_upload_product">
                                                       <input type="file" name="" id="ct_upload_product" class="d-none"
                                                             accept="image/*" (change)="onProductImage($event)" multiple>
                                                       <div class="ct_browse_btn">
-                                                            <span>Browse Files</span>
+                                                            <span>{{'browseFile' | translate}}</span>
                                                       </div>
                                                 </label>
                                                 <!-- after upload image change url to below image -->
@@ -181,16 +178,16 @@
                                           </div>
                                           <span *ngIf="previewProductImages.length == 0 && submitted">
                                                 <span class="ct_text_red mt-2">
-                                                      Please upload product image.
+                                                      {{'pleaseUploadProductImage' | translate}}
                                                 </span>
                                           </span>
                                     </div>
                               </div>
 
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">Treatments</h4>
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Treatments' | translate}}</h4>
                                     <div class="mb-4">
-                                          <nz-select nzMode="multiple" nzPlaceHolder="Select Treatments"
+                                          <nz-select nzMode="multiple" nzPlaceHolder="{{'Select' | translate}} {{'Treatments' | translate}}"
                                                 class="form-control ct_input h-auto" formControlName="treatments"
                                                 nzNotFoundContent="No Treatments Found">
                                                 @for (item of treatments; track item) {
@@ -200,12 +197,12 @@
                                           </nz-select>
                                           <span class="ct_text_red mt-2"
                                                 *ngIf="Form.get('treatments')?.invalid && Form.get('treatments')?.touched">
-                                                Please add at least one treatment.
+                                                {{'pleaseAddAtleast' | translate}} {{'Treatment' | translate | lowercase}}.
                                           </span>
                                     </div>
                               </div>
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">Highlighted Features</h4>
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'HighlightedFeatures' | translate}}</h4>
                                     <div>
                                           <ul
                                                 class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -220,13 +217,13 @@
                                           </ul>
                                           <div class="position-relative mt-4">
                                                 <input type="text" class="form-control ct_input ct_pe_122"
-                                                      placeholder="Type to add Features..." #featureInput>
+                                                      placeholder="{{'TypeToAdd' | translate}} {{'Features' | translate}}..." #featureInput>
                                                 <button type="button" class="ct_black_btn ct_btn_position_right"
-                                                      (click)="addFeature(featureInput.value)">Add</button>
+                                                      (click)="addFeature(featureInput.value)">{{'Add' | translate}}</button>
                                           </div>
                                           <span *ngIf="selectedFeatures.length == 0 && submitted">
                                                 <span class="ct_text_red mt-2">
-                                                      Features are required.
+                                                      {{'Features' | translate}} {{'areRequired' | translate}}.
                                                 </span>
                                           </span>
                                     </div>
@@ -258,7 +255,7 @@
                                     </span>
                               </div> -->
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">Key Benefits</h4>
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'KeyBenefits' | translate}}</h4>
                                     <div>
                                           <ul
                                                 class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -273,34 +270,34 @@
                                           </ul>
                                           <div class="position-relative mt-4">
                                                 <input type="text" class="form-control ct_input ct_pe_122"
-                                                      placeholder="Type to add Benefits..." #BenefitInput>
+                                                      placeholder="{{'TypeToAdd' | translate}} {{'KeyBenefits' | translate}}..." #BenefitInput>
                                                 <button type="button" class="ct_black_btn ct_btn_position_right"
-                                                      (click)="addBenefit(BenefitInput.value)">Add</button>
+                                                      (click)="addBenefit(BenefitInput.value)">{{'Add' | translate}}</button>
                                           </div>
                                           <span *ngIf="selectedBenefits.length == 0 && submitted">
                                                 <span class="ct_text_red mt-2">
-                                                      Benefits are required.
+                                                      {{'KeyBenefits' | translate}} {{'areRequired' | translate}}.
                                                 </span>
                                           </span>
                                     </div>
                               </div>
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">How To Use</h4>
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'HowToUse' | translate}}</h4>
                                     <div class="form-group">
                                           <textarea class="form-control h-auto ct_input" rows="4"
-                                                placeholder="Write here." formControlName="how_to_use"></textarea>
+                                                placeholder="{{'WriteHere' | translate}}" formControlName="how_to_use"></textarea>
                                           <span
                                                 *ngIf="Form.controls['how_to_use'].invalid && Form.controls['how_to_use'].touched">
                                                 <span *ngIf="Form.controls['how_to_use'].errors?.['required']"
                                                       class="ct_text_red mt-2">
-                                                      How to use is required.
+                                                      {{'HowToUse' | translate }} {{'isRequired' | translate}}.
                                                 </span>
                                           </span>
 
                                     </div>
                               </div>
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">Ingredients</h4>
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Ingredients' | translate}}</h4>
                                     <div>
                                           <ul
                                                 class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -315,21 +312,21 @@
                                           </ul>
                                           <div class="position-relative mt-4">
                                                 <input type="text" class="form-control ct_input ct_pe_122"
-                                                      placeholder="Type to add Ingredients..." #ingredientInput>
+                                                      placeholder="{{'TypeToAdd' | translate}} {{'Ingredients' | translate}}..." #ingredientInput>
                                                 <button type="button" class="ct_black_btn ct_btn_position_right"
-                                                      (click)="addIngredient(ingredientInput.value)">Add</button>
+                                                      (click)="addIngredient(ingredientInput.value)">{{'Add' | translate}}</button>
                                           </div>
                                           <span *ngIf="selectedIngredients.length == 0 && submitted">
                                                 <span class="ct_text_red mt-2">
-                                                      Ingredients are required.
+                                                      {{'Ingredients' | translate}} {{'areRequired' | translate}}.
                                                 </span>
                                           </span>
                                     </div>
                               </div>
                               <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
                                     <button class="ct_outline_btn" (click)="location.back()"
-                                          type="reset">Cancel</button>
-                                    <button class="ct_black_btn">{{productId ? 'Update' : 'Add Product'}}</button>
+                                          type="reset">{{'Cancel' | translate}}</button>
+                                    <button class="ct_black_btn">{{productId ? ('Update' | translate) : ('AddProduct' | translate)}}</button>
                               </div>
                         </form>
                   </div>
@@ -348,8 +345,8 @@
                         </image-cropper>
                   </div>
                   <div class="modal-footer">
-                        <button type="button" class="ct_outline_btn" data-bs-dismiss="modal" #closeBtn>Cancel</button>
-                        <button type="button" class="ct_black_btn" (click)="onDone()">Done</button>
+                        <button type="button" class="ct_outline_btn" data-bs-dismiss="modal" #closeBtn>{{'Cancel' | translate}}</button>
+                        <button type="button" class="ct_black_btn" (click)="onDone()">{{'Done' | translate}}</button>
                   </div>
             </div>
       </div>

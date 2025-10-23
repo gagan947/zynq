@@ -3,14 +3,14 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Product Management</h4>
-                              <p class="mb-0">Manage your clinic's skincare products</p>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'ProductManagement' | translate}}</h4>
+                              <p class="mb-0">{{'productManagementTitle' | translate}}</p>
                               <div
                                     class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="Search by product name..." (input)="search($event)">
+                                                      placeholder="{{'SearchByProductName' | translate}}..." (input)="search($event)">
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           <!-- <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
@@ -39,11 +39,11 @@
                                                             stroke="white" stroke-width="1.8" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                 </svg>
-                                                Add Product
+                                                {{ 'AddProduct' | translate }}
                                           </a>
                                           <button
                                                 class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                                (click)="exportTableToCSV()">Export CSV</button>
+                                                (click)="exportTableToCSV()">{{ 'ExportCSV' | translate }}</button>
                                     </div>
                               </div>
                         </div>
@@ -53,18 +53,18 @@
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>
-                                                <th>Product Image</th>
-                                                <th>Product Name</th>
-                                                <th>Price</th>
-                                                <th>Stock</th>
-                                                <th>Action</th>
+                                                <th>{{ 'ProductImage' | translate }}</th>
+                                                <th>{{ 'ProductName' | translate }}</th>
+                                                <th>{{ 'Price' | translate }}</th>
+                                                <th>{{ 'Stock' | translate }}</th>
+                                                <th>{{ 'Action' | translate }}</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                           @if(productslist$ | async; as products){
                                           @if(productsList.length == 0){
                                           <tr>
-                                                <td colspan="6" class="text-center">No Products Found</td>
+                                                <td colspan="6" class="text-center">{{'NoDataFound' | translate}}</td>
                                           </tr>
                                           }
                                           @for (item of productsList; track $index) {
@@ -114,7 +114,7 @@
             <div class="modal-content">
                   <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0" id="full_view_imgLabel">
-                              Image Preview
+                              {{'ImagePreview' | translate }}
                         </h5>
                         <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
                               aria-label="Close"></button>

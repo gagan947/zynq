@@ -11,7 +11,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.total_patients || 0}}
                                     </h3>
-                                    <p class="mb-0">Total Patients</p>
+                                    <p class="mb-0">{{'Total' | translate}} {{'Patients' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
@@ -36,7 +36,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.total_appointments || 0}}
                                     </h3>
-                                    <p class="mb-0">Total Appointments</p>
+                                    <p class="mb-0">{{'Total' | translate}} {{'Appointment' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="21" height="20" viewBox="0 0 21 20" fill="none"
@@ -65,7 +65,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.clinic_appointment_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">Appointments Earning</p>
+                                    <p class="mb-0">{{'Appointment' | translate}} {{'Earning' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -91,7 +91,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.clinic_product_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">Products Earnings</p>
+                                    <p class="mb-0">{{'ProductEarnings' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -117,7 +117,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.average_rating || 0}}
                                     </h3>
-                                    <p class="mb-0">Average Rating</p>
+                                    <p class="mb-0">{{'AverageRating' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="16" viewBox="0 0 19 16" fill="none"
@@ -132,26 +132,26 @@
             @if(appointments$ | async; as appointments){
             <div class="row">
                   <div class="col-md-12">
-                        <h4 class="ct_fs_20 ct_fw_600 mb-3">Today’s Appointments</h4>
+                        <h4 class="ct_fs_20 ct_fw_600 mb-3">{{'Today’s' | translate}} {{'Appointment' | translate}}</h4>
                         <div class="table-responsive mt-4 ct_custom_table">
                               <table class="table ">
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>
                                                 <!-- <th>Expert Name</th> -->
-                                                <th>Patient Name</th>
-                                                <th>Contact Number</th>
-                                                <th>Start Time</th>
-                                                <th>End Time</th>
-                                                <th>Clinic Name</th>
-                                                <th>Type</th>
-                                                <th>Action</th>
+                                                <th>{{'PatientName' | translate}}</th>
+                                                <th>{{'ContactNumber' | translate}}</th>
+                                                <th>{{'StartTime' | translate}}</th>
+                                                <th>{{'EndTime' | translate}}</th>
+                                                <th>{{'ClinicName' | translate}}</th>
+                                                <th>{{'Type' | translate}}</th>
+                                                <th>{{'Action' | translate}}</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                           @if(appointment.length == 0){
                                           <tr>
-                                                <td colspan="7" class="text-center">No data found</td>
+                                                <td colspan="8" class="text-center">{{'NoDataFound' | translate}}</td>
                                           </tr>
                                           }
                                           @for (item of appointment; track $index) {

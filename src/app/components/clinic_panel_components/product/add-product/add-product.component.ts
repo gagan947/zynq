@@ -12,11 +12,12 @@ import { Treatment, TreatmentResponse } from '../../../../models/clinic-onboardi
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, NzSelectModule, NzUploadModule, ImageCropperComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, NzSelectModule, NzUploadModule, ImageCropperComponent, TranslateModule],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })
@@ -39,7 +40,7 @@ export class AddProductComponent {
   @ViewChild('BenefitInput') BenefitInput!: ElementRef<HTMLButtonElement>
   @ViewChild('ingredientInput') ingredientInput!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
-  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private fb: FormBuilder, public location: Location, private route: ActivatedRoute, private loader: LoaderService, private auth: AuthService) {
+  constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private fb: FormBuilder, public location: Location, private route: ActivatedRoute, private loader: LoaderService, private auth: AuthService, private translate: TranslateService) {
     this.Form = this.fb.group({
       name: ['', [Validators.required, NoWhitespaceDirective.validate]],
       price: ['', [Validators.required, Validators.min(0)]],

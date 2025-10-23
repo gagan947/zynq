@@ -5,13 +5,13 @@
                         <div class="d-flex align-items-center gap-3 mb-5">
                               <a (click)="location.back()" class="ct_back_icon"><i
                                           class="fa-solid fa-chevron-left"></i></a>
-                              <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Patient Records</span>
-                                    <span class="ct_text_op_07 ct_fs_16">/ Patient Details</span>
+                              <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">{{'PatientRecords' | translate}}</span>
+                                    <span class="ct_text_op_07 ct_fs_16">/ {{'PatientDetails' | translate}}</span>
                               </h4>
                         </div>
 
                         <div class="mt-4">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Patient Info:</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'PatientInfo' | translate}}:</h4>
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20">
                                     <div class="d-flex gap-3 justify-content-between ct_flex_col_767">
 
@@ -85,11 +85,11 @@
                               </div>
                         </div>
                         <div class="mt-4">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Skin Analysis Report:</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinAnalysisReport' | translate}}:</h4>
 
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20">
                                     <div class="d-flex gap-3 justify-content-between">
-                                          <p class="mb-0 ct_text_black ct_text_op_07 ">Date:
+                                          <p class="mb-0 ct_text_black ct_text_op_07 ">{{'Date' | translate}}:
                                                 {{patientData?.created_at | date}}
                                           </p>
                                           <!-- <a href="patient-records-report.html"
@@ -97,25 +97,19 @@
                                                 Reports</a> -->
                                     </div>
                                     <div class="mt-3">
-                                          <h5 class="ct_fs_18 ct_text_black ">Diagnosis & Observations</h5>
-                                          <p class="mb-0 ct_grey_text">The patient presented with concerns of uneven
-                                                skin
-                                                tone, visible fine lines
-                                                around the eyes, and mild pigmentation on the cheeks and forehead.
-                                                Slight
-                                                dullness and dryness were observed during the skin scan.</p>
+                                          <h5 class="ct_fs_18 ct_text_black ">{{'DiagnosisObservations' | translate}}</h5>
+                                          <p class="mb-0 ct_grey_text">{{'DiagnosisObservationsText' | translate}}</p>
                                           <div class="mt-4 d-flex justify-content-end">
                                                 <a (click)="openReport(patientData?.face_scans)"
                                                       class="ct_outline_btn w-auto" style="border-color: #E5E7EB;"><i
-                                                            class="fa-regular fa-eye me-2"></i>View All
-                                                      Reports</a>
+                                                            class="fa-regular fa-eye me-2"></i>{{'ViewAllReports' | translate}}</a>
 
                                           </div>
                                     </div>
                               </div>
                         </div>
                         <div class="mt-4">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Appointment History:</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'AppointmentHistory' | translate}}:</h4>
 
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20">
                                     <ul class="ct_para_scroll ct_custom_scroll">
@@ -234,7 +228,7 @@
             <div class="modal-content">
                   <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0" id="full_view_imgLabel">
-                              Image Preview
+                              {{'ImagePreview' | translate}}
                         </h5>
                         <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
                               aria-label="Close"></button>

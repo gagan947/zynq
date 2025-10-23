@@ -8,11 +8,12 @@ import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { FormsModule } from '@angular/forms';
 import { LoaderService } from '../../../../services/loader.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-product',
   standalone: true,
-  imports: [CurrencyPipe, CarouselModule, NzRateModule, FormsModule],
+  imports: [CurrencyPipe, CarouselModule, NzRateModule, FormsModule, TranslateModule],
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.css'
 })
@@ -45,7 +46,8 @@ export class ViewProductComponent {
     this.mainCarousel?.to(slideId);
   }
 
-  constructor(private service: CommonService, private route: ActivatedRoute, private toster: NzMessageService, private loader: LoaderService, public location: Location) {
+  constructor(private service: CommonService, private route: ActivatedRoute, private toster: NzMessageService, private loader: LoaderService, public location: Location, private translate:TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     this.route.queryParams.subscribe(param => {
       this.productId = param['id'];
       if (this.productId) {
