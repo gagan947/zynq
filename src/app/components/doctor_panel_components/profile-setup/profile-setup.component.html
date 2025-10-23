@@ -108,9 +108,11 @@
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                      <label for="" class="mb-2 ct_text_black">Gender<span
+                                                      <label for=""
+                                                            class="mb-2 ct_text_black">{{'Gender' | translate}}<span
                                                                   class="ct_red_text">*</span></label>
-                                                      <nz-select formControlName="gender" nzPlaceHolder="Select gender"
+                                                      <nz-select formControlName="gender"
+                                                            nzPlaceHolder="{{'Select' | translate}} {{'Gender' | translate}}"
                                                             class="form-control ct_input">
                                                             <nz-option nzValue="Male" nzLabel="Male"></nz-option>
                                                             <nz-option nzValue="Female" nzLabel="Female"></nz-option>
@@ -118,32 +120,34 @@
                                                       </nz-select>
                                                       <div *ngIf="personalForm.get('gender')?.touched && personalForm.get('gender')?.invalid"
                                                             class="ct_text_red">
-                                                            Gender is required.
+                                                            {{'Gender' | translate}} {{'isRequired' | translate}}.
                                                       </div>
                                                 </div>
                                                 <div class="col-md-12 mt-2">
-                                                      <label for="" class="mb-2 ct_text_black">Address<span
+                                                      <label for=""
+                                                            class="mb-2 ct_text_black">{{'Address' | translate}}<span
                                                                   class="ct_red_text">*</span></label>
                                                       <textarea type="text" class="form-control ct_input"
                                                             formControlName="address"
-                                                            placeholder="Enter address"></textarea>
+                                                            placeholder="{{'Enter' | translate}} {{'Address' | translate}}"></textarea>
                                                       <div *ngIf="personalForm.get('address')?.touched && personalForm.get('address')?.invalid"
                                                             class="ct_text_red">
-                                                            Address is required.
+                                                            {{'Address' | translate}} {{'isRequired' | translate}}.
                                                       </div>
                                                 </div>
                                                 <div class="col-md-12 mt-2">
-                                                      <label for="" class="mb-2 ct_text_black">Biography<span
+                                                      <label for=""
+                                                            class="mb-2 ct_text_black">{{'Biography' | translate}}<span
                                                                   class="ct_red_text"></span></label>
                                                       <textarea type="text" class="form-control ct_input"
                                                             formControlName="biography"
-                                                            placeholder="Enter biography"></textarea>
+                                                            placeholder="{{'Enter' | translate}} {{'Biography' | translate}}"></textarea>
 
                                                 </div>
                                                 <div class="col-md-12 mt-3">
                                                       <div class="form-group mb-0">
-                                                            <label for="" class="mb-2 ct_text_black">Profile
-                                                                  Image</label>
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'ProfileImage' | translate}}</label>
                                                             <div class="">
                                                                   <div class="ct_upload_product_main"
                                                                         *ngIf="!imagePreview">
@@ -158,10 +162,9 @@
                                                                         </svg>
                                                                         <p
                                                                               class="text-center ct_fs_18 ct_text_op_07 mb-0">
-                                                                              Upload
-                                                                              profile
-                                                                              image
-                                                                              here</p>
+                                                                              {{'Upload' | translate}}
+                                                                              {{'ProfileImage' | translate}}
+                                                                        </p>
                                                                         <small
                                                                               class="text-center d-block ct_text_9CA3AF py-2">PNG,
                                                                               JPG
@@ -173,7 +176,7 @@
                                                                                     id="ct_upload_product"
                                                                                     class="d-none" accept="image/*">
                                                                               <div class="ct_browse_btn">
-                                                                                    <span>Browse Files</span>
+                                                                                    <span>{{'browseFile' | translate}}</span>
                                                                               </div>
                                                                         </label>
                                                                   </div>
@@ -199,21 +202,23 @@
                                                 <span class="sr-only">Loading...</span>
                                           </div>
                                           }@else {
-                                          Next
+                                          {{'Next' | translate}}
                                           }
                                     </button>
                               </form>
                               <form *ngIf="currentStep == 1">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Certification Type</h5>
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Certification' | translate}}
+                                                {{'Type' | translate}}
+                                          </h5>
                                           <ng-container>
                                                 <ng-container>
                                                       <div class="ct_big_card_scroll_500 ct_custom_scroll ct_pe_40">
                                                             <div class="row mt-4"
                                                                   *ngFor="let cert of certificaTeypes; let i = index">
                                                                   <div class="col-md-6 mb-4">
-                                                                        <label class="mb-2 ct_text_black">Certificate
-                                                                              Type </label>
+                                                                        <label class="mb-2 ct_text_black">{{'Certificate' | translate}}
+                                                                              {{'Name' | translate}} </label>
                                                                         <input type="text" class="form-control ct_input"
                                                                               placeholder="Enter institute"
                                                                               [(ngModel)]="cert.certification_name"
@@ -223,7 +228,7 @@
 
                                                                   <div class="col-md-6">
                                                                         <div class="form-group mb-4 mb-md-0">
-                                                                              <label class="mb-2 ct_text_black">Certificate
+                                                                              <label class="mb-2 ct_text_black">{{'Certificate' | translate}}
                                                                               </label>
                                                                               <div
                                                                                     class="d-flex align-items-center gap-2 ">
@@ -267,28 +272,31 @@
                                           </ng-container>
                                     </div>
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Education</h5>
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Education' | translate}}
+                                          </h5>
 
                                           <div class="row ct_border_btm_1 mb-3"
                                                 *ngFor="let edu of education; let j = index">
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">Institute<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'Institute' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter institute"
+                                                                  placeholder="{{'Enter' | translate}} {{'Institute' | translate}}"
                                                                   [(ngModel)]="edu.institution"
                                                                   [ngModelOptions]="{standalone: true}">
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3 ">
-                                                            <label for="" class="mb-2 ct_text_black">Degree<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'Degree' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <div class="d-flex align-items-center gap-2">
                                                                   <div class="ct_flex_1">
                                                                         <input type="text" class="form-control ct_input"
-                                                                              placeholder="Enter degree"
+                                                                              placeholder="{{'Enter' | translate}} {{'Degree' | translate}}"
                                                                               [(ngModel)]="edu.degree_name"
                                                                               [ngModelOptions]="{standalone: true}">
                                                                   </div>
@@ -297,7 +305,8 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">Start year<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'StartYear' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input id="bday-month" type="month"
                                                                   class="form-control ct_input"
@@ -307,7 +316,8 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">End year<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'EndYear' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <!-- <input type="month" class="form-control ct_input"
                                                                   [(ngModel)]="edu.end_year"
@@ -328,7 +338,7 @@
                                                                         (change)="edu.isOngoing ? edu.end_year = null : null" />
                                                                   <label class="form-check-label"
                                                                         for="ongoingCheck-{{ j }}">
-                                                                        Currently Pursuing
+                                                                        {{'CurrentlyPursuing' | translate}}
                                                                   </label>
                                                             </div>
 
@@ -343,36 +353,40 @@
                                                 </div>
                                           </div>
                                           <a href="javascript:void(0)" class="ct_blue_text" (click)="addEducation()">+
-                                                Add Education</a>
+                                                {{'Add' | translate}} {{'Education' | translate}}</a>
                                     </div>
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Experience</h5>
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Experience' | translate}}
+                                          </h5>
 
                                           <div class="row ct_border_btm_1 mb-3"
                                                 *ngFor="let exp of experience; let k = index">
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">Organization<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'Organization' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter organization"
+                                                                  placeholder="{{'Enter' | translate}} {{'Organization' | translate}}"
                                                                   [(ngModel)]="exp.organisation_name"
                                                                   [ngModelOptions]="{standalone: true}">
                                                       </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">Designation<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'Designation' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="text" class="form-control ct_input"
-                                                                  placeholder="Enter designation"
+                                                                  placeholder="{{'Enter' | translate}} {{'Designation' | translate}}"
                                                                   [(ngModel)]="exp.designation"
                                                                   [ngModelOptions]="{standalone: true}">
                                                       </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">Start Date<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'StartDate' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             <input type="date" class="form-control ct_input"
                                                                   [(ngModel)]="exp.start_date"
@@ -382,7 +396,8 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">End Date<span
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'EndDate' | translate}}<span
                                                                         class="ct_red_text">*</span></label>
                                                             @if(!exp.isCurrent){
                                                             <input type="date" class="form-control ct_input"
@@ -399,7 +414,7 @@
                                                                         (change)="exp.isCurrent ? exp.end_date = null : null" />
                                                                   <label class="form-check-label"
                                                                         for="ongoingCheck-{{ k }}">
-                                                                        Currently Working
+                                                                        {{' CurrentlyWorking' | translate}}
                                                                   </label>
                                                             </div>
                                                       </div>
@@ -412,7 +427,7 @@
                                                 </div>
                                           </div>
                                           <a href="javascript:void(0)" class="ct_blue_text" (click)="addExperience()">+
-                                                Add Experience</a>
+                                                {{'Add' | translate}} {{'Expeiernce' | translate}}</a>
                                     </div>
 
                                     <button type="button" name="next"
@@ -423,20 +438,22 @@
                                                 <span class="sr-only">Loading...</span>
                                           </div>
                                           }@else {
-                                          Next
+                                          {{ 'Next' | translate}}
                                           }
                                     </button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
-                                          value="Previous" (click)="previousStep()">
+                                          value="{{'Previous' | translate}}" (click)="previousStep()">
                               </form>
                               <form *ngIf="currentStep == 2" [formGroup]="Form">
                                     <div class=" ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
-                                                Services & Expertise</h5>
+                                                {{'ServiceExpertise' | translate}}
+                                          </h5>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Treatments
-                                                      Provided<span class="ct_red_text">*</span></label>
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'TreatmentsProvided' | translate}}
+                                                      <span class="ct_red_text">*</span></label>
                                                 <div class="table-responsive" style="height: 50vh;">
                                                       <table class="table ct_custom_table">
                                                             <thead>
@@ -450,11 +467,16 @@
                                                                                     id="flexCheckDefault"
                                                                                     [indeterminate]="isIndeterminate()">
                                                                         </th>
-                                                                        <th class="border p-2">Treatment</th>
-                                                                        <th class="border p-2">Price</th>
-                                                                        <th class="border p-2">Session Duration (min)
+                                                                        <th class="border p-2">
+                                                                              {{'Treatment' | translate}}
                                                                         </th>
-                                                                        <th class="border p-2">Notes (Optional)</th>
+                                                                        <th class="border p-2">{{'Price' | translate}}
+                                                                        </th>
+                                                                        <th class="border p-2">
+                                                                              {{'SessionDuration' | translate}} (min)
+                                                                        </th>
+                                                                        <th class="border p-2">{{'Notes' | translate}}
+                                                                              (Optional)</th>
                                                                   </tr>
                                                             </thead>
                                                             <tbody formArrayName="treatments">
@@ -480,12 +502,13 @@
                                                                               <input type="number"
                                                                                     formControlName="price"
                                                                                     style="width: 200px;"
-                                                                                    placeholder="Enter price"
+                                                                                    placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
                                                                                     class="form-control"
                                                                                     *ngIf="treatment.get('selected')?.value" />
                                                                               <span class="ct_text_red mt-2"
                                                                                     *ngIf="treatment.get('price')?.errors?.['required'] && treatment.get('price')?.touched">
-                                                                                    Price is required
+                                                                                    {{'Price' | translate}}
+                                                                                    {{'isRequired' | translate}}
                                                                               </span>
                                                                               <span class="ct_text_red mt-2"
                                                                                     *ngIf="treatment.get('price')?.errors?.['min']">
@@ -514,11 +537,12 @@
                                                 </div>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Skin
-                                                      Type
-                                                      Expertise<span class="ct_red_text">*</span>
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'SkinTypeExpertise' | translate}}<span
+                                                            class="ct_red_text">*</span>
                                                 </label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Types"
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'SkinType' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="skin_types"
                                                       nzNotFoundContent="No Skin Types Found">
                                                       @for (item of skintypes; track item) {
@@ -528,13 +552,15 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('skin_types')?.invalid && Form.get('skin_types')?.touched">
-                                                      Please add at least one skin type.
+                                                      {{'pleaseAddAtleast' | translate}} {{'SkinType' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Skin Condition<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'SkinCondition' | translate}}<span
                                                             class="ct_red_text">*</span></label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Skin Conditions"
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'SkinCondition' | translate}}"
                                                       class="form-control ct_input h-auto"
                                                       formControlName="skin_condition"
                                                       nzNotFoundContent="No Severity Found">
@@ -545,13 +571,16 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('skin_condition')?.invalid && Form.get('skin_condition')?.touched">
-                                                      Please add at least one skin condition.
+                                                      {{'pleaseAddAtleast' | translate}}
+                                                      {{'SkinCondition' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Surgeries Provided<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'SurgeriesProvided' | translate}}<span
                                                             class="ct_red_text">*</span></label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Surgeries"
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'Surgeries' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="surgeries"
                                                       nzNotFoundContent="No Severity Found">
                                                       @for (item of surgeries; track item) {
@@ -561,13 +590,14 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('surgeries')?.invalid && Form.get('surgeries')?.touched">
-                                                      Please add at least one surgery.
+                                                      {{'pleaseAddAtleast' | translate}} {{'Surgery' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">Devices<span
+                                                <label for="" class="mb-2 ct_text_black">{{'Devices' | translate}}<span
                                                             class="ct_red_text">*</span></label>
-                                                <nz-select nzMode="multiple" nzPlaceHolder="Select Devices"
+                                                <nz-select nzMode="multiple"
+                                                      nzPlaceHolder="{{'Select' | translate}} {{'Devices' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="devices"
                                                       nzNotFoundContent="No Device Found">
                                                       @for (item of devices; track item) {
@@ -577,7 +607,7 @@
                                                 </nz-select>
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('devices')?.invalid && Form.get('devices')?.touched">
-                                                      Please add at least one device.
+                                                      {{'pleaseAddAtleast' | translate}} {{'Devices' | translate}}.
                                                 </span>
                                           </div>
                                     </div>
@@ -589,33 +619,37 @@
                                                 <span class="sr-only">Loading...</span>
                                           </div>
                                           }@else {
-                                          Next
+                                          {{'Next' | translate}}
                                           }
                                     </button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
-                                          value="Previous" (click)="previousStep()">
+                                          value="{{'Previous' | translate}}" (click)="previousStep()">
                                     <!-- <input
                                 type="button" name="previous" class="previous action-button-previous"
                                 value="Previous" /> -->
                               </form>
                               <form *ngIf="currentStep == 3" [formGroup]="availabilityForm">
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
+                                                {{'ConsultationFees' | translate}}
+                                          </h5>
                                           <div class="row">
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">Fee per
-                                                                  Session<span class="ct_red_text">*</span></label>
+                                                            <label for=""
+                                                                  class="mb-2 ct_text_black">{{'FeeperSession' | translate}}
+                                                                  <span class="ct_red_text">*</span></label>
                                                             <div class="position-relative">
                                                                   <input type="number" class="form-control ct_input"
-                                                                        placeholder="Enter fee per session"
+                                                                        placeholder="{{'Enter' | translate}} {{'FeeperSession' | translate}}"
                                                                         formControlName="fee_per_session">
                                                                   <span class="ct_show_eye">SEK</span>
                                                             </div>
                                                             <div class="ct_text_red mt-1"
                                                                   *ngIf="availabilityForm.get('fee_per_session')?.hasError('required') && availabilityForm.get('fee_per_session')?.touched">
-                                                                  Fee per session is required.
+                                                                  {{'FeeperSession' | translate}}
+                                                                  {{'isRequired' | translate}}.
                                                             </div>
                                                             <div class="ct_text_red mt-1"
                                                                   *ngIf="availabilityForm.get('fee_per_session')?.hasError('min') && availabilityForm.get('fee_per_session')?.touched">
@@ -626,17 +660,19 @@
                                           </div>
                                     </div>
                                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Operation Hours</h5>
+                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
+                                                {{'OperationHours' | translate}}
+                                          </h5>
                                           <div class="py-3 border-bottom d-flex align-items-center gap-5">
                                                 <label>
                                                       <input type="radio" class="form-check-input ct_custom_check me-1"
                                                             formControlName="sameForAllDays" [value]="true" />
-                                                      Same for all days
+                                                      {{'sameForAllDays' | translate}}
                                                 </label>
                                                 <label>
                                                       <input type="radio" class="form-check-input ct_custom_check me-1"
                                                             formControlName="sameForAllDays" [value]="false" />
-                                                      Customize
+                                                      {{'Customize' | translate}}
                                                 </label>
                                           </div>
                                           <div formArrayName="days">
@@ -654,7 +690,7 @@
                                                                                           <div class="form-group">
                                                                                                 <label for=""
                                                                                                       class="mb-2 ct_text_black">
-                                                                                                      Start Time
+                                                                                                      {{'StartTime' | translate}}
                                                                                                       <span
                                                                                                             class="ct_red_text">*</span></label>
                                                                                                 <input type="time"
@@ -663,14 +699,16 @@
                                                                                           </div>
                                                                                           <div *ngIf="session.get('start_time')?.touched && session.get('start_time')?.hasError('required')"
                                                                                                 class="ct_text_red">
-                                                                                                Start time is required
+                                                                                                {{'StartTime' | translate}}
+                                                                                                {{'isRequired' | translate}}.
                                                                                           </div>
                                                                                     </div>
                                                                                     <div>
                                                                                           <div class="form-group">
                                                                                                 <label for=""
-                                                                                                      class="mb-2 ct_text_black">End
-                                                                                                      Time<span
+                                                                                                      class="mb-2 ct_text_black">
+                                                                                                      {{'EndTime' | translate}}
+                                                                                                      <span
                                                                                                             class="ct_red_text">*</span></label>
                                                                                                 <input type="time"
                                                                                                       class="form-control ct_input"
@@ -678,20 +716,21 @@
                                                                                           </div>
                                                                                           <div *ngIf="session.get('end_time')?.touched && session.get('end_time')?.hasError('required')"
                                                                                                 class="ct_text_red">
-                                                                                                End time is required
+                                                                                                {{'EndTime' | translate}}
+                                                                                                {{'isRequired' | translate}}.
                                                                                           </div>
                                                                                     </div>
                                                                                     <div>
                                                                                           <div class="form-group">
                                                                                                 <label for=""
-                                                                                                      class="mb-2 ct_text_black">Session
-                                                                                                      Duration
+                                                                                                      class="mb-2 ct_text_black">
+                                                                                                      {{'SessionDuration' | translate}}
                                                                                                       <span
                                                                                                             class="ct_red_text">*</span></label>
                                                                                                 <nz-select
                                                                                                       class="form-control ct_input"
                                                                                                       formControlName="sessionDuration"
-                                                                                                      nzPlaceHolder="Select session duration">
+                                                                                                      nzPlaceHolder="{{'Select' | translate}} {{'SessionDuration' | translate}}">
                                                                                                       <nz-option
                                                                                                             *ngFor="let duration of sessionDuration"
                                                                                                             [nzValue]="duration"
@@ -700,8 +739,8 @@
                                                                                           </div>
                                                                                           <div *ngIf="session.get('sessionDuration')?.touched && session.get('sessionDuration')?.hasError('required')"
                                                                                                 class="ct_text_red">
-                                                                                                Session duration is
-                                                                                                required
+                                                                                                {{'SessionDuration' | translate}}
+                                                                                                {{'isRequired' | translate}}.
                                                                                           </div>
                                                                                     </div>
 
@@ -743,7 +782,7 @@
                                                                                           <div class="form-group">
                                                                                                 <label for=""
                                                                                                       class="mb-2 ct_text_black">
-                                                                                                      Start Time
+                                                                                                      {{'StartTime' | translate}}
                                                                                                       <span
                                                                                                             class="ct_red_text">*</span></label>
                                                                                                 <input type="time"
@@ -752,14 +791,16 @@
                                                                                           </div>
                                                                                           <div *ngIf="session.get('start_time')?.touched && session.get('start_time')?.hasError('required')"
                                                                                                 class="ct_text_red">
-                                                                                                Start time is required
+                                                                                                {{'StartTime' | translate}}
+                                                                                                {{'isRequired' | translate}}.
                                                                                           </div>
                                                                                     </div>
                                                                                     <div>
                                                                                           <div class="form-group">
                                                                                                 <label for=""
-                                                                                                      class="mb-2 ct_text_black">End
-                                                                                                      Time<span
+                                                                                                      class="mb-2 ct_text_black">
+                                                                                                      {{'EndTime' | translate}}
+                                                                                                      <span
                                                                                                             class="ct_red_text">*</span></label>
                                                                                                 <input type="time"
                                                                                                       class="form-control ct_input"
@@ -767,20 +808,21 @@
                                                                                           </div>
                                                                                           <div *ngIf="session.get('end_time')?.touched && session.get('end_time')?.hasError('required')"
                                                                                                 class="ct_text_red">
-                                                                                                End time is required
+                                                                                                {{'EndTime' | translate}}
+                                                                                                {{'isRequired' | translate}}.
                                                                                           </div>
                                                                                     </div>
                                                                                     <div>
                                                                                           <div class="form-group">
                                                                                                 <label for=""
-                                                                                                      class="mb-2 ct_text_black">Session
-                                                                                                      Duration
+                                                                                                      class="mb-2 ct_text_black">
+                                                                                                      {{'SessionDuration' | translate}}
                                                                                                       <span
                                                                                                             class="ct_red_text">*</span></label>
                                                                                                 <nz-select
                                                                                                       class="form-control ct_input"
                                                                                                       formControlName="sessionDuration"
-                                                                                                      nzPlaceHolder="Select session duration">
+                                                                                                      nzPlaceHolder="{{'Select' | translate}} {{'SessionDuration' | translate}}">
                                                                                                       <nz-option
                                                                                                             *ngFor="let duration of sessionDuration"
                                                                                                             [nzValue]="duration"
@@ -789,8 +831,8 @@
                                                                                           </div>
                                                                                           <div *ngIf="session.get('sessionDuration')?.touched && session.get('sessionDuration')?.hasError('required')"
                                                                                                 class="ct_text_red">
-                                                                                                Session duration is
-                                                                                                required
+                                                                                                {{'SessionDuration' | translate}}
+                                                                                                {{'isRequired' | translate}}.
                                                                                           </div>
                                                                                     </div>
 
@@ -824,12 +866,12 @@
                                                 <span class="sr-only">Loading...</span>
                                           </div>
                                           }@else {
-                                          Submit
+                                          {{'Submit' | translate}}
                                           }
                                     </button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
-                                          value="Previous" (click)="previousStep()">
+                                          value="{{'Previous' | translate}}" (click)="previousStep()">
 
                               </form>
                         </div>
@@ -849,8 +891,9 @@
                         </image-cropper>
                   </div>
                   <div class="modal-footer">
-                        <button type="button" class="ct_outline_btn" data-bs-dismiss="modal" #closeBtn>Cancel</button>
-                        <button type="button" class="ct_black_btn" (click)="onDone()">Done</button>
+                        <button type="button" class="ct_outline_btn" data-bs-dismiss="modal"
+                              #closeBtn>{{'Cancel' | translate}}</button>
+                        <button type="button" class="ct_black_btn" (click)="onDone()">{{'Done' | translate}}</button>
                   </div>
             </div>
       </div>

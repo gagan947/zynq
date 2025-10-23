@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { CommonModule } from '@angular/common';
 import { LoaderService } from '../../../services/loader.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-solo-my-profile',
   standalone: true,
-  imports: [RouterLink, GoogleMapsModule, CommonModule],
+  imports: [RouterLink, GoogleMapsModule, CommonModule, TranslateModule],
   templateUrl: './solo-my-profile.component.html',
   styleUrl: './solo-my-profile.component.css'
 })
@@ -17,7 +18,8 @@ export class SoloMyProfileComponent {
   center: google.maps.LatLngLiteral = { lat: 28.6139, lng: 77.2090 };
   zoom = 12;
   imagePreview: string = 'assets/img/np_pro.jpg';
-  constructor(private service: CommonService, private loaderService: LoaderService) {
+  constructor(private service: CommonService, private loaderService: LoaderService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     this.getSoloDoctorProfile()
     effect(() => {
       this.soloDrProfile();

@@ -5,8 +5,9 @@
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 ">
                               <div class="d-flex align-items-center gap-3 justify-content-between ct_flex_col_767">
                                     <div>
-                                          <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">My Profile</h4>
-                                          <p class="mb-0">Basic Info & Specializations</p>
+                                          <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'MyProfile' | translate}}
+                                          </h4>
+                                          <p class="mb-0">{{'BasicInfoSpecializations' | translate}}</p>
                                     </div>
                                     <div class="ct_w_100_767">
                                           <a routerLink="/solo-doctor/edit-profile"
@@ -17,7 +18,7 @@
                                                             stroke="white" stroke-width="1.25" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                 </svg>
-                                                Edit
+                                                {{'Edit' | translate}}
                                           </a>
                                     </div>
                               </div>
@@ -45,10 +46,10 @@
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                               <div class="d-flex align-items-center justify-content-between">
                                     <h4 class="ct_fs_18 mb-3">
-                                          Clinic Images
+                                          {{'Clinic' | translate}} {{'Images' | translate}}
                                     </h4>
                                     <a href="javascript:void(0)" class="ct_see_more_link" data-bs-toggle="modal"
-                                          data-bs-target="#ct_clinic_images   ">View All</a>
+                                          data-bs-target="#ct_clinic_images">{{'ViewAll' | translate}}</a>
                               </div>
                               <div class="ct_grid_4_new">
                                     @for (item of this.soloDrProfile().clinic?.images.slice(0, 4); track $index) {
@@ -67,24 +68,24 @@
                                                       <path d="M11 11C11.547 11 12.0716 10.7827 12.4584 10.3959C12.8452 10.0091 13.0625 9.48451 13.0625 8.9375C13.0625 8.39049 12.8452 7.86589 12.4584 7.47909C12.0716 7.0923 11.547 6.875 11 6.875C10.453 6.875 9.92839 7.0923 9.54159 7.47909C9.1548 7.86589 8.9375 8.39049 8.9375 8.9375C8.9375 9.48451 9.1548 10.0091 9.54159 10.3959C9.92839 10.7827 10.453 11 11 11ZM11 12.375C10.0883 12.375 9.21398 12.0128 8.56932 11.3682C7.92466 10.7235 7.5625 9.84918 7.5625 8.9375C7.5625 8.02582 7.92466 7.15148 8.56932 6.50682C9.21398 5.86216 10.0883 5.5 11 5.5C11.9117 5.5 12.786 5.86216 13.4307 6.50682C14.0753 7.15148 14.4375 8.02582 14.4375 8.9375C14.4375 9.84918 14.0753 10.7235 13.4307 11.3682C12.786 12.0128 11.9117 12.375 11 12.375Z"
                                                             fill="#282828" />
                                                 </svg>
-                                                Location
+                                                {{'Location' | translate}}
                                           </p>
 
                                           <div>
                                                 <div class="form-group mb-4">
-                                                      <label for="" class="mb-2">Street</label>
+                                                      <label for="" class="mb-2">{{'Street' | translate}}</label>
                                                       <input type="text"
                                                             [value]="this.soloDrProfile().clinic?.location?.street_address"
                                                             class="form-control ct_input" disabled>
                                                 </div>
                                                 <div class="form-group mb-4">
-                                                      <label for="" class="mb-2">City</label>
+                                                      <label for="" class="mb-2">{{'City' | translate}}</label>
                                                       <input type="text"
                                                             [value]="this.soloDrProfile().clinic?.location?.city"
                                                             class="form-control ct_input" disabled>
                                                 </div>
                                                 <div class="form-group mb-4">
-                                                      <label for="" class="mb-2">State</label>
+                                                      <label for="" class="mb-2">{{'State' | translate}}</label>
                                                       <input type="text"
                                                             [value]="this.soloDrProfile().clinic?.location?.state"
                                                             class="form-control ct_input" disabled>
@@ -116,12 +117,12 @@
                                                             stroke="#282828" stroke-width="1.25" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                 </svg>
-                                                Contact Details
+                                                {{'ContactDetails' | translate}}
                                           </p>
 
                                           <div>
                                                 <div class="form-group mb-4">
-                                                      <label for="" class="mb-2">Phone</label>
+                                                      <label for="" class="mb-2">{{'PhoneNo' | translate}}</label>
                                                       <div class="position-relative">
                                                             <input type="text"
                                                                   [value]="this.soloDrProfile()?.clinic.mobile_number"
@@ -138,7 +139,7 @@
                                                       </div>
                                                 </div>
                                                 <div class="form-group mb-4">
-                                                      <label for="" class="mb-2">Email</label>
+                                                      <label for="" class="mb-2">{{'Email' | translate}}</label>
                                                       <div class="position-relative">
                                                             <input type="email" [value]="this.soloDrProfile()?.email"
                                                                   class="form-control ct_input ct_input_ps_40" disabled>
@@ -148,7 +149,7 @@
                                                       </div>
                                                 </div>
                                                 <div class="form-group mb-0">
-                                                      <label for="" class="mb-2">Website</label>
+                                                      <label for="" class="mb-2">{{'WebsiteURL' | translate}}</label>
                                                       <div class="position-relative">
                                                             <input type="email"
                                                                   [value]="this.soloDrProfile()?.clinic.website_url || 'N/A'"
@@ -181,12 +182,13 @@
                                                             stroke-linejoin="round" stroke-width="2"
                                                             d="M15 21H6a3 3 0 0 1-3-3v-1h10v2a2 2 0 0 0 4 0V5a2 2 0 1 1 2 2h-2m2-4H8a3 3 0 0 0-3 3v11M9 7h4m-4 4h4" />
                                                 </svg>
-                                                Registration Details
+                                                {{'RegistrationDetails' | translate}}
                                           </p>
 
 
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2">Swedish Organization Number </label>
+                                                <label for="" class="mb-2">{{'Organization' | translate}}
+                                                      {{'Number' | translate}}</label>
                                                 <div class="position-relative">
                                                       <input type="email"
                                                             [value]="this.soloDrProfile()?.clinic.org_number"
@@ -243,11 +245,12 @@
                         </div>
 
                         <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Education</h5>
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Education' | translate}}</h5>
                               <div class="row" *ngFor="let edu of soloDrProfile().education; let i = index">
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">Institute<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'Institute' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter institute" value="{{edu.institution}}"
@@ -256,7 +259,7 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">Degree<span
+                                                <label for="" class="mb-2 ct_text_black">{{'Degree' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter degree" value="{{edu.degree}}" disabled>
@@ -264,7 +267,8 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">Start year<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'StartYear' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter degree" value="{{edu.start_year}}" disabled>
@@ -272,7 +276,7 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">End year<span
+                                                <label for="" class="mb-2 ct_text_black">{{'EndYear' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter degree" value="{{edu.end_year || 'Present'}}"
@@ -282,11 +286,12 @@
                               </div>
                         </div>
                         <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Experience</h5>
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Experience' | translate}}</h5>
                               <div class="row" *ngFor="let exp of soloDrProfile().experience; let i = index">
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">Organization<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'Organization' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter organization" value="{{exp.organization}}"
@@ -295,7 +300,8 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">Designation<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'Designation' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter organization" value="{{exp.designation}}"
@@ -304,7 +310,8 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">Start Date<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'StartDate' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="date" class="form-control ct_input"
                                                       [value]="exp.start_date | date:'yyyy-MM-dd'" disabled>
@@ -312,7 +319,7 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">End Date<span
+                                                <label for="" class="mb-2 ct_text_black">{{'EndDate' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       [value]="exp.end_date ? (exp.end_date | date:'yyyy-MM-dd') : 'Present'"
@@ -322,7 +329,7 @@
                               </div>
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Treatments Provided-</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentsProvided' | translate}} -</h4>
                               <div>
                                     <!-- <ul
                                           class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -338,10 +345,11 @@
                                                 <thead>
                                                       <tr class="bg-gray-200">
                                                             <th class="border p-2">Sr. No</th>
-                                                            <th class="border p-2">Treatment</th>
-                                                            <th class="border p-2">Price</th>
-                                                            <th class="border p-2">Session Duration (min)</th>
-                                                            <th class="border p-2">Note</th>
+                                                            <th class="border p-2">{{'Treatment' | translate}}</th>
+                                                            <th class="border p-2">{{'Price' | translate}}</th>
+                                                            <th class="border p-2">{{'SessionDuration' | translate}}
+                                                                  (min)</th>
+                                                            <th class="border p-2">{{'Notes' | translate}}</th>
                                                       </tr>
                                                 </thead>
                                                 <tbody formArrayName="treatments">
@@ -392,7 +400,7 @@
                         </div> -->
 
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Skin Type Expertise-</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinTypeExpertise' | translate}} -</h4>
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -410,7 +418,7 @@
                               </div>
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Skin Conditions-</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinCondition' | translate}} -</h4>
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -428,7 +436,7 @@
                               </div>
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Surgeries-</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Surgeries' | translate}} -</h4>
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -446,7 +454,7 @@
                               </div>
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">Devices-</h4>
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Devices' | translate}} -</h4>
                               <div>
                                     <ul
                                           class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -464,7 +472,9 @@
                               </div>
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mb-4 mt-4 pe-0">
-                              <h4 class="ct_fs_20 ct_fw_600 mb-4">Uploaded Certifications</h4>
+                              <h4 class="ct_fs_20 ct_fw_600 mb-4">
+                                    {{'Uploaded' | translate}}{{'Certification' | translate}}
+                              </h4>
                               <ul class="ct_para_scroll ct_custom_scroll d-flex align-items-center gap-4 flex-wrap ct_pe_30"
                                     *ngFor="let certificate of soloDrProfile().certifications; let i = index">
                                     <li>
@@ -481,11 +491,12 @@
                               </ul>
                         </div>
                         <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Consultation Fees</h5>
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'ConsultationFees' | translate}}</h5>
                               <div class="row">
                                     <div class="col-md-12">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">Fee per Session<span
+                                                <label for=""
+                                                      class="mb-2 ct_text_black">{{'FeeperSession' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <div class="position-relative">
                                                       <input type="text" class="form-control ct_input"
@@ -506,7 +517,7 @@
                               </div>
                         </div>
                         <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">Availability</h5>
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Availability' | translate}}</h5>
                               <div class="row align-items-center ct_border_btm_1 py-3"
                                     *ngFor="let item of mapDoctorAvailability(soloDrProfile().availability); let i = index">
                                     <div class="col-md-3">
@@ -551,7 +562,9 @@
       <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                   <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Clinic Images</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{'Clinic' | translate}}
+                              {{'Images' | translate}}
+                        </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
@@ -575,7 +588,7 @@
             <div class="modal-content">
                   <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0" id="full_view_imgLabel">
-                              Image Preview
+                              {{'ImagePreview' | translate}}
                         </h5>
                         <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
                               aria-label="Close"></button>

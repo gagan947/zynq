@@ -4,11 +4,12 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CommonService } from '../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { passwordMatchValidator, passwordMismatchValidator, strongPasswordValidator } from '../../validators';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, TranslateModule],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.css'
 })
@@ -18,7 +19,9 @@ export class ChangePasswordComponent {
   isShowNewPassword: boolean = false;
   isShowConfPassword: boolean = false;
   loading: boolean = false
-  constructor(private service: CommonService, private toster: NzMessageService, public location: Location) { }
+  constructor(private service: CommonService, private toster: NzMessageService, public location: Location, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
+  }
   ngOnInit() {
     this.initForm()
   }

@@ -14,11 +14,12 @@ import { environment } from '../../../../environments/environment';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 import { Subject, takeUntil } from 'rxjs';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 @Component({
   selector: 'app-solo-profile-setup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent, TranslateModule],
   templateUrl: './solo-profile-setup.component.html',
   styleUrl: './solo-profile-setup.component.css'
 })
@@ -69,12 +70,13 @@ export class SoloProfileSetupComponent {
   maxDate: Date = new Date();
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   steps = [
-    { id: 'Personal', label: 'Personal Details' },
-    { id: 'Contact', label: 'Contact Details' },
-    { id: 'Education', label: 'Education & Experience' },
+    { id: 'Personal', label: 'PersonalDetails' },
+    { id: 'Contact', label: 'ContactDetails' },
+    { id: 'Education', label: 'EducationExperience' },
     { id: 'Expertise', label: 'Expertise' },
-    { id: 'Operation', label: 'Operation Hours' },
+    { id: 'Operation', label: 'OperationHours' },
   ];
+
   productImages: File[] = [];
   previewProductImages: any[] = [];
   loading: boolean = false
@@ -83,8 +85,9 @@ export class SoloProfileSetupComponent {
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden]
-  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService) {
+  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService, private translate: TranslateService) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    this.translate.use(localStorage.getItem('lang') || 'en');
   }
 
   ngOnInit(): void {
