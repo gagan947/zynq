@@ -1,12 +1,13 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
                               <div class="d-flex align-items-center justify-content-between">
                                     <div>
-                                          <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Order Management</h4>
-                                          <p class="mb-0">Track and Manage All Clinic Product Orders</p>
+                                          <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'OrderManagement' |
+                                                translate}}</h4>
+                                          <p class="mb-0">{{'TrackAndManageAllClinicProductOrders' | translate}}</p>
                                     </div>
                               </div>
                               <div
@@ -14,7 +15,8 @@
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="Search" #search (input)="searchFilter($event)">
+                                                      placeholder="{{'Search' | translate}}" #search
+                                                      (input)="searchFilter($event)">
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           <!-- <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
@@ -25,21 +27,22 @@
                                                 </div>
                                           </div> -->
                                           <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
-                                                <span class="ct_white_nowrap">Filter by:</span>
+                                                <span class="ct_white_nowrap">{{'FilterBy' | translate}}:</span>
                                                 <div class="form-group position-relative ct_w_100_767">
                                                       <select class="form-control ct_input"
                                                             (change)="filterByStatus($event)">
-                                                            <option value="">Status</option>
-                                                            <option value="PENDING">Pending</option>
-                                                            <option value="SHIPPED">Shipped</option>
-                                                            <option value="DELIVERED">Delivered</option>
+                                                            <option value="">{{'Status' | translate}}</option>
+                                                            <option value="PENDING">{{'Pending' | translate}}</option>
+                                                            <option value="SHIPPED">{{'Shipped' | translate}}</option>
+                                                            <option value="DELIVERED">{{'Delivered' | translate}}
+                                                            </option>
                                                       </select>
                                                 </div>
                                           </div>
                                     </div>
                                     <button
                                           class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                          (click)="exportTableToCSV()">Export CSV</button>
+                                          (click)="exportTableToCSV()">{{'ExportCSV' | translate}}</button>
                               </div>
                         </div>
                         <div class="table-responsive mt-4 ct_custom_table">
@@ -47,21 +50,21 @@
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>
-                                                <th>Order ID</th>
-                                                <th>User Name</th>
+                                                <th>{{'OrderID' | translate}}</th>
+                                                <th>{{'UserName' | translate}}</th>
                                                 <!-- <th>Clinic name</th> -->
-                                                <th>Product(s)</th>
-                                                <th>Total Amount</th>
-                                                <th>Order Date</th>
-                                                <th>Delivery Status</th>
-                                                <th>Payment Status</th>
-                                                <th>Action</th>
+                                                <th>{{'Products' | translate}}</th>
+                                                <th>{{'TotalAmount' | translate}}</th>
+                                                <th>{{'OrderDate' | translate}}</th>
+                                                <th>{{'DeliveryStatus' | translate}}</th>
+                                                <th>{{'PaymentStatus' | translate}}</th>
+                                                <th>{{'Action' | translate}}</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                           @if(ordersList.length == 0){
                                           <tr>
-                                                <td colspan="9" class="text-center">No data found</td>
+                                                <td colspan="9" class="text-center">{{'NoDataFound' | translate}}</td>
                                           </tr>
                                           }
                                           @for (item of ordersList; track $index) {
@@ -83,12 +86,12 @@
                                                       <span [style.color]="getTextColor(item.shipment_status)"
                                                             [ngStyle]="{'background-color': getBgColor(item.shipment_status)}"
                                                             class="p-2 rounded ">
-                                                            {{ item.shipment_status | titlecase }}
+                                                            {{ item.shipment_status | titlecase | translate}}
                                                       </span>
                                                 </td>
                                                 <td>
                                                       <span class="ct_green_text">
-                                                            Paid
+                                                            {{'Paid' | translate}}
                                                       </span>
                                                 </td>
                                                 <td>
@@ -118,22 +121,23 @@
       <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                   <div class="modal-header border-0">
-                        <h5 class="modal-title" id="ct_feedback_detail_modalLabel">Change Status</h5>
+                        <h5 class="modal-title" id="ct_feedback_detail_modalLabel">{{'ChangeStatus' | translate}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body pb-5">
                         <div class="form-group">
-                              <label for="" class="mb-2">Delivery Status</label>
+                              <label for="" class="mb-2">{{'DeliveryStatus' | translate}}</label>
                               <select class="form-control ct_input" [(ngModel)]="shipmentStatus"
                                     [ngModelOptions]="{standalone: true}">
-                                    <option value="PENDING"> Pending</option>
-                                    <option value="SHIPPED"> Shipped </option>
-                                    <option value="DELIVERED"> Delivered</option>
+                                    <option value="PENDING">{{'Pending' | translate}}</option>
+                                    <option value="SHIPPED">{{'Shipped' | translate}}</option>
+                                    <option value="DELIVERED">{{'Delivered' | translate}}</option>
                               </select>
                         </div>
                         <div class="d-flex align-items-center gap-3 mt-4 justify-content-center">
                               <button data-bs-dismiss="modal" type="button" aria-label="Close"
-                                    class="ct_outline_btn px-5 py-2 w-100 " #closeButton>Cancel</button>
+                                    class="ct_outline_btn px-5 py-2 w-100 " #closeButton>{{'Cancel' |
+                                    translate}}</button>
                               <button class="ct_black_btn px-5 py-2 w-100 " (click)="updateShipmentStatus()"
                                     [disabled]="loading">
                                     @if(loading){
@@ -141,7 +145,7 @@
                                           <span class="sr-only">Loading...</span>
                                     </div>
                                     }@else {
-                                    Update
+                                    {{'Update' | translate}}
                                     }
                               </button>
                         </div>

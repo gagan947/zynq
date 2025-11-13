@@ -37,9 +37,15 @@
     padding-top: 40px;
   }
 
-  .ct_right_panel {
+  .ct_right_panel,
+  .ct_footer_btm_fixed {
     margin-left: 0px;
     width: 100%;
+  }
+
+  .ct_footer_btm_fixed {
+    margin-left: 0px !important;
+    width: 100% !important;
   }
 
   .ct_show .ct_side_bar {

@@ -1,0 +1,14 @@
+.ct_opacity_50 {
+    opacity: 0.5;
+}
+
+.hidden_text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    color: red;
+    font-size: 10px;
+    padding: 2px 4px;
+    border-top-right-radius: 4px;
+}

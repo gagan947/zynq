@@ -11,11 +11,12 @@ import { SocketService } from '../../../services/socket.service';
 import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, TranslateModule],
+  imports: [RouterLink, TranslateModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -112,13 +113,10 @@ export class HeaderComponent {
     this.router.navigateByUrl('/');
   }
 
-
-
-
   onCustomLangChange(lang: any) {
     this.selectedLang = lang;
-    this.translate.use(lang);
-    localStorage.setItem('lang', lang);
+    // this.translate.use(lang);
+    // localStorage.setItem('lang', lang);
   }
 }
 

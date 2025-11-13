@@ -1,4 +1,4 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
@@ -16,7 +16,8 @@
                                     <p class="mb-0"><span class="ct_fw_600">Ticket ID: </span> <span
                                                 class="ct_grey_text">{{supportTicket()?.ticket_id}}</span></p>
                                     <button class=""
-                                          [ngClass]="{'ct_custom_badge': supportTicket()?.admin_response || supportTicket()?.clinic_response, 'ct_custom_badge_yellow': !supportTicket()?.admin_response && !supportTicket()?.clinic_response}">{{supportTicket()?.admin_response || supportTicket()?.clinic_response ? 'Resolved' : 'Pending'}}</button>
+                                          [ngClass]="{'ct_custom_badge': supportTicket()?.admin_response || supportTicket()?.clinic_response, 'ct_custom_badge_yellow': !supportTicket()?.admin_response && !supportTicket()?.clinic_response}">{{supportTicket()?.admin_response
+                                          || supportTicket()?.clinic_response ? 'Resolved' : 'Pending'}}</button>
                               </div>
                         </div>
                         <div class="ct_white_bg ct_py_28_px_20 ct_border_radius_10 ct_border_clr_D2D5DB pe-0 mt-4">

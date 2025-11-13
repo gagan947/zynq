@@ -5,11 +5,12 @@ import { SidebarComponent } from "../shared/sidebar/sidebar.component";
 import { CommonService } from '../../services/common.service';
 import { ZegoService } from '../../services/zego.service';
 import { SocketService } from '../../services/socket.service';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [HeaderComponent, RouterOutlet, SidebarComponent],
+  imports: [HeaderComponent, RouterOutlet, SidebarComponent, FooterComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })

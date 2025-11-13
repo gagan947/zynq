@@ -1,4 +1,4 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
@@ -34,8 +34,9 @@
                                                 <h5 class="ct_fs_20 ct_fw_600 mb-1 ">
                                                       {{this.soloDrProfile().clinic?.clinic_name}}
                                                 </h5>
-                                                <span
-                                                      class="ct_custom_badge">{{this.soloDrProfile()?.profile_status == 'ONBOARDING' && this.soloDrProfile().clinic?.is_onboarded == 1 ? 'UNVERIFIED' : this.soloDrProfile()?.profile_status }}</span>
+                                                <span class="ct_custom_badge">{{this.soloDrProfile()?.profile_status ==
+                                                      'ONBOARDING' && this.soloDrProfile().clinic?.is_onboarded == 1 ?
+                                                      'UNVERIFIED' : this.soloDrProfile()?.profile_status }}</span>
                                           </div>
                                           <p class="mb-0 ct_grey_text">
                                                 {{this.soloDrProfile().clinic?.clinic_description}}
@@ -249,9 +250,8 @@
                               <div class="row" *ngFor="let edu of soloDrProfile().education; let i = index">
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for=""
-                                                      class="mb-2 ct_text_black">{{'Institute' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'Institute' |
+                                                      translate}}<span class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter institute" value="{{edu.institution}}"
                                                       disabled>
@@ -267,9 +267,8 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for=""
-                                                      class="mb-2 ct_text_black">{{'StartYear' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'StartYear' |
+                                                      translate}}<span class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter degree" value="{{edu.start_year}}" disabled>
                                           </div>
@@ -290,9 +289,8 @@
                               <div class="row" *ngFor="let exp of soloDrProfile().experience; let i = index">
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for=""
-                                                      class="mb-2 ct_text_black">{{'Organization' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'Organization' |
+                                                      translate}}<span class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter organization" value="{{exp.organization}}"
                                                       disabled>
@@ -300,9 +298,8 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for=""
-                                                      class="mb-2 ct_text_black">{{'Designation' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'Designation' |
+                                                      translate}}<span class="ct_red_text">*</span></label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter organization" value="{{exp.designation}}"
                                                       disabled>
@@ -310,9 +307,8 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for=""
-                                                      class="mb-2 ct_text_black">{{'StartDate' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'StartDate' |
+                                                      translate}}<span class="ct_red_text">*</span></label>
                                                 <input type="date" class="form-control ct_input"
                                                       [value]="exp.start_date | date:'yyyy-MM-dd'" disabled>
                                           </div>
@@ -495,9 +491,8 @@
                               <div class="row">
                                     <div class="col-md-12">
                                           <div class="form-group mb-3">
-                                                <label for=""
-                                                      class="mb-2 ct_text_black">{{'FeeperSession' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'FeeperSession' |
+                                                      translate}}<span class="ct_red_text">*</span></label>
                                                 <div class="position-relative">
                                                       <input type="text" class="form-control ct_input"
                                                             placeholder="Enter fee per session" disabled
@@ -537,7 +532,8 @@
                                                                   -
                                                                   {{convertTime(item.end_time_utc) | date: 'HH:mm'}}
                                                             </h6>
-                                                            <span>{{item.slot_duration}} Minutes</span>
+                                                            <span>{{item.slot_duration}} {{'Minutes' |
+                                                                  translate}}</span>
                                                       </div>
                                                 </div>
                                                 }

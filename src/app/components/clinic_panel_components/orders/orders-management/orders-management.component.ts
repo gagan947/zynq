@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../../../../services/loader.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-orders-management',
   standalone: true,
-  imports: [CommonModule, NzSelectModule, FormsModule],
+  imports: [CommonModule, NzSelectModule, FormsModule, TranslateModule],
   templateUrl: './orders-management.component.html',
   styleUrl: './orders-management.component.css'
 })
@@ -29,7 +30,9 @@ export class OrdersManagementComponent {
   type: string = '';
   searchTerm: string = '';
   selectedDate: string = '';
-  constructor(private service: CommonService, private toster: NzMessageService, private router: Router, private route: ActivatedRoute, private loader: LoaderService) { }
+  constructor(private service: CommonService, private toster: NzMessageService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
+   }
 
   ngOnInit() {
     this.getData();

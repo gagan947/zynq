@@ -8,11 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { FormsModule } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ratings-reviews',
   standalone: true,
-  imports: [CommonModule, NzRateModule, FormsModule],
+  imports: [CommonModule, NzRateModule, FormsModule, TranslateModule],
   templateUrl: './ratings-reviews.component.html',
   styleUrl: './ratings-reviews.component.css'
 })
@@ -25,7 +26,8 @@ export class RatingsReviewsComponent {
   searchTerm: string = '';
   selectedDate: string = '';
   feedbackDetail: any
-  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService) {
+  constructor(private srevice: CommonService, public auth: AuthService, private loader: LoaderService, private toster: NzMessageService, private trasnlate: TranslateService) {
+    this.trasnlate.use(localStorage.getItem('lang') || 'en');
   }
 
   ngOnInit(): void {

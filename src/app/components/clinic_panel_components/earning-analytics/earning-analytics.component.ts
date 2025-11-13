@@ -4,11 +4,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoaderService } from '../../../services/loader.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-earning-analytics',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './earning-analytics.component.html',
   styleUrl: './earning-analytics.component.css'
 })
@@ -16,7 +17,9 @@ export class EarningAnalyticsComponent {
   private destroy$ = new Subject<void>();
   status: string = 'Appointmens';
   data: any
-  constructor(private service: CommonService, private toster: NzMessageService, private loader: LoaderService) { }
+  constructor(private service: CommonService, private toster: NzMessageService, private loader: LoaderService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
+   }
 
   ngOnInit() {
     this.getData();

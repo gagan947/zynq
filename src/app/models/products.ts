@@ -27,7 +27,9 @@ export interface Product {
       stock: number;
       is_deleted: number;
       product_images: ProductImage[];
-      treatments: Treatment[]
+      treatments: Treatment[];
+      approval_status: string;
+      is_hidden: number;
 }
 
 export interface ProductResponse {

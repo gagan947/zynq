@@ -6,11 +6,12 @@ import { AuthService } from '../../../../services/auth.service';
 import { CommonService } from '../../../../services/common.service';
 import { LoaderService } from '../../../../services/loader.service';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-faq-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './faq-list.component.html',
   styleUrl: './faq-list.component.css'
 })
@@ -24,7 +25,8 @@ export class FaqListComponent {
   searchTerm: string = '';
   selectedCategory: string = '';
   feedbackDetail: any
-  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService) {
+  constructor(private srevice: CommonService, public auth: AuthService, private translate: TranslateService, private loader: LoaderService, private toster: NzMessageService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
   }
 
   ngOnInit(): void {

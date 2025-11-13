@@ -49,10 +49,6 @@
       padding-right: 160px; */
 }
 
-
-
-
-
 /*  */
 
 /* 
@@ -84,10 +80,20 @@
       height: calc(100vh - 442px) !important;
 }
 
-
-
 @media screen and (max-width: 767px) {
       .ct_flex_direction_col {
             flex-direction: column;
       }
+}
+
+::ng-deep .ct_footer_btm_fixed {
+      display: none !important;
+}
+
+::ng-deep .ct_right_panel {
+      height: 100vh !important;
+}
+
+.ct_text_939393 {
+      white-space: nowrap;
 }

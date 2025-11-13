@@ -1,4 +1,4 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
@@ -43,7 +43,9 @@
                                                       <p class="mb-0 ct_fs_16"><i
                                                                   class="fa-regular fa-clock me-1 ct_grey_text"></i>{{getTotalExperience(doctorDetail()!.experience).diffYears}}
                                                             year
-                                                            {{(getTotalExperience(doctorDetail()!.experience).diffMonths) - (getTotalExperience(doctorDetail()!.experience).diffYears * 12) }}
+                                                            {{(getTotalExperience(doctorDetail()!.experience).diffMonths)
+                                                            - (getTotalExperience(doctorDetail()!.experience).diffYears
+                                                            * 12) }}
                                                             months
                                                             experience
                                                       </p>
@@ -120,7 +122,8 @@
                                                       {{item.start_date | date:'MMM yyyy'}} -
                                                       {{item.end_date | date:'MMM yyyy'}} ({{getCount(item.start_date,
                                                       item.end_date).diffYears}} year {{(getCount(item.start_date,
-                                                      item.end_date).diffMonths) - (getCount(item.start_date, item.end_date).diffYears * 12) }}
+                                                      item.end_date).diffMonths) - (getCount(item.start_date,
+                                                      item.end_date).diffYears * 12) }}
                                                       months)
                                                 </p>
                                           </li>

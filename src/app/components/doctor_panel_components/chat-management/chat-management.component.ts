@@ -9,12 +9,13 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-chat-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, NzImageModule],
+  imports: [CommonModule, FormsModule, NzImageModule, TranslateModule],
   templateUrl: './chat-management.component.html',
   styleUrl: './chat-management.component.css'
 })
@@ -29,7 +30,8 @@ export class ChatManagementComponent {
   private destroy$ = new Subject<void>();
   hasInitialized: boolean = false;
   uploading: boolean = false;
-  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService, private toastService: NzMessageService) {
+  constructor(private socketService: SocketService, private loaderService: LoaderService, private apiService: CommonService, public auth: AuthService, private toastService: NzMessageService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.chatId = this.socketService.getChatId();
     })

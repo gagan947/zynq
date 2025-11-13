@@ -13,11 +13,12 @@ import { NoWhitespaceDirective } from '../../../validators';
 import { environment } from '../../../../environments/environment';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxIntlTelInputModule, ImageCropperComponent],
+  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxIntlTelInputModule, ImageCropperComponent, TranslateModule],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
@@ -60,8 +61,8 @@ export class EditProfileComponent {
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden];
-  constructor(private fb: FormBuilder, private loaderService: LoaderService, private apiService: CommonService, private toster: NzMessageService, private router: Router) {
-
+  constructor(private fb: FormBuilder, private loaderService: LoaderService, private apiService: CommonService, private toster: NzMessageService, private router: Router, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
   }
 
 
@@ -295,14 +296,12 @@ export class EditProfileComponent {
     });
   }
 
-
   currentStep = 0;
-
-  steps = [
-    { id: 'Personal', label: 'Personal Details' },
-    { id: 'Education', label: 'Education & Experience' },
+    steps = [
+    { id: 'Personal', label: 'PersonalDetails' },
+    { id: 'Education', label: 'EducationExperience' },
     { id: 'Expertise', label: 'Expertise' },
-    { id: 'Fee', label: 'Fee & Availability' }
+    { id: 'Fee', label: 'FeeAvailability' }
   ];
 
   get progress(): string {

@@ -1,16 +1,14 @@
 import { Component, effect } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { SocketService } from '../../../../services/socket.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonService } from '../../../../services/common.service';
 import { LoaderService } from '../../../../services/loader.service';
-import { ZegoService } from '../../../../services/zego.service';
 import { CommonModule, Location } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-orders-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './orders-detail.component.html',
   styleUrl: './orders-detail.component.css'
 })
@@ -18,7 +16,8 @@ export class OrdersDetailComponent {
   private destroy$ = new Subject<void>();
   orderId = this.service._order;
   orderData: any
-  constructor(private service: CommonService, public location: Location, private zegoService: ZegoService, private loader: LoaderService, private router: Router, private route: ActivatedRoute, private socketService: SocketService) {
+  constructor(private service: CommonService, public location: Location, private loader: LoaderService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.orderId();
     });

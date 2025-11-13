@@ -20,13 +20,16 @@ export class ProductManagementComponent {
   ProductId: string | undefined;
   productsList: Product[] = [];
   orgProductsList: Product[] = [];
+  status: string = '';
+  type: number | null = null;
   imagePreview: string = 'assets/img/np_pro.jpg';
+  searchTerm: string = '';
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
   constructor(private router: Router, private service: CommonService, private toster: NzMessageService, private loader: LoaderService,
     private translate: TranslateService
   ) {
     this.translate.use(localStorage.getItem('lang') || 'en');
-   }
+  }
 
   ngOnInit(): void {
     this.getProductList()
@@ -69,17 +72,6 @@ export class ProductManagementComponent {
     })
   }
 
-  search(event: any) {
-    const searchValue = event.target.value.trim().toLowerCase();
-    if (searchValue) {
-      this.productsList = this.orgProductsList.filter(list =>
-        list.name.toLowerCase().includes(searchValue) || list.name.toLowerCase().includes(searchValue)
-      );
-    } else {
-      this.productsList = [...this.orgProductsList];
-    }
-  }
-
   openModal(imageUrl: string | undefined) {
     if (imageUrl) {
       this.imagePreview = imageUrl
@@ -114,5 +106,83 @@ export class ProductManagementComponent {
     downloadLink.download = "Products.csv";
     downloadLink.href = window.URL.createObjectURL(csvFile);
     downloadLink.click();
+  }
+
+  toggleHideProduct(item: Product) {
+    this.loader.show();
+    this.service.update(`clinic/product/toggle-hide/${item.product_id}`, {}).subscribe({
+      next: (resp: any) => {
+        if (resp.success) {
+          this.toster.success(resp.message)
+          item.is_hidden = item.is_hidden == 1 ? 0 : 1;
+          this.loader.hide();
+        } else {
+          this.toster.error(resp.message)
+          this.loader.hide();
+        }
+      },
+      error: (error) => {
+        this.toster.error(error);
+        this.loader.hide();
+      }
+    })
+  }
+
+  getBgColor(status: string): string {
+    switch (status) {
+      case 'PENDING':
+        return '#FFECB3';
+      case 'APPROVED':
+        return '#C8E6C9';
+      case 'REJECTED':
+        return '#FFCDD2';
+      default:
+        return '#FFFFFF';
+    }
+  }
+
+  getTextColor(status: string): string {
+    switch (status) {
+      case 'PENDING':
+        return '#EF6C00';
+      case 'APPROVED':
+        return '#2E7D32';
+      case 'REJECTED':
+        return '#D32F2F';
+      default:
+        return '#000000';
+    }
+  }
+
+  filterByStatus(event: any) {
+    this.status = event.target.value;
+    this.applyFilters();
+  }
+
+
+  filterByType(event: any) {
+    this.type = event.target.value;
+    this.applyFilters();
+  }
+
+  search(event: any) {
+    this.searchTerm = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.productsList = this.orgProductsList.filter((item: Product) => {
+      const matchSearch =
+        !this.searchTerm ||
+        item.name?.toLowerCase().includes(this.searchTerm)
+
+      const matchStatus =
+        !this.status || item.approval_status == this.status;
+
+      const matchType =
+        !this.type || item.is_hidden == this.type;
+
+      return matchSearch && matchStatus && matchType;
+    });
   }
 }

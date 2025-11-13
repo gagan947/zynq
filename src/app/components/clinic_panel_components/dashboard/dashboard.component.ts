@@ -4,11 +4,12 @@ import { LoaderService } from '../../../services/loader.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -17,7 +18,8 @@ export class DashboardComponent {
   dashboardData: any;
   private destroy$ = new Subject<void>();
 
-  constructor(private service: CommonService, private loader: LoaderService) {
+  constructor(private service: CommonService, private loader: LoaderService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.clinicProfile();
     });

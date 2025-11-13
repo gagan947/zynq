@@ -1,11 +1,11 @@
-<div class="ct_inner_header_bg mt-4 ct_px_30">
-      <h4 class="ct_fs_24 ct_fw_600 mb-0 ct_black_text">👋 Welcome back, <span
+<div class="ct_inner_header_bg mt-4 ct_px_30 ">
+      <h4 class="ct_fs_24 ct_fw_600 mb-0 ct_black_text">👋 {{'WelcomeBack' | translate}}, <span
                   class="">{{clinicProfile()?.clinic_name}}</span>!
       </h4>
-      <p class="mb-0 mt-2">Here's your clinic activity overview</p>
+      <p class="mb-0 mt-2">{{'ClinicDashboardTitle' | translate}}</p>
 </div>
 
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-xxl-3 col-xl-6 col-lg-6 mb-4" routerLink="/clinic/doctors">
@@ -14,7 +14,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.total_doctors || 0}}
                                     </h3>
-                                    <p class="mb-0">Total Experts</p>
+                                    <p class="mb-0">{{'Total' | translate}} Experts</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="22" viewBox="0 0 19 22" fill="none"
@@ -32,7 +32,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.total_patients || 0}}
                                     </h3>
-                                    <p class="mb-0">Total Patients</p>
+                                    <p class="mb-0">{{'Total' | translate}} {{'Patients' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="22" viewBox="0 0 19 22" fill="none"
@@ -97,7 +97,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.clinic_product_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">Products Earning</p>
+                                    <p class="mb-0">{{'ProductEarnings' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -123,7 +123,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.average_rating || 0}}
                                     </h3>
-                                    <p class="mb-0">Average Rating</p>
+                                    <p class="mb-0">{{'AverageRating' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="16" viewBox="0 0 19 16" fill="none"
@@ -138,7 +138,7 @@
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_py_28_px_20 ct_border_radius_10 ct_border_clr_D2D5DB">
-                              <h4 class="ct_fs_24 ct_fw_600 mb-4">Revenue Overview</h4>
+                              <h4 class="ct_fs_24 ct_fw_600 mb-4">{{'RevenueOverview' | translate}}</h4>
                               <div id="revenueChart"></div>
                         </div>
                   </div>

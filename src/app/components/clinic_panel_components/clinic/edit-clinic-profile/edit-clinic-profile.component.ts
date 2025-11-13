@@ -11,11 +11,12 @@ import { LoginUserData } from '../../../../models/login';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 @Component({
   selector: 'app-edit-clinic-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzUploadModule, NgxIntlTelInputModule, ImageCropperComponent, TranslateModule],
   templateUrl: './edit-clinic-profile.component.html',
   styleUrl: './edit-clinic-profile.component.css'
 })
@@ -45,10 +46,9 @@ export class EditClinicProfileComponent {
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden]
-  steps = [
-    { id: 'Clinic', label: 'Clinic Details' },
-    { id: 'Contact', label: 'Contact Details' },
-    // { id: 'Operation', label: 'Operation Hours' },
+    steps = [
+    { id: 'Clinic', label: 'ClinicDetails' },
+    { id: 'Contact', label: 'ContactDetails' },
     { id: 'Expertise', label: 'Expertise' }
   ];
 
@@ -59,7 +59,8 @@ export class EditClinicProfileComponent {
     ['treatments', 'equipments', 'skin_types', 'severity_levels', 'fee_range', 'language']
   ];
   loading: boolean = false
-  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, public location: Location) {
+  constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, public location: Location, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     effect(() => {
       if (this.clinicProfile()) {

@@ -1,9 +1,9 @@
 <div class="ct_inner_header_bg mt-4 ct_px_30">
-      <h4 class="ct_fs_24 ct_fw_600 mb-0 ct_black_text">Earnings & Analytics</h4>
-      <p class="mb-0 mt-2">Revenue Insights & Expert Metrics</p>
+      <h4 class="ct_fs_24 ct_fw_600 mb-0 ct_black_text">{{'EarningAnalytics' | translate}}</h4>
+      <p class="mb-0 mt-2">{{'RevenueInsights' | translate}}</p>
 </div>
 
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-xxl-4 col-xl-6 col-lg-6 mb-4">
@@ -12,7 +12,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
                                           {{data.dashboardData?.clinic_appointment_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">Appointments Earning</p>
+                                    <p class="mb-0">{{'Appointments' | translate}} {{'Earnings' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -39,7 +39,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
                                           {{data.dashboardData.total_appointments || 0}}
                                     </h3>
-                                    <p class="mb-0">Total Appointments</p>
+                                    <p class="mb-0">{{'Total' | translate}} {{'Appointments' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="21" height="20" viewBox="0 0 21 20" fill="none"
@@ -69,7 +69,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
                                           {{data.dashboardData?.clinic_product_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">Products Earning</p>
+                                    <p class="mb-0">{{'ProductEarnings' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -96,7 +96,7 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
                                           {{data.dashboardData?.wallet_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">Wallet Earnings</p>
+                                    <p class="mb-0">{{'WalletEarnings' | translate}}</p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -124,7 +124,7 @@
                               <button class="nav-link" [ngClass]="{'active': status === 'Appointmens'}" ngClass=""
                                     id="pills-Appointmens-tab" data-bs-toggle="pill" data-bs-target="#pills-Appointmens"
                                     type="button" role="tab" aria-controls="pills-Appointmens" aria-selected="false"
-                                    (click)="filterByType('Appointmens')">Appointmens</button>
+                                    (click)="filterByType('Appointmens')">{{'Appointments' | translate}}</button>
                         </li>
                         }
                         @if(data.dashboardData.role !== 'DOCTOR'){
@@ -133,12 +133,12 @@
                                     [ngClass]="{'active': status === 'Products' || data.dashboardData.role === 'CLINIC'}"
                                     id="pills-Products-tab" data-bs-toggle="pill" data-bs-target="#pills-Products"
                                     type="button" role="tab" aria-controls="pills-Products" aria-selected="false"
-                                    (click)="filterByType('Products')">Products</button>
+                                    (click)="filterByType('Products')">{{'Products' | translate}}</button>
                         </li>
                         }
                   </ul>
                   <button class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                        (click)="exportTableToCSV()">Export CSV</button>
+                        (click)="exportTableToCSV()">{{'ExportCSV' | translate}}</button>
             </div>
             <div class="row">
                   <div class="col-md-12">
@@ -149,20 +149,21 @@
                                           <thead>
                                                 <tr>
                                                       <th>S.No</th>
-                                                      <th>Order ID</th>
-                                                      <th>User Name</th>
-                                                      <th>Product(s)</th>
-                                                      <th>Total Amount</th>
-                                                      <th>Earning</th>
-                                                      <th>Admin Earning</th>
-                                                      <th>Admin Commission(%)</th>
-                                                      <th>Order Date</th>
+                                                      <th>{{'OrderID' | translate}}</th>
+                                                      <th>{{'UserName' | translate}}</th>
+                                                      <th>{{'Products' | translate}}</th>
+                                                      <th>{{'TotalAmount' | translate}}</th>
+                                                      <th>{{'Earnings' | translate}}</th>
+                                                      <th>{{'AdminEarnings' | translate}}</th>
+                                                      <th>{{'AdminCommission' | translate}}</th>
+                                                      <th>{{'OrderDate' | translate}}</th>
                                                 </tr>
                                           </thead>
                                           <tbody>
                                                 @if(data.products.length == 0){
                                                 <tr>
-                                                      <td colspan="9" class="text-center">No data found</td>
+                                                      <td colspan="9" class="text-center">{{'NoDataFound' | translate}}
+                                                      </td>
                                                 </tr>
                                                 }
                                                 @for (item of data.products; track $index) {
@@ -200,23 +201,24 @@
                                                 <tr>
                                                       <th>S.No</th>
                                                       @if(data.dashboardData.role !== 'DOCTOR'){
-                                                      <th>Expert Name</th>
+                                                      <th>{{'ExpertName' | translate}}</th>
                                                       }@else{
-                                                      <th>Clinic Name</th>
+                                                      <th>{{'ClinicName' | translate}}</th>
                                                       }
-                                                      <th>Start Time</th>
-                                                      <th>End Time</th>
-                                                      <th>Type</th>
-                                                      <th>Total Amount</th>
-                                                      <th>Earning</th>
-                                                      <th>Admin Earning</th>
-                                                      <th>Admin Commission(%)</th>
+                                                      <th>{{'StartTime' | translate}}</th>
+                                                      <th>{{'EndTime' | translate}}</th>
+                                                      <th>{{'Type' | translate}}</th>
+                                                      <th>{{'TotalAmount' | translate}}</th>
+                                                      <th>{{'Earnings' | translate}}</th>
+                                                      <th>{{'AdminEarnings' | translate}}</th>
+                                                      <th>{{'AdminCommission' | translate}}</th>
                                                 </tr>
                                           </thead>
                                           <tbody>
                                                 @if(data.appointments.length == 0){
                                                 <tr>
-                                                      <td colspan="9" class="text-center">No data found</td>
+                                                      <td colspan="9" class="text-center">{{'NoDataFound' | translate}}
+                                                      </td>
                                                 </tr>
                                                 }
                                                 @for (item of data.appointments; track $index) {

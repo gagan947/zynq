@@ -53,7 +53,7 @@
                                                       *ngIf="Form.controls['clinic_name'].invalid && Form.controls['clinic_name'].touched">
                                                       <span *ngIf="Form.controls['clinic_name'].errors?.['required']"
                                                             class="ct_text_red mt-2">
-                                                            {{'Clinic' | translate}} {{'Name' | translate}}
+                                                            {{'Clinic' | translate}} {{'Name' | translate | lowercase}}
                                                             {{'isRequired' | translate}}.
                                                       </span>
                                                 </span>

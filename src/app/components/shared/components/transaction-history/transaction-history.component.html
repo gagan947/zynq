@@ -1,28 +1,31 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Transaction History</h4>
-                              <p class="mb-0">Track all payments in one place</p>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'TransactionHistory' | translate}}
+                              </h4>
+                              <p class="mb-0">{{'TrackAllPayments' | translate}}</p>
 
                               <div
                                     class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="Search" #search (input)="searchFilter($event)">
+                                                      placeholder="{{'Search' | translate}}" #search
+                                                      (input)="searchFilter($event)">
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           @if(roleName === 'solo-doctor'){
                                           <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
-                                                <span class="ct_white_nowrap">Filter by:</span>
+                                                <span class="ct_white_nowrap">{{'FilterBy' | translate}}:</span>
                                                 <div class="form-group position-relative ct_w_100_767 ">
                                                       <select class="form-control ct_input"
                                                             (change)="filterByType($event)">
-                                                            <option value="">Type</option>
-                                                            <option value="PURCHASE">Products</option>
-                                                            <option value="APPOINTMENT">Appointments</option>
+                                                            <option value="">{{'Type' | translate}}</option>
+                                                            <option value="PURCHASE">{{'Products' | translate}}</option>
+                                                            <option value="APPOINTMENT">{{'Appointments' | translate}}
+                                                            </option>
                                                       </select>
                                                 </div>
                                           </div>
@@ -37,7 +40,7 @@
 
                                           <button
                                                 class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn ct_w_100_767"
-                                                (click)="exportTableToCSV()">Export CSV</button>
+                                                (click)="exportTableToCSV()">{{'ExportCSV' | translate}}</button>
                                     </div>
                               </div>
                         </div>
@@ -47,19 +50,19 @@
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>
-                                                <th>User Name</th>
-                                                <th>Order Type</th>
-                                                <th>Total Amount</th>
-                                                <th>Admin Earning</th>
-                                                <th>Received Amount</th>
-                                                <th>Date</th>
+                                                <th>{{'UserName' | translate}}</th>
+                                                <th>{{'OrderType' | translate}}</th>
+                                                <th>{{'TotalAmount' | translate}}</th>
+                                                <th>{{'AdminEarnings' | translate}}</th>
+                                                <th>{{'ReceivedAmount' | translate}}</th>
+                                                <th>{{'Date' | translate}}</th>
                                                 <th>Status</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                           @if(faqList.length == 0){
                                           <tr>
-                                                <td colspan="6" class="text-center">No data found</td>
+                                                <td colspan="6" class="text-center">{{'NoDataFound' | translate}}</td>
                                           </tr>
                                           }
                                           @for (item of faqList; track $index) {
@@ -84,7 +87,7 @@
                                                       {{item.created_at | date:'dd-MM-yyyy - HH:mm'}}
                                                 </td>
                                                 <td>
-                                                      <span class="ct_green_text">Paid</span>
+                                                      <span class="ct_green_text">{{'Paid' | translate}}</span>
                                                 </td>
                                           </tr>
                                           }

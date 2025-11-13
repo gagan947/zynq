@@ -1,16 +1,18 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'AppointmentsOverview' | translate}}</h4>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'AppointmentsOverview' | translate}}
+                              </h4>
                               <p class="mb-0">{{'AppointmentTitle' | translate}}</p>
                               <div
                                     class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="{{'Search' | translate}}" #search (input)="searchFilter($event)">
+                                                      placeholder="{{'Search' | translate}}" #search
+                                                      (input)="searchFilter($event)">
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
@@ -48,7 +50,8 @@
                                                 id="pills-Scheduled-tab" data-bs-toggle="pill"
                                                 data-bs-target="#pills-Scheduled" type="button" role="tab"
                                                 aria-controls="pills-Scheduled" aria-selected="false"
-                                                (click)="filterByStatus('Scheduled')">{{'Scheduled' | translate}}</button>
+                                                (click)="filterByStatus('Scheduled')">{{'Scheduled' |
+                                                translate}}</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                           <button class="nav-link" [ngClass]="{'active': status === 'Ongoing'}"
@@ -62,13 +65,15 @@
                                                 ngClass="" id="pills-Completed-tab" data-bs-toggle="pill"
                                                 data-bs-target="#pills-Completed" type="button" role="tab"
                                                 aria-controls="pills-Completed" aria-selected="false"
-                                                (click)="filterByStatus('Completed')">{{'Completed' | translate}}</button>
+                                                (click)="filterByStatus('Completed')">{{'Completed' |
+                                                translate}}</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                           <button class="nav-link" id="pills-Rescheduled-tab" data-bs-toggle="pill"
                                                 data-bs-target="#pills-Rescheduled" type="button" role="tab"
                                                 aria-controls="pills-Rescheduled" aria-selected="false"
-                                                (click)="filterByStatus('Rescheduled')">{{'Rescheduled' | translate}}</button>
+                                                (click)="filterByStatus('Rescheduled')">{{'Rescheduled' |
+                                                translate}}</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                           <button class="nav-link" id="pills-Missed-tab" data-bs-toggle="pill"
@@ -101,7 +106,8 @@
                                                 <tbody>
                                                       @if(appointment.length == 0){
                                                       <tr>
-                                                            <td colspan="8" class="text-center">{{'NoDataFound' | translate}}</td>
+                                                            <td colspan="8" class="text-center">{{'NoDataFound' |
+                                                                  translate}}</td>
                                                       </tr>
                                                       }
                                                       @for (item of appointment; track $index) {

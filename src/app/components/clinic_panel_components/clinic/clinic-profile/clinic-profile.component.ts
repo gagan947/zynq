@@ -3,11 +3,12 @@ import { FormBuilder } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CommonService } from '../../../../services/common.service';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-clinic-profile',
   standalone: true,
-  imports: [RouterLink, GoogleMapsModule],
+  imports: [RouterLink, GoogleMapsModule,TranslateModule],
   templateUrl: './clinic-profile.component.html',
   styleUrl: './clinic-profile.component.css'
 })
@@ -16,7 +17,8 @@ export class ClinicProfileComponent {
   center: google.maps.LatLngLiteral = { lat: 28.6139, lng: 77.2090 };
   zoom = 12;
   imagePreview: string = 'assets/img/np_pro.jpg';
-  constructor(private fb: FormBuilder, private service: CommonService) {
+  constructor(private fb: FormBuilder, private service: CommonService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.clinicProfile();
       this.center = {

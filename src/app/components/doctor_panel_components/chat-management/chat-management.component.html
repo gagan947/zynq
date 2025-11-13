@@ -1,11 +1,11 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div>
                     <div class="d-flex align-items-center gap-3 mb-4 justify-content-between ct_flex_col_1199">
                         <div>
-                            <h4 class="ct_fs_22 ct_fw_600 mb-0 ct_text_black">Chat Management</h4>
+                            <h4 class="ct_fs_22 ct_fw_600 mb-0 ct_text_black">{{ 'ChatManagement' | translate }}</h4>
                         </div>
                     </div>
                 </div>
@@ -16,13 +16,13 @@
                         <div class="modal-dialog-scrollable ">
                             <div class="modal-content ">
                                 <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap mb-3">
-                                    <h4 class="ct_fs_16 mb-0 ct_fw_700 ct_nunito_font">Contacts</h4>
+                                    <h4 class="ct_fs_16 mb-0 ct_fw_700 ct_nunito_font">{{'Contacts' | translate}}</h4>
                                     <h4 class="ct_fs_16 mb-0 ct_fw_700 ct_nunito_font ct_text_op_07">{{chatlist.length}}
                                     </h4>
                                 </div>
                                 <div class="position-relative">
                                     <input type="text" class="form-control ct_input ct_input_ps_40 ct_input_h_40"
-                                        (input)="searchFilter($event)" placeholder="Search">
+                                        (input)="searchFilter($event)" placeholder="{{'Search' | translate}}">
                                     <i class="fa-solid fa-search ct_input_icon_left"></i>
                                 </div>
                                 <div class="modal-body mt-4 ct_custom_scrollbar">
@@ -57,10 +57,11 @@
                                                         <div
                                                             class="d-flex align-items-center gap-2 justify-content-between">
                                                             <p class="ct_fs_14 ct_overlay_text ct_overlay_text_w_150">
-                                                                {{item.last_message === '' ? "Sent a file"  : item.last_message}}
+                                                                {{item.last_message === '' ? "Sent a file" :
+                                                                item.last_message}}
                                                             </p>
-                                                            <span class=" text-end d-block ct_fs_12
-                                                            ct_text_939393">
+                                                            <span class="text-end d-block ct_fs_12
+                                                            ct_text_939393 ">
                                                                 {{item.last_message_at | date:'hh:mm a'}}</span>
                                                         </div>
                                                     </div>
@@ -156,7 +157,8 @@
                                                                 {{item.message}}
                                                             </p>
                                                             <span
-                                                                class="time ms-auto d-block ct_text_939393">{{item.createdAt | date:'dd/MM/yyyy - HH:mm'}}</span>
+                                                                class="time ms-auto d-block ct_text_939393">{{item.createdAt
+                                                                | date:'dd/MM/yyyy - HH:mm'}}</span>
                                                         </div>
                                                     </li>
                                                     } @else{
@@ -192,8 +194,8 @@
                                                             </div>
                                                             }
                                                             <p class="mb-1">{{item.message}}</p>
-                                                            <span
-                                                                class="time text-end">{{item.createdAt | date:'dd/MM/yyyy - HH:mm'}}</span>
+                                                            <span class="time text-end">{{item.createdAt |
+                                                                date:'dd/MM/yyyy - HH:mm'}}</span>
                                                         </div>
                                                     </li>
                                                     <!-- <li>
@@ -258,7 +260,7 @@
                                                 </label>
                                                 <textarea [(ngModel)]="message" type="text"
                                                     class="form-control ct_input_h_40"
-                                                    placeholder="Type your message here."
+                                                    placeholder="{{'TypeYourMessageHere' | translate}}"
                                                     [ngModelOptions]="{standalone: true}"
                                                     (keydown)="onKeyDown($event)"></textarea>
                                                 <div class="ct_right_side_send_chat_btns">

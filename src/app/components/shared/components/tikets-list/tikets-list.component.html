@@ -1,21 +1,21 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Help & Support</h4>
-                              <p class="mb-0">View or raise support tickets</p>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'HelpSupport' | translate}}</h4>
+                              <p class="mb-0">{{'ViewOrRaiseSupportTickets' | translate}}</p>
                               <div
                                     class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe-40"
-                                                      placeholder="Search tickets" (input)="searchTickets($event)"
-                                                      #search>
+                                                      placeholder="{{'Search' | translate}}"
+                                                      (input)="searchTickets($event)" #search>
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
-                                                <span class="ct_white_nowrap">Filter by:</span>
+                                                <span class="ct_white_nowrap">{{'FilterBy' | translate}}:</span>
                                                 <div class="form-group position-relative ct_w_100_767">
                                                       <input type="date" class="form-control ct_input"
                                                             (change)="filterByDate($event)" #date>
@@ -30,10 +30,10 @@
                                                             stroke="white" stroke-width="1.8" stroke-linecap="round"
                                                             stroke-linejoin="round" />
                                                 </svg>
-                                                Raise Ticket</a>
+                                                {{'RaiseTicket' | translate}}</a>
                                           <button
                                                 class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                                (click)="exportTableToCSV()">Export CSV</button>
+                                                (click)="exportTableToCSV()">{{'ExportCSV' | translate}}</button>
                                     </div>
                               </div>
                               @if(auth.getRoleName() == 'doctor'){
@@ -82,14 +82,14 @@
                                           <tr>
                                                 <th>S.No</th>
                                                 @if(activeTab == 'clinic' || activeTab == 'doctor'){
-                                                <th>Name</th>
-                                                <th>Email</th>
+                                                <th>{{'Name' | translate}}</th>
+                                                <th>{{'Email' | translate}}</th>
                                                 }
-                                                <th>Ticket Title</th>
-                                                <th>Creation Date</th>
-                                                <th>Issue Description</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                                <th>{{'TicketTitle' | translate}}</th>
+                                                <th>{{'CreationDate' | translate}}</th>
+                                                <th>{{'IssueDescription' | translate}}</th>
+                                                <th>{{'Status' | translate}}</th>
+                                                <th>{{'Action' | translate}}</th>
                                           </tr>
                                     </thead>
                                     <tbody>
@@ -118,7 +118,8 @@
                                                 </td>
                                                 <td>
                                                       <span
-                                                            [ngClass]="{'ct_green_text': ticket.admin_response || ticket.clinic_response, 'ct_dark_yellow_text': !ticket.admin_response && !ticket.clinic_response}">{{ticket.admin_response || ticket.clinic_response ? 'Resolved' : 'Pending'}}</span>
+                                                            [ngClass]="{'ct_green_text': ticket.admin_response || ticket.clinic_response, 'ct_dark_yellow_text': !ticket.admin_response && !ticket.clinic_response}">{{ticket.admin_response
+                                                            || ticket.clinic_response ? 'Resolved' : 'Pending'}}</span>
                                                 </td>
                                                 <td>
                                                       <div class="d-flex align-items-center gap-3">
@@ -131,7 +132,8 @@
                                           }
                                           @if(tickets.length == 0){
                                           <tr>
-                                                <td colspan="6" class="text-center">No tickets found</td>
+                                                <td colspan="6" class="text-center">{{'NoTicketsFound' | translate}}
+                                                </td>
                                           </tr>
                                           }
                                     </tbody>

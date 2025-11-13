@@ -414,7 +414,7 @@
                                                                         (change)="exp.isCurrent ? exp.end_date = null : null" />
                                                                   <label class="form-check-label"
                                                                         for="ongoingCheck-{{ k }}">
-                                                                        {{' CurrentlyWorking' | translate}}
+                                                                        {{'CurrentlyWorking' | translate}}
                                                                   </label>
                                                             </div>
                                                       </div>
@@ -520,14 +520,14 @@
                                                                                     type="text"
                                                                                     formControlName="session_duration"
                                                                                     style="width: 200px;"
-                                                                                    placeholder="Enter duration"
+                                                                                    placeholder="{{'SessionDuration' | translate}}"
                                                                                     class="form-control">
                                                                         </td>
                                                                         <td class="border p-2">
                                                                               <input *ngIf="treatment.get('selected')?.value"
                                                                                     type="text" formControlName="note"
                                                                                     style="width: 200px;"
-                                                                                    placeholder="Enter note"
+                                                                                    placeholder="{{'Note' | translate}}"
                                                                                     class="form-control">
                                                                         </td>
                                                                   </tr>

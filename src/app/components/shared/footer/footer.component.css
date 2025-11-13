@@ -1,0 +1,12 @@
+footer {
+    background: #282828;
+    padding: 19px 0;
+}
+
+.ct_footer_btm_fixed {
+    position: absolute;
+    bottom: 0px;
+    width: calc(100% - 275px);
+    margin-left: 275px;
+
+}

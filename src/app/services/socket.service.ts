@@ -61,10 +61,10 @@ export class SocketService {
 
       sendMessage(chatId: string, message: string, messageType: string, files?: any): void {
             this.socket.emit('send_message', {
-                  chatId,
-                  message,
-                  messageType,
-                  files
+                  chatId, 
+                  message, 
+                  messageType, 
+                  files 
             })
       }
 

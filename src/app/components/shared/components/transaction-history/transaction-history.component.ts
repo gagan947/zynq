@@ -1,16 +1,16 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from '../../../../services/auth.service';
 import { CommonService } from '../../../../services/common.service';
 import { LoaderService } from '../../../../services/loader.service';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-transaction-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './transaction-history.component.html',
   styleUrl: './transaction-history.component.css'
 })
@@ -25,7 +25,8 @@ export class TransactionHistoryComponent {
   feedbackDetail: any;
   roleName: string | null = null;
   totalAmount: number = 0;
-  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService, private authService: AuthService) {
+  constructor(private srevice: CommonService, public auth: AuthService, private loader: LoaderService, private toster: NzMessageService, private authService: AuthService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     this.roleName = this.authService.getRoleName();
   }
 

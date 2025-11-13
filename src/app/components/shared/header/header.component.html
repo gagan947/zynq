@@ -79,12 +79,12 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 @if(auth.getRoleName() == 'clinic'){
-                <li><a class="dropdown-item" routerLink="clinic-profile">Clinic Profile</a></li>
+                <li><a class="dropdown-item" routerLink="clinic-profile">{{'ClinicProfile' | translate}}</a></li>
                 }@else {
-                <li><a class="dropdown-item" routerLink="my-profile">My Profile</a></li>
+                <li><a class="dropdown-item" routerLink="my-profile">{{'MyProfile' | translate}}</a></li>
                 }
-                <li><a class="dropdown-item" routerLink="change-password">Change Password</a></li>
-                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ct_logout_modal_post">Log Out</a>
+                <li><a class="dropdown-item" routerLink="change-password">{{'ChangePassword' | translate}}</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ct_logout_modal_post">{{'Logout' | translate}}</a>
                 </li>
             </ul>
         </div>
@@ -131,19 +131,16 @@
 
                         </div>
                         <figcaption class="mt-4 text-center">
-                            <h4 class="ct_fs_18 ct_fw_600">Log Out</h4>
-                            <p class="mb-0">Are you sure you want to logout? once you logout you need to
-                                login
-                                again.</p>
+                            <h4 class="ct_fs_18 ct_fw_600">{{'Logout' | translate | titlecase}}</h4>
+                            <p class="mb-0">{{'AreYouSureYouWantToLogout' | translate}}</p>
                         </figcaption>
                     </figure>
                     <div class="d-flex justify-content-center border-0 gap-3 ct_modal_footer">
                         <button type="button" class="ct_outline_btn ct_h_40 w-100 ct_fw_600"
-                            data-bs-dismiss="modal">Cancel</button>
+                            data-bs-dismiss="modal">{{'Cancel' | translate}}</button>
                         <button (click)="logout()"
                             class="ct_border_radius_10 ct_h_40 ct_black_btn w-100 ct_fw_600 text-center"
-                            data-bs-dismiss="modal">Log
-                            Out</button>
+                            data-bs-dismiss="modal">{{'Logout' | translate}}</button>
                     </div>
                 </div>
             </div>

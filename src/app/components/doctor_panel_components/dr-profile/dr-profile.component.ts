@@ -6,18 +6,21 @@ import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { LoaderService } from '../../../services/loader.service';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dr-profile',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, TranslateModule],
   templateUrl: './dr-profile.component.html',
   styleUrl: './dr-profile.component.css'
 })
 export class DrProfileComponent {
   doctorProfile$!: Observable<DoctorProfileResponse>;
 
-  constructor(private apiService: CommonService, private loaderService: LoaderService) { }
+  constructor(private apiService: CommonService, private loaderService: LoaderService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
+   }
 
   ngOnInit() {
     this.loaderService.show();

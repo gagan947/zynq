@@ -7,10 +7,11 @@ import { CommonModule } from '@angular/common';
 import { SupportTicket, SupportTicketResponse } from '../../../../models/tikets';
 import { LoaderService } from '../../../../services/loader.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-tikets-list',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, TranslateModule],
   templateUrl: './tikets-list.component.html',
   styleUrl: './tikets-list.component.css'
 })
@@ -22,7 +23,8 @@ export class TiketsListComponent {
   @ViewChild('date') date!: ElementRef<HTMLInputElement>;
   @ViewChild('search') search!: ElementRef<HTMLInputElement>;
 
-  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService) {
+  constructor(private srevice: CommonService, public auth: AuthService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private toster: NzMessageService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     this.activeTab = sessionStorage.getItem('activeTab') || '';
     // this.loader.show();
     if (this.auth.getRoleName() == 'doctor' && this.activeTab == '' || this.activeTab == 'admin') {

@@ -1,34 +1,37 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
                         <div class="d-flex align-items-center gap-3 mb-5">
                               <a (click)="location.back()" class="ct_back_icon"><i
                                           class="fa-solid fa-chevron-left"></i></a>
-                              <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">Order Management </span>
-                                    <span class="ct_text_op_07 ct_fs_16"> / Order Details</span>
+                              <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">{{'OrderManagement' |
+                                          translate}}</span>
+                                    <span class="ct_text_op_07 ct_fs_16"> / {{'OrderDetails' | translate}}</span>
                               </h4>
                         </div>
 
                         <div class="col-md-12">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-4">Order Details (<span
+                              <h4 class="ct_fs_22 ct_fw_600 mb-4">{{'OrderDetails' | translate}} (<span
                                           [ngClass]="orderData.shipment_status == 'PENDING' ? 'ct_dark_yellow_text' : orderData.shipment_status == 'SHIPPED' ? 'ct_orange_text' : 'ct_green_text'"
-                                          class="ct_fs_16">{{orderData.shipment_status}}</span>)</h4>
+                                          class="ct_fs_16">{{orderData.shipment_status | titlecase | translate}}</span>)
+                              </h4>
                               <div
                                     class="table-responsive ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-2">
-                                    <h4 class="ct_fs_22 ct_fw_600 mb-2">Order Summary</h4>
+                                    <h4 class="ct_fs_22 ct_fw_600 mb-2">{{'OrderSummary' | translate}}</h4>
                                     <table class="table ct_transparent_table mb-0">
                                           <tbody>
                                                 <tr>
-                                                      <td class="ct_text_op_05 w-50">Order ID:</td>
+                                                      <td class="ct_text_op_05 w-50">{{'OrderID' | translate}}:</td>
                                                       <td>ZYNQ-{{orderData.purchase_id}}</td>
                                                 </tr>
                                                 <tr>
-                                                      <td class="ct_text_op_05  w-50">Order Date:</td>
+                                                      <td class="ct_text_op_05  w-50">{{'OrderDate' | translate}}:</td>
                                                       <td>{{orderData.purchase_date | date:'dd-MM-yyyy - HH:mm'}}</td>
                                                 </tr>
                                                 <tr>
-                                                      <td class="ct_text_op_05  w-50">Total Amount:</td>
+                                                      <td class="ct_text_op_05  w-50">{{'TotalAmount' | translate}}:
+                                                      </td>
                                                       <td>{{orderData.total_price | currency:'SEK '}}</td>
                                                 </tr>
                                                 <!-- <tr>
@@ -48,21 +51,24 @@
                               </div>
                         </div>
                         <div class="col-md-12 mt-4">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-3">Customer Details</h4>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-3">{{'CustomerDetails' | translate}}</h4>
                               <div
                                     class="table-responsive ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
                                     <table class="table ct_transparent_table mb-0">
                                           <tbody>
                                                 <tr>
-                                                      <td class="ct_text_op_05 w-50">Customer Name:</td>
+                                                      <td class="ct_text_op_05 w-50">{{'CustomerName' | translate}}:
+                                                      </td>
                                                       <td class="">{{orderData.user.name}}</td>
                                                 </tr>
                                                 <tr>
-                                                      <td class="ct_text_op_05 w-50">Phone:</td>
+                                                      <td class="ct_text_op_05 w-50">{{'contactNumber' | translate}}:
+                                                      </td>
                                                       <td>{{orderData.user.mobile_number}}</td>
                                                 </tr>
                                                 <tr>
-                                                      <td class="ct_text_op_05 w-50">Shipping Address:</td>
+                                                      <td class="ct_text_op_05 w-50">{{'ShippingAddress' | translate}}:
+                                                      </td>
                                                       <td>{{orderData.address}}</td>
                                                 </tr>
                                           </tbody>
@@ -72,17 +78,17 @@
 
 
                         <div class="col-md-12 mt-4">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-3">Product Details</h4>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-3">{{'ProductDetails' | translate}}</h4>
                               <div
                                     class="table-responsive ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20">
                                     <table class="table ct_transparent_table">
                                           <thead>
                                                 <tr>
-                                                      <th class="ct_fw_600">Product Image</th>
-                                                      <th class="ct_fw_600">Product Name</th>
-                                                      <th class="ct_fw_600">Quantity</th>
-                                                      <th class="ct_fw_600">Price</th>
-                                                      <th class="ct_fw_600">Subtotal</th>
+                                                      <th class="ct_fw_600">{{'ProductImage' | translate}}</th>
+                                                      <th class="ct_fw_600">{{'ProductName' | translate}}</th>
+                                                      <th class="ct_fw_600">{{'Quantity' | translate}}</th>
+                                                      <th class="ct_fw_600">{{'Price' | translate}}</th>
+                                                      <th class="ct_fw_600">{{'Subtotal' | translate}}</th>
                                                 </tr>
                                           </thead>
                                           <tbody>

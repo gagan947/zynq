@@ -1,25 +1,26 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">FAQ’s Management</h4>
-                              <p class="mb-0">Manage and maintain your list of FAQ’s</p>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'FAQManagement' | translate}}</h4>
+                              <p class="mb-0">{{'ManageAndMaintainYourListOfFAQs' | translate}}</p>
 
                               <div
                                     class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="Search" #search (input)="searchFilter($event)">
+                                                      placeholder="{{'Search' | translate}}" #search
+                                                      (input)="searchFilter($event)">
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
-                                                <span class="ct_white_nowrap">Filter by:</span>
+                                                <span class="ct_white_nowrap">{{'FilterBy' | translate}}:</span>
                                                 <div class="form-group position-relative ct_w_100_767">
                                                       <select class="form-control ct_input"
                                                             (change)="filterByType($event)">
-                                                            <option value="">Category</option>
+                                                            <option value="">{{'Category' | translate}}</option>
                                                             @if(categories$ | async; as data){
                                                             @for(item of data.data; track $index){
                                                             <option [value]="item.name">{{item.name}}</option>
@@ -31,7 +32,7 @@
                                     </div>
                                     <button
                                           class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                          (click)="exportTableToCSV()">Export CSV</button>
+                                          (click)="exportTableToCSV()">{{'ExportCSV' | translate}}</button>
                               </div>
                         </div>
                         @if(ratingReviews$ | async; as data){
@@ -40,15 +41,15 @@
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>
-                                                <th>Question</th>
-                                                <th>Answer</th>
-                                                <th>Action</th>
+                                                <th>{{'Question' | translate}}</th>
+                                                <th>{{'Answer' | translate}}</th>
+                                                <th>{{'Action' | translate}}</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                           @if(faqList.length == 0){
                                           <tr>
-                                                <td colspan="6" class="text-center">No data found</td>
+                                                <td colspan="6" class="text-center">{{'NoDataFound' | translate}}</td>
                                           </tr>
                                           }
                                           @for (item of faqList; track $index) {
@@ -84,7 +85,7 @@
       <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                   <div class="modal-header border-0">
-                        <h5 class="modal-title" id="ct_feedback_detail_modalLabel">FAQ’s Detail</h5>
+                        <h5 class="modal-title" id="ct_feedback_detail_modalLabel">{{'FAQDetail' | translate}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body pb-5">

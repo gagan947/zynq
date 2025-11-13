@@ -1,22 +1,22 @@
-<div class="ct_px_30 mt-4 pb-4">
+<div class="ct_px_30  mt-4 pb-4">
       <div class="container-fluid">
             <div class="row">
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 ">
-                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">Ratings & Reviews</h4>
-                              <p class="mb-0">Manage and monitor patient’s feedback</p>
+                              <h4 class="ct_fs_22 ct_fw_600 mb-2 ct_text_black">{{'RatingsReview' | translate}}</h4>
+                              <p class="mb-0">{{'ManageAndMonitorFeedback' | translate}}</p>
 
                               <div
                                     class="d-flex align-items-center gap-3 justify-content-between mt-4 ct_flex_col_1199">
                                     <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
                                           <div class="form-group position-relative ct_w_100_767">
                                                 <input type="text" class="form-control ct_input ct_input_pe_40"
-                                                      placeholder="Search by patient name" #search
+                                                      placeholder="{{'Search' | translate}}" #search
                                                       (input)="searchFilter($event)">
                                                 <i class="fa-solid fa-search ct_show_eye"></i>
                                           </div>
                                           <div class="d-flex align-items-center gap-3 ct_flex_col_767 ct_w_100_767">
-                                                <span class="ct_white_nowrap">Filter by:</span>
+                                                <span class="ct_white_nowrap">{{'FilterBy' | translate}}:</span>
                                                 <div class="form-group position-relative ct_w_100_767">
                                                       <input type="date" class="form-control ct_input"
                                                             (change)="filterByDate($event)" #date>
@@ -25,7 +25,7 @@
                                     </div>
                                     <button
                                           class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                          (click)="exportTableToCSV()">Export CSV</button>
+                                          (click)="exportTableToCSV()">{{'ExportCSV' | translate}}</button>
                               </div>
                         </div>
                         @if(ratingReviews$ | async; as data){
@@ -35,17 +35,17 @@
                                           <tr>
                                                 <th>S.No</th>
                                                 <!-- <th>Expert Name</th> -->
-                                                <th>Patient Name</th>
-                                                <th>Ratings</th>
-                                                <th>Review</th>
-                                                <th>Date & Time</th>
-                                                <th>Action</th>
+                                                <th>{{'PatientName' | translate}}</th>
+                                                <th>{{'Rating' | translate}}</th>
+                                                <th>{{'Reviews' | translate}}</th>
+                                                <th>{{'DateTime' | translate}}</th>
+                                                <th>{{'Action' | translate}}</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                           @if(ratingReviewsList.length == 0){
                                           <tr>
-                                                <td colspan="6" class="text-center">No data found</td>
+                                                <td colspan="6" class="text-center">{{'NoDataFound' | translate}}</td>
                                           </tr>
                                           }
                                           @for (item of ratingReviewsList; track $index) {
@@ -86,7 +86,8 @@
       <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                   <div class="modal-header border-0">
-                        <h5 class="modal-title" id="ct_feedback_detail_modalLabel">Feedback Details</h5>
+                        <h5 class="modal-title" id="ct_feedback_detail_modalLabel">{{'FeedbackDetails' | translate}}
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body pb-5">
@@ -112,7 +113,7 @@
                                     {{feedbackDetail?.created_at | date:'dd-MM-yyyy - HH:mm'}}
                               </li>
                               <li class="mt-4">
-                                    <h5 class="ct_fs_18 mb-2">Rating</h5>
+                                    <h5 class="ct_fs_18 mb-2">{{'Rating' | translate}}</h5>
                                     <!-- <ul class="d-flex align-items-center gap-2">
                                           <li>
                                                 <i class="fa-solid fa-star ct_orange_text ct_fs_20"></i>
@@ -133,7 +134,7 @@
                                     <nz-rate [ngModel]="feedbackDetail?.rating" nzDisabled nzAllowHalf></nz-rate>
                               </li>
                               <li class="mt-4">
-                                    <h5 class="ct_fs_18 mb-2">Review</h5>
+                                    <h5 class="ct_fs_18 mb-2">{{'Review' | translate}}</h5>
                                     <div class="form-control ct_input h-auto" rows="4">{{feedbackDetail?.review}}</div>
                               </li>
                         </ul>
