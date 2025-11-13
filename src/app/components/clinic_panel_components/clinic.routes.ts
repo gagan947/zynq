@@ -141,6 +141,12 @@ export const clinicRoutes: Routes = [
                         loadComponent: () => import('../change-password/change-password.component').then((m) => m.ChangePasswordComponent),
                         title: 'Change Password'
                   },
+
+                  {
+                        path: 'treatments',
+                        loadComponent: () => import('../treatment-management/treatment-management.component').then((m) => m.TreatmentManagementComponent),
+                        title: 'Treatments Management'
+                  },
             ]
       }
 ];

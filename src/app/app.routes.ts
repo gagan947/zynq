@@ -74,4 +74,20 @@ export const routes: Routes = [
             loadComponent: () => import('./components/landig-pages/terms-conditions/terms-conditions.component').then(m => m.TermsConditionsComponent),
             title: 'Terms & Conditions'
       },
+
+      // {
+      //       path: 'treatments',
+      //       loadComponent: () => import('./components/treatment-management/treatment-management.component').then((m) => m.TreatmentManagementComponent),
+      //       title: 'Products Management'
+      // },
+      // {
+      //       path: 'products/detail',
+      //       loadComponent: () => import('../clinic_panel_components/product/view-product/view-product.component').then((m) => m.ViewProductComponent),
+      //       title: 'Product Detail'
+      // },
+      // {
+      //       path: 'products/add',
+      //       loadComponent: () => import('../clinic_panel_components/product/add-product/add-product.component').then((m) => m.AddProductComponent),
+      //       title: 'Add Product'
+      // },
 ];

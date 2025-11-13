@@ -1,0 +1,222 @@
+<div class="ct_px_30  mt-4 pb-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <a (click)="location.back()" class="ct_back_icon"><i class="fa-solid fa-chevron-left"></i></a>
+                    <h4 class="ct_fs_24 ct_black_text mb-0"><span class="ct_fw_600">{{'TreatmentManagement' |
+                            translate}} </span>
+                        <span class="ct_text_op_07 ct_fs_16"> /
+                            {{(treatmentId ? 'Update' : 'AddNew') | translate}} {{'Treatment' |
+                            translate}}</span>
+                    </h4>
+                </div>
+                <form [formGroup]="Form" (ngSubmit)="onSubmit()">
+                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20">
+
+                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentInformation' | translate}}</h4>
+
+
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Concerns' | translate}}</h4>
+                            <div class="mb-4">
+                                <nz-select nzMode="multiple"
+                                    nzPlaceHolder="{{'Select' | translate}} {{'concerns' | translate}}"
+                                    class="form-control ct_input h-auto" formControlName="concerns"
+                                    nzNotFoundContent="No concerns Found">
+                                    @for (item of concerns; track item) {
+                                    <nz-option [nzLabel]="item.name" [nzValue]="item.concern_id"></nz-option>
+                                    }
+                                </nz-select>
+                                <span class="ct_text_red mt-2"
+                                    *ngIf="Form.get('concerns')?.invalid && Form.get('concerns')?.touched">
+                                    {{'pleaseAddAtleast' | translate}} {{'concern' | translate |
+                                    lowercase}}.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="form-group mb-3">
+                                <label for="" class="mb-2">{{'TreatmentName' | translate}}</label>
+                                <input type="text" placeholder="{{'Enter' | translate}} {{'TreatmentName' | translate}}"
+                                    class="form-control ct_input" formControlName="name">
+                                <span *ngIf="Form.controls['name'].invalid && Form.controls['name'].touched">
+                                    <span *ngIf="Form.controls['name'].errors?.['required']" class="ct_text_red mt-2">
+                                        {{'Treatment' | translate}} {{'Name' | translate |
+                                        lowercase}} {{'isRequired' | translate}}.
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="mb-2">{{ 'ClassificationType' | translate }}</label>
+                            <select class="form-control ct_input" formControlName="classification_type">
+                                <option value="" disabled selected>
+                                    {{ 'Select' | translate }}
+                                </option>
+                                <option value="Medical">{{ 'Medical' | translate }}</option>
+                                <option value="Non-Medical">{{ 'Non-Medical' | translate }}</option>
+                            </select>
+
+                            <span
+                                *ngIf="Form.controls['classification_type'].invalid && Form.controls['classification_type'].touched">
+                                <span *ngIf="Form.controls['classification_type'].errors?.['required']"
+                                    class="ct_text_red mt-2">
+                                    {{ 'ClassificationType' | translate }} {{ 'isRequired' | translate }}.
+                                </span>
+                            </span>
+                        </div>
+
+
+                        <div class="form-group mb-3">
+                            <label for="" class="mb-2">{{'Description' | translate}}</label>
+                            <textarea type="text" placeholder="{{'WriteHere' | translate}}..."
+                                class="form-control ct_input h-auto" rows="4"
+                                formControlName="full_description"></textarea>
+                            <span
+                                *ngIf="Form.controls['full_description'].invalid && Form.controls['full_description'].touched">
+                                <span *ngIf="Form.controls['full_description'].errors?.['required']"
+                                    class="ct_text_red mt-2">
+                                    {{'Description' | translate}} {{'isRequired' | translate}}.
+                                </span>
+                                <span *ngIf="Form.controls['full_description'].errors?.['maxlength']"
+                                    class="ct_text_red mt-2">
+                                    {{'Description' | translate}} {{'isTooLong' | translate}}.
+                                </span>
+                            </span>
+                        </div>
+
+
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Benefits' | translate}}</h4>
+                            <div>
+                                <ul
+                                    class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                    @for (item of selectedBenefits; track
+                                    $index) {
+                                    <li>
+                                        <button type="button" class="ct_select_badge">{{item}}
+                                            <span (click)="removeBenefits($index)"><i
+                                                    class="fa-solid fa-xmark"></i></span></button>
+                                    </li>
+                                    }
+                                </ul>
+                                <div class="position-relative mt-2">
+                                    <input type="text" class="form-control ct_input ct_pe_122"
+                                        placeholder="{{'TypeToAdd' | translate}} {{'Benefits' | translate}}..."
+                                        #benefitsInput>
+                                    <button type="button" class="ct_black_btn ct_btn_position_right"
+                                        (click)="addBenefits(benefitsInput.value)">{{'Add' |
+                                        translate}}</button>
+                                </div>
+                                <span *ngIf="selectedBenefits.length == 0 && submitted">
+                                    <span class="ct_text_red mt-2">
+                                        {{'Benefits' | translate}} {{'areRequired' | translate}}.
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <!-- Is Device Radio Buttons -->
+                        <div class="form-group mt-3">
+                            <label class="mb-2 d-block">{{ 'Is this a Device?' | translate }}</label>
+                            <div class="d-flex gap-3">
+                                <label>
+                                    <input type="radio" formControlName="is_device" [value]="true" />
+                                    {{ 'Yes' | translate }}
+                                </label>
+                                <label>
+                                    <input type="radio" formControlName="is_device" [value]="false" />
+                                    {{ 'No' | translate }}
+                                </label>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4"
+                            *ngIf="Form.get('is_device')?.value">
+                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Device Name' | translate}}</h4>
+                            <div>
+                                <ul
+                                    class="d-flex align-items-center gap-3 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                    @for (item of selectedDevices; track
+                                    $index) {
+                                    <li>
+                                        <button type="button" class="ct_select_badge">{{item}}
+                                            <span (click)="removeDevices($index)"><i
+                                                    class="fa-solid fa-xmark"></i></span></button>
+                                    </li>
+                                    }
+                                </ul>
+                                <div class="position-relative mt-2">
+                                    <input type="text" class="form-control ct_input ct_pe_122"
+                                        placeholder="{{'TypeToAdd' | translate}} {{'Devices' | translate}}..."
+                                        #devicesInput>
+                                    <button type="button" class="ct_black_btn ct_btn_position_right"
+                                        (click)="addDevices(devicesInput.value)">{{'Add' |
+                                        translate}}</button>
+                                </div>
+                                <span *ngIf="selectedDevices.length == 0 && submitted">
+                                    <span class="ct_text_red mt-2">
+                                        {{'Devices' | translate}} {{'areRequired' | translate}}.
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+
+
+                          <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4"
+                            >
+                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Likewise Terms' | translate}}</h4>
+                            <div>
+                                <ul
+                                    class="d-flex align-items-center gap-3 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                    @for (item of selectedTerms; track
+                                    $index) {
+                                    <li>
+                                        <button type="button" class="ct_select_badge">{{item}}
+                                            <span (click)="removeTerms($index)"><i
+                                                    class="fa-solid fa-xmark"></i></span></button>
+                                    </li>
+                                    }
+                                </ul>
+                                <div class="position-relative mt-2">
+                                    <input type="text" class="form-control ct_input ct_pe_122"
+                                        placeholder="{{'TypeToAdd' | translate}} {{'Likewise Terms' | translate}}..."
+                                        #tremsInput>
+                                    <button type="button" class="ct_black_btn ct_btn_position_right"
+                                        (click)="addTerms(tremsInput.value)">{{'Add' |
+                                        translate}}</button>
+                                </div>
+                                <span *ngIf="selectedDevices.length == 0 && submitted">
+                                    <span class="ct_text_red mt-2">
+                                        {{'Likewise terms' | translate}} {{'areRequired' | translate}}.
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                    <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
+                        <button class="ct_outline_btn" (click)="location.back()" type="reset">{{'Cancel' |
+                            translate}}</button>
+                        <button class="ct_black_btn">{{treatmentId ? ('Update' | translate) : ('AddTreatment' |
+                            translate)}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
