@@ -79,3 +79,73 @@ button.ct_delete_icon_l {
     background-color: var(--black);
     border-color: var(--black);
 }
+
+.custom-input-dropdown.dropdown-toggle::after {
+    display: none !important;
+}
+
+.ct_multiselect_custom_dopbox {
+    background-color: #fff;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09);
+    padding: 10px;
+    border-radius: 5px;
+    height: auto;
+    height: 322px;
+    overflow-y: auto;
+    border: 1px solid #e6e6e6;
+    display: none;
+    position: absolute;
+    /* top: 0; */
+    left: 0;
+    width: 100%;
+    /* height: 100%; */
+    background-color: #fff;
+    z-index: 9;
+}
+
+.ct_multiselect_custom_dopbox.active {
+    display: block;
+}
+
+.ct_all_selected_tag {
+    border: 1px solid #e1e1e1;
+    height: auto;
+    /* max-height: 100px; */
+    min-height: 50px;
+    overflow-y: auto;
+    border-radius: 10px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.ct_all_selected_tag ul {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.ct_all_selected_tag small {
+    cursor: pointer;
+}
+
+.ct_all_selected_tag ul li:not(:last-child) {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #f5f5f5;
+    padding: 4px 10px;
+    border-radius: 2px;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: transparent;
+    z-index: 2;
+}

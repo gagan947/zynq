@@ -13,10 +13,7 @@
                 </div>
                 <form [formGroup]="Form" (ngSubmit)="onSubmit()">
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20">
-
                         <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentInformation' | translate}}</h4>
-
-
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Concerns' | translate}}</h4>
                             <div class="mb-4">
@@ -35,7 +32,6 @@
                                 </span>
                             </div>
                         </div>
-
                         <div class="row mt-3">
                             <div class="form-group mb-3">
                                 <label for="" class="mb-2">{{'TreatmentName' | translate}}</label>
@@ -49,7 +45,6 @@
                                 </span>
                             </div>
                         </div>
-
                         <div class="form-group mb-3">
                             <label class="mb-2">{{ 'ClassificationType' | translate }}</label>
                             <select class="form-control ct_input" formControlName="classification_type">
@@ -59,7 +54,6 @@
                                 <option value="Medical">{{ 'Medical' | translate }}</option>
                                 <option value="Non-Medical">{{ 'Non-Medical' | translate }}</option>
                             </select>
-
                             <span
                                 *ngIf="Form.controls['classification_type'].invalid && Form.controls['classification_type'].touched">
                                 <span *ngIf="Form.controls['classification_type'].errors?.['required']"
@@ -68,8 +62,6 @@
                                 </span>
                             </span>
                         </div>
-
-
                         <div class="form-group mb-3">
                             <label for="" class="mb-2">{{'Description' | translate}}</label>
                             <textarea type="text" placeholder="{{'WriteHere' | translate}}..."
@@ -87,8 +79,6 @@
                                 </span>
                             </span>
                         </div>
-
-
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Benefits' | translate}}</h4>
                             <div>
@@ -118,26 +108,22 @@
                                 </span>
                             </div>
                         </div>
-
-
                         <!-- Is Device Radio Buttons -->
                         <div class="form-group mt-3">
                             <label class="mb-2 d-block">{{ 'Is this a Device?' | translate }}</label>
                             <div class="d-flex gap-3">
                                 <label>
-                                    <input type="radio" formControlName="is_device" [value]="true" />
+                                    <input class="form-check-input ct_custom_check" type="radio"
+                                        formControlName="is_device" [value]="true" />
                                     {{ 'Yes' | translate }}
                                 </label>
                                 <label>
-                                    <input type="radio" formControlName="is_device" [value]="false" />
+                                    <input class="form-check-input ct_custom_check" type="radio"
+                                        formControlName="is_device" [value]="false" />
                                     {{ 'No' | translate }}
                                 </label>
                             </div>
                         </div>
-
-
-
-
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4"
                             *ngIf="Form.get('is_device')?.value">
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Device Name' | translate}}</h4>
@@ -168,11 +154,7 @@
                                 </span>
                             </div>
                         </div>
-
-
-
-                          <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4"
-                            >
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Likewise Terms' | translate}}</h4>
                             <div>
                                 <ul
@@ -194,21 +176,14 @@
                                         (click)="addTerms(tremsInput.value)">{{'Add' |
                                         translate}}</button>
                                 </div>
-                                <span *ngIf="selectedDevices.length == 0 && submitted">
+                                <span *ngIf="selectedTerms.length == 0 && submitted">
                                     <span class="ct_text_red mt-2">
                                         {{'Likewise terms' | translate}} {{'areRequired' | translate}}.
                                     </span>
                                 </span>
                             </div>
                         </div>
-
                     </div>
-
-
-
-
-
-
                     <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
                         <button class="ct_outline_btn" (click)="location.back()" type="reset">{{'Cancel' |
                             translate}}</button>

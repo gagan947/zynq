@@ -3,23 +3,20 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { ImageCropperComponent } from 'ngx-image-cropper';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoaderService } from '../../../services/loader.service';
 import { AuthService } from '../../../services/auth.service';
-import { Treatment } from '../../../models/clinic-profile';
 import { TreatmentResponse } from '../../../models/clinic-onboarding';
 import { NoWhitespaceDirective } from '../../../validators';
 import { Product } from '../../../models/products';
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-add-treatment',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, NzSelectModule, NzUploadModule, ImageCropperComponent, TranslateModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, NzSelectModule, NzUploadModule, TranslateModule],
   templateUrl: './add-treatment.component.html',
   styleUrl: './add-treatment.component.css'
 })
@@ -29,7 +26,7 @@ export class AddTreatmentComponent {
   treatmentId: string | undefined;
   submitted: boolean = false;
   concerns: any[] = [];
-  treatmetData: Product | undefined;
+  treatmetData: any | undefined;
   selectedBenefits: string[] = [];
   selectedDevices: string[] = [];
   selectedTerms: string[] = [];
@@ -48,14 +45,14 @@ export class AddTreatmentComponent {
 
     this.route.queryParams.subscribe(param => {
       this.treatmentId = param['id'];
-      if (this.treatmentId) {
-        this.getTreatmentById();
-      }
     })
   }
 
   ngOnInit(): void {
     this.getTreatments();
+    if (this.treatmentId) {
+      this.getTreatmentById();
+    }
   }
 
   getTreatments() {
@@ -120,21 +117,16 @@ export class AddTreatmentComponent {
 
     const payload: any = {
       name: this.Form.value.name,
-      swedish: this.Form.value.name,
       classification_type: this.Form.value.classification_type,
       benefits_en: this.selectedBenefits.join(),
-      benefits_sv: this.selectedBenefits.join(),
       description_en: this.Form.value.full_description,
-      description_sv: this.Form.value.full_description,
-      source: 'old',
-      is_device: true,
+      is_device: this.Form.value.is_device,
       concerns: this.Form.value.concerns || [],
-      device_name: this.selectedDevices || [],
-      "embeddings": [
-        -0.633076012134552
-      ],
+      like_wise_terms: this.selectedTerms || [],
     };
-
+    if (this.Form.value.is_device) {
+      payload.device_name = this.selectedDevices || [];
+    }
     if (this.treatmentId) {
       payload.treatment_id = this.treatmentId;
     }
@@ -146,8 +138,7 @@ export class AddTreatmentComponent {
         this.loader.hide();
         if (res.success) {
           this.toster.success(res.message);
-          // Optional redirect
-          this.router.navigate(['/solo-doctor/treatments']);
+          this.router.navigate(['../../treatments'], { relativeTo: this.route });
         } else {
           this.toster.error(res.message);
         }
@@ -161,23 +152,28 @@ export class AddTreatmentComponent {
 
 
   getTreatmentById() {
-    let formData = {
-      treatment_id: this.treatmentId
-    }
-    this.service.post('clinic/get-treatment-by-id', formData).subscribe((res: any) => {
+    this.loader.show();
+    this.service.get('doctor/get-treatment-by-id?treatment_id=' + this.treatmentId).subscribe((res: any) => {
       if (res.success) {
         this.treatmetData = res.data;
-        this.Form.patchValue(this.treatmetData || {});
-        this.Form.patchValue({ treatments: this.treatmetData?.treatments.map((item: any) => item.treatment_id) });
-
-
-        this.selectedDevices = this.treatmetData?.feature_text.split(',') || [];
-        this.selectedBenefits = this.treatmetData?.benefit_text.split(',') || [];
+        this.Form.patchValue({
+          name: this.treatmetData?.name,
+          classification_type: this.treatmetData?.classification_type,
+          full_description: this.treatmetData?.description_en,
+          is_device: this.treatmetData?.is_device == 1 ? true : false,
+        });
+        this.Form.patchValue({ concerns: this.treatmetData?.concerns?.map((item: any) => item.concern_id) || [] });
+        this.selectedDevices = this.treatmetData?.device_name?.split(',') || [];
+        this.selectedTerms = this.treatmetData?.like_wise_terms?.split(',') || [];
+        this.selectedBenefits = this.treatmetData?.benefits_en?.split(',') || [];
+        this.loader.hide();
       } else {
         this.toster.error(res.message);
+        this.loader.hide();
       }
     }, (error) => {
       this.toster.error(error);
+      this.loader.hide();
     })
   };
 

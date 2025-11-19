@@ -79,6 +79,7 @@ export interface ClinicLocation {
 }
 
 export interface Treatment {
+      sub_treatments: any;
       treatment_id: string;
       name: string;
 }

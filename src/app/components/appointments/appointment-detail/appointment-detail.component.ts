@@ -12,7 +12,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-appointment-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule,TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './appointment-detail.component.html',
   styleUrl: './appointment-detail.component.css'
 })

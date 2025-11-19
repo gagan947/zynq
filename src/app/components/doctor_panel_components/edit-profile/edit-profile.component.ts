@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { SecurityLevel, TreatmentResponse, SkinTypeResponse } from '../../../models/clinic-onboarding';
 import { Treatment, SkinType } from '../../../models/clinic-profile';
@@ -24,6 +24,7 @@ declare var bootstrap: any;
 })
 export class EditProfileComponent {
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
   certificateURl = environment.certificateUrl;
   @Input() isEdit: boolean = false; // default value
   personalForm!: FormGroup;
@@ -37,7 +38,7 @@ export class EditProfileComponent {
     type: null,
     file: null
   }];
-  treatments: Treatment[] = [];
+  treatments: any[] = [];
   education: any[] = [{
     institution: null,
     degree_name: null,
@@ -56,6 +57,8 @@ export class EditProfileComponent {
   skinConditions: any[] = []
   surgeries: any[] = []
   devices: any[] = []
+  selectedTreatments: any[] = [];
+  dropdownOpen: boolean = false;
   loading: boolean = false
   SearchCountryField = SearchCountryField
   CountryISO = CountryISO;
@@ -95,25 +98,216 @@ export class EditProfileComponent {
     this.getSkinTypes();
     this.getSkinConditions();
     this.getSurgeries();
-    this.getDevices();
+    // this.getDevices();
     this.loadFormData();
   }
 
-  inItTreatMentForm() {
-    this.treatments.forEach(() => {
-      this.treatmentArray.push(this.fb.group({
-        selected: [false],
-        price: [''],
-        session_duration: [''],
-        note: ['']
-      }));
-    });
-  }
-
-  get treatmentArray() {
+  get treatmentsArray(): FormArray {
     return this.Form.get('treatments') as FormArray;
   }
 
+  subTreatments(i: number): FormArray {
+    return this.treatmentsArray.at(i).get('sub_treatments') as FormArray;
+  }
+
+  initTreatments(data: any[]) {
+    this.treatmentsArray.clear();
+    data.forEach((t: any) => {
+      this.treatmentsArray.push(
+        this.fb.group({
+          id: t.treatment_id,
+          name: t.name,
+          selected: false,
+          price: '',
+          sub_treatments: this.fb.array(
+            t.sub_treatments.map((sub: any) =>
+              this.fb.group({
+                id: sub.sub_treatment_id,
+                name: sub.name,
+                selected: false,
+                price: '',
+              })
+            )
+          ),
+        })
+      );
+    });
+  }
+
+  onTreatmentSelectChange(i: number) {
+    const parent = this.treatmentsArray.at(i);
+    const parentPrice = parent.get('price') as FormControl;
+    const children = this.subTreatments(i).controls;
+
+    if (parent.get('selected')?.value) {
+      parent.get('price')?.setValidators([Validators.required]);
+      parent.get('price')?.updateValueAndValidity();
+      children.forEach((sub: AbstractControl) => {
+        sub.get('selected')?.setValue(true, { emitEvent: false });
+        sub.get('price')?.setValidators([Validators.required]);
+        sub.get('price')?.updateValueAndValidity();
+      });
+
+      if (children.length > 0) {
+        parentPrice.disable();
+        this.updateParentTotal(i);
+      }
+    } else {
+      children.forEach((sub: AbstractControl) => {
+        sub.get('selected')?.setValue(false, { emitEvent: false });
+        sub.get('price')?.clearValidators();
+        sub.get('price')?.setValue('');
+        sub.get('price')?.updateValueAndValidity();
+      });
+
+      parentPrice.enable();
+      parentPrice.setValue('');
+    }
+    const previousSelections = this.selectedTreatments;
+    this.selectedTreatments = this.treatmentsArray.controls.filter(t => t.get('selected')?.value).map(t => ({
+      id: t.get('id')?.value,
+      name: t.get('name')?.value ?? t.get('name')?.value ?? '',
+      price: t.get('price')?.value ?? 0,
+      sub_treatments: t.get('sub_treatments')?.value.filter((sub: any) => sub.selected).map((sub: any) => ({
+        id: sub.id,
+        name: sub.name,
+        price: sub.price,
+      })) ?? []
+    }));
+    this.selectedTreatments = [...previousSelections, ...this.selectedTreatments];
+    this.searchInput.nativeElement.focus();
+    this.getDevices();
+  }
+
+  onTreatmentSearch(event: any) {
+    const searchValue = event.target.value;
+    if (searchValue.length > 0) {
+      this.treatmentsArray.controls = this.treatmentsArray.controls.filter((t: any) => t.get('name')?.value.toLowerCase().includes(searchValue.toLowerCase()) || t.get('sub_treatments')?.value.some((sub: any) => sub.name.toLowerCase().includes(searchValue.toLowerCase())));
+    }
+    else {
+      debugger;
+      const previousSelections = this.treatmentsArray.controls.map((ctrl: any) => ({
+        id: ctrl.get('id')?.value,
+        selected: ctrl.get('selected')?.value,
+        price: ctrl.get('price')?.value,
+        sub_treatments: ctrl.get('sub_treatments')?.value.map((sub: any, idx: number) => ({
+          id: sub.id,
+          selected: sub.selected,
+          price: sub.price
+        }))
+      }));
+
+      while (this.treatmentsArray.length !== 0) {
+        this.treatmentsArray.removeAt(0);
+      }
+
+      this.treatments.forEach((t: any) => {
+        const prev = previousSelections.find(ps => ps.id === t.treatment_id);
+
+        this.treatmentsArray.push(
+          this.fb.group({
+            id: t.treatment_id,
+            name: t.name,
+            selected: prev ? prev.selected : false,
+            price: prev ? prev.price : '',
+            sub_treatments: this.fb.array(
+              t.sub_treatments.map((sub: any) => {
+                let prevSub = prev
+                  ? prev.sub_treatments.find((p: any) => p.id === sub.sub_treatment_id)
+                  : null;
+                return this.fb.group({
+                  id: sub.sub_treatment_id,
+                  name: sub.name,
+                  selected: prevSub ? prevSub.selected : false,
+                  price: prevSub ? prevSub.price : '',
+                })
+              })
+            ),
+          })
+        );
+        // if (prev && prev.selected) {
+        //   this.onTreatmentSelectChange(this.treatmentsArray.length - 1);
+        // }
+      });
+    }
+  }
+
+
+  onChildSelectChange(i: number, j: number) {
+    const child = this.subTreatments(i).at(j);
+    const parent = this.treatmentsArray.at(i);
+    const parentPrice = parent.get('price') as FormControl;
+
+    if (child.get('selected')?.value) {
+      child.get('price')?.setValidators([Validators.required]);
+    } else {
+      child.get('price')?.clearValidators();
+      child.get('price')?.setValue('');
+    }
+    child.get('price')?.updateValueAndValidity();
+
+    const children = this.subTreatments(i).controls;
+    const anySelected = children.some(c => c.get('selected')?.value);
+
+    if (anySelected) {
+      parent.get('selected')?.setValue(true, { emitEvent: false });
+      parentPrice.disable();
+      this.updateParentTotal(i);
+    } else {
+      parent.get('selected')?.setValue(false, { emitEvent: false });
+      parentPrice.enable();
+      parentPrice.setValue('');
+    }
+    const previousSelections = this.selectedTreatments;
+    this.selectedTreatments = this.treatmentsArray.controls.filter(t => t.get('selected')?.value).map(t => ({
+      id: t.get('id')?.value,
+      name: t.get('name')?.value ?? '',
+      price: t.get('price')?.value ?? 0,
+      sub_treatments: t.get('sub_treatments')?.value.filter((sub: any) => sub.selected).map((sub: any) => ({
+        id: sub.id,
+        name: sub.name,
+        price: sub.price,
+      })) ?? []
+    }));
+    this.selectedTreatments = [...previousSelections, ...this.selectedTreatments];
+    this.searchInput.nativeElement.focus();
+    this.getDevices();
+  }
+
+  removeTreatment(index: number, id: string) {
+    this.treatmentsArray.at(index).get('selected')?.setValue(false, { emitEvent: false });
+    this.treatmentsArray.at(index).get('price')?.clearValidators();
+    this.treatmentsArray.at(index).get('price')?.setValue('');
+    this.treatmentsArray.at(index).get('price')?.updateValueAndValidity();
+    this.subTreatments(index).controls.forEach((sub: AbstractControl) => {
+      sub.get('selected')?.setValue(false, { emitEvent: false });
+      sub.get('price')?.clearValidators();
+      sub.get('price')?.setValue('');
+      sub.get('price')?.updateValueAndValidity();
+    });
+    this.selectedTreatments = this.selectedTreatments.filter(t => t.id !== id);
+    this.getDevices();
+  }
+
+  updateParentTotal(i: number) {
+    const parent = this.treatmentsArray.at(i);
+    const parentPrice = parent.get('price') as FormControl;
+
+    const total = this.subTreatments(i).controls
+      .filter(sub => sub.get('selected')?.value)
+      .reduce((sum, sub) => sum + Number(sub.get('price')?.value || 0), 0);
+
+    parentPrice.setValue(total);
+  }
+
+
+  getControl(group: any, controlName: string): FormControl {
+    return group.get(controlName) as FormControl;
+  }
+
+  getChildControl(parentIndex: number, childIndex: number, controlName: string): FormControl {
+    return this.subTreatments(parentIndex).at(childIndex).get(controlName) as FormControl;
+  }
 
   loadFormData() {
     // this.loaderService.show();
@@ -139,16 +333,12 @@ export class EditProfileComponent {
           const index = this.treatments.findIndex(t => t.treatment_id === item.treatment_id);
 
           if (index !== -1) {
-            const group = this.treatmentArray.at(index);
+            const group = this.treatmentsArray.at(index);
 
             group.patchValue({
               selected: true,
               price: item.price,
-              note: item.add_notes,
-              session_duration: item.session_duration
             });
-
-            this.onCheckboxChange(index);
           }
         }),
         skin_types: data?.skinTypes.map((item: any) => item.skin_type_id),
@@ -297,7 +487,7 @@ export class EditProfileComponent {
   }
 
   currentStep = 0;
-    steps = [
+  steps = [
     { id: 'Personal', label: 'PersonalDetails' },
     { id: 'Education', label: 'EducationExperience' },
     { id: 'Expertise', label: 'Expertise' },
@@ -369,30 +559,6 @@ export class EditProfileComponent {
     this.currentStep = this.currentStep - 1;
   }
 
-  onAllCheckboxChange(event: any) {
-    this.treatmentArray.controls.forEach((control: AbstractControl) => {
-      control.get('selected')?.setValue(event.target.checked);
-    })
-  }
-  onCheckboxChange(index: number) {
-    const control = this.treatmentArray.at(index);
-    const isChecked = control.get('selected')?.value;
-
-    if (isChecked) {
-      control.get('price')?.setValidators([Validators.required, Validators.min(0)]);
-    } else {
-      control.get('price')?.clearValidators();
-      control.get('price')?.setValue('');
-    }
-
-    control.get('price')?.updateValueAndValidity();
-  }
-
-  isIndeterminate() {
-    const values = this.treatmentArray.controls.map(control => control.get('selected')?.value);
-    const trueCount = values.filter(value => value === true).length;
-    return trueCount > 0 && trueCount < this.treatmentArray.length;
-  }
   onSubmitPersonal() {
     if (this.personalForm.invalid) {
       this.personalForm.markAllAsTouched();
@@ -472,20 +638,14 @@ export class EditProfileComponent {
     }
     this.loading = true
 
-    const selectedTreatments = this.treatmentArray.controls
-      .map((group, i) => {
-        const selected = group.get('selected')?.value;
-
-        if (!selected) return null;
-
-        return {
-          treatment_id: this.treatments[i].treatment_id,
-          price: group.get('price')?.value,
-          session_duration: group.get('session_duration')?.value,
-          add_notes: group.get('note')?.value
-        };
-      })
-      .filter(item => item !== null);
+    const selectedTreatments = this.treatmentsArray.controls.map((t: any) => ({
+      treatment_id: t.get('id')?.value,
+      price: t.get('price')?.value,
+      sub_treatments: t.get('sub_treatments')?.value.map((sub: any) => ({
+        sub_treatment_id: sub.get('id')?.value,
+        price: sub.get('price')?.value,
+      })) ?? [],
+    }));
 
     let formData = {
       treatments: selectedTreatments,
@@ -649,7 +809,7 @@ export class EditProfileComponent {
   getTreatments() {
     this.apiService.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
       this.treatments = res.data
-      this.inItTreatMentForm();
+      this.initTreatments(this.treatments);
     });
   }
 
@@ -673,7 +833,8 @@ export class EditProfileComponent {
   }
 
   getDevices() {
-    this.apiService.get<any>(`clinic/get-devices`).subscribe((res) => {
+    const treatmentIds = this.selectedTreatments.map(t => t.id);
+    this.apiService.get<any>(`clinic/get-devices?treatment_ids=${treatmentIds.join(',')}`).subscribe((res) => {
       this.devices = res.data
     });
   }

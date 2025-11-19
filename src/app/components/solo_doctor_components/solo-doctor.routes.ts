@@ -141,12 +141,12 @@ export const soloDoctorRoutes: Routes = [
                   {
                         path: 'treatments/add-treatment',
                         loadComponent: () => import('../treatment-management/add-treatment/add-treatment.component').then((m) => m.AddTreatmentComponent),
-                        title: 'add'
+                        title: 'Add Treatment'
                   },
                   {
                         path: 'treatments/view-treatment',
                         loadComponent: () => import('../treatment-management/view-treatment/view-treatment.component').then((m) => m.ViewTreatmentComponent),
-                        title: 'view'
+                        title: 'View Treatment'
                   },
             ]
       }

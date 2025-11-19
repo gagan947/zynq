@@ -152,6 +152,16 @@ export const doctorRoutes: Routes = [
                         loadComponent: () => import('../treatment-management/treatment-management.component').then((m) => m.TreatmentManagementComponent),
                         title: 'Treatments Management'
                   },
+                  {
+                        path: 'treatments/add-treatment',
+                        loadComponent: () => import('../treatment-management/add-treatment/add-treatment.component').then((m) => m.AddTreatmentComponent),
+                        title: 'Add Treatment'
+                  },
+                  {
+                        path: 'treatments/view-treatment',
+                        loadComponent: () => import('../treatment-management/view-treatment/view-treatment.component').then((m) => m.ViewTreatmentComponent),
+                        title: 'View Treatment'
+                  },
             ]
       }
 ];
