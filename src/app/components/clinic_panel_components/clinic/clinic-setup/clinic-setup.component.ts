@@ -61,7 +61,7 @@ export class ClinicSetupComponent {
     ['clinic_name', 'org_number', 'zynq_user_id', 'clinic_description', 'logo', 'ivo_registration_number', 'hsa_id'],
     ['email', 'mobile_number', 'street_address', 'city', 'state', 'zip_code', 'latitude', 'longitude', 'website_url'],
     // ['clinic_timing'],
-    ['treatments', 'skin_types', 'skin_condition', 'surgeries', 'devices']
+    ['skin_types', 'skin_condition', 'surgeries']
   ];
 
   loading: boolean = false
@@ -74,11 +74,11 @@ export class ClinicSetupComponent {
 
   ngOnInit(): void {
     this.inItForm();
-    this.getTreatments();
+    // this.getTreatments();
     this.getSkinTypes();
     this.getSkinConditions();
     this.getSurgeries();
-    this.getDevices();
+    // this.getDevices();
     this.getProfile();
   }
 
@@ -97,12 +97,12 @@ export class ClinicSetupComponent {
       zip_code: ['', [Validators.required, NoWhitespaceDirective.validate]],
       latitude: [''],
       longitude: [''],
-      treatments: [[], [Validators.required]],
-      skin_types: [[], [Validators.required]],
+      // treatments: [[], [Validators.required]],
+      skin_types: [[]],
       // severity_levels: [[], [Validators.required]],
-      skin_condition: [[], [Validators.required]],
-      surgeries: [[], [Validators.required]],
-      devices: [[], [Validators.required]],
+      skin_condition: [[]],
+      surgeries: [[]],
+      // devices: [[], [Validators.required]],
 
 
       // clinic_timing: this.fb.group({
@@ -143,7 +143,7 @@ export class ClinicSetupComponent {
       //   }, { validators: timeRangeValidator() })
       // }),
 
-      website_url: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      website_url: [''],
       clinic_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
 
       // fee_range: this.fb.group({
@@ -399,11 +399,11 @@ export class ClinicSetupComponent {
       //   formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
       //   formData.append('form_stage', this.currentStep.toString())
     } else if (this.currentStep === 2) {
-      formData.append('treatments', JSON.stringify(this.Form.value.treatments));
+      // formData.append('treatments', JSON.stringify(this.Form.value.treatments));
       formData.append('skin_types', JSON.stringify(this.Form.value.skin_types));
       // formData.append('severity_levels', JSON.stringify(this.Form.value.severity_levels));
       formData.append('surgeries', JSON.stringify(this.Form.value.surgeries));
-      formData.append('aestheticDevices', JSON.stringify(this.Form.value.devices));
+      // formData.append('aestheticDevices', JSON.stringify(this.Form.value.devices));
       formData.append('skin_Conditions', JSON.stringify(this.Form.value.skin_condition));
       formData.append('language', 'en');
       formData.append('zynq_user_id', this.userInfo.id);
@@ -491,10 +491,10 @@ export class ClinicSetupComponent {
           latitude: this.clinicPofile.location.latitude,
           longitude: this.clinicPofile.location.longitude,
           website_url: this.clinicPofile.website_url,
-          treatments: this.clinicPofile?.treatments.map((item: any) => item.treatment_id),
+          // treatments: this.clinicPofile?.treatments.map((item: any) => item.treatment_id),
           skin_types: this.clinicPofile?.skin_types.map((item: any) => item.skin_type_id),
           surgeries: this.clinicPofile?.surgeries_level.map((item: any) => item.surgery_id),
-          devices: this.clinicPofile?.aestheticDevices.map((item: any) => item.aesthetic_device_id),
+          // devices: this.clinicPofile?.aestheticDevices.map((item: any) => item.aesthetic_device_id),
           skin_condition: this.clinicPofile?.skin_Conditions.map((item: any) => item.skin_condition_id),
         });
       }

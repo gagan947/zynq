@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Product, ProductResponse } from '../../models/products';
+import { Product } from '../../models/products';
 import { Observable, tap } from 'rxjs';
 import { CommonService } from '../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';

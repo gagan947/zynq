@@ -17,10 +17,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class DrProfileComponent {
   doctorProfile$!: Observable<DoctorProfileResponse>;
-
+  collapseStates: boolean[] = [];
   constructor(private apiService: CommonService, private loaderService: LoaderService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
-   }
+  }
 
   ngOnInit() {
     this.loaderService.show();
@@ -100,5 +100,9 @@ export class DrProfileComponent {
   convertTime(time: any): any {
     const localTime = new Date(time).toLocaleString();
     return localTime
+  }
+
+  toggleCollapse(collapseStates: boolean[], index: number) {
+    collapseStates[index] = !collapseStates[index];
   }
 }

@@ -9,11 +9,11 @@ export const environment = {
       certificateUrl: 'https://getzynq.io:4000/',
       socketUrl: 'https://getzynq.io:4000/',
 
-      // Karan
+      // Krishna 
 
-      // apiUrl: 'http://192.168.29.101:4001/',
-      // certificateUrl: 'http://192.168.29.101:4001/',
-      // socketUrl: 'http://192.168.29.101:4001/',
+      // apiUrl: 'http://192.168.1.42:4000/',
+      // certificateUrl: 'http://192.168.1.42:4000/',
+      // socketUrl: 'http://192.168.1.42:4000/',
 
       // Faraz 
       // apiUrl: 'http://192.168.29.241:4000/',

@@ -18,6 +18,7 @@ export class SoloMyProfileComponent {
   center: google.maps.LatLngLiteral = { lat: 28.6139, lng: 77.2090 };
   zoom = 12;
   imagePreview: string = 'assets/img/np_pro.jpg';
+  collapseStates: boolean[] = [];
   constructor(private service: CommonService, private loaderService: LoaderService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
     this.getSoloDoctorProfile()
@@ -83,6 +84,10 @@ export class SoloMyProfileComponent {
   convertTime(time: any): any {
     const localTime = new Date(time).toLocaleString();
     return localTime
+  }
+
+  toggleCollapse(collapseStates: boolean[], index: number) {
+    collapseStates[index] = !collapseStates[index];
   }
 }
 

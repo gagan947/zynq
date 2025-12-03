@@ -76,7 +76,11 @@
                                 </td>
                                 <!-- <td>{{item.concerns || '#N/A'}}</td> -->
                                 <!-- <td>{{item.device_names || '#N/A'}}</td> -->
-                                <td>{{item.benefits_en || '#N/A'}}</td>
+                                <td>
+                                    <span style="white-space: normal;">
+                                        {{item.benefits_en || '#N/A'}}
+                                    </span>
+                                </td>
                                 <td>
                                     <span [style.color]="getTextColor(item.approval_status)"
                                         [ngStyle]="{'background-color': getBgColor(item.approval_status)}"
@@ -88,7 +92,8 @@
                                     <div class="d-flex align-items-center gap-2">
                                         <a routerLink="view-treatment" [queryParams]="{id: item.treatment_id}"><i
                                                 class="fa-regular fa-eye"></i></a>
-                                        @if(item.created_by_zynq_user_id == userId){
+                                        @if(item.created_by_zynq_user_id == userId && item.approval_status !==
+                                        'APPROVED'){
                                         <a routerLink="add-treatment" [queryParams]="{id: item.treatment_id}"
                                             class="ct_green_text"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <a (click)="opanDeleteModal(item.treatment_id)" class="ct_light_orange_text"

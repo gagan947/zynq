@@ -32,6 +32,24 @@
                                 </span>
                             </div>
                         </div>
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
+                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SubTreatments' | translate}}</h4>
+                            <div class="mb-4">
+                                <nz-select nzMode="multiple"
+                                    nzPlaceHolder="{{'Select' | translate}} {{'subTreatments' | translate}}"
+                                    class="form-control ct_input h-auto" formControlName="sub_treatments"
+                                    nzNotFoundContent="No subTreatments Found">
+                                    @for (item of subTreatments; track item) {
+                                    <nz-option [nzLabel]="item.name" [nzValue]="item.sub_treatment_id"></nz-option>
+                                    }
+                                </nz-select>
+                                <span class="ct_text_red mt-2"
+                                    *ngIf="Form.get('sub_treatments')?.invalid && Form.get('sub_treatments')?.touched">
+                                    {{'pleaseAddAtleast' | translate}} {{'subTreatments' | translate |
+                                    lowercase}}.
+                                </span>
+                            </div>
+                        </div>
                         <div class="row mt-3">
                             <div class="form-group mb-3">
                                 <label for="" class="mb-2">{{'TreatmentName' | translate}}</label>

@@ -278,7 +278,7 @@
 
                               </ul>
                         </div> -->
-                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
+                        <!-- <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentsProvided' | translate}} -</h4>
                               <div>
                                     <ul
@@ -290,7 +290,7 @@
                                           }
                                     </ul>
                               </div>
-                        </div>
+                        </div> -->
                         <!-- <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">Consultation Fee Range</h4>
                               <div class="row">
@@ -318,7 +318,7 @@
                                     </ul>
                               </div>
                         </div> -->
-
+                        @if(this.clinicProfile()?.skin_types && this.clinicProfile()?.skin_types!.length > 0){
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinTypeExpertise' | translate}} -</h4>
                               <div>
@@ -337,6 +337,8 @@
                                     </ul>
                               </div>
                         </div>
+                        }
+                        @if(this.clinicProfile()?.skin_Conditions && this.clinicProfile()?.skin_Conditions!.length > 0){
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinCondition' | translate}} -</h4>
                               <div>
@@ -355,6 +357,8 @@
                                     </ul>
                               </div>
                         </div>
+                        }
+                        @if(this.clinicProfile()?.surgeries_level && this.clinicProfile()?.surgeries_level!.length > 0){
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Surgeries' | translate}} -</h4>
                               <div>
@@ -373,7 +377,8 @@
                                     </ul>
                               </div>
                         </div>
-                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                        }
+                        <!-- <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Devices' | translate}} -</h4>
                               <div>
                                     <ul
@@ -390,7 +395,7 @@
                                           }
                                     </ul>
                               </div>
-                        </div>
+                        </div> -->
                   </div>
             </div>
       </div>

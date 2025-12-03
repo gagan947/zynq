@@ -404,7 +404,7 @@
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'WebsiteURL' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             <input type="text" class="form-control ct_input"
                                                                   placeholder="{{'Enter' | translate}} {{'WebsiteURL' | translate}}"
                                                                   formControlName="website_url">
@@ -512,7 +512,7 @@
                                     <div class=" ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
                                                 {{'ServicesExpertise' | translate}}</h5>
-                                          <div class="mb-4">
+                                          <!-- <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'TreatmentsProvided' |
                                                       translate}}
                                                       <span class="ct_red_text">*</span></label>
@@ -529,10 +529,10 @@
                                                       *ngIf="Form.get('treatments')?.invalid && Form.get('treatments')?.touched">
                                                       {{'pleaseAddAtleast' | translate}} {{'Treatment' | translate}}.
                                                 </span>
-                                          </div>
+                                          </div> -->
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'SkinTypeExpertise' |
-                                                      translate}}<span class="ct_red_text">*</span>
+                                                      translate}}
                                                 </label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'SkinType' | translate}}"
@@ -550,7 +550,7 @@
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'SkinCondition' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'SkinCondition' | translate}}"
                                                       class="form-control ct_input h-auto"
@@ -569,7 +569,7 @@
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'SurgeriesProvided' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'Surgeries' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="surgeries"
@@ -584,7 +584,7 @@
                                                       {{'pleaseAddAtleast' | translate}} {{'Surgery' | translate}}.
                                                 </span>
                                           </div>
-                                          <div class="mb-4">
+                                          <!-- <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'Devices' | translate}}<span
                                                             class="ct_red_text">*</span></label>
                                                 <nz-select nzMode="multiple"
@@ -600,7 +600,7 @@
                                                       *ngIf="Form.get('devices')?.invalid && Form.get('devices')?.touched">
                                                       {{'pleaseAddAtleast' | translate}} {{'Device' | translate}}.
                                                 </span>
-                                          </div>
+                                          </div> -->
                                     </div>
                                     <button type="button" name="next" (click)="onSubmit()"
                                           class="ct_black_btn float-end mx-1  ct_border_radius_10 "

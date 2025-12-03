@@ -243,9 +243,9 @@ img.ngx-ic-source-image {
     margin: 0px auto 17.667vh !important;
 }
 
-cdk-virtual-scroll-viewport {
+/* cdk-virtual-scroll-viewport {
     height: 300px !important;
-}
+} */
 
 .cutom_dropdown_list .ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state {
     display: none !important;

@@ -47,5 +47,5 @@ export interface DoctorProfile {
   completionPercentage: number;
   surgery: any[]
   skinCondition: any[]
-  aestheticDevices: any[]
+  devices: any[]
 }

@@ -95,8 +95,8 @@ export class LoginComponent {
 
   onCustomLangChange(lang: any) {
     this.selectedLang = lang;
-    // this.translate.use(lang);
-    // localStorage.setItem('lang', lang);
+    this.translate.use(lang);
+    localStorage.setItem('lang', lang);
   }
 }
 

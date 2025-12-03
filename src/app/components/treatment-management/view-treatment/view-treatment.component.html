@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4 pe-0">
-                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'concerns' | translate}}</h4>
+                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'concerns' | translate | titlecase}}</h4>
                         <div>
                             <ul
                                 class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -82,58 +82,21 @@
                         </div>
                     </div>
                     }
+                    @if(treatmentData?.sub_treatments.length > 0){
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SubTreatments' | translate}}</h4>
-                            @if(treatmentData?.created_by_zynq_user_id == userId){
-                            <a data-bs-toggle="modal" data-bs-target="#ct_add_sub_treatment_modal"
-                                class="ct_black_btn gap-2 ct_w_100_767">
-                                <i class="fa-solid fa-plus"></i>
-                                {{'Add' | translate}}
-                            </a>
-                            }
-                        </div>
-                        <div class="table-responsive mt-4 ct_custom_table">
-                            <table class="table" id="myTable">
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>{{ 'Name' | translate }}</th>
-                                        <th>{{ 'Action' | translate }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if(treatmentData?.sub_treatments?.length == 0){
-                                    <tr>
-                                        <td colspan="3" class="text-center">{{'NoDataFound' | translate}}</td>
-                                    </tr>
-                                    }
-                                    @for (item of treatmentData?.sub_treatments; track $index) {
-                                    <tr>
-                                        <td>{{$index + 1}}</td>
-                                        <td>
-                                            {{item.name}}
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                @if(treatmentData?.created_by_zynq_user_id == userId){
-                                                <a data-bs-toggle="modal" data-bs-target="#ct_add_sub_treatment_modal"
-                                                    (click)="openEditModal(item)"><i
-                                                        class="fa-solid fa-pen-to-square ct_green_text"></i></a>
-                                                <a (click)="opanDeleteModal(item.sub_treatment_id)"
-                                                    class="ct_light_orange_text" data-bs-toggle="modal"
-                                                    data-bs-target="#ct_delete_sub_treatment_modal">
-                                                    <i class="fa-solid fa-trash-can ct_light_orange_text"></i>
-                                                </a>
-                                                }
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
+                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SubTreatments' | translate}}</h4>
+                        <div>
+                            <ul
+                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                @for (item of treatmentData?.sub_treatments; track $index) {
+                                <li>
+                                    <button class="ct_select_badge">{{item.name}} </button>
+                                </li>
+                                }
+                            </ul>
                         </div>
                     </div>
+                    }
                 </form>
             </div>
         </div>
@@ -145,10 +108,6 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
-                <!-- <h5 class="modal-title ct_fs_24 ct_ff_QuattrocentoSans ct_fw_700 mb-0"
-                            id="ct_invite_doctor_modalLabel">
-                            Image Preview
-                        </h5> -->
                 <button type="button" class="btn-close ct_custom_close_img" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>

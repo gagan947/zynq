@@ -30,6 +30,7 @@ export class AddTreatmentComponent {
   selectedBenefits: string[] = [];
   selectedDevices: string[] = [];
   selectedTerms: string[] = [];
+  subTreatments: any[] = [];
   @ViewChild('benefitsInput') benefitsInput!: ElementRef<HTMLButtonElement>;
   @ViewChild('devicesInput') devicesInput!: ElementRef<HTMLButtonElement>;
   @ViewChild('tremsInput') tremsInput!: ElementRef<HTMLButtonElement>;
@@ -41,6 +42,7 @@ export class AddTreatmentComponent {
       full_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
       is_device: [true, [Validators.required]],
       concerns: [[], [Validators.required]],
+      sub_treatments: [[], [Validators.required]],
     });
 
     this.route.queryParams.subscribe(param => {
@@ -49,15 +51,22 @@ export class AddTreatmentComponent {
   }
 
   ngOnInit(): void {
-    this.getTreatments();
+    this.getConcerns();
+    this.getSubTreatments();
     if (this.treatmentId) {
       this.getTreatmentById();
     }
   }
 
-  getTreatments() {
-    this.service.get<TreatmentResponse>(`doctor/get-allconcerns`).subscribe((res) => {
+  getConcerns() {
+    this.service.get<any>(`doctor/get-allconcerns`).subscribe((res) => {
       this.concerns = res.data
+    });
+  }
+
+  getSubTreatments() {
+    this.service.get<any>(`doctor/get-all-sub-treatments`).subscribe((res) => {
+      this.subTreatments = res.data.ALL
     });
   }
 
@@ -123,6 +132,7 @@ export class AddTreatmentComponent {
       is_device: this.Form.value.is_device,
       concerns: this.Form.value.concerns || [],
       like_wise_terms: this.selectedTerms || [],
+      sub_treatments: this.Form.value.sub_treatments || [],
     };
     if (this.Form.value.is_device) {
       payload.device_name = this.selectedDevices || [];
@@ -162,7 +172,10 @@ export class AddTreatmentComponent {
           full_description: this.treatmetData?.description_en,
           is_device: this.treatmetData?.is_device == 1 ? true : false,
         });
-        this.Form.patchValue({ concerns: this.treatmetData?.concerns?.map((item: any) => item.concern_id) || [] });
+        this.Form.patchValue({
+          concerns: this.treatmetData?.concerns?.map((item: any) => item.concern_id) || [],
+          sub_treatments: this.treatmetData?.sub_treatments?.map((item: any) => item.sub_treatment_id) || [],
+        });
         this.selectedDevices = this.treatmetData?.device_name?.split(',') || [];
         this.selectedTerms = this.treatmetData?.like_wise_terms?.split(',') || [];
         this.selectedBenefits = this.treatmetData?.benefits_en?.split(',') || [];

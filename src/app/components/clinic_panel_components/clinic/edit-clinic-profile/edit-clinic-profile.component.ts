@@ -46,7 +46,7 @@ export class EditClinicProfileComponent {
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden]
-    steps = [
+  steps = [
     { id: 'Clinic', label: 'ClinicDetails' },
     { id: 'Contact', label: 'ContactDetails' },
     { id: 'Expertise', label: 'Expertise' }
@@ -56,7 +56,7 @@ export class EditClinicProfileComponent {
     ['clinic_name', 'org_number', 'zynq_user_id', 'clinic_description', 'logo', 'ivo_registration_number', 'hsa_id'],
     ['email', 'mobile_number', 'street_address', 'city', 'state', 'zip_code', 'latitude', 'longitude', 'website_url'],
     // ['clinic_timing'],
-    ['treatments', 'equipments', 'skin_types', 'severity_levels', 'fee_range', 'language']
+    ['skin_types', 'skin_condition', 'surgeries']
   ];
   loading: boolean = false
   constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, public location: Location, private translate: TranslateService) {
@@ -71,11 +71,11 @@ export class EditClinicProfileComponent {
 
   ngOnInit(): void {
     this.inItForm();
-    this.getTreatments();
+    // this.getTreatments();
     this.getSkinTypes();
     this.getSkinConditions();
     this.getSurgeries();
-    this.getDevices();
+    // this.getDevices();
   }
 
   inItForm() {
@@ -94,12 +94,12 @@ export class EditClinicProfileComponent {
       latitude: [''],
       longitude: [''],
 
-      treatments: [[], [Validators.required]],
-      skin_types: [[], [Validators.required]],
+      // treatments: [[], [Validators.required]],
+      skin_types: [[]],
       // severity_levels: [[], [Validators.required]],
-      skin_condition: [[], [Validators.required]],
-      surgeries: [[], [Validators.required]],
-      devices: [[], [Validators.required]],
+      skin_condition: [[]],
+      surgeries: [[]],
+      // devices: [[], [Validators.required]],
 
       // clinic_timing: this.fb.group({
       //   monday: this.fb.group({
@@ -139,7 +139,7 @@ export class EditClinicProfileComponent {
       //   }, { validators: timeRangeValidator() })
       // }),
 
-      website_url: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      website_url: [''],
       clinic_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
 
       // fee_range: this.fb.group({
@@ -389,10 +389,10 @@ export class EditClinicProfileComponent {
       //   formData.append('clinic_timing', JSON.stringify(this.Form.value.clinic_timing))
       //   formData.append('zynq_user_id', this.userInfo.id);
     } else if (this.currentStep === 2 && this.Form.valid) {
-      formData.append('treatments', JSON.stringify(this.Form.value.treatments));
+      // formData.append('treatments', JSON.stringify(this.Form.value.treatments));
       formData.append('skin_types', JSON.stringify(this.Form.value.skin_types));
       formData.append('surgeries', JSON.stringify(this.Form.value.surgeries));
-      formData.append('aestheticDevices', JSON.stringify(this.Form.value.devices));
+      // formData.append('aestheticDevices', JSON.stringify(this.Form.value.devices));
       formData.append('skin_Conditions', JSON.stringify(this.Form.value.skin_condition));
       formData.append('language', 'en');
       formData.append('zynq_user_id', this.userInfo.id);
@@ -439,10 +439,10 @@ export class EditClinicProfileComponent {
       latitude: this.clinicProfile()?.location.latitude,
       longitude: this.clinicProfile()?.location.longitude,
       website_url: this.clinicProfile()?.website_url,
-      treatments: this.clinicProfile()?.treatments.map((item: any) => item.treatment_id),
+      // treatments: this.clinicProfile()?.treatments.map((item: any) => item.treatment_id),
       skin_types: this.clinicProfile()?.skin_types.map((item: any) => item.skin_type_id),
       surgeries: this.clinicProfile()?.surgeries_level.map((item: any) => item.surgery_id),
-      devices: this.clinicProfile()?.aestheticDevices.map((item: any) => item.aesthetic_device_id),
+      // devices: this.clinicProfile()?.aestheticDevices.map((item: any) => item.aesthetic_device_id),
       skin_condition: this.clinicProfile()?.skin_Conditions.map((item: any) => item.skin_condition_id),
     });
   }

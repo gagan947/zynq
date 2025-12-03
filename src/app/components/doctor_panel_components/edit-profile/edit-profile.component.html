@@ -450,7 +450,8 @@
                                                       <!-- <input type="text" class="form-control ct_input"
                                                             placeholder="Select Treatment"
                                                             (focus)="dropdownOpen = true" /> -->
-                                                      <div class="ct_all_selected_tag">
+                                                      <div class="ct_all_selected_tag"
+                                                            (click)="dropdownOpen = true; searchInput.focus()">
                                                             <ul class="mb-0">
                                                                   @for (item of selectedTreatments; track $index) {
                                                                   <li>
@@ -459,7 +460,7 @@
                                                                               0 ? '( +' + item.sub_treatments.length + '
                                                                               more )'
                                                                               : '')}} <small
-                                                                                    (click)="removeTreatment( $index, item.id)">X</small></span>
+                                                                                    (click)="removeTreatment( $index, item.id) ; $event.stopPropagation()">X</small></span>
                                                                   </li>
                                                                   }
                                                                   <li>
@@ -496,7 +497,8 @@
                                                                                           {{ t.get('name')?.value }}
                                                                                     </label>
                                                                               </div>
-                                                                              @if(t.get('selected')?.value){
+                                                                              @if(t.get('selected')?.value &&
+                                                                              subTreatments(i).controls.length == 0){
                                                                               <div class="w-25">
                                                                                     <input type="number"
                                                                                           class="form-control"
@@ -535,8 +537,7 @@
                                                                                           <input type="number"
                                                                                                 class="form-control"
                                                                                                 placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
-                                                                                                [formControl]="getChildControl(i, j, 'price')"
-                                                                                                (input)="updateParentTotal(i)" />
+                                                                                                [formControl]="getChildControl(i, j, 'price')" />
 
                                                                                           <small class="text-danger"
                                                                                                 *ngIf="c.get('price')?.touched && c.get('price')?.hasError('required')">
@@ -556,8 +557,8 @@
 
                                           </div>
                                           <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'Devices' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'Devices' |
+                                                      translate}}</label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'Devices' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="devices"
@@ -574,7 +575,7 @@
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'SkinTypeExpertise' |
-                                                      translate}}<span class="ct_red_text">*</span>
+                                                      translate}}
                                                 </label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'SkinType' | translate}}"
@@ -592,7 +593,7 @@
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'SkinCondition' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'SkinCondition' | translate}}"
                                                       class="form-control ct_input h-auto"
@@ -611,7 +612,7 @@
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'SurgeriesProvided' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'Surgeries' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="surgeries"
