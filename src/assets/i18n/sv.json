@@ -292,5 +292,7 @@
       "SubTreatments": "Underbehandlingar",
       "LikeWiseTerms": "Liknande villkor",
       "SubTreatmentName": "Underbehandlingsnamn",
-      "areYouSureYouWantToDeleteThisSubTreatment": "Är du säker på att du vill radera denna underbehandling?"
+      "areYouSureYouWantToDeleteThisSubTreatment": "Är du säker på att du vill radera denna underbehandling?",
+      "LoadingTreatments": "Laddar behandlingar",
+      "NoTreatmentsFound": "Inga behandlingar hittades"
 }

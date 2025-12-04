@@ -1,32 +1,23 @@
 export const environment = {
       production: false,
-      // apiUrl: 'https://51.21.123.99:4000/',
-      // certificateUrl: 'https://51.21.123.99:4000/',
-      // socketUrl: 'https://51.21.123.99:4000/',
-
-
       apiUrl: 'https://getzynq.io:4000/',
       certificateUrl: 'https://getzynq.io:4000/',
       socketUrl: 'https://getzynq.io:4000/',
 
       // Krishna 
-
-      // apiUrl: 'http://192.168.1.42:4000/',
-      // certificateUrl: 'http://192.168.1.42:4000/',
-      // socketUrl: 'http://192.168.1.42:4000/',
+      // apiUrl: 'http://192.168.1.43:4000/',
+      // certificateUrl: 'http://192.168.1.43:4000/',
+      // socketUrl: 'http://192.168.1.43:4000/',
 
       // Faraz 
       // apiUrl: 'http://192.168.29.241:4000/',
       // certificateUrl: 'http://192.168.29.241:4000/',
       // socketUrl: 'http://192.168.29.241:4000/',
 
-      // Gaurav
-      // apiUrl: 'http://192.168.29.39:4000/',
-      // certificateUrl: 'http://192.168.29.39:4000/',
-      // socketUrl: 'http://192.168.29.39:4000/',
-
-
-      // Testing
+      // Rohan
+      // apiUrl: 'http://192.168.1.57:4000/',
+      // certificateUrl: 'http://192.168.1.57:4000/',
+      // socketUrl: 'http://192.168.1.57:4000/',
 
       firebaseConfig: {
             apiKey: "AIzaSyB1Ko8WHeXDxdYAOjisHn8qVZOIkGrxudE",

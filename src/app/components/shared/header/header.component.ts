@@ -12,11 +12,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { SuggestTreatmentComponent } from "../../appointments/suggest-treatment/suggest-treatment.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, TranslateModule, CommonModule],
+  imports: [RouterLink, TranslateModule, CommonModule, SuggestTreatmentComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })

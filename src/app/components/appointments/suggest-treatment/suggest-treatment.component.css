@@ -1,0 +1,4 @@
+.ct_custom_check.form-check-input:checked {
+    background-color: var(--black);
+    border-color: var(--black);
+}

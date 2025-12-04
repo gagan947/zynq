@@ -4,8 +4,6 @@ export const environment = {
       certificateUrl: 'https://getzynq.io:4000/',
       socketUrl: 'https://getzynq.io:4000/',
 
-      // Testing
-
       firebaseConfig: {
             apiKey: "AIzaSyB1Ko8WHeXDxdYAOjisHn8qVZOIkGrxudE",
             authDomain: "zynq-53745.firebaseapp.com",

@@ -295,5 +295,7 @@
       "SubTreatments": "Sub Treatments",
       "LikeWiseTerms": "Like Wise Terms",
       "SubTreatmentName": "Sub Treatment Name",
-      "areYouSureYouWantToDeleteThisSubTreatment": "Are you sure you want to delete this sub treatment?"
+      "areYouSureYouWantToDeleteThisSubTreatment": "Are you sure you want to delete this sub treatment?",
+      "LoadingTreatments": "Loading Treatments",
+      "NoTreatmentsFound": "No Treatments Found"
 }
