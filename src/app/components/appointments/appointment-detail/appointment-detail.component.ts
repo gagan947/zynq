@@ -47,6 +47,7 @@ export class AppointmentDetailComponent {
     const targetUser = {
       userID: this.appointmentData.user_id.replace(/-/g, ''), userName: this.appointmentData.full_name,
     };
+    this.service._appointmentData.set(this.appointmentData);
     this.zegoService.sendCall(targetUser, appointment_id);
   }
 

@@ -44,14 +44,14 @@
                                                 id="pills-Upcoming-tab" data-bs-toggle="pill"
                                                 data-bs-target="#pills-Upcoming" type="button" role="tab"
                                                 aria-controls="pills-Upcoming" aria-selected="true"
-                                                (click)="filterBy('admin')">Admin</button>
+                                                (click)="filterBy('admin')">{{'Admin' | translate}}</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                           <button class="nav-link" [ngClass]="{'active': activeTab == 'clinic'}"
                                                 id="pills-Completed-tab" data-bs-toggle="pill"
                                                 data-bs-target="#pills-Completed" type="button" role="tab"
                                                 aria-controls="pills-Completed" aria-selected="false"
-                                                (click)="filterBy('clinic')">Clinic</button>
+                                                (click)="filterBy('clinic')"> {{'Clinic' | translate}}</button>
                                     </li>
                               </ul>
                               }
@@ -63,14 +63,14 @@
                                                 id="pills-Upcoming-tab" data-bs-toggle="pill"
                                                 data-bs-target="#pills-Upcoming" type="button" role="tab"
                                                 aria-controls="pills-Upcoming" aria-selected="true"
-                                                (click)="filterBy('me')">Your Tickets</button>
+                                                (click)="filterBy('me')">{{'YourTickets' | translate}}</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                           <button class="nav-link" [ngClass]="{'active': activeTab == 'doctor'}"
                                                 id="pills-Completed-tab" data-bs-toggle="pill"
                                                 data-bs-target="#pills-Completed" type="button" role="tab"
                                                 aria-controls="pills-Completed" aria-selected="false"
-                                                (click)="filterBy('doctor')">Tickets by Dr.</button>
+                                                (click)="filterBy('doctor')">{{'TicketsByDr' | translate}}</button>
                                     </li>
                               </ul>
                               }

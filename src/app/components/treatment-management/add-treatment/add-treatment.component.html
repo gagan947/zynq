@@ -18,7 +18,7 @@
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Concerns' | translate}}</h4>
                             <div class="mb-4">
                                 <nz-select nzMode="multiple"
-                                    nzPlaceHolder="{{'Select' | translate}} {{'concerns' | translate}}"
+                                    nzPlaceHolder="{{'Select' | translate}} {{'Concerns' | translate | titlecase}}"
                                     class="form-control ct_input h-auto" formControlName="concerns"
                                     nzNotFoundContent="No concerns Found">
                                     @for (item of concerns; track item) {
@@ -36,7 +36,7 @@
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SubTreatments' | translate}}</h4>
                             <div class="mb-4">
                                 <nz-select nzMode="multiple"
-                                    nzPlaceHolder="{{'Select' | translate}} {{'subTreatments' | translate}}"
+                                    nzPlaceHolder="{{'Select' | translate}} {{'SubTreatments' | translate}}"
                                     class="form-control ct_input h-auto" formControlName="sub_treatments"
                                     nzNotFoundContent="No subTreatments Found">
                                     @for (item of subTreatments; track item) {
@@ -45,7 +45,7 @@
                                 </nz-select>
                                 <span class="ct_text_red mt-2"
                                     *ngIf="Form.get('sub_treatments')?.invalid && Form.get('sub_treatments')?.touched">
-                                    {{'pleaseAddAtleast' | translate}} {{'subTreatments' | translate |
+                                    {{'pleaseAddAtleast' | translate}} {{'SubTreatments' | translate |
                                     lowercase}}.
                                 </span>
                             </div>
@@ -144,7 +144,7 @@
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4"
                             *ngIf="Form.get('is_device')?.value">
-                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Device Name' | translate}}</h4>
+                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'DeviceName' | translate}}</h4>
                             <div>
                                 <ul
                                     class="d-flex align-items-center gap-3 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
-                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Likewise Terms' | translate}}</h4>
+                            <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'LikewiseTerms' | translate}}</h4>
                             <div>
                                 <ul
                                     class="d-flex align-items-center gap-3 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
@@ -188,7 +188,7 @@
                                 </ul>
                                 <div class="position-relative mt-2">
                                     <input type="text" class="form-control ct_input ct_pe_122"
-                                        placeholder="{{'TypeToAdd' | translate}} {{'Likewise Terms' | translate}}..."
+                                        placeholder="{{'TypeToAdd' | translate}} {{'LikewiseTerms' | translate}}..."
                                         #tremsInput>
                                     <button type="button" class="ct_black_btn ct_btn_position_right"
                                         (click)="addTerms(tremsInput.value)">{{'Add' |
@@ -196,7 +196,7 @@
                                 </div>
                                 <span *ngIf="selectedTerms.length == 0 && submitted">
                                     <span class="ct_text_red mt-2">
-                                        {{'Likewise terms' | translate}} {{'areRequired' | translate}}.
+                                        {{'LikewiseTerms' | translate}} {{'areRequired' | translate}}.
                                     </span>
                                 </span>
                             </div>

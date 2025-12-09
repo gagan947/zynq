@@ -46,7 +46,8 @@ export class LoginComponent {
       let formData = {
         email: this.Form.value.email,
         password: this.Form.value.password,
-        fcm_token: localStorage.getItem('fcm_token') || ''
+        fcm_token: localStorage.getItem('fcm_token') || '',
+        language: this.selectedLang || 'en',
       }
 
       this.srevice.post<LoginResponse, any>('webuser/login', formData).subscribe({

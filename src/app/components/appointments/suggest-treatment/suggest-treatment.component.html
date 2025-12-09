@@ -40,7 +40,7 @@
                     </td>
                     <td class="border p-2">{{ item.name }}</td>
                     <td class="border p-2" style="width: 200px;">
-                        {{ item.min_price | currency: 'SEK ' }}
+                        {{ item.price | currency: 'SEK ' }}
                     </td>
                     <td class="border p-2 align-middle text-center" style="width:40px">
                         @if(item.sub_treatments && item.sub_treatments.length > 0){

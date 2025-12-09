@@ -19,7 +19,7 @@ export class EarningAnalyticsComponent {
   data: any
   constructor(private service: CommonService, private toster: NzMessageService, private loader: LoaderService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
-   }
+  }
 
   ngOnInit() {
     this.getData();
@@ -45,13 +45,13 @@ export class EarningAnalyticsComponent {
     if (this.status === 'Appointmens') {
       table = document.getElementById("myTable2") as HTMLTableElement;
       if (this.data.appointments.length == 0) {
-        this.toster.warning("No data found to export!");
+        this.toster.warning(this.translate.instant("No data found to export!"));
         return;
       }
     } else {
       table = document.getElementById("myTable") as HTMLTableElement;
       if (this.data.products.length == 0) {
-        this.toster.warning("No data found to export!");
+        this.toster.warning(this.translate.instant("No data found to export!"));
         return;
       }
     }

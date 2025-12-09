@@ -36,7 +36,6 @@ export class SoloProfileSetupComponent {
   ExpertiseForm!: FormGroup
   availabilityForm!: FormGroup;
   treatments: Treatment[] = []
-  skinConditions: any[] = []
   surgeries: any[] = []
   devices: any[] = []
   skintypes: SkinType[] = []
@@ -97,7 +96,6 @@ export class SoloProfileSetupComponent {
     this.inItForm();
     this.getTreatments();
     this.getSkinTypes();
-    this.getSkinConditions();
     this.getSurgeries();
     // this.getDevices();
     this.getCertificaTeypes();
@@ -113,8 +111,6 @@ export class SoloProfileSetupComponent {
     this.besicInfoForm = this.fb.group({
       name: ['', [Validators.required, NoWhitespaceDirective.validate]],
       clinic_name: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      age: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$'), this.integerValidator]],
-      gender: ['', Validators.required],
       org_number: [''],
       // ivo_registration_number: [''],
       // hsa_id: [''],
@@ -128,7 +124,6 @@ export class SoloProfileSetupComponent {
       mobile_number: ['', [Validators.required]],
       street_address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       city: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      state: ['', [Validators.required, NoWhitespaceDirective.validate]],
       zip_code: ['', [Validators.required, NoWhitespaceDirective.validate]],
       website_url: [null],
       latitude: [''],
@@ -138,7 +133,6 @@ export class SoloProfileSetupComponent {
     this.ExpertiseForm = this.fb.group({
       treatments: this.fb.array([]),
       skin_types: [[]],
-      skin_condition: [[]],
       surgeries: [[]],
       devices: [[]],
     })
@@ -537,7 +531,7 @@ export class SoloProfileSetupComponent {
   };
 
   getTreatments() {
-    this.service.get<TreatmentResponse>(`clinic/get-treatments`).pipe(
+    this.service.get<TreatmentResponse>(`clinic/get-treatments?language=${localStorage.getItem('lang')}`).pipe(
       takeUntil(this.destroy$)
     ).subscribe((res) => {
       this.treatments = res.data
@@ -551,14 +545,6 @@ export class SoloProfileSetupComponent {
       takeUntil(this.destroy$)
     ).subscribe((res) => {
       this.skintypes = res.data
-    });
-  }
-
-  getSkinConditions() {
-    this.service.get<any>(`clinic/get-SkinConditions`).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((res) => {
-      this.skinConditions = res.data
     });
   }
 
@@ -662,8 +648,6 @@ export class SoloProfileSetupComponent {
     this.loading = true
     let formData = new FormData();
     formData.append('name', this.besicInfoForm.get('name')?.value);
-    formData.append('age', this.besicInfoForm.get('age')?.value);
-    formData.append('gender', this.besicInfoForm.get('gender')?.value);
     formData.append('clinic_name', this.besicInfoForm.get('clinic_name')?.value || '');
     formData.append('clinic_description', this.besicInfoForm.get('clinic_description')?.value || '');
     formData.append('language', 'en');
@@ -755,34 +739,6 @@ export class SoloProfileSetupComponent {
   }
 
   onSubmitProfessional() {
-    const isValidEdu = this.education.every(c =>
-      c.institution?.trim() &&
-      c.degree_name?.trim() &&
-      c.start_year &&
-      (
-        c.isOngoing ||
-        (c.end_year && c.end_year > c.start_year)
-      )
-    );
-
-    if (!isValidEdu) {
-      this.toster.warning('Please enter valid education details. End date must be after start date.');
-      return;
-    }
-    const isValidExp = this.experience.every(c =>
-      c.organisation_name?.trim() &&
-      c.designation?.trim() &&
-      c.start_date &&
-      (
-        c.isCurrent ||
-        (c.end_date && c.end_date > c.start_date)
-      )
-    );
-    if (!isValidExp) {
-      this.toster.warning('Please enter valid experience details. End date must be after start date.');
-      return;
-    }
-
     this.loading = true
     const formData = new FormData();
     const education = this.education.map(edu => ({
@@ -822,7 +778,6 @@ export class SoloProfileSetupComponent {
         this.loading = false
       }
     });
-
   };
 
   onExpertiseSubmit() {
@@ -831,7 +786,6 @@ export class SoloProfileSetupComponent {
       this.toster.warning('Please enter price for the treatment and sub treatments');
       return;
     }
-
 
     if (this.ExpertiseForm.invalid) {
       this.ExpertiseForm.markAllAsTouched();
@@ -851,7 +805,6 @@ export class SoloProfileSetupComponent {
     let formData: any = {
       treatments: selectedTreatments,
       skin_type_ids: this.ExpertiseForm.value.skin_types.join(','),
-      skin_condition_ids: this.ExpertiseForm.value.skin_condition.join(','),
       surgery_ids: this.ExpertiseForm.value.surgeries.join(','),
       device_ids: this.ExpertiseForm.value.devices.join(','),
     };
@@ -938,11 +891,6 @@ export class SoloProfileSetupComponent {
     }
   }
 
-  integerValidator(control: AbstractControl) {
-    const value = control.value;
-    return Number.isInteger(Number(value)) ? null : { notInteger: true };
-  }
-
   searchLocation(event: any) {
     this.service.get<any>(`clinic/search-location?input=${event.target.value.trim()}`).pipe(
       takeUntil(this.destroy$)
@@ -1001,7 +949,6 @@ export class SoloProfileSetupComponent {
       this.deleteCertificate(id)
     }
   }
-
 
   onProductImage(event: any) {
     const files = event.target.files;
@@ -1077,13 +1024,22 @@ export class SoloProfileSetupComponent {
               })
               this.besicInfoForm.patchValue({
                 name: data.name,
-                age: data.age,
-                gender: data.gender,
                 clinic_name: data.clinic.clinic_name,
                 clinic_description: data.clinic.clinic_description,
                 // ivo_registration_number: data.clinic.ivo_registration_number,
                 org_number: data.clinic.org_number
               })
+              this.contactForm.patchValue({
+                mobile_number: data.clinic.mobile_number,
+                city: data.clinic.location.city,
+                state: data.clinic.location.state,
+                street_address: data.clinic.location.street_address,
+                zip_code: data.clinic.location.zip_code,
+                latitude: data.clinic.location.latitude,
+                longitude: data.clinic.location.longitude,
+                website_url: data.clinic.website_url
+              })
+              this.selectedLocation = data?.clinic.address
               break;
 
             case 2:
@@ -1154,7 +1110,6 @@ export class SoloProfileSetupComponent {
                 skin_types: data.clinic?.skin_types.map((item: any) => item.skin_type_id),
                 surgeries: data.clinic?.surgeries_level.map((item: any) => item.surgery_id),
                 devices: data.clinic?.clinicDevices.map((item: any) => item.device_id),
-                skin_condition: data.clinic?.skin_Conditions.map((item: any) => item.skin_condition_id),
               })
               break;
 

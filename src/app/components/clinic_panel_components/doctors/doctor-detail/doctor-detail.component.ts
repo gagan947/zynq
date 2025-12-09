@@ -5,18 +5,21 @@ import { DoctorExperience, DoctorTreatment } from '../../../../models/doctors';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-doctor-detail',
   standalone: true,
-  imports: [CommonModule, NzRateModule, FormsModule],
+  imports: [CommonModule, NzRateModule, FormsModule, TranslateModule],
   templateUrl: './doctor-detail.component.html',
   styleUrl: './doctor-detail.component.css'
 })
 export class DoctorDetailComponent {
   doctorDetail = this.service._doctorDetail;
   imagePreview: string = 'assets/img/np_pro.jpg';
-  constructor(private service: CommonService, public location: Location) {
+  todayDate = new Date().toISOString();
+  constructor(private service: CommonService, public location: Location, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.doctorDetail();
     });
@@ -47,8 +50,8 @@ export class DoctorDetailComponent {
       diffMonths: 0
     };
     experience.forEach((item: DoctorExperience) => {
-      totalExperience.diffYears += this.getCount(item.start_date, item.end_date).diffYears;
-      totalExperience.diffMonths += this.getCount(item.start_date, item.end_date).diffMonths;
+      totalExperience.diffYears += this.getCount(item.start_date, item.end_date ? item.end_date : new Date().toISOString()).diffYears;
+      totalExperience.diffMonths += this.getCount(item.start_date, item.end_date ? item.end_date : new Date().toISOString()).diffMonths;
     });
     return totalExperience;
   }

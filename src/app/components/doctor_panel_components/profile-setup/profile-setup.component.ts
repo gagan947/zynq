@@ -58,7 +58,6 @@ export class ProfileSetupComponent {
   skintypes: SkinType[] = []
   date = null;
   maxDate: Date = new Date();
-  skinConditions: any[] = []
   surgeries: any[] = []
   devices: any[] = []
   loading: boolean = false;
@@ -68,6 +67,7 @@ export class ProfileSetupComponent {
   preferredCountries: CountryISO[] = [CountryISO.Sweden];
   dropdownOpen: boolean = false;
   selectedTreatments: any[] = [];
+  submitted: boolean = false;
   constructor(private fb: FormBuilder, private http: HttpClient, private apiService: CommonService, private router: Router, private i18n: NzI18nService, private toster: NzMessageService, private auth: AuthService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
   }
@@ -78,8 +78,6 @@ export class ProfileSetupComponent {
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
       phone: ['', [Validators.required]],
-      age: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$'), this.integerValidator]],
-      gender: ['', Validators.required],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       biography: ['']
     });
@@ -87,7 +85,6 @@ export class ProfileSetupComponent {
     this.Form = this.fb.group({
       treatments: this.fb.array([]),
       skin_types: [[]],
-      skin_condition: [[]],
       surgeries: [[]],
       devices: [[]],
     })
@@ -100,7 +97,6 @@ export class ProfileSetupComponent {
 
     this.getCertificaTeypes();
     this.getSkinTypes();
-    this.getSkinConditions();
     this.getSurgeries();
     // this.getDevices();
     this.getTreatments();
@@ -388,8 +384,6 @@ export class ProfileSetupComponent {
       this.personalForm.patchValue({
         fullName: data.name,
         phone: data.phone,
-        age: data.age,
-        gender: data.gender,
         address: data.address,
         biography: data.biography
       });
@@ -429,7 +423,6 @@ export class ProfileSetupComponent {
         skin_types: data?.skinTypes.map((item: any) => item.skin_type_id),
         surgeries: data?.surgery.map((item: any) => item.surgery_id),
         devices: data?.devices.map((item: any) => item.device_id),
-        skin_condition: data?.skinCondition.map((item: any) => item.skin_condition_id),
       })
 
       if (data.education.length > 0) {
@@ -591,36 +584,6 @@ export class ProfileSetupComponent {
       this.onSubmitPersonal();
     };
     if (this.currentStep == 1) {
-
-      const isValidEdu = this.education.every(c =>
-        c.institution?.trim() &&
-        c.degree_name?.trim() &&
-        c.start_year &&
-        (
-          c.isOngoing ||
-          (c.end_year && c.end_year > c.start_year)
-        )
-      );
-
-      if (!isValidEdu) {
-        this.toster.warning('Please enter valid education details. End date must be after start date.');
-        return;
-      }
-
-      const isValidExp = this.experience.every(c =>
-        c.organisation_name?.trim() &&
-        c.designation?.trim() &&
-        c.start_date &&
-        (
-          c.isCurrent ||
-          (c.end_date && c.end_date > c.start_date)
-        )
-      );
-      if (!isValidExp) {
-        this.toster.warning('Please enter valid experience details. End date must be after start date.');
-
-        return;
-      }
       this.onSubmitProfessional()
     };
     if (this.currentStep == 2) {
@@ -650,8 +613,6 @@ export class ProfileSetupComponent {
     const formData = new FormData();
     formData.append('name', this.personalForm.value.fullName);
     formData.append('phone', this.personalForm.value.phone.e164Number);
-    formData.append('age', this.personalForm.value.age.toString());
-    formData.append('gender', this.personalForm.value.gender);
     formData.append('address', this.personalForm.value.address);
     formData.append('biography', this.personalForm.value.biography);
 
@@ -670,19 +631,18 @@ export class ProfileSetupComponent {
 
   };
   onSubmitProfessional() {
-
     const formData = new FormData();
     const education = this.education.map(edu => ({
-      institute: edu.institution.trim(),
-      degree: edu.degree_name.trim(),
+      institute: edu.institution?.trim(),
+      degree: edu.degree_name?.trim(),
       start_year: edu.start_year,
       end_year: edu.end_year
     }));
     const experience = this.experience.map(exp => ({
-      organization: exp.organisation_name.trim(),
+      organization: exp.organisation_name?.trim(),
       start_date: exp.start_date,
       end_date: exp.end_date,
-      designation: exp.designation.trim()
+      designation: exp.designation?.trim()
     }))
     formData.append('education', JSON.stringify(education));
     formData.append('experience', JSON.stringify(experience));
@@ -729,7 +689,6 @@ export class ProfileSetupComponent {
     let formData = {
       treatments: selectedTreatments,
       skin_type_ids: this.Form.value.skin_types.join(','),
-      skin_condition_ids: this.Form.value.skin_condition.join(','),
       surgery_ids: this.Form.value.surgeries.join(','),
       device_ids: this.Form.value.devices.length > 0 ? this.Form.value.devices.join(',') : "",
     }
@@ -874,7 +833,7 @@ export class ProfileSetupComponent {
   };
 
   getTreatments() {
-    this.apiService.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
+    this.apiService.get<TreatmentResponse>(`clinic/get-treatments?language=${localStorage.getItem('lang') || 'en'}`).subscribe((res) => {
       this.treatments = res.data;
       this.initTreatments(this.treatments);
     });
@@ -883,12 +842,6 @@ export class ProfileSetupComponent {
   getSkinTypes() {
     this.apiService.get<SkinTypeResponse>(`clinic/get-skin-types`).subscribe((res) => {
       this.skintypes = res.data
-    });
-  }
-
-  getSkinConditions() {
-    this.apiService.get<any>(`clinic/get-SkinConditions`).subscribe((res) => {
-      this.skinConditions = res.data
     });
   }
 
@@ -919,6 +872,23 @@ export class ProfileSetupComponent {
       if (res.success == true) {
       }
     });
+  }
+
+  locations: any[] = [];
+  selectedLocation: any = null;
+
+  searchLocation(event: any) {
+    this.apiService.get<any>(`clinic/search-location?input=${event.target.value.trim()}`).subscribe((res) => {
+      this.locations = res.data
+    })
+  }
+
+  selectLocation(location: any) {
+    this.selectedLocation = location;
+    this.personalForm.patchValue({
+      address: location
+    })
+    this.locations = [];
   }
 
 }

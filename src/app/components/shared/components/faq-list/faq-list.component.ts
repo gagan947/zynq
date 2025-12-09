@@ -88,7 +88,7 @@ export class FaqListComponent {
   exportTableToCSV() {
     const table = document.getElementById("myTable") as HTMLTableElement;
     if (this.faqList.length == 0) {
-      this.toster.warning("No data found to export!");
+      this.toster.warning(this.translate.instant("No data found to export!"));
       return;
     }
 

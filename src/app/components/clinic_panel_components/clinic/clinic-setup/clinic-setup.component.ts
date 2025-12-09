@@ -28,7 +28,6 @@ export class ClinicSetupComponent {
   Form!: FormGroup
   treatments: Treatment[] = []
   skintypes: SkinType[] = []
-  skinConditions: any[] = []
   surgeries: any[] = []
   devices: any[] = []
   productImages: File[] = [];
@@ -76,7 +75,6 @@ export class ClinicSetupComponent {
     this.inItForm();
     // this.getTreatments();
     this.getSkinTypes();
-    this.getSkinConditions();
     this.getSurgeries();
     // this.getDevices();
     this.getProfile();
@@ -93,7 +91,6 @@ export class ClinicSetupComponent {
       mobile_number: ['', [Validators.required]],
       street_address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       city: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      state: ['', [Validators.required, NoWhitespaceDirective.validate]],
       zip_code: ['', [Validators.required, NoWhitespaceDirective.validate]],
       latitude: [''],
       longitude: [''],
@@ -184,7 +181,7 @@ export class ClinicSetupComponent {
   }
 
   getTreatments() {
-    this.service.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
+    this.service.get<TreatmentResponse>(`clinic/get-treatments?language=${localStorage.getItem('lang')}`).subscribe((res) => {
       this.treatments = res.data
     });
   }
@@ -192,12 +189,6 @@ export class ClinicSetupComponent {
   getSkinTypes() {
     this.service.get<SkinTypeResponse>(`clinic/get-skin-types`).subscribe((res) => {
       this.skintypes = res.data
-    });
-  }
-
-  getSkinConditions() {
-    this.service.get<any>(`clinic/get-SkinConditions`).subscribe((res) => {
-      this.skinConditions = res.data
     });
   }
 
@@ -380,7 +371,6 @@ export class ClinicSetupComponent {
       formData.append('mobile_number', this.Form.value.mobile_number.e164Number)
       formData.append('street_address', this.Form.value.street_address)
       formData.append('city', this.Form.value.city)
-      formData.append('state', this.Form.value.state)
       formData.append('zip_code', this.Form.value.zip_code)
       formData.append('address', this.selectedLocation)
       if (this.Form.value.latitude && this.Form.value.longitude) {
@@ -404,7 +394,6 @@ export class ClinicSetupComponent {
       // formData.append('severity_levels', JSON.stringify(this.Form.value.severity_levels));
       formData.append('surgeries', JSON.stringify(this.Form.value.surgeries));
       // formData.append('aestheticDevices', JSON.stringify(this.Form.value.devices));
-      formData.append('skin_Conditions', JSON.stringify(this.Form.value.skin_condition));
       formData.append('language', 'en');
       formData.append('zynq_user_id', this.userInfo.id);
       formData.append('form_stage', "3");

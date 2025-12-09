@@ -76,7 +76,7 @@ export class RatingsReviewsComponent {
   exportTableToCSV() {
     const table = document.getElementById("myTable") as HTMLTableElement;
     if (this.ratingReviewsList.length == 0) {
-      this.toster.warning("No data found to export!");
+      this.toster.warning(this.trasnlate.instant("No data found to export!"));
       return;
     }
 

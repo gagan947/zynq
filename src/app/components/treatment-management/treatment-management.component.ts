@@ -141,7 +141,7 @@ export class TreatmentManagementComponent {
   exportTableToCSV() {
     const table = document.getElementById("myTable") as HTMLTableElement;
     if (this.treatmentList.length == 0) {
-      this.toster.warning("No data found to export!");
+      this.toster.warning(this.translate.instant("No data found to export!"));
       return;
     }
 

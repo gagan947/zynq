@@ -30,7 +30,10 @@ export class ForgetPasswordComponent {
   onSubmit() {
     if (this.forgotPasswordForm.valid) {
       this.loading = true
-      const formData = this.forgotPasswordForm.value;
+      const formData = {
+        ...this.forgotPasswordForm.value,
+        language: localStorage.getItem('lang') || 'en',
+      };
       this.srevice.post<any, any>('webuser/forgot-password', formData).subscribe({
         next: (resp) => {
           if (resp.success == true) {

@@ -2,10 +2,6 @@
       <div class="container-fluid ">
             <div class="row">
                   <div class="mx-auto" [ngClass]="{ 'col-md-10 mt-5': !isEdit, 'col-md-12': isEdit }">
-                        <div class="text-center alert-message ct_hide_on_edit">
-                              <p>{{'Disclaimer' | translate}}
-                              </p>
-                        </div>
                         <div class="text-center mb-5 ct_hide_on_edit position-relative ">
                               <h4 class="ct_fs_20 ct_fw_600 mb-2">{{'completeYourProfile' | translate}}</h4>
                               <p class="mb-0">{{'pleaseFill' | translate}}</p>
@@ -75,41 +71,6 @@
                                                                   {{'isRequired' | translate}}.
                                                             </span>
                                                       </span>
-                                                </div>
-                                                <div class="form-group mb-4 col-md-6">
-                                                      <label for="" class="mb-2 ct_text_black">{{'Age' |
-                                                            translate}}<span class="ct_red_text">*</span></label>
-                                                      <input type="text" class="form-control ct_input"
-                                                            formControlName="age"
-                                                            placeholder="{{'Enter' | translate}} {{'Age' | translate}}"
-                                                            step="1">
-                                                      <div *ngIf="besicInfoForm.get('age')?.touched && besicInfoForm.get('age')?.invalid"
-                                                            class="ct_text_red mt-2">
-                                                            <div *ngIf="besicInfoForm.get('age')?.errors?.['required']">
-                                                                  {{'Age' | translate}} {{'isRequired' | translate}}.
-                                                            </div>
-                                                            <div *ngIf="besicInfoForm.get('age')?.errors?.['min']">
-                                                                  Minimum age must be 1.
-                                                            </div>
-                                                            <div *ngIf="besicInfoForm.get('age')?.errors?.['pattern']">
-                                                                  {{'invalid' | translate}} {{'Age' | translate}}.
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                                <div class="form-group mb-4 col-md-6">
-                                                      <label for="" class="mb-2 ct_text_black">{{'Gender' |
-                                                            translate}}<span class="ct_red_text">*</span></label>
-                                                      <nz-select formControlName="gender"
-                                                            nzPlaceHolder="{{'Select' | translate}} {{'Gender' | translate}}"
-                                                            class="form-control ct_input">
-                                                            <nz-option nzValue="Male" nzLabel="Male"></nz-option>
-                                                            <nz-option nzValue="Female" nzLabel="Female"></nz-option>
-                                                            <nz-option nzValue="Other" nzLabel="Other"></nz-option>
-                                                      </nz-select>
-                                                      <div *ngIf="besicInfoForm.get('gender')?.touched && besicInfoForm.get('gender')?.invalid"
-                                                            class="ct_text_red mt-2">
-                                                            {{'Gender' | translate}} {{'isRequired' | translate}}.
-                                                      </div>
                                                 </div>
                                                 <!-- <div class="form-group mb-4 col-md-6">
                                                       <label for="" class="mb-2 ct_text_black">IVO Registration
@@ -315,7 +276,7 @@
                                           </h5>
 
                                           <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'streetAddress' |
                                                                   translate}}<span class="ct_red_text">*</span></label>
@@ -349,7 +310,7 @@
                                                             </span>
                                                       </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <!-- <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'State' |
                                                                   translate}}<span class="ct_red_text">*</span></label>
@@ -366,7 +327,7 @@
                                                             </span>
                                                       </div>
 
-                                                </div>
+                                                </div> -->
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'ZipCode' |
@@ -565,7 +526,7 @@
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">{{'Institute' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             <input type="text" class="form-control ct_input"
                                                                   placeholder="{{'Enter' | translate}} {{'Institute' | translate}}"
                                                                   [(ngModel)]="edu.institution"
@@ -575,7 +536,7 @@
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3 ">
                                                             <label for="" class="mb-2 ct_text_black">{{'Degree' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             <div class="d-flex align-items-center gap-2">
                                                                   <div class="ct_flex_1">
                                                                         <input type="text" class="form-control ct_input"
@@ -589,7 +550,7 @@
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">{{'StartYear' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             <input id="bday-month" type="month"
                                                                   class="form-control ct_input"
                                                                   [(ngModel)]="edu.start_year"
@@ -599,7 +560,7 @@
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">{{'EndYear' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             <!-- <input type="month" class="form-control ct_input"
                                                                   [(ngModel)]="edu.end_year"
                                                                   [ngModelOptions]="{standalone: true}" /> -->
@@ -645,7 +606,7 @@
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">{{'Organization' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             <input type="text" class="form-control ct_input"
                                                                   placeholder="{{'Enter' | translate}} {{'Organization' | translate}}"
                                                                   [(ngModel)]="exp.organisation_name"
@@ -655,7 +616,7 @@
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">{{'Designation' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             <input type="text" class="form-control ct_input"
                                                                   placeholder="Enter designation"
                                                                   [(ngModel)]="exp.designation"
@@ -665,7 +626,7 @@
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">{{'StartDate' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             <input type="date" class="form-control ct_input"
                                                                   [(ngModel)]="exp.start_date"
                                                                   [max]="maxDate | date:'yyyy-MM-dd'"
@@ -675,7 +636,7 @@
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">{{'EndDate' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
+                                                                  translate}}</label>
                                                             @if(!exp.isCurrent){
                                                             <input type="date" class="form-control ct_input"
                                                                   [(ngModel)]="exp.end_date"
@@ -881,25 +842,6 @@
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="ExpertiseForm.get('skin_types')?.invalid && ExpertiseForm.get('skin_types')?.touched">
                                                       {{'pleaseAddAtleast' | translate}} {{'SkinType' | translate}}.
-                                                </span>
-                                          </div>
-                                          <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'SkinCondition' |
-                                                      translate}}</label>
-                                                <nz-select nzMode="multiple"
-                                                      nzPlaceHolder="{{'Select' | translate}} {{'SkinCondition' | translate}}"
-                                                      class="form-control ct_input h-auto"
-                                                      formControlName="skin_condition"
-                                                      nzNotFoundContent="No Severity Found">
-                                                      @for (item of skinConditions; track item) {
-                                                      <nz-option [nzLabel]="item.name"
-                                                            [nzValue]="item.skin_condition_id"></nz-option>
-                                                      }
-                                                </nz-select>
-                                                <span class="ct_text_red mt-2"
-                                                      *ngIf="ExpertiseForm.get('skin_condition')?.invalid && ExpertiseForm.get('skin_condition')?.touched">
-                                                      {{'pleaseAddAtleast' | translate}}
-                                                      {{'SkinCondition' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">

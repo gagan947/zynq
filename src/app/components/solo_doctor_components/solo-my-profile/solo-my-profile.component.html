@@ -44,6 +44,7 @@
                                     </div>
                               </div>
                         </div>
+                        @if(this.soloDrProfile()?.clinic?.images && this.soloDrProfile()?.clinic?.images.length > 0){
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                               <div class="d-flex align-items-center justify-content-between">
                                     <h4 class="ct_fs_18 mb-3">
@@ -58,6 +59,7 @@
                                     }
                               </div>
                         </div>
+                        }
                         <div class="row mb-4">
                               <div class="col-xxl-4 mt-4">
                                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 h-100">
@@ -85,12 +87,12 @@
                                                             [value]="this.soloDrProfile().clinic?.location?.city"
                                                             class="form-control ct_input" disabled>
                                                 </div>
-                                                <div class="form-group mb-4">
+                                                <!-- <div class="form-group mb-4">
                                                       <label for="" class="mb-2">{{'State' | translate}}</label>
                                                       <input type="text"
                                                             [value]="this.soloDrProfile().clinic?.location?.state"
                                                             class="form-control ct_input" disabled>
-                                                </div>
+                                                </div> -->
                                                 <div class="form-group mb-0">
                                                       <!-- <iframe
                                                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.0660402542794!2d75.89208367590597!3d22.725786627337328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd045ddbc7af%3A0x88f1ecac09f5593e!2sUK%20Dental%20%7C%20Anand%20Bazar%20%7C%20Indore!5e0!3m2!1sen!2sin!4v1747128864829!5m2!1sen!2sin"
@@ -244,14 +246,15 @@
                               </div>
                               }
                         </div>
-
+                        @if(soloDrProfile().education[0].start_year || soloDrProfile().education[0].institution ||
+                        soloDrProfile().education[0].degree){
                         <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                               <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Education' | translate}}</h5>
                               <div class="row" *ngFor="let edu of soloDrProfile().education; let i = index">
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">{{'Institute' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter institute" value="{{edu.institution}}"
                                                       disabled>
@@ -259,8 +262,8 @@
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">{{'Degree' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'Degree' |
+                                                      translate}}</label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter degree" value="{{edu.degree}}" disabled>
                                           </div>
@@ -268,15 +271,15 @@
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">{{'StartYear' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter degree" value="{{edu.start_year}}" disabled>
                                           </div>
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">{{'EndYear' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'EndYear' |
+                                                      translate}}</label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter degree" value="{{edu.end_year || 'Present'}}"
                                                       disabled>
@@ -284,13 +287,16 @@
                                     </div>
                               </div>
                         </div>
+                        }
+                        @if(soloDrProfile().experience[0].start_date || soloDrProfile().experience[0].organization ||
+                        soloDrProfile().experience[0].designation){
                         <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                               <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Experience' | translate}}</h5>
                               <div class="row" *ngFor="let exp of soloDrProfile().experience; let i = index">
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">{{'Organization' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter organization" value="{{exp.organization}}"
                                                       disabled>
@@ -299,7 +305,7 @@
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">{{'Designation' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <input type="text" class="form-control ct_input"
                                                       placeholder="Enter organization" value="{{exp.designation}}"
                                                       disabled>
@@ -308,15 +314,15 @@
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">{{'StartDate' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <input type="date" class="form-control ct_input"
                                                       [value]="exp.start_date | date:'yyyy-MM-dd'" disabled>
                                           </div>
                                     </div>
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
-                                                <label for="" class="mb-2 ct_text_black">{{'EndDate' | translate}}<span
-                                                            class="ct_red_text">*</span></label>
+                                                <label for="" class="mb-2 ct_text_black">{{'EndDate' |
+                                                      translate}}</label>
                                                 <input type="text" class="form-control ct_input"
                                                       [value]="exp.end_date ? (exp.end_date | date:'yyyy-MM-dd') : 'Present'"
                                                       disabled>
@@ -324,6 +330,7 @@
                                     </div>
                               </div>
                         </div>
+                        }
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentsProvided' | translate}} -</h4>
                               <div>
@@ -467,26 +474,6 @@
                               </div>
                         </div>
                         }
-                        @if(this.soloDrProfile()?.skinCondition && this.soloDrProfile()?.skinCondition.length > 0){
-                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinCondition' | translate}} -</h4>
-                              <div>
-                                    <ul
-                                          class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.soloDrProfile()?.skinCondition; track $index) {
-                                          <li>
-                                                <div class="d-flex align-items-center gap-2">
-                                                      <i class="fa-solid fa-check"></i>
-                                                      <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                            {{item.name}}
-                                                      </label>
-                                                </div>
-                                          </li>
-                                          }
-                                    </ul>
-                              </div>
-                        </div>
-                        }
                         @if(this.soloDrProfile()?.surgery && this.soloDrProfile()?.surgery.length > 0){
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Surgeries' | translate}} -</h4>
@@ -555,7 +542,7 @@
                                     <div class="col-md-12">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">{{'FeeperSession' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
+                                                      translate}}</label>
                                                 <div class="position-relative">
                                                       <input type="text" class="form-control ct_input"
                                                             placeholder="Enter fee per session" disabled

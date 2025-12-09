@@ -9,10 +9,11 @@ import { Treatment, TreatmentResponse } from '../../../../models/clinic-onboardi
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { LoaderService } from '../../../../services/loader.service';
 import { Subject, takeUntil } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-doctors-management',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, FormsModule, CommonModule, NzSelectModule],
+  imports: [RouterLink, ReactiveFormsModule, FormsModule, CommonModule, NzSelectModule, TranslateModule],
   templateUrl: './doctors-management.component.html',
   styleUrl: './doctors-management.component.css'
 })
@@ -33,7 +34,8 @@ export class DoctorsManagementComponent {
     private toster: NzMessageService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private translate: TranslateService
   ) {
     this.Form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -61,7 +63,7 @@ export class DoctorsManagementComponent {
   }
 
   getTreatments() {
-    this.service.get<TreatmentResponse>(`clinic/get-treatments`).pipe(
+    this.service.get<TreatmentResponse>(`clinic/get-treatments?language=${localStorage.getItem('lang')}`).pipe(
       takeUntil(this.destroy$)
     ).subscribe((res) => {
       this.treatments = res.data
@@ -160,7 +162,7 @@ export class DoctorsManagementComponent {
   exportTableToCSV() {
     const table = document.getElementById("myTable") as HTMLTableElement;
     if (this.doctorsList.length == 0) {
-      this.toster.warning("No data found to export!");
+      this.toster.warning(this.translate.instant("No data found to export!"));
       return;
     }
 

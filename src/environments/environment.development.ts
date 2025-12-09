@@ -1,13 +1,13 @@
 export const environment = {
       production: false,
-      apiUrl: 'https://getzynq.io:4000/',
-      certificateUrl: 'https://getzynq.io:4000/',
-      socketUrl: 'https://getzynq.io:4000/',
+      // apiUrl: 'https://getzynq.io:4000/',
+      // certificateUrl: 'https://getzynq.io:4000/',
+      // socketUrl: 'https://getzynq.io:4000/',
 
-      // Krishna 
-      // apiUrl: 'http://192.168.1.43:4000/',
-      // certificateUrl: 'http://192.168.1.43:4000/',
-      // socketUrl: 'http://192.168.1.43:4000/',
+      // Krishna  
+      apiUrl: 'http://192.168.1.47:4000/',
+      certificateUrl: 'http://192.168.1.47:4000/',
+      socketUrl: 'http://192.168.1.47:4000/',
 
       // Faraz 
       // apiUrl: 'http://192.168.29.241:4000/',

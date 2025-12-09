@@ -46,7 +46,8 @@ export class SetPasswordComponent {
     }
     this.loading = true
     let formData = {
-      new_password: this.Form.value.newPassword
+      new_password: this.Form.value.newPassword,
+      language: localStorage.getItem('lang') || 'en',
     }
     this.service.post<any, any>('webuser/set-password', formData).subscribe({
       next: (res: any) => {

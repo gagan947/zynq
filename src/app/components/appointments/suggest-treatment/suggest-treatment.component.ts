@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonService } from '../../../services/common.service';
@@ -31,23 +31,26 @@ export class SuggestTreatmentComponent {
 
   constructor(private service: CommonService, private socketService: SocketService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
+    effect(() => {
+      this.appointmentData = this.service._appointmentData();
+      if (this.appointmentData) {
+        this.getRecommendedTreatments(this.appointmentData.doctor_id)
+      }
+    });
   }
 
   ngOnInit(): void {
     this.socketService.onAppoinmentstart()
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
-        debugger
-        console.log("SocketService Response", res);
         this.appointmentData = res;
+        this.getRecommendedTreatments(res.doctor_id)
         document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.add('show');
-        // this.getRecommendedTreatments(res.user_id)
       });
-    this.getRecommendedTreatments("9b4609d7-d03b-11f0-929f-0e8e5d906eef")
   }
 
-  getRecommendedTreatments(user_id: any) {
-    this.service.get('doctor/get-recommended-treatments/' + user_id).pipe(
+  getRecommendedTreatments(doctor_id: any) {
+    this.service.get('doctor/get-recommended-treatments/' + doctor_id).pipe(
       takeUntil(this.destroy$)
     ).subscribe((res: any) => {
       this.recommendedTreatments = res.data;
@@ -61,7 +64,7 @@ export class SuggestTreatmentComponent {
         if (parentItem.sub_treatments && parentItem.sub_treatments.length > 0) {
           this.suggestedTreatment.push({
             treatment_id: parentItem.treatment_id,
-            price: parentItem.sub_treatments.reduce((total: any, sub: any) => total + Number(sub.price), 0) || parentItem.min_price,
+            price: parentItem.sub_treatments.reduce((total: any, sub: any) => total + Number(sub.price), 0) || parentItem.price,
             sub_treatments: parentItem.sub_treatments.map((sub: any) => {
               return {
                 sub_treatment_id: sub.sub_treatment_id,
@@ -72,7 +75,7 @@ export class SuggestTreatmentComponent {
         } else {
           this.suggestedTreatment.push({
             treatment_id: parentItem.treatment_id,
-            price: parentItem.sub_treatments.reduce((total: any, sub: any) => total + Number(sub.price), 0) || parentItem.min_price,
+            price: parentItem.sub_treatments.reduce((total: any, sub: any) => total + Number(sub.price), 0) || parentItem.price,
             sub_treatments: []
           });
         }
@@ -85,7 +88,7 @@ export class SuggestTreatmentComponent {
     if (event.target.checked) {
       this.suggestedTreatment.push({
         treatment_id: parentItem.treatment_id,
-        price: parentItem.sub_treatments.reduce((total: any, sub: any) => total + Number(sub.price), 0) || parentItem.min_price,
+        price: parentItem.sub_treatments.reduce((total: any, sub: any) => total + Number(sub.price), 0) || parentItem.price,
         sub_treatments: parentItem.sub_treatments.map((sub: any) => {
           return {
             sub_treatment_id: sub.sub_treatment_id,
@@ -138,7 +141,7 @@ export class SuggestTreatmentComponent {
   }
 
   private updateTotalAmount() {
-    this.totalAmount = this.suggestedTreatment.reduce((total: any, item: any) => total + item.price, 0);
+    this.totalAmount = this.suggestedTreatment.reduce((total: any, item: any) => total + Number(item.price), 0);
     this.discountAmount = this.totalAmount * (this.discount / 100);
     this.netAmount = this.totalAmount - this.discountAmount;
   }
@@ -232,13 +235,15 @@ export class SuggestTreatmentComponent {
 
   suggestTreatments() {
     this.loading = true
+    console.log(this.discount);
+
     let formData = {
       user_id: this.appointmentData.user_id,
       clinic_id: this.appointmentData.clinic_id,
       report_id: this.appointmentData.report_id,
       origin_appointment_id: this.appointmentData.appointment_id,
       discount_type: this.discountType,
-      discount_value: this.discountAmount,
+      discount_value: this.discount,
       treatments: this.suggestedTreatment
     }
     this.service.post('doctor/appointment-draft', formData).pipe(

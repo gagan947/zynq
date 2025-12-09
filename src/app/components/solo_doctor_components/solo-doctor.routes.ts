@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from '../../guards/auth.guard';
 import { DashboardGuard } from '../../guards/dashboard.guard';
-
 
 export const soloDoctorRoutes: Routes = [
       {

@@ -32,7 +32,7 @@ export class OrdersManagementComponent {
   selectedDate: string = '';
   constructor(private service: CommonService, private toster: NzMessageService, private router: Router, private route: ActivatedRoute, private loader: LoaderService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
-   }
+  }
 
   ngOnInit() {
     this.getData();
@@ -148,7 +148,7 @@ export class OrdersManagementComponent {
   exportTableToCSV() {
     const table = document.getElementById("myTable") as HTMLTableElement;
     if (this.ordersList.length == 0) {
-      this.toster.warning("No data found to export!");
+      this.toster.warning(this.translate.instant("No data found to export!"));
       return;
     }
 

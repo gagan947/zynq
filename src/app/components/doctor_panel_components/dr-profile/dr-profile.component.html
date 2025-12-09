@@ -34,8 +34,7 @@
                         <div class="row mt-4">
                             <div class="col-md-12">
                                 <div class="form-group mb-4">
-                                    <label for="" class="mb-2 ct_text_black">{{'FullName' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'FullName' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'FullName' | translate}}"
                                         value="{{doctor.data.name}}" disabled>
@@ -43,8 +42,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
-                                    <label for="" class="mb-2 ct_text_black">{{'Email' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'Email' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'Email' | translate}}"
                                         value="{{doctor.data.email}}" disabled>
@@ -52,8 +50,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
-                                    <label for="" class="mb-2 ct_text_black">{{'PhoneNo' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'PhoneNo' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'PhoneNo' | translate}}"
                                         value="{{doctor.data.phone}}" disabled>
@@ -61,19 +58,22 @@
                             </div>
                         </div>
                     </div>
+                    @if(doctor.data.biography){
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_px_30 py-4 mt-4 pe-0 mb-4">
                         <h4 class="ct_fs_20 ct_fw_600 mb-2">{{'Biography' | translate}}:</h4>
                         <p class="ct_grey_text mb-0 ct_para_scroll ct_custom_scroll ct_pe_30 mt-3">
                             {{doctor.data.biography}}
                         </p>
                     </div>
+                    }
+                    @if(doctor.data.education[0]?.start_year || doctor.data.education[0]?.institution ||
+                    doctor.data.education[0]?.degree){
                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                         <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Education' | translate}}</h5>
                         <div class="row" *ngFor="let edu of doctor.data.education; let i = index">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'Institute' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'Institute' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'Institute' | translate}}"
                                         value="{{edu.institution}}" disabled>
@@ -81,8 +81,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'Degree' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'Degree' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'Degree' | translate}}"
                                         value="{{edu.degree}}" disabled>
@@ -90,8 +89,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'StartYear' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'StartYear' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'StartYear' | translate}}"
                                         value="{{edu.start_year}}" disabled>
@@ -99,8 +97,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'EndYear' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'EndYear' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'EndYear' | translate}}"
                                         value="{{edu.end_year || 'Present'}}" disabled>
@@ -108,13 +105,15 @@
                             </div>
                         </div>
                     </div>
+                    }
+                    @if(doctor.data.experience[0]?.start_date || doctor.data.experience[0]?.organization ||
+                    doctor.data.experience[0]?.designation){
                     <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                         <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Experience' | translate}}</h5>
                         <div class="row" *ngFor="let exp of doctor.data.experience; let i = index">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'Organization' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'Organization' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'Organization' | translate}}"
                                         value="{{exp.organization}}" disabled>
@@ -122,8 +121,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'Designation' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'Designation' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'Designation' | translate}}"
                                         value="{{exp.designation}}" disabled>
@@ -131,16 +129,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'StartDate' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'StartDate' | translate}}</label>
                                     <input type="date" class="form-control ct_input"
                                         [value]="exp.start_date | date:'yyyy-MM-dd'" disabled>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'EndDate' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'EndDate' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         [value]="exp.end_date ? (exp.end_date | date:'yyyy-MM-dd') : 'Present'"
                                         disabled />
@@ -148,6 +144,7 @@
                             </div>
                         </div>
                     </div>
+                    }
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
                         <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentsProvided' | translate}}</h4>
                         <div>
@@ -244,26 +241,6 @@
                         </div>
                     </div>
                     }
-                    @if(doctor.data.skinCondition && doctor.data.skinCondition.length > 0){
-                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinCondition' | translate}}</h4>
-                        <div>
-                            <ul
-                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                @for (item of doctor.data.skinCondition; track $index) {
-                                <li>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-check"></i>
-                                        <label class="form-check-label mb-0" for="flexCheckDefault">
-                                            {{item.name}}
-                                        </label>
-                                    </div>
-                                </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    }
                     @if(doctor.data.surgery && doctor.data.surgery.length > 0){
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
                         <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Surgeries' | translate}}</h4>
@@ -304,6 +281,7 @@
                         </div>
                     </div>
                     }
+                    @if(doctor.data.certifications && doctor.data.certifications.length > 0){
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mb-4 mt-4 pe-0">
                         <h4 class="ct_fs_20 ct_fw_600 mb-4">{{'UploadedCertifications' | translate}}</h4>
                         <ul class="ct_para_scroll ct_custom_scroll d-flex align-items-center gap-4 flex-wrap ct_pe_30"
@@ -321,13 +299,13 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                    }
+                    <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4 mt-4">
                         <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'ConsultationFees' | translate}}</h5>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'FeeperSession' | translate}}<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">{{'FeeperSession' | translate}}</label>
                                     <div class="position-relative">
                                         <input type="text" class="form-control ct_input"
                                             placeholder="Enter fee per session" disabled
@@ -338,8 +316,7 @@
                             </div>
                             <!-- <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">Session Duration<span
-                                            class="ct_red_text">*</span></label>
+                                    <label for="" class="mb-2 ct_text_black">Session Duration</label>
                                     <input type="text" class="form-control ct_input" disabled
                                         value="{{doctor.data.session_duration}}">
                                 </div>

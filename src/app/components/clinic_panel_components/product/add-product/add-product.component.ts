@@ -240,7 +240,7 @@ export class AddProductComponent {
   };
 
   getTreatments() {
-    this.service.get<TreatmentResponse>(`clinic/get-treatments`).subscribe((res) => {
+    this.service.get<TreatmentResponse>(`clinic/get-treatments?language=${localStorage.getItem('lang')}`).subscribe((res) => {
       this.treatments = res.data
     });
   }

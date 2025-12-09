@@ -5,18 +5,21 @@ import { CommonModule } from '@angular/common';
 import { ClinicProfile, LinkedClinics } from '../../../models/linked_clinics';
 import { LoaderService } from '../../../services/loader.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-linked-clinics',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './linked-clinics.component.html',
   styleUrl: './linked-clinics.component.css'
 })
 export class LinkedClinicsComponent {
   clinics$!: Observable<LinkedClinics>;
 
-  constructor(private apiService: CommonService, private loaderService: LoaderService, private toastr: NzMessageService) { }
+  constructor(private apiService: CommonService, private loaderService: LoaderService, private toastr: NzMessageService, private translate: TranslateService) {
+    this.translate.use(localStorage.getItem('lang') || 'en');
+  }
   clinicList: ClinicProfile[] = [];
   orgClinicList: ClinicProfile[] = [];
 
@@ -45,7 +48,7 @@ export class LinkedClinicsComponent {
     const table = document.getElementById("myTable") as HTMLTableElement;
 
     if (this.clinicList.length == 0) {
-      this.toastr.warning("No data found to export!");
+      this.toastr.warning(this.translate.instant("No data found to export!"));
       return;
     }
 

@@ -249,7 +249,7 @@
                                                 translate}}</h5>
 
                                           <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'streetAddress' |
                                                                   translate}}<span class="ct_red_text">*</span></label>
@@ -283,7 +283,7 @@
                                                             </span>
                                                       </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <!-- <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'State' |
                                                                   translate}}<span class="ct_red_text">*</span></label>
@@ -300,7 +300,7 @@
                                                             </span>
                                                       </div>
 
-                                                </div>
+                                                </div> -->
                                                 <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'ZipCode' |
@@ -546,25 +546,6 @@
                                                 <span class="ct_text_red mt-2"
                                                       *ngIf="Form.get('skin_types')?.invalid && Form.get('skin_types')?.touched">
                                                       {{'pleaseAddAtleast' | translate}} {{'SkinType' | translate}}.
-                                                </span>
-                                          </div>
-                                          <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'SkinCondition' |
-                                                      translate}}</label>
-                                                <nz-select nzMode="multiple"
-                                                      nzPlaceHolder="{{'Select' | translate}} {{'SkinCondition' | translate}}"
-                                                      class="form-control ct_input h-auto"
-                                                      formControlName="skin_condition"
-                                                      nzNotFoundContent="No Severity Found">
-                                                      @for (item of skinConditions; track item) {
-                                                      <nz-option [nzLabel]="item.name"
-                                                            [nzValue]="item.skin_condition_id"></nz-option>
-                                                      }
-                                                </nz-select>
-                                                <span class="ct_text_red mt-2"
-                                                      *ngIf="Form.get('skin_condition')?.invalid && Form.get('skin_condition')?.touched">
-                                                      {{'pleaseAddAtleast' | translate}}
-                                                      {{'SkinCondition' | translate}}.
                                                 </span>
                                           </div>
                                           <div class="mb-4">

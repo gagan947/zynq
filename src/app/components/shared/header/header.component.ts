@@ -79,6 +79,7 @@ export class HeaderComponent {
     this.service.get<any>('clinic/get-profile').subscribe((resp) => {
       this.clinicPofile = resp.data;
       this.service._clinicProfile.set(this.clinicPofile);
+      localStorage.setItem('lang', this.clinicPofile!.language);
       this.loaderService.hide();
     },
       (error) => {
@@ -90,6 +91,7 @@ export class HeaderComponent {
     this.service.get<any>('doctor/get_profile').subscribe((resp) => {
       this.doctorPofile = resp.data;
       this.service._doctorProfile.set(this.doctorPofile);
+      localStorage.setItem('lang', this.doctorPofile!.language);
       this.loaderService.hide();
     },
       (error) => {
@@ -101,6 +103,7 @@ export class HeaderComponent {
     this.service.get<any>('solo_doctor/getDoctorProfileByStatus/1').subscribe((resp) => {
       this.soloDoctorPofile = resp.data;
       this.service._soloDoctorProfile.set(this.soloDoctorPofile);
+      localStorage.setItem('lang', this.soloDoctorPofile!.language);
       this.loaderService.hide();
     },
       (error) => {
@@ -115,9 +118,11 @@ export class HeaderComponent {
   }
 
   onCustomLangChange(lang: any) {
-    this.selectedLang = lang;
-    this.translate.use(lang);
-    localStorage.setItem('lang', lang);
+    this.service.update('webuser/toggle-language', {}).subscribe((res: any) => {
+      this.selectedLang = lang;
+      this.translate.use(lang);
+      localStorage.setItem('lang', lang);
+    })
   }
 }
 
