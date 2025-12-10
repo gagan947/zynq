@@ -87,9 +87,11 @@ export class SoloProfileSetupComponent {
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden]
   dropdownOpen: boolean = false;
+  lang: string = 'en';
   constructor(private fb: FormBuilder, private service: CommonService, private toster: NzMessageService, private router: Router, private auth: AuthService, private translate: TranslateService) {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     this.translate.use(localStorage.getItem('lang') || 'en');
+    this.lang = localStorage.getItem('lang') || 'en';
   }
 
   ngOnInit(): void {
@@ -234,7 +236,7 @@ export class SoloProfileSetupComponent {
       }));
 
     this.selectedTreatments = updatedSelectedTreatments;
-
+    this.toggleRecommendedCollapse(this.recommendedCollapseStates, i);
     this.searchInput.nativeElement.focus();
     this.getDevices();
   }
@@ -531,7 +533,7 @@ export class SoloProfileSetupComponent {
   };
 
   getTreatments() {
-    this.service.get<TreatmentResponse>(`clinic/get-treatments?language=${localStorage.getItem('lang')}`).pipe(
+    this.service.get<TreatmentResponse>(`clinic/get-treatments?language=${this.lang}`).pipe(
       takeUntil(this.destroy$)
     ).subscribe((res) => {
       this.treatments = res.data
@@ -1203,6 +1205,10 @@ export class SoloProfileSetupComponent {
   changeStep(step: number) {
     this.currentStep = step
     this.getProfile(this.currentStep + 1)
+  }
+  recommendedCollapseStates: boolean[] = [];
+  toggleRecommendedCollapse(recommendedCollapseStates: boolean[], index: number) {
+    recommendedCollapseStates[index] = !recommendedCollapseStates[index];
   }
 
   ngOnDestroy() {

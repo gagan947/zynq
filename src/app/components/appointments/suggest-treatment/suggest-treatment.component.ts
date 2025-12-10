@@ -5,6 +5,7 @@ import { CommonService } from '../../../services/common.service';
 import { SocketService } from '../../../services/socket.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-suggest-treatment',
@@ -29,7 +30,7 @@ export class SuggestTreatmentComponent {
   loading: boolean = false
   collapseStates: boolean[] = [];
 
-  constructor(private service: CommonService, private socketService: SocketService, private translate: TranslateService) {
+  constructor(private service: CommonService, private socketService: SocketService, private translate: TranslateService, private toastr: NzMessageService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.appointmentData = this.service._appointmentData();
@@ -44,6 +45,7 @@ export class SuggestTreatmentComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         this.appointmentData = res;
+        this.service.isReloadAppointmentData.set(false);
         this.getRecommendedTreatments(res.doctor_id)
         document.getElementsByClassName('ct_video_call_right_sie_bar')[0].classList.add('show');
       });
@@ -235,8 +237,6 @@ export class SuggestTreatmentComponent {
 
   suggestTreatments() {
     this.loading = true
-    console.log(this.discount);
-
     let formData = {
       user_id: this.appointmentData.user_id,
       clinic_id: this.appointmentData.clinic_id,
@@ -249,7 +249,19 @@ export class SuggestTreatmentComponent {
     this.service.post('doctor/appointment-draft', formData).pipe(
       takeUntil(this.destroy$)
     ).subscribe((res: any) => {
+      if (this.service.isReloadAppointmentData()) {
+        this.service.isReloadSuggestedTreatments.set(true);
+        this.toastr.success(res.message);
+      }
       this.closeVideoRightSidebar()
+      this.suggestedTreatment = [];
+      this.discount = 0;
+      this.discountAmount = 0;
+      this.netAmount = 0;
+      this.discountType = 'SEK';
+      this.isApplyDiscount = false;
+      this.totalAmount = 0;
+      this.errorMessage = '';
       this.loading = false
     }, error => {
       this.loading = false

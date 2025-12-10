@@ -8,11 +8,12 @@ import { SocketService } from '../../../services/socket.service';
 import { Subject, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SuggestTreatmentComponent } from '../suggest-treatment/suggest-treatment.component';
 
 @Component({
   selector: 'app-appointment-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, SuggestTreatmentComponent],
   templateUrl: './appointment-detail.component.html',
   styleUrl: './appointment-detail.component.css'
 })
@@ -28,6 +29,9 @@ export class AppointmentDetailComponent {
     this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
       this.appointment();
+      if (this.service.isReloadSuggestedTreatments()) {
+        this.getAppointmentDetails();
+      }
     });
     if (!this.appointment()) {
       this.service._Appointment.set(JSON.parse(sessionStorage.getItem('Appointment') || ''));
@@ -37,6 +41,7 @@ export class AppointmentDetailComponent {
   ngOnInit(): void {
     this.getAppointmentDetails()
   }
+
   openModal(imageUrl: string | undefined) {
     if (imageUrl) {
       this.imagePreview = imageUrl
@@ -47,7 +52,7 @@ export class AppointmentDetailComponent {
     const targetUser = {
       userID: this.appointmentData.user_id.replace(/-/g, ''), userName: this.appointmentData.full_name,
     };
-    this.service._appointmentData.set(this.appointmentData);
+    this.service.isReloadAppointmentData.set(true);
     this.zegoService.sendCall(targetUser, appointment_id);
   }
 
@@ -57,6 +62,9 @@ export class AppointmentDetailComponent {
       takeUntil(this.destroy$)
     ).subscribe((res: any) => {
       this.appointmentData = res.data;
+      this.service._appointmentData.set(this.appointmentData);
+      this.service.isReloadAppointmentData.set(true);
+      this.service.isReloadSuggestedTreatments.set(false);
       this.loader.hide()
     }, error => {
       this.loader.hide()

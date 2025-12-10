@@ -430,120 +430,156 @@
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
                                                 {{'ServiceExpertise' | translate}}</h5>
                                           <div class="mb-4">
-                                                <div *ngIf="dropdownOpen" id="overlay" (click)="dropdownOpen = false">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                      <label for="" class="mb-2 ct_text_black">{{'TreatmentsProvided' |
+                                                            translate}}<span class="ct_red_text">*</span></label>
+                                                      <input type="text" class="form-control w-25 mb-2"
+                                                            [placeholder]="('Search' | translate) + ' ' + ('Treatment' | translate)"
+                                                            (input)="onTreatmentSearch($event)" #searchInput>
                                                 </div>
-                                                <label for="" class="mb-2 ct_text_black">{{'TreatmentsProvided' |
-                                                      translate}}<span class="ct_red_text">*</span></label>
-
-                                                <div class="position-relative">
-                                                      <!-- <input type="text" class="form-control ct_input"
-                                                            placeholder="Select Treatment"
-                                                            (focus)="dropdownOpen = true" /> -->
-                                                      <div class="ct_all_selected_tag"
-                                                            (click)="dropdownOpen = true; searchInput.focus()">
-                                                            <ul class="mb-0">
-                                                                  @for (item of selectedTreatments; track $index) {
-                                                                  <li>
-                                                                        <span>{{item.name + (item.sub_treatments.length
-                                                                              >
-                                                                              0 ? '( +' + item.sub_treatments.length + '
-                                                                              more )'
-                                                                              : '')}} <small
-                                                                                    (click)="removeTreatment( $index, item.id) ; $event.stopPropagation()">X</small></span>
-                                                                  </li>
-                                                                  }
-                                                                  <li>
-                                                                        <input type="text"
-                                                                              class="border-0 form-control px-0"
-                                                                              [placeholder]="selectedTreatments.length === 0 ? (('Select' | translate) + ' ' + ('Treatment' | translate)) : ''"
-                                                                              (focus)="dropdownOpen = true"
-                                                                              (input)="onTreatmentSearch($event)"
-                                                                              #searchInput>
-                                                                  </li>
-                                                            </ul>
-                                                      </div>
-
-                                                      <div class="ct_multiselect_custom_dopbox"
-                                                            [class.active]="dropdownOpen">
-                                                            <ul
-                                                                  *ngFor="let t of treatmentsArray.controls; let i = index">
-
-                                                                  <li class="treatment-tree-list">
-                                                                        <div
-                                                                              class="d-flex align-items-center justify-content-between gap-2">
-
-                                                                              <div class="ct_flex_1">
+                                                <div class="table-responsive" style="max-height: 50vh;">
+                                                      <table class="table ct_custom_table">
+                                                            <thead>
+                                                                  <tr>
+                                                                        <th class="border p-2"></th>
+                                                                        <th class="border p-2">{{'Treatment' |
+                                                                              translate}}</th>
+                                                                        <th class="border p-2">{{'Price' | translate}}
+                                                                        </th>
+                                                                        <th class="border p-2"></th>
+                                                                  </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                  @for (t of treatmentsArray.controls; track $index) {
+                                                                  <tr>
+                                                                        <td class="border p-2 text-center">
+                                                                              <div
+                                                                                    class="text-start form-check ct_custom_check">
                                                                                     <input type="checkbox"
-                                                                                          [id]="'treatment-checkbox-'+i"
+                                                                                          [id]="'treatment-checkbox-'+$index"
                                                                                           class="form-check-input ct_custom_check"
                                                                                           [formControl]="getControl(t, 'selected')"
-                                                                                          (change)="onTreatmentSelectChange(i)"
+                                                                                          (change)="onTreatmentSelectChange($index)"
                                                                                           [checked]="t.get('selected')?.value"
-                                                                                          [attr.aria-labelledby]="'treatment-checkbox-'+i" />
-
-                                                                                    <label [attr.for]="'treatment-checkbox-'+i"
-                                                                                          class="ms-2">
-                                                                                          {{ t.get('name')?.value }}
-                                                                                    </label>
+                                                                                          [attr.aria-labelledby]="'treatment-checkbox-'+$index" />
                                                                               </div>
+                                                                        </td>
+                                                                        <td class="border p-2"><label
+                                                                                    [attr.for]="'treatment-checkbox-'+$index"
+                                                                                    class="ms-2">
+                                                                                    {{ t.get('name')?.value }}
+                                                                              </label></td>
+                                                                        <td class="border p-2" style="width: 200px;">
                                                                               @if(t.get('selected')?.value &&
-                                                                              subTreatments(i).controls.length == 0){
-                                                                              <div class="w-25">
+                                                                              subTreatments($index).controls.length ==
+                                                                              0){
+                                                                              <div>
                                                                                     <input type="number"
                                                                                           class="form-control"
                                                                                           placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
                                                                                           [formControl]="getControl(t, 'price')" />
-
                                                                                     <small class="text-danger"
                                                                                           *ngIf="t.get('price')?.touched && t.get('price')?.hasError('required')">
                                                                                           {{'Price' | translate}}
                                                                                           {{'isRequired' | translate}}
                                                                                     </small>
                                                                               </div>
+                                                                              }@else {
+                                                                              <span>{{t.get('price')?.value > 0 ?
+                                                                                    t.get('price')?.value : ''}}</span>
                                                                               }
-                                                                        </div>
-                                                                        <ul class="ps-4 mt-1 mb-0">
-                                                                              <li *ngFor="let c of subTreatments(i).controls; let j = index"
-                                                                                    class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                                                                        </td>
+                                                                        <td class="border p-2 align-middle text-center"
+                                                                              style="width:40px">
+                                                                              @if(subTreatments($index).controls.length
+                                                                              > 0){
+                                                                              <a href="javascript:void(0)"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    [attr.data-bs-target]="'#collapseRecommendedSubTreatments'+$index"
+                                                                                    [attr.aria-expanded]="'false'"
+                                                                                    [attr.aria-controls]="'collapseRecommendedSubTreatments'+$index"
+                                                                                    (click)="toggleRecommendedCollapse(recommendedCollapseStates, $index)">
+                                                                                    <i class="fa"
+                                                                                          [ngClass]="{
+                                                                                                                                                                  'fa-chevron-down': !(recommendedCollapseStates[ $index ]),
+                                                                                                                                                                  'fa-chevron-up': recommendedCollapseStates[ $index ]
+                                                                                                                                                            }"></i>
+                                                                              </a>
+                                                                              }
+                                                                        </td>
+                                                                  </tr>
+                                                                  @if(subTreatments($index).controls.length
+                                                                  > 0 && recommendedCollapseStates[$index] === true){
+                                                                  <tr [id]="'collapseRecommendedSubTreatments'+$index">
+                                                                        <td colspan="4" class="p-0 border-0">
+                                                                              <table class="table mb-0">
+                                                                                    <thead>
+                                                                                          <tr>
+                                                                                                <th class="border p-2">
+                                                                                                </th>
+                                                                                                <th class="border p-2">
+                                                                                                      {{'SubTreatment' |
+                                                                                                      translate}}</th>
+                                                                                                <th class="border p-2">
+                                                                                                      {{'Price' |
+                                                                                                      translate}}</th>
+                                                                                          </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                          <tr
+                                                                                                *ngFor="let c of subTreatments($index).controls; let j = index">
+                                                                                                <td
+                                                                                                      class="border p-2 text-center">
+                                                                                                      <div
+                                                                                                            class=" form-check ">
+                                                                                                            <input type="checkbox"
+                                                                                                                  [id]="'sub-treatment-checkbox-'+$index+'-'+j"
+                                                                                                                  class="form-check-input ct_custom_check "
+                                                                                                                  [formControl]="getChildControl($index, j, 'selected')"
+                                                                                                                  (change)="onChildSelectChange($index, j)"
+                                                                                                                  [checked]="c.get('selected')?.value"
+                                                                                                                  [attr.aria-labelledby]="'sub-treatment-checkbox-'+$index+'-'+j" />
+                                                                                                      </div>
+                                                                                                </td>
+                                                                                                <td class="border p-2">
+                                                                                                      <label [attr.for]="'sub-treatment-checkbox-'+$index+'-'+j"
+                                                                                                            class="ms-2">
+                                                                                                            {{
+                                                                                                            c.get('name')?.value
+                                                                                                            }}
+                                                                                                      </label>
+                                                                                                </td>
+                                                                                                <td class="border p-2"
+                                                                                                      style="width: 200px;">
+                                                                                                      @if(c.get('selected')?.value){
+                                                                                                      <div>
+                                                                                                            <input type="number"
+                                                                                                                  class="form-control"
+                                                                                                                  placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
+                                                                                                                  [formControl]="getChildControl($index, j, 'price')" />
 
-                                                                                    <div class="ct_flex_1">
-                                                                                          <input type="checkbox"
-                                                                                                [id]="'sub-treatment-checkbox-'+i+'-'+j"
-                                                                                                class="form-check-input ct_custom_check"
-                                                                                                [formControl]="getChildControl(i, j, 'selected')"
-                                                                                                (change)="onChildSelectChange(i, j)"
-                                                                                                [checked]="c.get('selected')?.value"
-                                                                                                [attr.aria-labelledby]="'sub-treatment-checkbox-'+i+'-'+j" />
-
-                                                                                          <label [attr.for]="'sub-treatment-checkbox-'+i+'-'+j"
-                                                                                                class="ms-2">
-                                                                                                {{ c.get('name')?.value
-                                                                                                }}
-                                                                                          </label>
-                                                                                    </div>
-                                                                                    @if(c.get('selected')?.value){
-                                                                                    <div class="w-25">
-                                                                                          <input type="number"
-                                                                                                class="form-control"
-                                                                                                placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
-                                                                                                [formControl]="getChildControl(i, j, 'price')" />
-
-                                                                                          <small class="text-danger"
-                                                                                                *ngIf="c.get('price')?.touched && c.get('price')?.hasError('required')">
-                                                                                                {{'Price' | translate}}
-                                                                                                {{'isRequired' |
-                                                                                                translate}}
-                                                                                          </small>
-                                                                                    </div>
-                                                                                    }
-                                                                              </li>
-                                                                        </ul>
-                                                                  </li>
-                                                            </ul>
-                                                      </div>
+                                                                                                            <small class="text-danger"
+                                                                                                                  *ngIf="c.get('price')?.touched && c.get('price')?.hasError('required')">
+                                                                                                                  {{'Price'
+                                                                                                                  |
+                                                                                                                  translate}}
+                                                                                                                  {{'isRequired'
+                                                                                                                  |
+                                                                                                                  translate}}
+                                                                                                            </small>
+                                                                                                      </div>
+                                                                                                      }
+                                                                                                </td>
+                                                                                          </tr>
+                                                                                    </tbody>
+                                                                              </table>
+                                                                        </td>
+                                                                  </tr>
+                                                                  }
+                                                                  }
+                                                            </tbody>
+                                                      </table>
                                                 </div>
-
-
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'Devices' |

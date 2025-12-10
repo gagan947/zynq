@@ -24,6 +24,8 @@ export class CommonService {
   _order = signal<any | null>(null);
   _patient = signal<any | null>(null);
   _report = signal<any | null>(null);
+  isReloadAppointmentData = signal<boolean>(false);
+  isReloadSuggestedTreatments = signal<boolean>(false);
   baseUrl = environment.apiUrl
 
   constructor(private http: HttpClient, private router: Router) { }

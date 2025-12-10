@@ -103,7 +103,7 @@ export class HeaderComponent {
     this.service.get<any>('solo_doctor/getDoctorProfileByStatus/1').subscribe((resp) => {
       this.soloDoctorPofile = resp.data;
       this.service._soloDoctorProfile.set(this.soloDoctorPofile);
-      localStorage.setItem('lang', this.soloDoctorPofile!.language);
+      localStorage.setItem('lang', this.soloDoctorPofile!.language || 'en');
       this.loaderService.hide();
     },
       (error) => {

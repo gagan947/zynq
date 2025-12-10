@@ -207,6 +207,7 @@ export class ProfileSetupComponent {
     if (this.searchInput && this.searchInput.nativeElement) {
       this.searchInput.nativeElement.focus();
     }
+    this.toggleRecommendedCollapse(this.recommendedCollapseStates, i);
     this.getDevices();
   }
 
@@ -891,4 +892,8 @@ export class ProfileSetupComponent {
     this.locations = [];
   }
 
+  recommendedCollapseStates: boolean[] = [];
+  toggleRecommendedCollapse(recommendedCollapseStates: boolean[], index: number) {
+    recommendedCollapseStates[index] = !recommendedCollapseStates[index];
+  }
 }

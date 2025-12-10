@@ -187,7 +187,7 @@ export class EditProfileComponent {
       }));
 
     this.selectedTreatments = updatedSelectedTreatments;
-
+    this.toggleRecommendedCollapse(this.recommendedCollapseStates, i);
     this.searchInput.nativeElement.focus();
     this.getDevices();
   }
@@ -961,5 +961,10 @@ export class EditProfileComponent {
       address: location
     })
     this.locations = [];
+  }
+
+  recommendedCollapseStates: boolean[] = [];
+  toggleRecommendedCollapse(recommendedCollapseStates: boolean[], index: number) {
+    recommendedCollapseStates[index] = !recommendedCollapseStates[index];
   }
 }
