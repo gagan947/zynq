@@ -25,6 +25,7 @@ export class AppointmentDetailComponent {
   loading: boolean = false
   collapseStates: boolean[] = [];
   suggestedCollapseStates: boolean[] = [];
+  isEditSuggestedTreatments: boolean = false;
   constructor(private service: CommonService, public location: Location, private zegoService: ZegoService, private loader: LoaderService, private router: Router, private route: ActivatedRoute, private socketService: SocketService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
@@ -65,6 +66,7 @@ export class AppointmentDetailComponent {
       this.service._appointmentData.set(this.appointmentData);
       this.service.isReloadAppointmentData.set(true);
       this.service.isReloadSuggestedTreatments.set(false);
+      this.isEditSuggestedTreatments = false;
       this.loader.hide()
     }, error => {
       this.loader.hide()
@@ -103,6 +105,24 @@ export class AppointmentDetailComponent {
 
   suggestedToggleCollapse(suggestedCollapseStates: boolean[], index: number) {
     suggestedCollapseStates[index] = !suggestedCollapseStates[index];
+  }
+
+  calculateAmount(array: any[]) {
+    return array.reduce((total: any, item: any) => total + Number(item.price), 0);
+  }
+
+  calculateVATAmount(amount: number) {
+    return (amount * 25) / (100 + 25);
+  }
+
+  scrollToSuggestTreatment() {
+    this.isEditSuggestedTreatments = true;
+    setTimeout(() => {
+      const element = document.getElementById('suggestTreatmentRef');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 
   ngOnDestroy() {

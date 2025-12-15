@@ -23,6 +23,7 @@ export interface DoctorProfile {
   doctor_id: string;
   zynq_user_id: string;
   name: string;
+  last_name: string;
   specialization: string | null;
   employee_id: string | null;
   experience_years: string | null;

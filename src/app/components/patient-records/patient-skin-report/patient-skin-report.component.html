@@ -19,7 +19,7 @@
                                           <tr>
                                                 <th>S.No</th>
                                                 <th>{{'Date' | translate}}</th>
-                                                <th>{{'SkinConcerns' | translate}}</th>
+                                                <!-- <th>{{'SkinConcerns' | translate}}</th> -->
                                                 <th>{{'Action' | translate}}</th>
                                           </tr>
                                     </thead>
@@ -28,7 +28,7 @@
                                           <tr>
                                                 <td>{{$index + 1}}</td>
                                                 <td>{{item.created_at | date:'dd-MM-yyyy'}}</td>
-                                                <td>{{item.skin_concerns || 'N/A'}}</td>
+                                                <!-- <td>{{item.skin_concerns || 'N/A'}}</td> -->
                                                 <td>
                                                       <div class="d-flex align-items-center gap-3">
                                                             <a [href]="item.pdf" target="_blank"><i

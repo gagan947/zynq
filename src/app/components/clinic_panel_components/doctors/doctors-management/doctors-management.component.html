@@ -163,8 +163,8 @@
 
                         <h4 class="ct_fs_24 ct_fw_600">Link New Expert</h4>
                         <form [formGroup]="Form" (ngSubmit)="onSubmit()" class="mt-4">
-                              <div class="form-group">
-                                    <label for="" class="mb-2">Enter Expert's Email</label>
+                              <!-- <div >
+                                    
                                     <input type="email" placeholder="Enter email" class="form-control ct_input"
                                           formControlName="email">
                                     <span *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
@@ -175,6 +175,37 @@
                                           <span *ngIf="Form.controls['email'].errors?.['email'] && !Form.controls['email'].errors?.['required']"
                                                 class="ct_text_red mt-2">
                                                 Invalid email format.</span>
+                                    </span>
+                              </div> -->
+                              <div class="form-group">
+                                    <ul
+                                          class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                          @for (item of selectedDrEmail; track
+                                          $index) {
+                                          <li>
+                                                <button type="button" class="ct_select_badge">{{item}}
+                                                      <span (click)="removeDrEmail($index)"><i
+                                                                  class="fa-solid fa-xmark"></i></span></button>
+                                          </li>
+                                          }
+                                    </ul>
+                                    <label for="" class="mb-2">{{'EnterEmail' | translate}}</label>
+                                    <div class="position-relative">
+                                          <input type="text" class="form-control ct_input ct_pe_122"
+                                                placeholder="{{'TypeToAdd' | translate}} {{'Email' | translate}}..."
+                                                #drEmail formControlName="email">
+                                          <button type="button" class="ct_black_btn ct_btn_position_right"
+                                                (click)="addDrEmail(drEmail.value)">{{'Add'
+                                                | translate}}</button>
+                                    </div>
+                                    <span *ngIf="Form.controls['email'].invalid && Form.controls['email'].touched">
+                                          <span *ngIf="Form.controls['email'].errors?.['required']"
+                                                class="ct_text_red mt-2">
+                                                {{'Email' | translate}} {{'isRequired' | translate}}
+                                          </span>
+                                          <span *ngIf="Form.controls['email'].errors?.['email'] && !Form.controls['email'].errors?.['required']"
+                                                class="ct_text_red mt-2">
+                                                {{'Invalid' | translate}} {{'Email' | translate}} </span>
                                     </span>
                               </div>
                               <div class="d-flex align-items-center gap-3 mt-4 justify-content-center">

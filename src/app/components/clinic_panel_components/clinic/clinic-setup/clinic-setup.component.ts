@@ -394,7 +394,7 @@ export class ClinicSetupComponent {
       // formData.append('severity_levels', JSON.stringify(this.Form.value.severity_levels));
       formData.append('surgeries', JSON.stringify(this.Form.value.surgeries));
       // formData.append('aestheticDevices', JSON.stringify(this.Form.value.devices));
-      formData.append('language', 'en');
+      formData.append('language', localStorage.getItem('lang') || 'en');
       formData.append('zynq_user_id', this.userInfo.id);
       formData.append('form_stage', "3");
     } else {

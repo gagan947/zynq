@@ -319,5 +319,16 @@
       "videoButtonTitle": "The video button is active and green during your booked appointment time. To contact the customer/clinic outside this time, please use the chat function.",
       "Active": "Active",
       "VideoCall": "Video Call",
-      "ClinicVisit": "Clinic Visit"
+      "ClinicVisit": "Clinic Visit",
+      "NoSuggestedTreatments": "No Suggested Treatments",
+      "WhereasVAT": "Where as VAT",
+      "originalPrice": "Original Price",
+      "SubTotal": "Sub Total",
+      "IncVAT": "Inc. VAT",
+      "mustBeGreaterThanOrEqualTo": "must be 0 or greater than ",
+      "EmailAlreadyAdded": "Email already added",
+      "EnterEmail": "Enter Expert's Email",
+      "FirstName": "First Name",
+      "LastName": "Last Name",
+      "Optional": "Optional"
 }

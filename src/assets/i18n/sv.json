@@ -319,5 +319,16 @@
       "videoButtonTitle": "Videobuttonen är aktiv och grön under din bokad tid. För att kontakta kunden/kliniken utanför denna tid, vänligen använd chattfunktionen.",
       "Active": "Aktiv",
       "VideoCall": "Videoanrop",
-      "ClinicVisit": "Klinikbesök"
+      "ClinicVisit": "Klinikbesök",
+      "NoSuggestedTreatments": "Inga föreslagna behandlingar",
+      "WhereasVAT": "Därvid moms",
+      "originalPrice": "Originalpris",
+      "SubTotal": "Delsumma",
+      "IncVAT": "Inc. moms",
+      "mustBeGreaterThanOrEqualTo": "måste vara 0 eller större än till",
+      "EmailAlreadyAdded": "E-postadressen finns redan i systemet",
+      "EnterEmail": "Ange Experts e-postadress",
+      "FirstName": "Förnamn",
+      "LastName": "Efternamn",
+      "Optional": "Valfritt"
 }

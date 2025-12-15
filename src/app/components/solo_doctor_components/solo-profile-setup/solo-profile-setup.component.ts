@@ -141,7 +141,7 @@ export class SoloProfileSetupComponent {
 
     this.availabilityForm = this.fb.group({
       sameForAllDays: [true],
-      fee_per_session: ['', [Validators.required, Validators.min(0)]],
+      fee_per_session: ['', [Validators.required, Validators.min(4)]],
       days: this.fb.array(this.daysOfWeek.map(() => this.createDay()))
     });
   }
@@ -187,11 +187,11 @@ export class SoloProfileSetupComponent {
     const children = this.subTreatments(i)?.controls;
 
     if (parent.get('selected')?.value) {
-      parent.get('price')?.setValidators([Validators.required]);
+      parent.get('price')?.setValidators([Validators.required, Validators.min(3)]);
       parent.get('price')?.updateValueAndValidity();
       children?.forEach((sub: AbstractControl) => {
         sub.get('selected')?.setValue(true, { emitEvent: false });
-        sub.get('price')?.setValidators([Validators.required]);
+        sub.get('price')?.setValidators([Validators.required, Validators.min(3)]);
         sub.get('price')?.updateValueAndValidity();
       });
 
@@ -269,14 +269,14 @@ export class SoloProfileSetupComponent {
             id: t.id,
             name: t.name,
             selected: true,
-            price: [t.price, Validators.required],
+            price: [t.price, [Validators.required, Validators.min(3)]],
             sub_treatments: this.fb.array(
               (t.sub_treatments || []).map((sub: any) =>
                 this.fb.group({
                   id: sub.id,
                   name: sub.name,
                   selected: true,
-                  price: [sub.price, Validators.required],
+                  price: [sub.price, [Validators.required, Validators.min(3)]],
                 })
               )
             ),
@@ -320,7 +320,7 @@ export class SoloProfileSetupComponent {
     const parentPrice = parent.get('price') as FormControl;
 
     if (child.get('selected')?.value) {
-      child.get('price')?.setValidators([Validators.required]);
+      child.get('price')?.setValidators([Validators.required, Validators.min(3)]);
     } else {
       child.get('price')?.clearValidators();
       child.get('price')?.setValue('');
@@ -1091,6 +1091,7 @@ export class SoloProfileSetupComponent {
 
               this.getDevices();
 
+              // Patch data as before
               data.clinic?.treatments.forEach((item: any) => {
                 this.treatmentsArray.controls.forEach((t: any, index: number) => {
                   if (t.get('id')?.value === item.treatment_id) {
@@ -1108,6 +1109,18 @@ export class SoloProfileSetupComponent {
                   }
                 });
               });
+
+              // Now move selected treatments to top
+              if (this.treatmentsArray && this.treatmentsArray.controls) {
+                const controls = this.treatmentsArray.controls;
+
+                // Sorted: selected first, then unselected (stable)
+                controls.sort((a: any, b: any) => {
+                  const aSelected = a.get('selected')?.value ? 1 : 0;
+                  const bSelected = b.get('selected')?.value ? 1 : 0;
+                  return bSelected - aSelected;
+                });
+              }
               this.ExpertiseForm.patchValue({
                 skin_types: data.clinic?.skin_types.map((item: any) => item.skin_type_id),
                 surgeries: data.clinic?.surgeries_level.map((item: any) => item.surgery_id),

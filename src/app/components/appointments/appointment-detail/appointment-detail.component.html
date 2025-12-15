@@ -368,13 +368,35 @@
                                                       </tbody>
                                                 </table>
                                           </div>
+                                          <div class="d-flex justify-content-end gap-5">
+                                                <span class="d-flex align-items-center gap-2 justify-content-between"><strong>{{'originalPrice'
+                                                            | translate}} : </strong>
+                                                      {{calculateAmount(appointmentData?.treatments) |
+                                                      currency:'SEK'}}</span>
+                                                <span class="d-flex align-items-center gap-2 justify-content-between"><strong>VAT
+                                                            {{'Amount'
+                                                            | translate}} : </strong>
+                                                      {{calculateVATAmount(calculateAmount(appointmentData?.treatments))
+                                                      |
+                                                      currency:'SEK '}}</span>
+                                          </div>
                                     </div>
                               </div>
                               }
 
-                              @if(appointmentData?.suggestedTreatments.treatments.length > 0){
                               <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
-                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SuggestedTreatments' | translate}} -</h4>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                          <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SuggestedTreatments' | translate}} -
+                                          </h4>
+                                          <button class="ct_black_btn gap-2 ct_w_100_767 btn-sm mb-2"
+                                                (click)="scrollToSuggestTreatment()">
+                                                <span>
+                                                      {{appointmentData?.suggestedTreatments.treatments.length > 0 ?
+                                                      ('Edit' | translate) : ('SuggestTreatments'| translate)}}
+                                                </span>
+                                          </button>
+                                    </div>
+                                    @if(appointmentData?.suggestedTreatments.treatments.length > 0){
                                     <div>
                                           <div class="table-responsive">
                                                 <table class="table ct_custom_table">
@@ -460,22 +482,34 @@
                                                 </table>
                                           </div>
                                     </div>
-                                    <div class="d-flex justify-content-end gap-4">
-                                          <span><strong>{{'TotalPrice' | translate}} : </strong>
-                                                {{appointmentData?.suggestedTreatments.total_price |
-                                                currency:'SEK'}}</span>
-                                          <span><strong>{{'Discount' | translate}} : </strong>
+                                    <div class="d-flex justify-content-end gap-5">
+                                          <span class="d-flex align-items-center gap-2 justify-content-between"><strong>{{'originalPrice'
+                                                      | translate}} : </strong>
+                                                <del>{{appointmentData?.suggestedTreatments.total_price |
+                                                      currency:'SEK'}}</del></span>
+                                          <span class="d-flex align-items-center gap-2 justify-content-between"><strong>{{'Discount'
+                                                      | translate}} : </strong>
                                                 {{appointmentData?.suggestedTreatments.discount_amount |
                                                 currency:'SEK '}}</span>
-                                          <span><strong>{{'GrandTotal' | translate}} : </strong>
+                                          <span class="d-flex align-items-center gap-2 justify-content-between"><strong>{{'SubTotal'
+                                                      | translate}} : </strong>
                                                 {{appointmentData?.suggestedTreatments.total_price_with_discount |
                                                 currency:'SEK '}}</span>
+
                                     </div>
+                                    }@else {
+                                    <div class="text-center">
+                                          <p>{{'NoSuggestedTreatments' | translate}}</p>
+                                    </div>
+                                    }
+                              </div>
+                              @if(isEditSuggestedTreatments){
+                              <div id="suggestTreatmentRef"
+                                    class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
+                                    <app-suggest-treatment
+                                          [suggestedTreatments]="appointmentData?.suggestedTreatments"></app-suggest-treatment>
                               </div>
                               }
-                              <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
-                                    <app-suggest-treatment></app-suggest-treatment>
-                              </div>
                         </div>
                   </div>
             </div>

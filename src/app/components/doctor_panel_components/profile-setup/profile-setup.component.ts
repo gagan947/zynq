@@ -77,9 +77,10 @@ export class ProfileSetupComponent {
 
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      lastName: [''],
       phone: ['', [Validators.required]],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      biography: ['']
+      biography: ['', [Validators.required, NoWhitespaceDirective.validate]]
     });
 
     this.Form = this.fb.group({
@@ -91,7 +92,7 @@ export class ProfileSetupComponent {
 
     this.availabilityForm = this.fb.group({
       sameForAllDays: [true],
-      fee_per_session: ['', [Validators.required, Validators.min(0)]],
+      fee_per_session: ['', [Validators.required, Validators.min(4)]],
       days: this.fb.array(this.daysOfWeek.map(() => this.createDay()))
     });
 
@@ -145,12 +146,12 @@ export class ProfileSetupComponent {
 
     if (parent.get('selected')?.value) {
       // Set validator so user has to enter price at runtime, but don't set price value yet
-      parentPrice.setValidators([Validators.required]);
+      parentPrice.setValidators([Validators.required, Validators.min(3)]);
       parentPrice.updateValueAndValidity();
 
       children.forEach((sub: AbstractControl) => {
         sub.get('selected')?.setValue(true, { emitEvent: false });
-        sub.get('price')?.setValidators([Validators.required]);
+        sub.get('price')?.setValidators([Validators.required, Validators.min(3)]);
         sub.get('price')?.updateValueAndValidity();
       });
 
@@ -239,14 +240,14 @@ export class ProfileSetupComponent {
             id: t.id,
             name: t.name,
             selected: true,
-            price: [t.price, Validators.required],
+            price: [t.price, [Validators.required, Validators.min(3)]],
             sub_treatments: this.fb.array(
               (t.sub_treatments || []).map((sub: any) =>
                 this.fb.group({
                   id: sub.id,
                   name: sub.name,
                   selected: true,
-                  price: [sub.price, Validators.required],
+                  price: [sub.price, [Validators.required, Validators.min(3)]],
                 })
               )
             ),
@@ -283,14 +284,13 @@ export class ProfileSetupComponent {
     }
   }
 
-
   onChildSelectChange(i: number, j: number) {
     const child = this.subTreatments(i).at(j);
     const parent = this.treatmentsArray.at(i);
     const parentPrice = parent.get('price') as FormControl;
 
     if (child.get('selected')?.value) {
-      child.get('price')?.setValidators([Validators.required]);
+      child.get('price')?.setValidators([Validators.required, Validators.min(3)]);
     } else {
       child.get('price')?.clearValidators();
       child.get('price')?.setValue('');
@@ -384,6 +384,7 @@ export class ProfileSetupComponent {
       const data = res.data;
       this.personalForm.patchValue({
         fullName: data.name,
+        lastName: data.last_name,
         phone: data.phone,
         address: data.address,
         biography: data.biography
@@ -420,6 +421,18 @@ export class ProfileSetupComponent {
           }
         });
       });
+
+      // Now move selected treatments to top
+      if (this.treatmentsArray && this.treatmentsArray.controls) {
+        const controls = this.treatmentsArray.controls;
+
+        // Sorted: selected first, then unselected (stable)
+        controls.sort((a: any, b: any) => {
+          const aSelected = a.get('selected')?.value ? 1 : 0;
+          const bSelected = b.get('selected')?.value ? 1 : 0;
+          return bSelected - aSelected;
+        });
+      }
       this.Form.patchValue({
         skin_types: data?.skinTypes.map((item: any) => item.skin_type_id),
         surgeries: data?.surgery.map((item: any) => item.surgery_id),
@@ -613,10 +626,11 @@ export class ProfileSetupComponent {
     };
     const formData = new FormData();
     formData.append('name', this.personalForm.value.fullName);
+    formData.append('last_name', this.personalForm.value.lastName);
     formData.append('phone', this.personalForm.value.phone.e164Number);
     formData.append('address', this.personalForm.value.address);
     formData.append('biography', this.personalForm.value.biography);
-
+    // formData.append('language', localStorage.getItem('lang') || 'en');
     if (this.profileImage) {
       formData.append('file', this.profileImage, this.profileImage.name);
     }
@@ -629,8 +643,8 @@ export class ProfileSetupComponent {
       error: (error) => {
       }
     });
-
   };
+
   onSubmitProfessional() {
     const formData = new FormData();
     const education = this.education.map(edu => ({

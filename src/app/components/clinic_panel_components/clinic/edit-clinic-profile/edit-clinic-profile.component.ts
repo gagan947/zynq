@@ -382,7 +382,7 @@ export class EditClinicProfileComponent {
       formData.append('skin_types', JSON.stringify(this.Form.value.skin_types));
       formData.append('surgeries', JSON.stringify(this.Form.value.surgeries));
       // formData.append('aestheticDevices', JSON.stringify(this.Form.value.devices));
-      formData.append('language', 'en');
+      formData.append('language', localStorage.getItem('lang') || 'en');
       formData.append('zynq_user_id', this.userInfo.id);
     } else {
       this.Form.markAllAsTouched();

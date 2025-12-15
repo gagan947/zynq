@@ -176,9 +176,9 @@ export class AddTreatmentComponent {
           concerns: this.treatmetData?.concerns?.map((item: any) => item.concern_id) || [],
           sub_treatments: this.treatmetData?.sub_treatments?.map((item: any) => item.sub_treatment_id) || [],
         });
-        this.selectedDevices = this.treatmetData?.device_name?.split(',') || [];
-        this.selectedTerms = this.treatmetData?.like_wise_terms?.split(',') || [];
-        this.selectedBenefits = this.treatmetData?.benefits_en?.split(',') || [];
+        this.selectedDevices = this.treatmetData?.device_name ? this.treatmetData.device_name.split(',') : [];
+        this.selectedTerms = this.treatmetData?.like_wise_terms ? this.treatmetData.like_wise_terms.split(',') : [];
+        this.selectedBenefits = this.treatmetData?.benefits_en ? this.treatmetData.benefits_en.split(',') : [];
         this.loader.hide();
       } else {
         this.toster.error(res.message);

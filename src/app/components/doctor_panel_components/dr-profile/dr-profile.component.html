@@ -37,7 +37,7 @@
                                     <label for="" class="mb-2 ct_text_black">{{'FullName' | translate}}</label>
                                     <input type="text" class="form-control ct_input"
                                         placeholder="{{'Enter' | translate}} {{'FullName' | translate}}"
-                                        value="{{doctor.data.name}}" disabled>
+                                        value="{{doctor.data.name}} {{doctor.data.last_name}}" disabled>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -60,7 +60,7 @@
                     </div>
                     @if(doctor.data.biography){
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_px_30 py-4 mt-4 pe-0 mb-4">
-                        <h4 class="ct_fs_20 ct_fw_600 mb-2">{{'Biography' | translate}}:</h4>
+                        <h4 class="ct_fs_20 ct_fw_600 mb-2">{{'Description' | translate}}:</h4>
                         <p class="ct_grey_text mb-0 ct_para_scroll ct_custom_scroll ct_pe_30 mt-3">
                             {{doctor.data.biography}}
                         </p>

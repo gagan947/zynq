@@ -71,9 +71,10 @@ export class EditProfileComponent {
   ngOnInit(): void {
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      lastName: [''],
       phone: ['', [Validators.required, Validators.min(0)]],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
-      biography: ['']
+      biography: ['', [Validators.required, NoWhitespaceDirective.validate]]
     });
 
     this.Form = this.fb.group({
@@ -85,7 +86,7 @@ export class EditProfileComponent {
 
     this.availabilityForm = this.fb.group({
       sameForAllDays: [true],
-      fee_per_session: ['', [Validators.required, Validators.min(0)]],
+      fee_per_session: ['', [Validators.required, this.allowedPriceValidator.bind(this)]],
       days: this.fb.array(this.daysOfWeek.map(() => this.createDay()))
     });
 
@@ -117,19 +118,28 @@ export class EditProfileComponent {
       id: t.treatment_id,
       name: t.name,
       selected: false,
-      price: '',
+      price: ['', [Validators.required, this.allowedPriceValidator.bind(this)]],
       sub_treatments: this.fb.array(
         t.sub_treatments?.length > 0 ? t.sub_treatments.map((sub: any) =>
           this.fb.group({
             id: sub.sub_treatment_id,
             name: sub.name,
             selected: false,
-            price: '',
+            price: ['', [Validators.required, this.allowedPriceValidator.bind(this)]],
           })
         ) : []
       ),
     });
   }
+
+  allowedPriceValidator(control: AbstractControl) {
+    const value = Number(control.value);
+
+    if (value == 0) return null;
+    if (value >= 3) return null;
+    return { invalidPrice: true };
+  }
+
 
 
   onTreatmentSelectChange(i: number) {
@@ -138,11 +148,11 @@ export class EditProfileComponent {
     const children = this.subTreatments(i)?.controls;
 
     if (parent.get('selected')?.value) {
-      parent.get('price')?.setValidators([Validators.required]);
+      parent.get('price')?.setValidators([Validators.required, this.allowedPriceValidator.bind(this)]);
       parent.get('price')?.updateValueAndValidity();
       children?.forEach((sub: AbstractControl) => {
         sub.get('selected')?.setValue(true, { emitEvent: false });
-        sub.get('price')?.setValidators([Validators.required]);
+        sub.get('price')?.setValidators([Validators.required, this.allowedPriceValidator.bind(this)]);
         sub.get('price')?.updateValueAndValidity();
       });
 
@@ -166,7 +176,6 @@ export class EditProfileComponent {
       parentPrice.setValue('');
     }
 
-    // Update selectedTreatments array to REMOVE unselected treatments
     if (!this.selectedTreatments) {
       this.selectedTreatments = [];
     }
@@ -220,14 +229,14 @@ export class EditProfileComponent {
             id: t.id,
             name: t.name,
             selected: true,
-            price: [t.price, Validators.required],
+            price: [t.price, [Validators.required, this.allowedPriceValidator.bind(this)]],
             sub_treatments: this.fb.array(
               (t.sub_treatments || []).map((sub: any) =>
                 this.fb.group({
                   id: sub.id,
                   name: sub.name,
                   selected: true,
-                  price: [sub.price, Validators.required],
+                  price: [sub.price, [Validators.required, this.allowedPriceValidator.bind(this)]],
                 })
               )
             ),
@@ -271,7 +280,7 @@ export class EditProfileComponent {
     const parentPrice = parent.get('price') as FormControl;
 
     if (child.get('selected')?.value) {
-      child.get('price')?.setValidators([Validators.required]);
+      child.get('price')?.setValidators([Validators.required, this.allowedPriceValidator.bind(this)]);
     } else {
       child.get('price')?.clearValidators();
       child.get('price')?.setValue('');
@@ -368,6 +377,7 @@ export class EditProfileComponent {
       this.apiService._doctorProfile.set(data);
       this.personalForm.patchValue({
         fullName: data.name,
+        lastName: data.last_name,
         phone: data.phone,
         address: data.address,
         biography: data.biography
@@ -406,6 +416,18 @@ export class EditProfileComponent {
           }
         });
       });
+
+      // Now move selected treatments to top
+      if (this.treatmentsArray && this.treatmentsArray.controls) {
+        const controls = this.treatmentsArray.controls;
+
+        // Sorted: selected first, then unselected (stable)
+        controls.sort((a: any, b: any) => {
+          const aSelected = a.get('selected')?.value ? 1 : 0;
+          const bSelected = b.get('selected')?.value ? 1 : 0;
+          return bSelected - aSelected;
+        });
+      }
       this.Form.patchValue({
         skin_types: data?.skinTypes.map((item: any) => item.skin_type_id),
         surgeries: data?.surgery.map((item: any) => item.surgery_id),
@@ -605,10 +627,11 @@ export class EditProfileComponent {
     this.loading = true;
     const formData = new FormData();
     formData.append('name', this.personalForm.value.fullName);
+    formData.append('last_name', this.personalForm.value.lastName);
     formData.append('phone', this.personalForm.value.phone.e164Number);
     formData.append('address', this.personalForm.value.address);
     formData.append('biography', this.personalForm.value.biography);
-
+    // formData.append('language', localStorage.getItem('lang') || 'en');
     if (this.profileImage) {
       formData.append('file', this.profileImage, this.profileImage.name);
     }

@@ -26,8 +26,10 @@ export class DoctorsManagementComponent {
   Form!: FormGroup
   imagePreview: string = 'assets/img/np_pro.jpg';
   doctorId: string | undefined;
+  selectedDrEmail: string[] = [];
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
   @ViewChild('closeButton2') closeButton2!: ElementRef<HTMLButtonElement>;
+  @ViewChild('drEmail') drEmail!: ElementRef<HTMLInputElement>;
   constructor(
     private router: Router,
     private service: CommonService,
@@ -77,21 +79,26 @@ export class DoctorsManagementComponent {
   }
 
   onSubmit() {
-    this.service.post<any, any>('clinic/send-doctor-invitation', { emails: [this.Form.value.email] }).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: (resp) => {
-        if (resp.success) {
-          this.toster.success(resp.message)
-          this.closeButton.nativeElement.click();
-        } else {
-          this.toster.error(resp.message)
+    if (this.Form.valid) {
+      this.service.post<any, any>('clinic/send-doctor-invitation', { emails: this.selectedDrEmail }).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (resp) => {
+          if (resp.success) {
+            this.toster.success(resp.message)
+            this.closeButton.nativeElement.click();
+          } else {
+            this.toster.error(resp.message)
+          }
+        },
+        error: (error) => {
+          this.toster.error(error);
         }
-      },
-      error: (error) => {
-        this.toster.error(error);
-      }
-    })
+      })
+    }
+    else {
+      this.Form.markAllAsTouched();
+    }
   }
 
   opanUnlinkModal(doctorId: string) {
@@ -187,6 +194,23 @@ export class DoctorsManagementComponent {
     downloadLink.download = "Doctors.csv";
     downloadLink.href = window.URL.createObjectURL(csvFile);
     downloadLink.click();
+  }
+
+  addDrEmail(email: string) {
+    if (this.Form.valid) {
+      if (!this.selectedDrEmail.includes(email)) {
+        this.selectedDrEmail.push(email.trim());
+        this.drEmail.nativeElement.value = '';
+      } else {
+        this.toster.error('Email already added');
+      }
+    } else {
+      this.Form.markAllAsTouched();
+    }
+  }
+
+  removeDrEmail(index: number) {
+    this.selectedDrEmail.splice(index, 1);
   }
 }
 

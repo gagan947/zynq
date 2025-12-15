@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, Input } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonService } from '../../../services/common.service';
@@ -29,10 +29,12 @@ export class SuggestTreatmentComponent {
   discount: number = 0;
   loading: boolean = false
   collapseStates: boolean[] = [];
-
+  @Input() suggestedTreatments?: any = [];
+  isOnCall: boolean = false;
   constructor(private service: CommonService, private socketService: SocketService, private translate: TranslateService, private toastr: NzMessageService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
     effect(() => {
+      this.isOnCall = this.service.isReloadAppointmentData();
       this.appointmentData = this.service._appointmentData();
       if (this.appointmentData) {
         this.getRecommendedTreatments(this.appointmentData.doctor_id)
@@ -56,6 +58,24 @@ export class SuggestTreatmentComponent {
       takeUntil(this.destroy$)
     ).subscribe((res: any) => {
       this.recommendedTreatments = res.data;
+      if (this.suggestedTreatments) {
+        this.suggestedTreatment = this.suggestedTreatments.treatments.map((treatment: any) => {
+          return {
+            treatment_id: treatment.treatment_id,
+            price: treatment.price,
+            sub_treatments: treatment.sub_treatments.map((sub: any) => {
+              return {
+                sub_treatment_id: sub.sub_treatment_id,
+                price: sub.price
+              }
+            })
+          }
+        });
+        this.isApplyDiscount = this.suggestedTreatments.discount_value > 0;
+        this.discount = this.suggestedTreatments.discount_value;
+        this.discountType = this.suggestedTreatments.discount_type;
+        this.updateTotalAmount();
+      }
     });
   }
 
