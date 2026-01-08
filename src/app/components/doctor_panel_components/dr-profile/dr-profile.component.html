@@ -29,7 +29,8 @@
                                 <img [src]="doctor.data.profile_image ? doctor.data.profile_image : 'assets/img/np_pro.jpg'"
                                     alt="">
                             </div>
-                            <h4 class="ct_fs_24 ct_fw_600 mb-0 text-center mt-4">{{doctor.data.name}}</h4>
+                            <h4 class="ct_fs_24 ct_fw_600 mb-0 text-center mt-4">{{doctor.data.name}}
+                                {{doctor.data.last_name}}</h4>
                         </div>
                         <div class="row mt-4">
                             <div class="col-md-12">
@@ -145,148 +146,11 @@
                         </div>
                     </div>
                     }
-                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
-                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentsProvided' | translate}}</h4>
-                        <div>
-                            <!-- <ul
-                                class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                @for (item of doctor.data.treatments; track $index) {
-                                <li>
-                                    <button class="ct_select_badge">{{item.name}} </button>
-                                </li>
-                                }
-                            </ul> -->
-
-                            <div class="table-responsive">
-                                <table class="table ct_custom_table">
-                                    <thead>
-                                        <tr class="bg-gray-200">
-                                            <th class="border p-2">Sr. No</th>
-                                            <th class="border p-2">{{'Treatment' | translate}}</th>
-                                            <th class="border p-2">{{'Price' | translate}}</th>
-                                            <th class="border p-2"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for (item of doctor.data.treatments; track $index) {
-                                        <tr>
-                                            <td class="border p-2 align-middle">{{$index + 1}}</td>
-                                            <td class="border p-2 align-middle">{{item.treatment_name_en}}</td>
-                                            <td class="border p-2 align-middle">{{item.price | currency:'SEK '}}</td>
-                                            <td class="border p-2 align-middle text-center" style="width:40px">
-                                                @if(item.sub_treatments && item.sub_treatments.length > 0){
-                                                <a href="javascript:void(0)" data-bs-toggle="collapse"
-                                                    [attr.data-bs-target]="'#collapseSubTreatments'+$index"
-                                                    [attr.aria-expanded]="'false'"
-                                                    [attr.aria-controls]="'collapseSubTreatments'+$index"
-                                                    (click)="toggleCollapse(collapseStates, $index)">
-                                                    <i class="fa" [ngClass]="{
-                                                            'fa-chevron-down': !(collapseStates[ $index ]),
-                                                            'fa-chevron-up': collapseStates[ $index ]
-                                                        }"></i>
-                                                </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                        @if(item.sub_treatments && item.sub_treatments.length > 0){
-                                        <tr class="collapse" [id]="'collapseSubTreatments'+$index">
-                                            <td colspan="4" class="p-0 border-0">
-                                                <table class="table mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="border p-2">Sr. No</th>
-                                                            <th class="border p-2">{{'SubTreatments' | translate}}</th>
-                                                            <th class="border p-2">{{'Price' | translate}}</th>
-                                                            <!-- <th class="border p-2"></th> -->
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @for (sub of item.sub_treatments; track $index) {
-                                                        <tr>
-                                                            <td class="border p-2">{{$index + 1}}</td>
-                                                            <td class="border p-2">{{sub.sub_treatment_name_en}}</td>
-                                                            <td class="border p-2">{{sub.sub_treatment_price |
-                                                                currency:'SEK '}}</td>
-                                                            <!-- <td></td> -->
-                                                        </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @if(doctor.data.skinTypes && doctor.data.skinTypes.length > 0){
-                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinTypeExpertise' | translate}}</h4>
-                        <div>
-                            <ul
-                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                @for (item of doctor.data.skinTypes; track $index) {
-                                <li>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-check"></i>
-                                        <label class="form-check-label mb-0" for="flexCheckDefault">
-                                            {{item.name}}
-                                        </label>
-                                    </div>
-                                </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    }
-                    @if(doctor.data.surgery && doctor.data.surgery.length > 0){
-                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Surgeries' | translate}}</h4>
-                        <div>
-                            <ul
-                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                @for (item of doctor.data.surgery; track $index) {
-                                <li>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-check"></i>
-                                        <label class="form-check-label mb-0" for="flexCheckDefault">
-                                            {{item.english}}
-                                        </label>
-                                    </div>
-                                </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    }
-                    @if(doctor.data.devices && doctor.data.devices.length > 0){
-                    <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                        <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Devices' | translate}}</h4>
-                        <div>
-                            <ul
-                                class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                @for (item of doctor.data.devices; track $index) {
-                                <li>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-check"></i>
-                                        <label class="form-check-label mb-0" for="flexCheckDefault">
-                                            {{item.device_name}}
-                                        </label>
-                                    </div>
-                                </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    }
                     @if(doctor.data.certifications && doctor.data.certifications.length > 0){
                     <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mb-4 mt-4 pe-0">
                         <h4 class="ct_fs_20 ct_fw_600 mb-4">{{'UploadedCertifications' | translate}}</h4>
-                        <ul class="ct_para_scroll ct_custom_scroll d-flex align-items-center gap-4 flex-wrap ct_pe_30"
-                            *ngFor="let certificate of doctor.data.certifications; let i = index">
-                            <li>
+                        <ul class="ct_para_scroll ct_custom_scroll d-flex align-items-center gap-4 flex-wrap ct_pe_30">
+                            <li *ngFor="let certificate of doctor.data.certifications; let i = index">
                                 <div class="d-flex align-items-start gap-2 ct_outline_border">
                                     <img src="../assets/img/file_img.png" alt="">
                                     <div class="d-flex align-items-center gap-2">
@@ -300,62 +164,204 @@
                         </ul>
                     </div>
                     }
-                    <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4 mt-4">
-                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'ConsultationFees' | translate}}</h5>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">{{'FeeperSession' | translate}}</label>
-                                    <div class="position-relative">
-                                        <input type="text" class="form-control ct_input"
-                                            placeholder="Enter fee per session" disabled
-                                            value="{{doctor.data.fee_per_session}}">
-                                        <span class="ct_show_eye">SEK</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="" class="mb-2 ct_text_black">Session Duration</label>
-                                    <input type="text" class="form-control ct_input" disabled
-                                        value="{{doctor.data.session_duration}}">
-                                </div>
-                            </div> -->
-                        </div>
-                    </div>
-                    <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Availability' | translate}}</h5>
-                        <div class="row align-items-center ct_border_btm_1 py-3"
-                            *ngFor="let item of mapDoctorAvailability(doctor.data.availability); let i = index">
-                            <div class="col-md-3">
-                                <div class="mb-2 mb-md-0">
-                                    <p class="mb-0 ct_text_clr_444 ct_fs_18 text-capitalize">{{item.day}}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-9">
-                                <div class="d-flex align-items-center gap-3 flex-wrap">
-                                    @for (item of item.slots; track $index) {
-                                    <div class="ct_custom_badge12">
-                                        <div class="d-flex align-items-center gap-3">
-                                            <h6 class="mb-0">{{convertTime(item.start_time_utc) | date: 'HH:mm'}} -
-                                                {{convertTime(item.end_time_utc) | date: 'HH:mm'}}
-                                            </h6>
-                                            <span>{{item.slot_duration}} {{'Minutes' | translate}}</span>
+                    <hr>
+                    <nz-tabset [nzSelectedIndex]="selectedIndex" (nzSelectedIndexChange)="clinicSelectionChange($event)"
+                        nzType="card">
+                        <ng-container *ngFor="let clinic of doctor.data.clinics let i = index">
+                            <nz-tab class="" [nzTitle]="clinic.clinic_name">
+                                <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-2">
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentsProvided' | translate}}</h4>
+                                    <div>
+                                        <div class="table-responsive">
+                                            <table class="table ct_custom_table">
+                                                <thead>
+                                                    <tr class="bg-gray-200">
+                                                        <th class="border p-2">Sr. No</th>
+                                                        <th class="border p-2">{{'Treatment' | translate}}</th>
+                                                        <th class="border p-2">{{'Price' | translate}}</th>
+                                                        <th class="border p-2"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (item of doctor.data.clinics[i].treatments; track $index) {
+                                                    <tr>
+                                                        <td class="border p-2 align-middle">{{$index + 1}}</td>
+                                                        <td class="border p-2 align-middle">{{item.name}}
+                                                        </td>
+                                                        <td class="border p-2 align-middle">{{item.price |
+                                                            currency:'SEK'}}</td>
+                                                        <td class="border p-2 align-middle text-center"
+                                                            style="width:40px">
+                                                            @if(item.sub_treatments && item.sub_treatments.length > 0){
+                                                            <a href="javascript:void(0)" data-bs-toggle="collapse"
+                                                                [attr.data-bs-target]="'#collapseSubTreatments'+$index"
+                                                                [attr.aria-expanded]="'false'"
+                                                                [attr.aria-controls]="'collapseSubTreatments'+$index"
+                                                                (click)="toggleCollapse(collapseStates, $index)">
+                                                                <i class="fa" [ngClass]="{
+                                                                                                'fa-chevron-down': !(collapseStates[ $index ]),
+                                                                                                'fa-chevron-up': collapseStates[ $index ]
+                                                                                            }"></i>
+                                                            </a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    @if(item.sub_treatments && item.sub_treatments.length > 0){
+                                                    <tr class="collapse" [id]="'collapseSubTreatments'+$index">
+                                                        <td colspan="4" class="p-0 border-0">
+                                                            <table class="table mb-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="border p-2">Sr. No</th>
+                                                                        <th class="border p-2">{{'SubTreatments' |
+                                                                            translate}}</th>
+                                                                        <th class="border p-2">{{'Price' | translate}}
+                                                                        </th>
+                                                                        <!-- <th class="border p-2"></th> -->
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @for (sub of item.sub_treatments; track $index) {
+                                                                    <tr>
+                                                                        <td class="border p-2">{{$index + 1}}</td>
+                                                                        <td class="border p-2">
+                                                                            {{sub.sub_treatment_name_en}}</td>
+                                                                        <td class="border p-2">{{sub.sub_treatment_price
+                                                                            |
+                                                                            currency:'SEK '}}</td>
+                                                                    </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    }
                                 </div>
-                            </div>
-                            <!-- <div class="col-md-6">
-                                          <div class="d-flex align-items-center gap-3">
-                                                <h6>Closed</h6>
-                                          </div>
-                                    </div> -->
+                                @if(doctor.data.clinics[i].skinTypes && doctor.data.clinics[i].skinTypes.length > 0){
+                                <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinTypeExpertise' | translate}}</h4>
+                                    <div>
+                                        <ul
+                                            class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                            @for (item of doctor.data.clinics[selectedIndex].skinTypes; track $index) {
+                                            <li>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <i class="fa-solid fa-check"></i>
+                                                    <label class="form-check-label mb-0" for="flexCheckDefault">
+                                                        {{item.name}}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                }
+                                @if(doctor.data.clinics[i].surgeries && doctor.data.clinics[i].surgeries.length > 0){
+                                <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Surgeries' | translate}}</h4>
+                                    <div>
+                                        <ul
+                                            class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                            @for (item of doctor.data.clinics[i].surgeries; track $index) {
+                                            <li>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <i class="fa-solid fa-check"></i>
+                                                    <label class="form-check-label mb-0" for="flexCheckDefault">
+                                                        {{item.type}}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                }
+                                @if(doctor.data.clinics[i].devices && doctor.data.clinics[i].devices.length > 0){
+                                <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                                    <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Devices' | translate}}</h4>
+                                    <div>
+                                        <ul
+                                            class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                            @for (item of doctor.data.clinics[i].devices; track $index) {
+                                            <li>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <i class="fa-solid fa-check"></i>
+                                                    <label class="form-check-label mb-0" for="flexCheckDefault">
+                                                        {{item.device_name}}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                }
+                                <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4 mt-4">
+                                    <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'ConsultationFees' | translate}}
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">{{'FeeperSession' |
+                                                    translate}}</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control ct_input"
+                                                        placeholder="Enter fee per session" disabled
+                                                        [value]="doctor.data.clinics[i].fee_per_session">
+                                                    <span class="ct_show_eye">SEK</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label for="" class="mb-2 ct_text_black">{{'SessionDuration' |
+                                                    translate}}</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control ct_input"
+                                                        placeholder="Enter fee per session" disabled
+                                                        [value]="doctor.data.clinics[i].doctor_slot_time">
+                                                    <span class="ct_show_eye">SEK</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
+                                    <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Availability' | translate}}</h5>
+                                    <div class="row align-items-center ct_border_btm_1 py-3"
+                                        *ngFor="let item of doctor.data.clinics[i].slots; let i = index">
+                                        <div class="col-md-3">
+                                            <div class="mb-2 mb-md-0">
+                                                <p class="mb-0 ct_text_clr_444 ct_fs_18 text-capitalize">{{item.day}}
+                                                </p>
+                                            </div>
+                                        </div>
 
-                        </div>
-                    </div>
+                                        <div class="col-md-9">
+                                            <div class="d-flex align-items-center gap-3 flex-wrap">
+                                                @for (slot of shortSlots(item.session); track $index) {
+                                                <div class="ct_custom_badge12">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <h6 class="mb-0">{{convertTime(slot.start_time)}} -
+                                                            {{convertTime(slot.end_time)}}
+                                                        </h6>
+                                                        <!-- <span>{{item.slot_duration}} {{'Minutes' | translate}}</span> -->
+                                                    </div>
+                                                </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nz-tab>
+                        </ng-container>
+                    </nz-tabset>
                 </form>
                 }
                 }

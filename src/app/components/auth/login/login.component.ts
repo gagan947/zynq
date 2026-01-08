@@ -63,7 +63,7 @@ export class LoginComponent {
                 this.router.navigateByUrl('/clinic/profile-setup')
               }
             } else if (resp.data.role_id == '3677a3e6-3196-11f0-9e07-0e8e5d906eef') { // Doctor
-              if (resp.data.on_boarding_status == 4) {
+              if (resp.data.on_boarding_status == 3) {
                 this.router.navigateByUrl('/doctor')
               } else if (resp.data.is_password_set === 0) {
                 this.router.navigateByUrl('/set-password')

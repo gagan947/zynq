@@ -30,7 +30,7 @@ export interface ClinicProfile {
       clinic_logo: string;
       language: string;
       location: ClinicLocation;
-      treatments: Treatment[];
+      treatments: any[];
       operation_hours: ClinicOperationHour[];
       equipments: Equipment[];
       skin_types: SkinType[];
@@ -42,6 +42,8 @@ export interface ClinicProfile {
       images: any[];
       profile_status: string;
       is_onboarded: number;
+      same_for_all: number;
+      slot_time: string;
 }
 
 export interface SkinCondition {
@@ -121,12 +123,8 @@ export interface ClinicDocument {
 }
 
 export interface AestheticDevice {
-      aesthetic_device_id: string;
-      device: string;
-      category: string;
-      main_application: string;
-      manufacturer: string;
-      swedish_distributor: string;
-      created_at: string;  // or Date if you plan to convert it
-      updated_at: string;  // or Date if you plan to convert it
+      device_name: string;
+      created_at: string;
+      id: string;
+      treatment_id: string;
 }

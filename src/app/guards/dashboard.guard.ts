@@ -11,7 +11,7 @@ export class DashboardGuard implements CanActivate {
             const allowedRoles = route.data['roles'] as string[];
             const userRole = this.auth.getRoleName();
             const userData = this.auth.getUserInfo();
-            if (allowedRoles?.includes(userRole!) && userData.is_onboarded || allowedRoles?.includes(userRole!) && userData.on_boarding_status == 4 || allowedRoles?.includes(userRole!) && userData.is_onboarded) return true;
+            if (allowedRoles?.includes(userRole!) && userData.is_onboarded || allowedRoles?.includes(userRole!) && userData.on_boarding_status == 3 || allowedRoles?.includes(userRole!) && userData.is_onboarded) return true;
 
             return this.router.createUrlTree(['/unauthorized']);
       }

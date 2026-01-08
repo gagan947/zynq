@@ -319,6 +319,122 @@
                                     </ul>
                               </div>
                         </div> -->
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4">
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'TreatmentsProvided' | translate}} -</h4>
+                              <div>
+                                    <!-- <ul
+                                                                  class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
+                                                                  @for (item of this.soloDrProfile()?.treatments; track $index) {
+                                                                  <li>
+                                                                        <button class="ct_select_badge">{{item.name}} </button>
+                                                                  </li>
+                                                                  }
+                                                            </ul> -->
+
+
+                                    <div class="table-responsive">
+                                          <table class="table ct_custom_table">
+                                                <thead>
+                                                      <tr class="bg-gray-200">
+                                                            <th class="border p-2">Sr. No</th>
+                                                            <th class="border p-2">{{'Treatment' | translate}}
+                                                            </th>
+                                                            <th class="border p-2">{{'Price' | translate}}</th>
+                                                            <th class="border p-2"></th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody>
+                                                      @for (item of this.clinicProfile()?.treatments; track
+                                                      $index) {
+                                                      <tr>
+                                                            <td class="border p-2 align-middle">{{$index + 1}}
+                                                            </td>
+                                                            <td class="border p-2 align-middle">
+                                                                  {{item.name}}</td>
+                                                            <td class="border p-2 align-middle">{{item.total_price |
+                                                                  currency:'SEK '}}</td>
+                                                            <td class="border p-2 align-middle text-center"
+                                                                  style="width:40px">
+                                                                  @if(item.sub_treatments &&
+                                                                  item.sub_treatments.length > 0){
+                                                                  <a href="javascript:void(0)" data-bs-toggle="collapse"
+                                                                        [attr.data-bs-target]="'#collapseSubTreatments'+$index"
+                                                                        [attr.aria-expanded]="'false'"
+                                                                        [attr.aria-controls]="'collapseSubTreatments'+$index"
+                                                                        (click)="toggleCollapse(collapseStates, $index)">
+                                                                        <i class="fa" [ngClass]="{
+                                                                                                                  'fa-chevron-down': !(collapseStates[ $index ]),
+                                                                                                                  'fa-chevron-up': collapseStates[ $index ]
+                                                                                                              }"></i>
+                                                                  </a>
+                                                                  }
+                                                            </td>
+                                                      </tr>
+                                                      @if(item.sub_treatments && item.sub_treatments.length > 0){
+                                                      <tr class="collapse" [id]="'collapseSubTreatments'+$index">
+                                                            <td colspan="4" class="p-0 border-0">
+                                                                  <table class="table mb-0">
+                                                                        <thead>
+                                                                              <tr>
+                                                                                    <th class="border p-2">Sr. No
+                                                                                    </th>
+                                                                                    <th class="border p-2">
+                                                                                          {{'SubTreatments' |
+                                                                                          translate}}</th>
+                                                                                    <th class="border p-2">
+                                                                                          {{'Price' | translate}}
+                                                                                    </th>
+                                                                                    <!-- <th class="border p-2"></th> -->
+                                                                              </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                              @for (sub of item.sub_treatments;
+                                                                              track $index) {
+                                                                              <tr>
+                                                                                    <td class="border p-2">
+                                                                                          {{$index + 1}}</td>
+                                                                                    <td class="border p-2">
+                                                                                          {{sub.name}}
+                                                                                    </td>
+                                                                                    <td class="border p-2">
+                                                                                          {{sub.price
+                                                                                          |
+                                                                                          currency:'SEK '}}</td>
+                                                                                    <!-- <td></td> -->
+                                                                              </tr>
+                                                                              }
+                                                                        </tbody>
+                                                                  </table>
+                                                            </td>
+                                                      </tr>
+                                                      }
+                                                      }
+                                                </tbody>
+                                          </table>
+                                    </div>
+                              </div>
+                        </div>
+                        @if(this.clinicProfile()?.aestheticDevices && this.clinicProfile()!.aestheticDevices.length >
+                        0){
+                        <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
+                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Devices' | translate}} -</h4>
+                              <div>
+                                    <ul
+                                          class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
+                                          @for (item of this.clinicProfile()!.aestheticDevices; track $index) {
+                                          <li>
+                                                <div class="d-flex align-items-center gap-2">
+                                                      <i class="fa-solid fa-check"></i>
+                                                      <label class="form-check-label mb-0" for="flexCheckDefault">
+                                                            {{item.device_name}}
+                                                      </label>
+                                                </div>
+                                          </li>
+                                          }
+                                    </ul>
+                              </div>
+                        </div>
+                        }
                         @if(this.clinicProfile()?.skin_types && this.clinicProfile()?.skin_types!.length > 0){
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
                               <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'SkinTypeExpertise' | translate}} -</h4>
@@ -379,24 +495,42 @@
                               </div>
                         </div>
                         }
-                        <!-- <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_p_20 mt-4 pe-0">
-                              <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Devices' | translate}} -</h4>
-                              <div>
-                                    <ul
-                                          class="d-flex align-items-center gap-4 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                          @for (item of this.clinicProfile()?.aestheticDevices; track $index) {
-                                          <li>
-                                                <div class="d-flex align-items-center gap-2">
-                                                      <i class="fa-solid fa-check"></i>
-                                                      <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                            {{item.device}}
-                                                      </label>
+                        <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 my-4">
+                              <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Availability' | translate}}</h5>
+                              <div class="row align-items-center ct_border_btm_1 py-3"
+                                    *ngFor="let item of sortDays(clinicProfile()?.operation_hours); let i = index">
+                                    <div class="col-md-3">
+                                          <div class="mb-2 mb-md-0">
+                                                <p class="mb-0 ct_text_clr_444 ct_fs_18 text-capitalize">
+                                                      {{item.day_of_week | titlecase}}
+                                                </p>
+                                          </div>
+                                    </div>
+
+                                    @if(item.is_closed === 0){
+                                    <div class="col-md-9">
+                                          <div class="d-flex align-items-center gap-3 flex-wrap">
+                                                <div class="ct_custom_badge12">
+                                                      <div class="d-flex align-items-center gap-3">
+                                                            <h6 class="mb-0">
+                                                                  {{convertTime(item.open_time)}}
+                                                                  -
+                                                                  {{convertTime(item.close_time)}}
+                                                            </h6>
+                                                      </div>
                                                 </div>
-                                          </li>
-                                          }
-                                    </ul>
+                                          </div>
+                                    </div>
+                                    }
+                                    @else{
+                                    <div class="col-md-6">
+                                          <div class="d-flex align-items-center gap-3">
+                                                <h6>Closed</h6>
+                                          </div>
+                                    </div>
+                                    }
                               </div>
-                        </div> -->
+                        </div>
                   </div>
             </div>
       </div>

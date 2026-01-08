@@ -14,11 +14,12 @@ import { environment } from '../../../../environments/environment';
 import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from 'ngx-intl-tel-input';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 declare var bootstrap: any;
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [NzSelectModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxIntlTelInputModule, ImageCropperComponent, TranslateModule],
+  imports: [NzSelectModule, CommonModule, FormsModule, NzTabsModule, ReactiveFormsModule, RouterLink, NgxIntlTelInputModule, ImageCropperComponent, TranslateModule],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
@@ -31,7 +32,7 @@ export class EditProfileComponent {
   availabilityForm!: FormGroup;
   Form!: FormGroup;
   daysOfWeek: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  sessionDuration: string[] = ['15 Mins', '30 Mins', '45 Mins', '60 Mins', '75 Mins', '90 Mins', '105 Mins', '120 Mins']
+  sessionDuration: string[] = ['15', '30', '45', '60', '75', '90', '105', '120']
   imagePreview: string | null = null;
   profileImage: any;
   certificates: any[] = [{
@@ -52,10 +53,11 @@ export class EditProfileComponent {
     designation: null
   }];
   certificaTeypes: any;
-  skintypes: SkinType[] = []
   maxDate: Date = new Date();
-  surgeries: any[] = []
-  devices: any[] = []
+  clinicSkinTypes: { [index: number]: any[] } = {};
+  clinicSurgeries: { [index: number]: any[] } = {};
+  clinicDevices: { [index: number]: any[] } = {};
+  availableSlots: { [index: number]: any[] } = {};
   selectedTreatments: any[] = [];
   dropdownOpen: boolean = false;
   loading: boolean = false
@@ -63,10 +65,14 @@ export class EditProfileComponent {
   CountryISO = CountryISO;
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden];
+  selectedIndex: number = 0
+  invitedClinics: any[] = [];
+  selectedSlot: { [index: number]: any[] } = {};
+  profileData: any = {};
+  selectedDay: { [index: number]: any[] } = {};
   constructor(private fb: FormBuilder, private loaderService: LoaderService, private apiService: CommonService, private toster: NzMessageService, private router: Router, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
   }
-
 
   ngOnInit(): void {
     this.personalForm = this.fb.group({
@@ -78,39 +84,23 @@ export class EditProfileComponent {
     });
 
     this.Form = this.fb.group({
-      treatments: this.fb.array([]),
-      skin_types: [[]],
-      surgeries: [[]],
-      devices: [[]],
+      clinics: this.fb.array([])
     })
 
-    this.availabilityForm = this.fb.group({
-      sameForAllDays: [true],
-      fee_per_session: ['', [Validators.required, this.allowedPriceValidator.bind(this)]],
-      days: this.fb.array(this.daysOfWeek.map(() => this.createDay()))
-    });
-
     this.getCertificaTeypes();
-    this.getTreatments();
-    this.getSkinTypes();
-    this.getSurgeries();
-    // this.getDevices();
+    this.loadFormData();
+  }
+
+  get clinicsArray(): FormArray {
+    return this.Form.get('clinics') as FormArray;
   }
 
   get treatmentsArray(): FormArray {
-    return this.Form.get('treatments') as FormArray;
+    return this.clinicsArray.at(this.selectedIndex).get('treatments') as FormArray;
   }
 
   subTreatments(i: number): FormArray {
     return this.treatmentsArray.at(i).get('sub_treatments') as FormArray;
-  }
-
-  initTreatments(data: any[]) {
-    this.treatmentsArray.clear();
-    data.forEach((t: any) => {
-      this.treatmentsArray.push(this.createTreatmentForm(t));
-    });
-    this.loadFormData();
   }
 
   createTreatmentForm(t: any) {
@@ -118,17 +108,36 @@ export class EditProfileComponent {
       id: t.treatment_id,
       name: t.name,
       selected: false,
-      price: ['', [Validators.required, this.allowedPriceValidator.bind(this)]],
+      price: t.total_price,
       sub_treatments: this.fb.array(
         t.sub_treatments?.length > 0 ? t.sub_treatments.map((sub: any) =>
           this.fb.group({
             id: sub.sub_treatment_id,
             name: sub.name,
             selected: false,
-            price: ['', [Validators.required, this.allowedPriceValidator.bind(this)]],
+            price: sub.price,
           })
         ) : []
       ),
+    });
+  }
+
+  buildClinicsForm(response: any[]) {
+    const clinicsFA = this.clinicsArray;
+    clinicsFA.clear();
+    response.forEach(clinic => {
+      clinicsFA.push(
+        this.fb.group({
+          clinic_id: [clinic.clinic_id],
+          clinic_name: [clinic.clinic_name],
+          fee_per_session: ['', [Validators.required, this.allowedPriceValidator.bind(this)]],
+          slot_time: ['', [Validators.required]],
+          treatments: this.fb.array([]),
+          devices: [[]],
+          skin_types: [[]],
+          surgeries: [[]]
+        })
+      );
     });
   }
 
@@ -374,7 +383,13 @@ export class EditProfileComponent {
         return;
       }
       const data = res.data;
-      this.apiService._doctorProfile.set(data);
+      this.profileData = data;
+      this.invitedClinics = data?.clinics;
+      this.buildClinicsForm(data?.clinics);
+      this.getTreatments(data.clinics[0].clinic_id, 0)
+      this.getSkinTypes(data.clinics[0].clinic_id)
+      this.getSurgeries(data.clinics[0].clinic_id)
+      this.getAvailableSlots(data.clinics[0].clinic_id, 0, data.clinics[0].doctor_slot_time ? data.clinics[0].doctor_slot_time : null);
       this.personalForm.patchValue({
         fullName: data.name,
         lastName: data.last_name,
@@ -382,62 +397,14 @@ export class EditProfileComponent {
         address: data.address,
         biography: data.biography
       });
+
       if (data.profile_image != null && data.profile_image != '') {
         this.imagePreview = data.profile_image;
       }
-      this.selectedTreatments = data?.treatments.map((item: any) => ({
-        id: item.treatment_id,
-        name: item.treatment_name_en,
-        price: item.price,
-        selected: true,
-        sub_treatments: item.sub_treatments.map((sub: any) => ({
-          id: sub.sub_treatment_id,
-          name: sub.sub_treatment_name_en,
-          price: sub.sub_treatment_price,
-          selected: true,
-        })),
-      }))
-      this.getDevices();
 
-      data.treatments.forEach((item: any) => {
-        this.treatmentsArray.controls.forEach((t: any, index: number) => {
-          if (t.get('id')?.value === item.treatment_id) {
-            t.get('selected')?.setValue(true);
-            t.get('price')?.setValue(item.price);
-            t.get('sub_treatments')?.controls.forEach((sub: any) => {
-              if (item.sub_treatments.find((s: any) => s.sub_treatment_id === sub.get('id')?.value)) {
-                sub.get('selected')?.setValue(true);
-                sub.get('price')?.setValue(item.sub_treatments.find((s: any) => s.sub_treatment_id === sub.get('id')?.value)?.sub_treatment_price);
-              } else {
-                sub.get('selected')?.setValue(false);
-                sub.get('price')?.setValue('');
-              }
-            });
-          }
-        });
-      });
-
-      // Now move selected treatments to top
-      if (this.treatmentsArray && this.treatmentsArray.controls) {
-        const controls = this.treatmentsArray.controls;
-
-        // Sorted: selected first, then unselected (stable)
-        controls.sort((a: any, b: any) => {
-          const aSelected = a.get('selected')?.value ? 1 : 0;
-          const bSelected = b.get('selected')?.value ? 1 : 0;
-          return bSelected - aSelected;
-        });
-      }
-      this.Form.patchValue({
-        skin_types: data?.skinTypes.map((item: any) => item.skin_type_id),
-        surgeries: data?.surgery.map((item: any) => item.surgery_id),
-        devices: data?.devices.map((item: any) => item.device_id),
-      })
+      this.patchClinicWiseData(data, 0);
 
 
-      // if (data.certifications.length > 0) {
-      //   this.certificaTeypes = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path, id: cert.doctor_certification_id }));
-      // }
       if (data.education.length > 0) {
         this.education = data.education.map(edu => ({
           institution: edu.institution, degree_name: edu.degree, start_year: edu.start_year, end_year: edu.end_year,
@@ -452,10 +419,6 @@ export class EditProfileComponent {
         }));
       }
 
-      this.availabilityForm.patchValue({
-        fee_per_session: data.fee_per_session,
-      })
-      this.patchAvailabilityData(data.availability);
     });
   };
 
@@ -578,8 +541,7 @@ export class EditProfileComponent {
   steps = [
     { id: 'Personal', label: 'PersonalDetails' },
     { id: 'Education', label: 'EducationExperience' },
-    { id: 'Expertise', label: 'Expertise' },
-    { id: 'Fee', label: 'FeeAvailability' }
+    { id: 'Expertise', label: 'Expertise' }
   ];
 
   get progress(): string {
@@ -691,48 +653,66 @@ export class EditProfileComponent {
   };
 
   onExpertiseSubmit() {
+    // const isAnyTreatmentSelected = this.treatmentsArray.controls.some(t => t.get('selected')?.value);
 
-    if (this.treatmentsArray.controls.some((t: any) => t.get('price')?.invalid || t.get('sub_treatments')?.controls.some((sub: any) => sub.get('price')?.invalid))) {
-      this.toster.warning('Please enter price for the treatment and sub treatments');
-      return;
-    }
+    // if (!isAnyTreatmentSelected) {
+    //   this.toster.warning(this.translate.instant('PleaseSelectAtLeastOneTreatmentForEveryClinic'));
+    //   return;
+    // }
 
-    if (this.Form.invalid) {
-      this.Form.markAllAsTouched();
-      return
-    }
-    this.loading = true
+    // if (this.clinicsArray.invalid) {
+    //   this.toster.warning(this.translate.instant('pleaseFillAllRequiredFields'));
+    //   this.clinicsArray.markAllAsTouched();
+    //   return;
+    // }
 
-    const selectedTreatments = this.treatmentsArray.controls.filter(t => t.get('selected')?.value).map((t: any) => ({
-      treatment_id: t.get('id')?.value,
-      price: t.get('price')?.value,
-      sub_treatments: t.get('sub_treatments')?.controls.filter((sub: any) => sub.get('selected')?.value).map((sub: any) => ({
-        sub_treatment_id: sub.get('id')?.value,
-        sub_treatment_price: sub.get('price')?.value,
-      })) ?? [],
-    }));
+    // if (Object.keys(this.selectedSlot).length === 0) {
+    //   this.toster.warning(this.translate.instant('pleaseSelectAtLeastOneSlot'));
+    //   return;
+    // }
 
-    let formData = {
-      treatments: selectedTreatments,
-      skin_type_ids: this.Form.value.skin_types.join(','),
-      surgery_ids: this.Form.value.surgeries.join(','),
-      device_ids: this.Form.value.devices.length > 0 ? this.Form.value.devices.join(',') : "",
-    }
+    this.loading = true;
 
-    this.apiService.post<any, any>('doctor/edit_expertise', formData).subscribe({
+    let formData: any = {
+      treatments: [],
+      clinic_id: [],
+      skin_type_ids: [],
+      surgery_ids: [],
+      device_ids: [],
+      availability: [],
+      doctor_slot_time: [],
+      fee_per_session: [],
+    };
+
+    this.clinicsArray.value.forEach((clinic: any) => {
+      formData.clinic_id.push(clinic.clinic_id);
+      formData.skin_type_ids.push(clinic.skin_types);
+      formData.surgery_ids.push(clinic.surgeries);
+      formData.device_ids.push(clinic.devices);
+      formData.doctor_slot_time.push(clinic.slot_time ? clinic.slot_time : null);
+      formData.fee_per_session.push(clinic.fee_per_session ? clinic.fee_per_session : null);
+      formData.treatments.push(clinic.treatments.filter((t: { selected: boolean; }) => t.selected).map((t: any) => ({
+        treatment_id: t.id,
+        price: t.price || 0,
+        sub_treatments: t.sub_treatments.filter((sub: any) => sub.selected).map((sub: any) => ({
+          sub_treatment_id: sub.id,
+          sub_treatment_price: sub.price || 0,
+        })) ?? [],
+      })));
+    });
+    formData.availability = Object.values(this.selectedSlot);
+
+    this.apiService.post<any, any>('doctor/add_expertise', formData).subscribe({
       next: (resp) => {
         if (resp.success == true) {
-          this.toster.success(resp.message);
-        } else {
-          this.toster.error(resp.message);
+          this.router.navigate(['/doctor/my-profile']);
+          this.loading = false;
         }
-        this.loading = false
       },
       error: (error) => {
-        this.loading = false
+        this.loading = false;
       }
     });
-
   };
 
   onTimeSubmit() {
@@ -870,31 +850,53 @@ export class EditProfileComponent {
     });
   };
 
-  getTreatments() {
-    this.apiService.get<TreatmentResponse>(`clinic/get-treatments?language=${localStorage.getItem('lang')}`).subscribe((res) => {
-      this.treatments = res.data
-      this.initTreatments(this.treatments);
+  getTreatments(clinicId: string, clinicIndex: number) {
+    const clinicGroup = this.clinicsArray.at(clinicIndex);
+    const treatmentsFA = clinicGroup.get('treatments') as FormArray;
+
+    if (treatmentsFA.length > 0) {
+      return;
+    }
+
+    this.apiService
+      .get<TreatmentResponse>(`doctor/get-clinic-mapped-treatments/${clinicId}`)
+      .subscribe(res => {
+        res.data.treatments.forEach((t: any) => {
+          treatmentsFA.push(this.createTreatmentForm(t));
+        });
+      });
+  }
+
+  getSkinTypes(clinicId: string) {
+    this.apiService.get<SkinTypeResponse>(`doctor/get-skin-types/${clinicId}`).subscribe((res) => {
+      this.clinicSkinTypes[this.selectedIndex] = res.data
     });
   }
 
-
-  getSkinTypes() {
-    this.apiService.get<SkinTypeResponse>(`clinic/get-skin-types`).subscribe((res) => {
-      this.skintypes = res.data
+  getSurgeries(clinicId: string) {
+    this.apiService.get<any>(`doctor/get-surgery/${clinicId}`).subscribe((res) => {
+      this.clinicSurgeries[this.selectedIndex] = res.data
     });
   }
 
-  getSurgeries() {
-    this.apiService.get<any>(`clinic/get-surgery`).subscribe((res) => {
-      this.surgeries = res.data
+  getAvailableSlots(clinicId: string, clinicIndex: number, slotDuration?: string) {
+    let formData: any = {
+      clinic_id: clinicId,
+    }
+    if (slotDuration) {
+      formData['slot_time'] = slotDuration;
+    }
+    this.apiService.post<any, any>(`doctor/generate-slots`, formData).subscribe((res) => {
+      this.availableSlots[clinicIndex] = this.sortDays(res.data)
     });
   }
 
   getDevices() {
-    const treatmentIds = this.selectedTreatments.map(t => t.id);
-    this.apiService.get<any>(`clinic/get-devices?treatment_ids=${treatmentIds.join(',')}`).subscribe((res) => {
-      this.devices = res.data
-      const availableDeviceIds = this.devices.map((device: any) => device.id);
+    let clinicId = this.invitedClinics[this.selectedIndex].clinic_id;
+    const treatmentIds = this.selectedTreatments?.map(t => t.id);
+    this.apiService.get<any>(`doctor/get-devices/${clinicId}?treatment_ids=${treatmentIds?.join(',')}`).subscribe((res) => {
+      this.clinicDevices[this.selectedIndex] = res.data
+      const availableDeviceIds = this.clinicDevices[this.selectedIndex].map((device: any) => device.id);
       const selectedDeviceIds = this.Form.value.devices || [];
       const validSelectedDevices = selectedDeviceIds?.filter((id: any) => availableDeviceIds.includes(id));
       this.Form.get('devices')?.setValue(validSelectedDevices);
@@ -918,57 +920,6 @@ export class EditProfileComponent {
     return Number.isInteger(Number(value)) ? null : { notInteger: true };
   }
 
-  patchAvailabilityData(operation_hours: any[]) {
-    const daysFormArray = this.availabilityForm.get('days') as FormArray;
-    const dayIndexMap = {
-      monday: 0,
-      tuesday: 1,
-      wednesday: 2,
-      thursday: 3,
-      friday: 4,
-      saturday: 5,
-      sunday: 6
-    };
-
-    const groupedByDay: { [key: string]: any[] } = {};
-    operation_hours.forEach((item) => {
-      const day = item.day.toLowerCase();
-      if (!groupedByDay[day]) {
-        groupedByDay[day] = [];
-      }
-
-      groupedByDay[day].push({
-        start_time: item.start_time,
-        end_time: item.end_time,
-        sessionDuration: item.slot_duration + ' Mins',
-      });
-    });
-
-    Object.entries(dayIndexMap).forEach(([day, index]) => {
-      const dayFormGroup = daysFormArray.at(index) as FormGroup;
-      const sessionsArray = dayFormGroup.get('sessions') as FormArray;
-
-      while (sessionsArray.length > 0) {
-        sessionsArray.removeAt(0);
-      }
-
-      const dayData = groupedByDay[day];
-      if (dayData?.length) {
-        dayFormGroup.get('active')?.setValue(true);
-        dayData.forEach((slot) => {
-          sessionsArray.push(this.fb.group({
-            start_time: [slot.start_time, Validators.required],
-            end_time: [slot.end_time, Validators.required],
-            sessionDuration: [slot.sessionDuration, Validators.required],
-          }));
-        });
-      } else {
-        dayFormGroup.get('active')?.setValue(false);
-      }
-    });
-  }
-
-
   locations: any[] = [];
   selectedLocation: any = null;
 
@@ -989,5 +940,143 @@ export class EditProfileComponent {
   recommendedCollapseStates: boolean[] = [];
   toggleRecommendedCollapse(recommendedCollapseStates: boolean[], index: number) {
     recommendedCollapseStates[index] = !recommendedCollapseStates[index];
+  }
+
+  clinicSelectionChange(index: number) {
+    this.selectedIndex = index;
+    this.getTreatments(this.invitedClinics[index].clinic_id, index)
+    this.getSkinTypes(this.invitedClinics[index].clinic_id)
+    this.getSurgeries(this.invitedClinics[index].clinic_id)
+    this.getAvailableSlots(this.invitedClinics[index].clinic_id, index)
+    this.patchClinicWiseData(this.profileData, index)
+  }
+
+  convertTime(time: any): any {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+
+    const utcDate = new Date(Date.UTC(1970, 0, 1, hours, minutes, seconds));
+
+    const localHours = String(utcDate.getHours()).padStart(2, '0');
+    const localMinutes = String(utcDate.getMinutes()).padStart(2, '0');
+
+    return `${localHours}:${localMinutes}`;
+  }
+
+  sortDays(data: any[]) {
+    return data.sort(
+      (a, b) => this.daysOfWeek.indexOf(a.day) - this.daysOfWeek.indexOf(b.day)
+    );
+  }
+
+  selectSlot(day: any, slot: any) {
+    if (!this.selectedSlot[this.selectedIndex]) {
+      this.selectedSlot[this.selectedIndex] = [];
+    }
+
+    const clinicSlots = this.selectedSlot[this.selectedIndex];
+    let dayEntry = clinicSlots.find(d => d.day === day);
+
+    if (!dayEntry) {
+      dayEntry = {
+        day,
+        session: []
+      };
+      clinicSlots.push(dayEntry);
+    }
+
+    const index = dayEntry.session.findIndex(
+      (s: { start_time: any; end_time: any; }) =>
+        s.start_time === slot.start_time &&
+        s.end_time === slot.end_time
+    );
+
+    if (index > -1) {
+      dayEntry.session.splice(index, 1);
+      if (dayEntry.session.length === 0) {
+        this.selectedSlot[this.selectedIndex] =
+          clinicSlots.filter(d => d.day !== day);
+      }
+    } else {
+      dayEntry.session.push(slot);
+      dayEntry.session.sort((a: { start_time: string; }, b: { start_time: any; }) =>
+        a.start_time.localeCompare(b.start_time)
+      );
+    }
+  }
+
+
+  changeSlotDuration(event: any) {
+    this.getAvailableSlots(this.invitedClinics[this.selectedIndex].clinic_id, this.selectedIndex, event)
+  }
+
+  patchClinicWiseData(data: any, index: number) {
+    setTimeout(() => {
+      this.selectedTreatments = data.clinics[index].treatments?.map((item: any) => ({
+        id: item.treatment_id,
+        name: item.treatment_name_en,
+        price: item.price,
+        selected: true,
+        sub_treatments: item.sub_treatments.map((sub: any) => ({
+          id: sub.sub_treatment_id,
+          name: sub.sub_treatment_name_en,
+          price: sub.sub_treatment_price,
+          selected: true,
+        })),
+      }))
+
+      this.getDevices();
+
+      data.clinics[index].treatments?.forEach((item: any) => {
+        this.treatmentsArray.controls.forEach((t: any, index: number) => {
+          if (t.get('id')?.value === item.treatment_id) {
+            t.get('selected')?.setValue(true);
+            t.get('price')?.setValue(item.price);
+            t.get('sub_treatments')?.controls.forEach((sub: any) => {
+              if (item.sub_treatments.find((s: any) => s.sub_treatment_id === sub.get('id')?.value)) {
+                sub.get('selected')?.setValue(true);
+                sub.get('price')?.setValue(item.sub_treatments.find((s: any) => s.sub_treatment_id === sub.get('id')?.value)?.sub_treatment_price);
+              } else {
+                sub.get('selected')?.setValue(false);
+                sub.get('price')?.setValue('');
+              }
+            });
+          }
+        });
+      });
+
+      if (this.treatmentsArray && this.treatmentsArray.controls) {
+        const controls = this.treatmentsArray.controls;
+
+        controls.sort((a: any, b: any) => {
+          const aSelected = a.get('selected')?.value ? 1 : 0;
+          const bSelected = b.get('selected')?.value ? 1 : 0;
+          return bSelected - aSelected;
+        });
+      }
+      this.clinicsArray.at(this.selectedIndex).patchValue({
+        skin_types: data.clinics[index].skinTypes?.map((item: any) => item.skin_type_id),
+        surgeries: data.clinics[index].surgeries?.map((item: any) => item.surgery_id),
+        devices: data.clinics[index].devices?.map((item: any) => item.device_id),
+        fee_per_session: data.clinics[index].fee_per_session,
+        slot_time: data.clinics[index].doctor_slot_time.toString(),
+      })
+      this.selectedDay[index] = data.clinics[index].slots.map((item: any) => item.day);
+      this.selectedSlot[index] = data.clinics[index].slots.map((item: any) => { return { day: item.day, session: item.session } });
+    }, 1000);
+  }
+
+  selectDay(event: any, day: any) {
+    if (event.target.checked) {
+      this.selectedDay[this.selectedIndex].push(day);
+    } else {
+      this.selectedDay[this.selectedIndex] = this.selectedDay[this.selectedIndex].filter(d => d !== day);
+      this.selectedSlot[this.selectedIndex] = this.selectedSlot[this.selectedIndex]?.filter(d => d.day !== day);
+    }
+  }
+
+  isSelectedSlot(day: any, slot: any) {
+    const clinicSlots = this.selectedSlot[this.selectedIndex];
+    const dayEntry = clinicSlots?.find(d => d.day === day);
+    return dayEntry?.session.some((s: any) => s.start_time === slot.start_time && s.end_time === slot.end_time);
   }
 }

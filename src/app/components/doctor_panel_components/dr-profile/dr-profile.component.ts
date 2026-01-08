@@ -7,16 +7,18 @@ import { CommonModule } from '@angular/common';
 import { LoaderService } from '../../../services/loader.service';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 @Component({
   selector: 'app-dr-profile',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule, TranslateModule],
+  imports: [RouterLink, CommonModule, FormsModule, TranslateModule, NzTabsModule],
   templateUrl: './dr-profile.component.html',
   styleUrl: './dr-profile.component.css'
 })
 export class DrProfileComponent {
   doctorProfile$!: Observable<DoctorProfileResponse>;
+  selectedIndex = 0;
   collapseStates: boolean[] = [];
   constructor(private apiService: CommonService, private loaderService: LoaderService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
@@ -26,52 +28,7 @@ export class DrProfileComponent {
     this.loaderService.show();
     this.doctorProfile$ = this.apiService.get<DoctorProfileResponse>('doctor/get_profile').pipe(tap(() => setTimeout(() => this.loaderService.hide(), 100)));
   }
-  // loadFormData() {
-  //   this.apiService.get<DoctorProfileResponse>('doctor/get_profile').subscribe(res => {
-  //     if (res.success == false) {
-  //       return;
-  //     }
-  //     const data = res.data;
-  //     this.personalForm.patchValue({
-  //       fullName: data.name,
-  //       phone: data.phone,
-  //       age: data.age,
-  //       gender: data.gender,
-  //       address: data.address,
-  //       biography: data.biography
-  //     });
-  //     if (data.certifications.length > 0) {
-  //       this.certificates = data.certifications.map(cert => ({ type: cert.file_name, file: null, previewUrl: cert.upload_path }));
-  //     }
-  //     if (data.education.length > 0) {
-  //       this.education = data.education.map(edu => ({ institution: edu.institution, degree_name: edu.degree }));
-  //     }
-  //     if (data.experience.length > 0) {
-  //       this.experience = data.experience.map(edu => ({
-  //         organisation_name: edu.organization, designation: edu.designation, start_date: edu.start_date ? edu.start_date.split('T')[0] : '',
-  //         end_date: edu.end_date ? edu.end_date.split('T')[0] : ''
-  //       }));
-  //     }
-  //     if (data.treatments.length > 0) {
-  //       this.selectedTreatments = data.treatments.map(edu => ({ treatment_id: edu.treatment_id, name: edu.name }));
-  //     }
-  //     if (data.skinTypes.length > 0) {
-  //       this.selectedSkinTypes = data.skinTypes.map(edu => ({ skin_type_id: edu.skin_type_id, name: edu.name }));
-  //     }
-  //     if (data.severityLevels.length > 0) {
-  //       this.selectedSecurityLevel = data.severityLevels.map(edu => ({ severity_level_id: edu.severity_level_id, level: edu.level }));
-  //     }
-  //     this.operationHoursForm.patchValue({
-  //       fee_per_session: data.fee_per_session,
-  //       session_duration: data.session_duration,
-  //     });
-  //     this.patchOperationHours(data.availability);
-  //     if(data.profile_image != null && data.profile_image != ''){ 
-  //       this.imagePreview = data.profile_image;
-  //     }
 
-  //   });
-  // };
   mapDoctorAvailability(data: any[]): any[] {
     const grouped: { [key: string]: any[] } = {};
 
@@ -98,11 +55,22 @@ export class DrProfileComponent {
   }
 
   convertTime(time: any): any {
-    const localTime = new Date(time).toLocaleString();
-    return localTime
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    const utcDate = new Date(Date.UTC(1970, 0, 1, hours, minutes, seconds));
+    const localHours = String(utcDate.getHours()).padStart(2, '0');
+    const localMinutes = String(utcDate.getMinutes()).padStart(2, '0');
+    return `${localHours}:${localMinutes}`;
   }
 
   toggleCollapse(collapseStates: boolean[], index: number) {
     collapseStates[index] = !collapseStates[index];
+  }
+
+  clinicSelectionChange(index: number) {
+    this.selectedIndex = index;
+  }
+
+  shortSlots(slots: any[]): any[] {
+    return [...slots].sort((a, b) => a.start_time.localeCompare(b.start_time));
   }
 }

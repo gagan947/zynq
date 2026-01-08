@@ -19,6 +19,7 @@ export class SoloMyProfileComponent {
   zoom = 12;
   imagePreview: string = 'assets/img/np_pro.jpg';
   collapseStates: boolean[] = [];
+  daysOfWeek: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   constructor(private service: CommonService, private loaderService: LoaderService, private translate: TranslateService) {
     this.translate.use(localStorage.getItem('lang') || 'en');
     this.getSoloDoctorProfile()
@@ -82,12 +83,21 @@ export class SoloMyProfileComponent {
   }
 
   convertTime(time: any): any {
-    const localTime = new Date(time).toLocaleString();
-    return localTime
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    const utcDate = new Date(Date.UTC(1970, 0, 1, hours, minutes, seconds));
+    const localHours = String(utcDate.getHours()).padStart(2, '0');
+    const localMinutes = String(utcDate.getMinutes()).padStart(2, '0');
+    return `${localHours}:${localMinutes}`;
   }
 
   toggleCollapse(collapseStates: boolean[], index: number) {
     collapseStates[index] = !collapseStates[index];
+  }
+
+  sortDays(data: any[]) {
+    return data.sort(
+      (a, b) => this.daysOfWeek.indexOf(a.day_of_week) - this.daysOfWeek.indexOf(b.day_of_week)
+    );
   }
 }
 

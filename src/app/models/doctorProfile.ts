@@ -49,4 +49,5 @@ export interface DoctorProfile {
   surgery: any[]
   skinCondition: any[]
   devices: any[]
+  clinics: any[]
 }

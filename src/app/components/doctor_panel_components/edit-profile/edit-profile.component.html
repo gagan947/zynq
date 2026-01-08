@@ -453,104 +453,35 @@
                               <form *ngIf="currentStep == 2" [formGroup]="Form">
                                     <div class=" ct_white_bg ct_p_40 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
-                                                {{'ServiceExpertise' | translate}}</h5>
-                                          <div class="mb-4">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                      <label for="" class="mb-2 ct_text_black">{{'TreatmentsProvided' |
-                                                            translate}}<span class="ct_red_text">*</span></label>
-                                                      <input type="text" class="form-control w-25 mb-2"
-                                                            [placeholder]="('Search' | translate) + ' ' + ('Treatment' | translate)"
-                                                            (input)="onTreatmentSearch($event)" #searchInput>
-                                                </div>
-                                                <div class="table-responsive" style="max-height: 50vh;">
-                                                      <table class="table ct_custom_table">
-                                                            <thead>
-                                                                  <tr>
-                                                                        <th class="border p-2"></th>
-                                                                        <th class="border p-2">{{'Treatment' |
-                                                                              translate}}</th>
-                                                                        <th class="border p-2">{{'Price' | translate}}
-                                                                        </th>
-                                                                        <th class="border p-2"></th>
-                                                                  </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                  @for (t of treatmentsArray.controls; track $index) {
-                                                                  <tr>
-                                                                        <td class="border p-2 text-center">
+                                                {{'ServiceExpertise' | translate}}
+                                          </h5>
+                                          <div formArrayName="clinics">
+                                                <nz-tabset [nzSelectedIndex]="selectedIndex"
+                                                      (nzSelectedIndexChange)="clinicSelectionChange($event)"
+                                                      nzType="card">
+                                                      <ng-container
+                                                            *ngFor="let clinic of clinicsArray.controls let i = index">
+                                                            <nz-tab nzClosable
+                                                                  [nzTitle]="clinic.get('clinic_name')?.value">
+                                                                  <div [formGroupName]="i">
+                                                                        <div class="mb-4">
                                                                               <div
-                                                                                    class="text-start form-check ct_custom_check mt-0">
-                                                                                    <input type="checkbox"
-                                                                                          [id]="'treatment-checkbox-'+$index"
-                                                                                          class="form-check-input ct_custom_check mt-0"
-                                                                                          [formControl]="getControl(t, 'selected')"
-                                                                                          (change)="onTreatmentSelectChange($index)"
-                                                                                          [checked]="t.get('selected')?.value"
-                                                                                          [attr.aria-labelledby]="'treatment-checkbox-'+$index" />
-                                                                              </div>
-                                                                        </td>
-                                                                        <td class="border p-2"><label
-                                                                                    [attr.for]="'treatment-checkbox-'+$index"
-                                                                                    class="ms-2">
-                                                                                    {{ t.get('name')?.value }}
-                                                                              </label></td>
-                                                                        <td class="border p-2" style="width: 200px;">
-                                                                              @if(t.get('selected')?.value &&
-                                                                              subTreatments($index).controls.length ==
-                                                                              0){
-                                                                              <div>
-                                                                                    <input type="number"
-                                                                                          class="form-control"
-                                                                                          placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
-                                                                                          [formControl]="getControl(t, 'price')" />
-                                                                                    <small class="text-danger"
-                                                                                          *ngIf="t.get('price')?.touched && t.get('price')?.hasError('required')">
-                                                                                          {{'Price' | translate}}
-                                                                                          {{'isRequired' | translate}}
-                                                                                    </small>
-                                                                                    <!-- <small class="text-danger"
-                                                                                          *ngIf="t.get('price')?.touched && t.get('price')?.hasError('min')">
-                                                                                          {{'Price' | translate}}
-                                                                                          {{'mustBeGreaterThanOrEqualTo'
+                                                                                    class="d-flex align-items-center justify-content-between">
+                                                                                    <label for=""
+                                                                                          class="mb-2 ct_text_black">{{'TreatmentsProvided'
                                                                                           |
-                                                                                          translate}} 3.
-                                                                                    </small> -->
-                                                                                    <small class="text-danger" *ngIf="t.get('price')?.touched && t.get('price')?.hasError('invalidPrice')">
-                                                                                    {{'Price' | translate}} {{'mustBeGreaterThanOrEqualTo' | translate}} 2.
-                                                                                    </small>
+                                                                                          translate}}<span
+                                                                                                class="ct_red_text">*</span></label>
+                                                                                    <input type="text"
+                                                                                          class="form-control w-25 mb-2"
+                                                                                          [placeholder]="('Search' | translate) + ' ' + ('Treatment' | translate)"
+                                                                                          (input)="onTreatmentSearch($event)"
+                                                                                          #searchInput>
                                                                               </div>
-                                                                              }@else {
-                                                                              <span>{{t.get('price')?.value > 0 ?
-                                                                                    t.get('price')?.value : ''}}</span>
-                                                                              }
-                                                                        </td>
-                                                                        <td class="border p-2 align-middle text-center"
-                                                                              style="width:40px">
-                                                                              @if(subTreatments($index).controls.length
-                                                                              > 0){
-                                                                              <a href="javascript:void(0)"
-                                                                                    class="text-dark"
-                                                                                    data-bs-toggle="collapse"
-                                                                                    [attr.data-bs-target]="'#collapseRecommendedSubTreatments'+$index"
-                                                                                    [attr.aria-expanded]="'false'"
-                                                                                    [attr.aria-controls]="'collapseRecommendedSubTreatments'+$index"
-                                                                                    (click)="toggleRecommendedCollapse(recommendedCollapseStates, $index)">
-                                                                                    <i class="fa"
-                                                                                          [ngClass]="{
-                                                                                                                                                                        'fa-chevron-down': !(recommendedCollapseStates[ $index ]),
-                                                                                                                                                                        'fa-chevron-up': recommendedCollapseStates[ $index ]
-                                                                                                                                                                  }"></i>
-                                                                              </a>
-                                                                              }
-                                                                        </td>
-                                                                  </tr>
-                                                                  @if(subTreatments($index).controls.length
-                                                                  > 0 && recommendedCollapseStates[$index] === true){
-                                                                  <tr [id]="'collapseRecommendedSubTreatments'+$index">
-                                                                        <td colspan="4" class="p-0 border-0">
-                                                                              <div class=" p-3"
-                                                                                    style="background-color: #f5f5f5;">
-                                                                                    <table class="table  mb-0">
+                                                                              <div class="table-responsive"
+                                                                                    style="height: 50vh; border: 1px solid #cdcdcd;">
+                                                                                    <table
+                                                                                          class="table ct_custom_table">
                                                                                           <thead>
                                                                                                 <tr>
                                                                                                       <th
@@ -558,7 +489,7 @@
                                                                                                       </th>
                                                                                                       <th
                                                                                                             class="border p-2">
-                                                                                                            {{'SubTreatment'
+                                                                                                            {{'Treatment'
                                                                                                             |
                                                                                                             translate}}
                                                                                                       </th>
@@ -567,44 +498,66 @@
                                                                                                             {{'Price' |
                                                                                                             translate}}
                                                                                                       </th>
+                                                                                                      <th
+                                                                                                            class="border p-2">
+                                                                                                      </th>
                                                                                                 </tr>
                                                                                           </thead>
                                                                                           <tbody>
-                                                                                                <tr
-                                                                                                      *ngFor="let c of subTreatments($index).controls; let j = index">
-                                                                                                      <td class="border p-2 text-center"
-                                                                                                            style="width: 40px;">
+                                                                                                @if(treatmentsArray.length
+                                                                                                ==
+                                                                                                0){
+                                                                                                <tr>
+                                                                                                      <td colspan="5"
+                                                                                                            class="text-center">
+                                                                                                            {{'NoTreatmentAvailable'
+                                                                                                            |
+                                                                                                            translate}}
+                                                                                                      </td>
+                                                                                                </tr>
+                                                                                                }
+                                                                                                @for (t of
+                                                                                                treatmentsArray.controls;
+                                                                                                track
+                                                                                                $index) {
+                                                                                                <tr>
+                                                                                                      <td
+                                                                                                            class="border p-2 text-center">
                                                                                                             <div
-                                                                                                                  class=" form-check ">
+                                                                                                                  class="text-start form-check ct_custom_check mt-0">
                                                                                                                   <input type="checkbox"
-                                                                                                                        [id]="'sub-treatment-checkbox-'+$index+'-'+j"
-                                                                                                                        class="form-check-input ct_custom_check mt-0 "
-                                                                                                                        [formControl]="getChildControl($index, j, 'selected')"
-                                                                                                                        (change)="onChildSelectChange($index, j)"
-                                                                                                                        [checked]="c.get('selected')?.value"
-                                                                                                                        [attr.aria-labelledby]="'sub-treatment-checkbox-'+$index+'-'+j" />
+                                                                                                                        [id]="'treatment-checkbox-'+$index"
+                                                                                                                        class="form-check-input ct_custom_check mt-0"
+                                                                                                                        [formControl]="getControl(t, 'selected')"
+                                                                                                                        (change)="onTreatmentSelectChange($index)"
+                                                                                                                        [checked]="t.get('selected')?.value"
+                                                                                                                        [attr.aria-labelledby]="'treatment-checkbox-'+$index" />
                                                                                                             </div>
                                                                                                       </td>
                                                                                                       <td
                                                                                                             class="border p-2">
-                                                                                                            <label [attr.for]="'sub-treatment-checkbox-'+$index+'-'+j"
+                                                                                                            <label [attr.for]="'treatment-checkbox-'+$index"
                                                                                                                   class="ms-2">
                                                                                                                   {{
-                                                                                                                  c.get('name')?.value
+                                                                                                                  t.get('name')?.value
                                                                                                                   }}
                                                                                                             </label>
                                                                                                       </td>
                                                                                                       <td class="border p-2"
                                                                                                             style="width: 200px;">
-                                                                                                            @if(c.get('selected')?.value){
+                                                                                                            @if(t.get('selected')?.value
+                                                                                                            &&
+                                                                                                            subTreatments($index).controls.length
+                                                                                                            ==
+                                                                                                            0){
                                                                                                             <div>
                                                                                                                   <input type="number"
                                                                                                                         class="form-control"
                                                                                                                         placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
-                                                                                                                        [formControl]="getChildControl($index, j, 'price')" />
-
+                                                                                                                        [formControl]="getControl(t, 'price')"
+                                                                                                                        readonly />
                                                                                                                   <small class="text-danger"
-                                                                                                                        *ngIf="c.get('price')?.touched && c.get('price')?.hasError('required')">
+                                                                                                                        *ngIf="t.get('price')?.touched && t.get('price')?.hasError('required')">
                                                                                                                         {{'Price'
                                                                                                                         |
                                                                                                                         translate}}
@@ -612,8 +565,8 @@
                                                                                                                         |
                                                                                                                         translate}}
                                                                                                                   </small>
-                                                                                                                  <!-- <small class="text-danger"
-                                                                                                                        *ngIf="c.get('price')?.touched && c.get('price')?.hasError('min')">
+                                                                                                                  <small class="text-danger"
+                                                                                                                        *ngIf="t.get('price')?.touched && t.get('price')?.hasError('invalidPrice')">
                                                                                                                         {{'Price'
                                                                                                                         |
                                                                                                                         translate}}
@@ -621,364 +574,334 @@
                                                                                                                         |
                                                                                                                         translate}}
                                                                                                                         3.
-                                                                                                                  </small> -->
-                                                                                                                  <small class="text-danger" *ngIf="c.get('price')?.touched && c.get('price')?.hasError('invalidPrice')">
-                                                                                                                        {{'Price' | translate}} {{'mustBeGreaterThanOrEqualTo' | translate}} 2.
                                                                                                                   </small>
-
                                                                                                             </div>
+                                                                                                            }@else {
+                                                                                                            <span>{{t.get('price')?.value
+                                                                                                                  > 0 ?
+                                                                                                                  t.get('price')?.value
+                                                                                                                  :
+                                                                                                                  ''}}</span>
+                                                                                                            }
+                                                                                                      </td>
+                                                                                                      <td class="border p-2 align-middle text-center"
+                                                                                                            style="width:40px">
+                                                                                                            @if(subTreatments($index).controls.length
+                                                                                                            > 0){
+                                                                                                            <a href="javascript:void(0)"
+                                                                                                                  class="text-dark"
+                                                                                                                  data-bs-toggle="collapse"
+                                                                                                                  [attr.data-bs-target]="'#collapseRecommendedSubTreatments'+$index"
+                                                                                                                  [attr.aria-expanded]="'false'"
+                                                                                                                  [attr.aria-controls]="'collapseRecommendedSubTreatments'+$index"
+                                                                                                                  (click)="toggleRecommendedCollapse(recommendedCollapseStates, $index)">
+                                                                                                                  <i class="fa"
+                                                                                                                        [ngClass]="{
+                                                                                                                                                                                                'fa-chevron-down': !(recommendedCollapseStates[ $index ]),
+                                                                                                                                                                                                'fa-chevron-up': recommendedCollapseStates[ $index ]
+                                                                                                                                                                                          }"></i>
+                                                                                                            </a>
                                                                                                             }
                                                                                                       </td>
                                                                                                 </tr>
+                                                                                                @if(subTreatments($index).controls.length
+                                                                                                > 0 &&
+                                                                                                recommendedCollapseStates[$index]
+                                                                                                ===
+                                                                                                true){
+                                                                                                <tr
+                                                                                                      [id]="'collapseRecommendedSubTreatments'+$index">
+                                                                                                      <td colspan="4"
+                                                                                                            class="p-0 border-0">
+                                                                                                            <div class=" p-3"
+                                                                                                                  style="background-color: #f5f5f5;">
+                                                                                                                  <table
+                                                                                                                        class="table  mb-0">
+                                                                                                                        <thead>
+                                                                                                                              <tr>
+                                                                                                                                    <th
+                                                                                                                                          class="border p-2">
+                                                                                                                                    </th>
+                                                                                                                                    <th
+                                                                                                                                          class="border p-2">
+                                                                                                                                          {{'SubTreatment'
+                                                                                                                                          |
+                                                                                                                                          translate}}
+                                                                                                                                    </th>
+                                                                                                                                    <th
+                                                                                                                                          class="border p-2">
+                                                                                                                                          {{'Price'
+                                                                                                                                          |
+                                                                                                                                          translate}}
+                                                                                                                                    </th>
+                                                                                                                              </tr>
+                                                                                                                        </thead>
+                                                                                                                        <tbody>
+                                                                                                                              <tr
+                                                                                                                                    *ngFor="let c of subTreatments($index).controls; let j = index">
+                                                                                                                                    <td class="border p-2 text-center"
+                                                                                                                                          style="width: 40px;">
+                                                                                                                                          <div
+                                                                                                                                                class=" form-check ">
+                                                                                                                                                <input type="checkbox"
+                                                                                                                                                      [id]="'sub-treatment-checkbox-'+$index+'-'+j"
+                                                                                                                                                      class="form-check-input ct_custom_check mt-0 "
+                                                                                                                                                      [formControl]="getChildControl($index, j, 'selected')"
+                                                                                                                                                      (change)="onChildSelectChange($index, j)"
+                                                                                                                                                      [checked]="c.get('selected')?.value"
+                                                                                                                                                      [attr.aria-labelledby]="'sub-treatment-checkbox-'+$index+'-'+j" />
+                                                                                                                                          </div>
+                                                                                                                                    </td>
+                                                                                                                                    <td
+                                                                                                                                          class="border p-2">
+                                                                                                                                          <label [attr.for]="'sub-treatment-checkbox-'+$index+'-'+j"
+                                                                                                                                                class="ms-2">
+                                                                                                                                                {{
+                                                                                                                                                c.get('name')?.value
+                                                                                                                                                }}
+                                                                                                                                          </label>
+                                                                                                                                    </td>
+                                                                                                                                    <td class="border p-2"
+                                                                                                                                          style="width: 200px;">
+                                                                                                                                          @if(c.get('selected')?.value){
+                                                                                                                                          <div>
+                                                                                                                                                <input type="number"
+                                                                                                                                                      class="form-control"
+                                                                                                                                                      placeholder="{{'Enter' | translate}} {{'Price' | translate}}"
+                                                                                                                                                      [formControl]="getChildControl($index, j, 'price')"
+                                                                                                                                                      readonly />
+
+                                                                                                                                                <small class="text-danger"
+                                                                                                                                                      *ngIf="c.get('price')?.touched && c.get('price')?.hasError('required')">
+                                                                                                                                                      {{'Price'
+                                                                                                                                                      |
+                                                                                                                                                      translate}}
+                                                                                                                                                      {{'isRequired'
+                                                                                                                                                      |
+                                                                                                                                                      translate}}
+                                                                                                                                                </small>
+                                                                                                                                                <small class="text-danger"
+                                                                                                                                                      *ngIf="c.get('price')?.touched && c.get('price')?.hasError('invalidPrice')">
+                                                                                                                                                      {{'Price'
+                                                                                                                                                      |
+                                                                                                                                                      translate}}
+                                                                                                                                                      {{'mustBeGreaterThanOrEqualTo'
+                                                                                                                                                      |
+                                                                                                                                                      translate}}
+                                                                                                                                                      3.
+                                                                                                                                                </small>
+                                                                                                                                          </div>
+                                                                                                                                          }
+                                                                                                                                    </td>
+                                                                                                                              </tr>
+                                                                                                                        </tbody>
+                                                                                                                  </table>
+                                                                                                            </div>
+                                                                                                      </td>
+                                                                                                </tr>
+                                                                                                }
+                                                                                                }
                                                                                           </tbody>
                                                                                     </table>
+
                                                                               </div>
-                                                                        </td>
-                                                                  </tr>
-                                                                  }
-                                                                  }
-                                                            </tbody>
-                                                      </table>
+                                                                        </div>
+                                                                        <div class="mb-4">
+                                                                              <label for=""
+                                                                                    class="mb-2 ct_text_black">{{'Devices'
+                                                                                    |
+                                                                                    translate}} <span
+                                                                                          class="text-muted">({{'Optional'
+                                                                                          |
+                                                                                          translate}})</span></label>
+                                                                              <nz-select nzMode="multiple"
+                                                                                    nzPlaceHolder="{{'Select' | translate}} {{'Devices' | translate}}"
+                                                                                    class="form-control ct_input h-auto"
+                                                                                    formControlName="devices"
+                                                                                    nzNotFoundContent="No Device Found">
+                                                                                    @for (item of clinicDevices[i];
+                                                                                    track item) {
+                                                                                    <nz-option
+                                                                                          [nzLabel]="item.device_name"
+                                                                                          [nzValue]="item.id"></nz-option>
+                                                                                    }
+                                                                              </nz-select>
+                                                                              <span class="ct_text_red mt-2"
+                                                                                    *ngIf="Form.get('devices')?.invalid && Form.get('devices')?.touched">
+                                                                                    {{'pleaseAddAtleast' | translate}}
+                                                                                    {{'Devices' |
+                                                                                    translate}}.
+                                                                              </span>
+                                                                        </div>
+                                                                        <div class="mb-4">
+                                                                              <label for=""
+                                                                                    class="mb-2 ct_text_black">{{'SkinTypeExpertise'
+                                                                                    |
+                                                                                    translate}} <span
+                                                                                          class="text-muted">({{'Optional'
+                                                                                          |
+                                                                                          translate}})</span></label>
+                                                                              <nz-select nzMode="multiple"
+                                                                                    nzPlaceHolder="{{'Select' | translate}} {{'SkinType' | translate}}"
+                                                                                    class="form-control ct_input h-auto"
+                                                                                    formControlName="skin_types"
+                                                                                    nzNotFoundContent="No Skin Types Found">
+                                                                                    @for (item of clinicSkinTypes[i];
+                                                                                    track item) {
+                                                                                    <nz-option [nzLabel]="item.name"
+                                                                                          [nzValue]="item.skin_type_id"></nz-option>
+                                                                                    }
+                                                                              </nz-select>
+                                                                              <span class="ct_text_red mt-2"
+                                                                                    *ngIf="Form.get('skin_types')?.invalid && Form.get('skin_types')?.touched">
+                                                                                    {{'pleaseAddAtleast' | translate}}
+                                                                                    {{'SkinType'
+                                                                                    |
+                                                                                    translate}}.
+                                                                              </span>
+                                                                        </div>
+                                                                        <div class="mb-4">
+                                                                              <label for=""
+                                                                                    class="mb-2 ct_text_black">{{'SurgeriesProvided'
+                                                                                    |
+                                                                                    translate}} <span
+                                                                                          class="text-muted">({{'Optional'
+                                                                                          |
+                                                                                          translate}})</span></label>
+                                                                              <nz-select nzMode="multiple"
+                                                                                    nzPlaceHolder="{{'Select' | translate}} {{'Surgeries' | translate}}"
+                                                                                    class="form-control ct_input h-auto"
+                                                                                    formControlName="surgeries"
+                                                                                    nzNotFoundContent="No Severity Found">
+                                                                                    @for (item of clinicSurgeries[i];
+                                                                                    track item) {
+                                                                                    <nz-option [nzLabel]="item.english"
+                                                                                          [nzValue]="item.surgery_id"></nz-option>
+                                                                                    }
+                                                                              </nz-select>
+                                                                              <span class="ct_text_red mt-2"
+                                                                                    *ngIf="Form.get('surgeries')?.invalid && Form.get('surgeries')?.touched">
+                                                                                    {{'pleaseAddAtleast' | translate}}
+                                                                                    {{'Surgery' |
+                                                                                    translate}}.
+                                                                              </span>
+                                                                        </div>
 
-                                                </div>
-                                          </div>
-                                          <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'Devices' |
-                                                      translate}} <span class="text-muted">({{'Optional' |
-                                                            translate}})</span></label>
-                                                <nz-select nzMode="multiple"
-                                                      nzPlaceHolder="{{'Select' | translate}} {{'Devices' | translate}}"
-                                                      class="form-control ct_input h-auto" formControlName="devices"
-                                                      nzNotFoundContent="No Device Found">
-                                                      @for (item of devices; track item) {
-                                                      <nz-option [nzLabel]="item.device_name"
-                                                            [nzValue]="item.id"></nz-option>
-                                                      }
-                                                </nz-select>
-                                                <span class="ct_text_red mt-2"
-                                                      *ngIf="Form.get('devices')?.invalid && Form.get('devices')?.touched">
-                                                      {{'pleaseAddAtleast' | translate}} {{'Devices' | translate}}.
-                                                </span>
-                                          </div>
-                                          <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'SkinTypeExpertise' |
-                                                      translate}} <span class="text-muted">({{'Optional' |
-                                                            translate}})</span></label>
-                                                <nz-select nzMode="multiple"
-                                                      nzPlaceHolder="{{'Select' | translate}} {{'SkinType' | translate}}"
-                                                      class="form-control ct_input h-auto" formControlName="skin_types"
-                                                      nzNotFoundContent="No Skin Types Found">
-                                                      @for (item of skintypes; track item) {
-                                                      <nz-option [nzLabel]="item.name"
-                                                            [nzValue]="item.skin_type_id"></nz-option>
-                                                      }
-                                                </nz-select>
-                                                <span class="ct_text_red mt-2"
-                                                      *ngIf="Form.get('skin_types')?.invalid && Form.get('skin_types')?.touched">
-                                                      {{'pleaseAddAtleast' | translate}} {{'SkinType' | translate}}.
-                                                </span>
-                                          </div>
-                                          <div class="mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'SurgeriesProvided' |
-                                                      translate}} <span class="text-muted">({{'Optional' |
-                                                            translate}})</span></label>
-                                                <nz-select nzMode="multiple"
-                                                      nzPlaceHolder="{{'Select' | translate}} {{'Surgeries' | translate}}"
-                                                      class="form-control ct_input h-auto" formControlName="surgeries"
-                                                      nzNotFoundContent="No Severity Found">
-                                                      @for (item of surgeries; track item) {
-                                                      <nz-option [nzLabel]="item.english"
-                                                            [nzValue]="item.surgery_id"></nz-option>
-                                                      }
-                                                </nz-select>
-                                                <span class="ct_text_red mt-2"
-                                                      *ngIf="Form.get('surgeries')?.invalid && Form.get('surgeries')?.touched">
-                                                      {{'pleaseAddAtleast' | translate}} {{'Surgery' | translate}}.
-                                                </span>
-                                          </div>
-                                    </div>
-                                    <button type="button" name="next"
-                                          class="ct_form_next action-button  ct_black_btn float-end mx-1 "
-                                          value="Update" (click)="nextStep()" [disabled]="loading">
-                                          @if(loading){
-                                          <div class="spinner-border" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                          </div>
-                                          }@else {
-                                          {{'Update' | translate}}
-                                          }
-                                    </button>
-
-                                    <button type="button" class="ct_form_next action-button ct_black_btn float-end mx-1"
-                                          value="Next" (click)="next()">{{'Next' | translate}}</button>
-                                    <button type="button"
-                                          class="ct_form_next action-button ct_black_btn float-end mx-1 ct_outline_btn"
-                                          value="Next" (click)="previous()">{{'Previous' | translate}}</button>
-                                    <!-- <input
-                                type="button" name="previous" class="previous action-button-previous"
-                                value="Previous" /> -->
-                              </form>
-                              <form *ngIf="currentStep == 3" [formGroup]="availabilityForm">
-                                    <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'ConsultationFees' |
-                                                translate}}</h5>
-                                          <div class="row">
-                                                <div class="col-md-12">
-                                                      <div class="form-group mb-3">
-                                                            <label for="" class="mb-2 ct_text_black">{{'FeeperSession' |
-                                                                  translate}}<span class="ct_red_text">*</span></label>
-                                                            <div class="position-relative">
-                                                                  <input type="number" class="form-control ct_input"
-                                                                        placeholder="{{'Enter' | translate}} {{'FeeperSession' | translate}}"
-                                                                        formControlName="fee_per_session">
-                                                                  <span class="ct_show_eye">SEK</span>
-                                                            </div>
-                                                            <div class="ct_text_red mt-1"
-                                                                  *ngIf="availabilityForm.get('fee_per_session')?.hasError('required') && availabilityForm.get('fee_per_session')?.touched">
-                                                                  {{'FeeperSession' | translate}}
-                                                                  {{'isRequired' | translate}}.
-                                                            </div>
-                                                            <!-- <div class="ct_text_red mt-1"
-                                                                  *ngIf="availabilityForm.get('fee_per_session')?.hasError('min') && availabilityForm.get('fee_per_session')?.touched">
-                                                                  {{'FeeperSession' | translate}}
-                                                                  {{'mustBeGreaterThanOrEqualTo' |
-                                                                  translate}} 4.
-                                                            </div> -->
-
-                                                            <div class="text-danger" *ngIf="availabilityForm.get('fee_per_session')?.touched && availabilityForm.get('fee_per_session')?.hasError('invalidPrice')">
-                                                                  {{'Price' | translate}} {{'mustBeGreaterThanOrEqualTo' | translate}} 2.
-                                                            </div>
-
-
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
-                                    <div class="ct_white_bg ct_p_20 ct_border_clr_e6e6e6 ct_border_radius_15 mb-4">
-                                          <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'OperationHours' |
-                                                translate}}</h5>
-                                          <div class="py-3 border-bottom d-flex align-items-center gap-5">
-                                                <label>
-                                                      <input type="radio" class="form-check-input ct_custom_check me-1"
-                                                            formControlName="sameForAllDays" [value]="true" />
-                                                      {{'sameForAllDays' | translate}}
-                                                </label>
-                                                <label>
-                                                      <input type="radio" class="form-check-input ct_custom_check me-1"
-                                                            formControlName="sameForAllDays" [value]="false" />
-                                                      {{'Customize' | translate}}
-                                                </label>
-                                          </div>
-                                          <div formArrayName="days">
-                                                <!-- If SAME FOR ALL DAYS is selected, show only one day (index 0) -->
-                                                <div *ngIf="availabilityForm.get('sameForAllDays')?.value === true">
-                                                      <div [formGroupName]="0" class="py-3 border-bottom">
-                                                            <h6 class="mb-2">{{ daysOfWeek[0] }} (applies to all days)
-                                                            </h6>
-                                                            <ng-container>
-                                                                  <div formArrayName="sessions">
-                                                                        <div *ngFor="let session of getSessions(0).controls; let j = index"
-                                                                              [formGroupName]="j">
-                                                                              <div class="ct_grid_40_40_20 mb-3">
-                                                                                    <div>
-                                                                                          <div class="form-group">
-                                                                                                <label for=""
-                                                                                                      class="mb-2 ct_text_black">
-                                                                                                      {{'StartTime' |
-                                                                                                      translate}}
-                                                                                                      <span
-                                                                                                            class="ct_red_text">*</span></label>
-                                                                                                <input type="time"
+                                                                        <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">
+                                                                              {{'FeeAvailability' | translate}}
+                                                                        </h5>
+                                                                        <div class="row">
+                                                                              <div class="col-md-6">
+                                                                                    <div class="form-group mb-3">
+                                                                                          <label for=""
+                                                                                                class="mb-2 ct_text_black">{{'FeeperSession'
+                                                                                                |
+                                                                                                translate}}
+                                                                                                <span
+                                                                                                      class="ct_red_text">*</span></label>
+                                                                                          <div
+                                                                                                class="position-relative">
+                                                                                                <input type="number"
                                                                                                       class="form-control ct_input"
-                                                                                                      formControlName="start_time" />
+                                                                                                      placeholder="{{'Enter' | translate}} {{'FeeperSession' | translate}}"
+                                                                                                      formControlName="fee_per_session">
+                                                                                                <span
+                                                                                                      class="ct_show_eye">SEK</span>
                                                                                           </div>
-                                                                                          <div *ngIf="session.get('start_time')?.touched && session.get('start_time')?.hasError('required')"
-                                                                                                class="ct_text_red">
-                                                                                                {{'StartTime' |
+                                                                                          <div class="ct_text_red mt-1"
+                                                                                                *ngIf="clinic.get('fee_per_session')?.hasError('required') && clinic.get('fee_per_session')?.touched">
+                                                                                                {{'FeeperSession' |
                                                                                                 translate}}
                                                                                                 {{'isRequired' |
                                                                                                 translate}}.
                                                                                           </div>
-                                                                                    </div>
-                                                                                    <div>
-                                                                                          <div class="form-group">
-                                                                                                <label for=""
-                                                                                                      class="mb-2 ct_text_black">
-                                                                                                      {{'EndTime' |
-                                                                                                      translate}}
-                                                                                                      <span
-                                                                                                            class="ct_red_text">*</span></label>
-                                                                                                <input type="time"
-                                                                                                      class="form-control ct_input"
-                                                                                                      formControlName="end_time"
-                                                                                                      min="00:00"
-                                                                                                      max="24:00" />
-                                                                                          </div>
-                                                                                          <div *ngIf="session.get('end_time')?.touched && session.get('end_time')?.hasError('required')"
-                                                                                                class="ct_text_red">
-                                                                                                {{'EndTime' |
+                                                                                          <div class="ct_text_red mt-1"
+                                                                                                *ngIf="clinic.get('fee_per_session')?.hasError('invalidPrice') && clinic.get('fee_per_session')?.touched">
+                                                                                                {{'FeeperSession' |
                                                                                                 translate}}
-                                                                                                {{'isRequired' |
-                                                                                                translate}}.
+                                                                                                {{'mustBeGreaterThanOrEqualTo'
+                                                                                                |
+                                                                                                translate}} 3.
                                                                                           </div>
                                                                                     </div>
-                                                                                    <div>
-                                                                                          <div class="form-group">
-                                                                                                <label for=""
-                                                                                                      class="mb-2 ct_text_black">
-                                                                                                      {{'SessionDuration'
-                                                                                                      | translate}}
-                                                                                                      <span
-                                                                                                            class="ct_red_text">*</span></label>
-                                                                                                <nz-select
-                                                                                                      class="form-control ct_input"
-                                                                                                      formControlName="sessionDuration"
-                                                                                                      nzPlaceHolder="Select session duration">
-                                                                                                      <nz-option
-                                                                                                            *ngFor="let duration of sessionDuration"
-                                                                                                            [nzValue]="duration"
-                                                                                                            [nzLabel]="duration"></nz-option>
-                                                                                                </nz-select>
-                                                                                          </div>
-                                                                                          <div *ngIf="session.get('sessionDuration')?.touched && session.get('sessionDuration')?.hasError('required')"
-                                                                                                class="ct_text_red">
-                                                                                                {{'SessionDuration' |
-                                                                                                translate}}
-                                                                                                {{'isRequired' |
-                                                                                                translate}}.
-                                                                                          </div>
-                                                                                    </div>
-
-                                                                                    <div>
-                                                                                          <label
-                                                                                                class="ct_575_label_none">&nbsp;</label>
-                                                                                          <button type="button"
-                                                                                                class="ct_delete_icon_l"
-                                                                                                (click)="removeSession(0, j)">
-                                                                                                <i
-                                                                                                      class="fa-solid fa-xmark"></i>
-                                                                                          </button>
+                                                                              </div>
+                                                                              <div class="col-md-6">
+                                                                                    <label for=""
+                                                                                          class="mb-2 ct_text_black">
+                                                                                          {{'SessionDuration'
+                                                                                          | translate}}
+                                                                                          <span
+                                                                                                class="ct_red_text">*</span></label>
+                                                                                    <nz-select
+                                                                                          class="form-control ct_input"
+                                                                                          formControlName="slot_time"
+                                                                                          nzPlaceHolder="{{'Select' | translate}} {{'SessionDuration' | translate}}"
+                                                                                          (ngModelChange)="changeSlotDuration($event)">
+                                                                                          <nz-option
+                                                                                                *ngFor="let duration of sessionDuration"
+                                                                                                [nzValue]="duration"
+                                                                                                [nzLabel]="duration + ' Mins'"></nz-option>
+                                                                                    </nz-select>
+                                                                                    <div *ngIf="clinic.get('slot_time')?.touched && clinic.get('slot_time')?.hasError('required')"
+                                                                                          class="ct_text_red">
+                                                                                          {{'SessionDuration' |
+                                                                                          translate}}
+                                                                                          {{'isRequired' |
+                                                                                          translate}}.
                                                                                     </div>
                                                                               </div>
                                                                         </div>
-                                                                  </div>
-                                                                  <button type="button" class="ct_black_btn py-2 px-3"
-                                                                        (click)="addSession(0)">+ Add Session</button>
-                                                            </ng-container>
-                                                      </div>
-                                                </div>
 
-                                                <!-- If CUSTOMIZE is selected, show all 7 days -->
-                                                <div *ngIf="availabilityForm.get('sameForAllDays')?.value === false">
-                                                      <div *ngFor="let dayCtrl of days.controls; let i = index"
-                                                            [formGroupName]="i" class="py-3 border-bottom">
-                                                            <div class="mb-2">
-                                                                  <label>
-                                                                        <input type="checkbox" formControlName="active"
-                                                                              class="form-check-input ct_custom_check me-2" />
-                                                                        {{ daysOfWeek[i] }}
-                                                                  </label>
-                                                            </div>
-                                                            <div *ngIf="dayCtrl.get('active')?.value">
-                                                                  <div formArrayName="sessions">
-                                                                        <div *ngFor="let session of getSessions(i).controls; let j = index"
-                                                                              [formGroupName]="j" class="ml-4 mb-2">
-                                                                              <div class="ct_grid_40_40_20 mb-3">
-                                                                                    <div>
-                                                                                          <div class="form-group">
-                                                                                                <label for=""
-                                                                                                      class="mb-2 ct_text_black">
-                                                                                                      {{'StartTime' |
-                                                                                                      translate}}
-                                                                                                      <span
-                                                                                                            class="ct_red_text">*</span></label>
-                                                                                                <input type="time"
-                                                                                                      class="form-control ct_input"
-                                                                                                      formControlName="start_time" />
+                                                                        <div class="py-4">
+                                                                              <h4 class="ct_fs_20 ct_fw_600 mb-3">
+                                                                                    Divided Slots</h4>
+                                                                              <div class="row">
+                                                                                    @for (item of availableSlots[i];
+                                                                                    track $index) {
+                                                                                    <div class="mb-4 col-md-6">
+                                                                                          <div
+                                                                                                class="form-check d-flex gap-2">
+                                                                                                <input type="checkbox"
+                                                                                                      class="form-check-input ct_custom_check"
+                                                                                                      (change)="selectDay($event, item.day)"
+                                                                                                      [checked]="selectedDay[selectedIndex] ? selectedDay[selectedIndex].includes(item.day) : false">{{item.day}}
                                                                                           </div>
-                                                                                          <div *ngIf="session.get('start_time')?.touched && session.get('start_time')?.hasError('required')"
-                                                                                                class="ct_text_red">
-                                                                                                {{'StartTime' |
-                                                                                                translate}}
-                                                                                                {{'isRequired' |
-                                                                                                translate}}.
+                                                                                          @if(item.session.length > 0){
+                                                                                          <div
+                                                                                                class="ct_para_scroll mt-2 d-flex flex-wrap gap-3">
+                                                                                                @for (slot of
+                                                                                                item.session; track
+                                                                                                $index) {
+                                                                                                <button
+                                                                                                      [disabled]="selectedDay[selectedIndex] ? !selectedDay[selectedIndex].includes(item.day) : true"
+                                                                                                      class="ct_white_btn"
+                                                                                                      type="button"
+                                                                                                      [ngClass]="{'bg-dark text-white': isSelectedSlot(item.day, slot)}"
+                                                                                                      (click)="selectSlot(item.day, slot)">
+                                                                                                      {{convertTime(slot.start_time)}}
+                                                                                                      -
+                                                                                                      {{convertTime(slot.end_time)}}
+                                                                                                </button>
+                                                                                                }
                                                                                           </div>
+                                                                                          }@else {
+                                                                                          <div class="ct_para_scroll mt-2 d-flex flex-wrap gap-3 justify-content-center align-items-center"
+                                                                                                style="background: #f9fafc; height: 240px;">
+                                                                                                <span class="ct_fs_14">{{'NoSlotsAvailable'
+                                                                                                      |
+                                                                                                      translate}}</span>
+                                                                                          </div>
+                                                                                          }
                                                                                     </div>
-                                                                                    <div>
-                                                                                          <div class="form-group">
-                                                                                                <label for=""
-                                                                                                      class="mb-2 ct_text_black">
-                                                                                                      {{'EndTime' |
-                                                                                                      translate}}
-                                                                                                      <span
-                                                                                                            class="ct_red_text">*</span></label>
-                                                                                                <input type="time"
-                                                                                                      class="form-control ct_input"
-                                                                                                      formControlName="end_time" />
-                                                                                          </div>
-                                                                                          <div *ngIf="session.get('end_time')?.touched && session.get('end_time')?.hasError('required')"
-                                                                                                class="ct_text_red">
-                                                                                                {{'EndTime' |
-                                                                                                translate}}
-                                                                                                {{'isRequired' |
-                                                                                                translate}}.
-                                                                                          </div>
-                                                                                          {{session.errors}}
-                                                                                          <!-- <div *ngIf="session.errors['timeRangeInvalid'] && (session.get('end_time')?.touched || session.get('start_time')?.touched)"
-                                                                                                class="ct_text_red">
-                                                                                                End time must be after
-                                                                                                start time.
-                                                                                          </div> -->
-                                                                                    </div>
-                                                                                    <div>
-                                                                                          <div class="form-group">
-                                                                                                <label for=""
-                                                                                                      class="mb-2 ct_text_black">
-                                                                                                      {{'SessionDuration'
-                                                                                                      | translate}}
-                                                                                                      <span
-                                                                                                            class="ct_red_text">*</span></label>
-                                                                                                <nz-select
-                                                                                                      class="form-control ct_input"
-                                                                                                      formControlName="sessionDuration"
-                                                                                                      nzPlaceHolder="Select session duration">
-                                                                                                      <nz-option
-                                                                                                            *ngFor="let duration of sessionDuration"
-                                                                                                            [nzValue]="duration"
-                                                                                                            [nzLabel]="duration"></nz-option>
-                                                                                                </nz-select>
-                                                                                          </div>
-                                                                                          <div *ngIf="session.get('sessionDuration')?.touched && session.get('sessionDuration')?.hasError('required')"
-                                                                                                class="ct_text_red">
-                                                                                                {{'SessionDuration' |
-                                                                                                translate}}
-                                                                                                {{'isRequired' |
-                                                                                                translate}}.
-                                                                                          </div>
-                                                                                    </div>
-
-                                                                                    <div>
-                                                                                          <label>&nbsp;</label>
-                                                                                          <button type="button"
-                                                                                                class="ct_delete_icon_l"
-                                                                                                (click)="removeSession(i, j)">
-                                                                                                <i
-                                                                                                      class="fa-solid fa-xmark"></i>
-                                                                                          </button>
-                                                                                    </div>
+                                                                                    }
                                                                               </div>
                                                                         </div>
                                                                   </div>
-
-                                                                  <button type="button" class="ct_black_btn py-2 px-3"
-                                                                        (click)="addSession(i)">+ Add
-                                                                        Session</button>
-                                                            </div>
-                                                      </div>
-                                                </div>
+                                                            </nz-tab>
+                                                      </ng-container>
+                                                </nz-tabset>
                                           </div>
                                     </div>
-
                                     <button type="button" name="next"
                                           class="ct_form_next action-button  ct_black_btn float-end mx-1 " value="Next"
                                           (click)="nextStep()" [disabled]="loading">
@@ -987,13 +910,12 @@
                                                 <span class="sr-only">Loading...</span>
                                           </div>
                                           }@else {
-                                          {{'Update' | translate}}
+                                          {{'Submit' | translate}}
                                           }
                                     </button>
                                     <input type="button" name="previous"
                                           class="previous action-button-previous ct_outline_btn mx-1 float-end"
                                           value="{{'Previous' | translate}}" (click)="previousStep()">
-
                               </form>
                         </div>
                   </div>

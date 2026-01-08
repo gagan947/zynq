@@ -45,7 +45,7 @@ button.ct_delete_icon_l {
 
 .ct_grid_40_40_20 {
       display: grid;
-      grid-template-columns: auto auto auto 30px;
+      grid-template-columns: auto auto;
       align-items: center;
       gap: 15px;
 }

@@ -7,7 +7,7 @@ export interface TreatmentResponse {
       success: boolean;
       status: number;
       message: string;
-      data: Treatment[];
+      data: any;
 }
 
 export interface SkinType {

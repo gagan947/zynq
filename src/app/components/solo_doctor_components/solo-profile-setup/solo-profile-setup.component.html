@@ -25,7 +25,37 @@
                                                 {{'Information' | translate}}
                                           </h5>
                                           <div class="row">
-                                                <div class="form-group mb-4 col-md-12">
+                                                <div class="form-group mb-4 col-md-6">
+                                                      <label for="" class="mb-2 ct_text_black">{{'FirstName' |
+                                                            translate}}<span class="ct_red_text">*</span></label>
+                                                      <input type="text" class="form-control ct_input"
+                                                            placeholder="{{'Enter' | translate}} {{'FirstName' | translate}}"
+                                                            formControlName="name">
+                                                      <span
+                                                            *ngIf="besicInfoForm.controls['name'].invalid && besicInfoForm.controls['name'].touched">
+                                                            <span *ngIf="besicInfoForm.controls['name'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  {{'FirstName' | translate}} {{'isRequired' |
+                                                                  translate}}.
+                                                            </span>
+                                                      </span>
+                                                </div>
+                                                <div class="form-group mb-4 col-md-6">
+                                                      <label for="" class="mb-2 ct_text_black">{{'LastName' |
+                                                            translate}}<span class="ct_red_text">*</span></label>
+                                                      <input type="text" class="form-control ct_input"
+                                                            placeholder="{{'Enter' | translate}} {{'LastName' | translate}}"
+                                                            formControlName="lastName">
+                                                      <span
+                                                            *ngIf="besicInfoForm.controls['lastName'].invalid && besicInfoForm.controls['lastName'].touched">
+                                                            <span *ngIf="besicInfoForm.controls['lastName'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  {{'LastName' | translate}} {{'isRequired' |
+                                                                  translate}}.
+                                                            </span>
+                                                      </span>
+                                                </div>
+                                                <div class="form-group mb-4 col-md-6">
                                                       <label for="" class="mb-2 ct_text_black">{{'Organization' |
                                                             translate}}
                                                             {{'Number' | translate}}
@@ -39,20 +69,6 @@
                                                                   class="ct_text_red mt-2">
                                                                   {{'Organization' | translate}}
                                                                   {{'Number' | translate}} {{'isRequired' | translate}}.
-                                                            </span>
-                                                      </span>
-                                                </div>
-                                                <div class="form-group mb-4 col-md-6">
-                                                      <label for="" class="mb-2 ct_text_black">{{'Name' |
-                                                            translate}}<span class="ct_red_text">*</span></label>
-                                                      <input type="text" class="form-control ct_input"
-                                                            placeholder="{{'Enter' | translate}} {{'Name' | translate}}"
-                                                            formControlName="name">
-                                                      <span
-                                                            *ngIf="besicInfoForm.controls['name'].invalid && besicInfoForm.controls['name'].touched">
-                                                            <span *ngIf="besicInfoForm.controls['name'].errors?.['required']"
-                                                                  class="ct_text_red mt-2">
-                                                                  {{'Name' | translate}} {{'isRequired' | translate}}.
                                                             </span>
                                                       </span>
                                                 </div>
@@ -750,7 +766,7 @@
                                                                                           {{'isRequired' | translate}}
                                                                                     </small>
                                                                                     <small class="text-danger"
-                                                                                          *ngIf="t.get('price')?.touched && t.get('price')?.hasError('min')">
+                                                                                          *ngIf="t.get('price')?.touched && t.get('price')?.hasError('invalidPrice')">
                                                                                           {{'Price' | translate}}
                                                                                           {{'mustBeGreaterThanOrEqualTo'
                                                                                           |
@@ -851,7 +867,7 @@
                                                                                                                         translate}}
                                                                                                                   </small>
                                                                                                                   <small class="text-danger"
-                                                                                                                        *ngIf="c.get('price')?.touched && c.get('price')?.hasError('min')">
+                                                                                                                        *ngIf="c.get('price')?.touched && c.get('price')?.hasError('invalidPrice')">
                                                                                                                         {{'Price'
                                                                                                                         |
                                                                                                                         translate}}
@@ -961,7 +977,7 @@
                                                 {{'ConsultationFees' | translate}}
                                           </h5>
                                           <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                       <div class="form-group mb-3">
                                                             <label for="" class="mb-2 ct_text_black">{{'FeeperSession' |
                                                                   translate}}
@@ -978,9 +994,32 @@
                                                                   {{'isRequired' | translate}}.
                                                             </div>
                                                             <div class="ct_text_red mt-1"
-                                                                  *ngIf="availabilityForm.get('fee_per_session')?.hasError('min') && availabilityForm.get('fee_per_session')?.touched">
-                                                                  Fee per session can not be negative.
+                                                                  *ngIf="availabilityForm.get('fee_per_session')?.hasError('invalidPrice') && availabilityForm.get('fee_per_session')?.touched">
+                                                                  {{'FeeperSession' | translate}}
+                                                                  {{'mustBeGreaterThanOrEqualTo'
+                                                                  |
+                                                                  translate}} 3.
                                                             </div>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                      <label for="" class="mb-2 ct_text_black">
+                                                            {{'SessionDuration'
+                                                            | translate}}
+                                                            <span class="ct_red_text">*</span></label>
+                                                      <nz-select class="form-control ct_input"
+                                                            formControlName="slot_time"
+                                                            nzPlaceHolder="{{'Select' | translate}} {{'SessionDuration' | translate}}">
+                                                            <nz-option *ngFor="let duration of sessionDuration"
+                                                                  [nzValue]="duration"
+                                                                  [nzLabel]="duration + ' Mins'"></nz-option>
+                                                      </nz-select>
+                                                      <div *ngIf="availabilityForm.get('slot_time')?.touched && availabilityForm.get('slot_time')?.hasError('required')"
+                                                            class="ct_text_red">
+                                                            {{'SessionDuration' |
+                                                            translate}}
+                                                            {{'isRequired' |
+                                                            translate}}.
                                                       </div>
                                                 </div>
                                           </div>
@@ -1003,11 +1042,12 @@
                                                       <span>{{'Customize' | translate}}</span>
                                                 </label>
                                           </div>
-                                          <div formArrayName="days">
+                                          <div formArrayName="clinic_timing">
                                                 <!-- If SAME FOR ALL DAYS is selected, show only one day (index 0) -->
                                                 <div *ngIf="availabilityForm.get('sameForAllDays')?.value === true">
                                                       <div [formGroupName]="0" class="py-3 border-bottom">
-                                                            <h6 class="mb-2">{{ daysOfWeek[0] }} (applies to all days)
+                                                            <h6 class="mb-2">{{ daysOfWeek[0] }} (applies to all
+                                                                  days)
                                                             </h6>
                                                             <ng-container>
                                                                   <div formArrayName="sessions">
@@ -1018,7 +1058,8 @@
                                                                                           <div class="form-group">
                                                                                                 <label for=""
                                                                                                       class="mb-2 ct_text_black">
-                                                                                                      {{'StartTime' |
+                                                                                                      {{'StartTime'
+                                                                                                      |
                                                                                                       translate}}
                                                                                                       <span
                                                                                                             class="ct_red_text">*</span></label>
@@ -1038,7 +1079,8 @@
                                                                                           <div class="form-group">
                                                                                                 <label for=""
                                                                                                       class="mb-2 ct_text_black">
-                                                                                                      {{'EndTime' |
+                                                                                                      {{'EndTime'
+                                                                                                      |
                                                                                                       translate}}
                                                                                                       <span
                                                                                                             class="ct_red_text">*</span></label>
@@ -1054,55 +1096,16 @@
                                                                                                 translate}}.
                                                                                           </div>
                                                                                     </div>
-                                                                                    <div>
-                                                                                          <div class="form-group">
-                                                                                                <label for=""
-                                                                                                      class="mb-2 ct_text_black">
-                                                                                                      {{'SessionDuration'
-                                                                                                      | translate}}
-                                                                                                      <span
-                                                                                                            class="ct_red_text">*</span></label>
-                                                                                                <nz-select
-                                                                                                      class="form-control ct_input"
-                                                                                                      formControlName="sessionDuration"
-                                                                                                      nzPlaceHolder="{{'Select' | translate}} {{'SessionDuration' | translate}}">
-                                                                                                      <nz-option
-                                                                                                            *ngFor="let duration of sessionDuration"
-                                                                                                            [nzValue]="duration"
-                                                                                                            [nzLabel]="duration"></nz-option>
-                                                                                                </nz-select>
-                                                                                          </div>
-                                                                                          <div *ngIf="session.get('sessionDuration')?.touched && session.get('sessionDuration')?.hasError('required')"
-                                                                                                class="ct_text_red">
-                                                                                                {{'SessionDuration' |
-                                                                                                translate}}
-                                                                                                {{'isRequired' |
-                                                                                                translate}}.
-                                                                                          </div>
-                                                                                    </div>
-
-                                                                                    <div>
-                                                                                          <label
-                                                                                                class="ct_575_label_none">&nbsp;</label>
-                                                                                          <button type="button"
-                                                                                                class="ct_delete_icon_l"
-                                                                                                (click)="removeSession(0, j)">
-                                                                                                <i
-                                                                                                      class="fa-solid fa-xmark"></i>
-                                                                                          </button>
-                                                                                    </div>
                                                                               </div>
                                                                         </div>
                                                                   </div>
-                                                                  <button type="button" class="ct_black_btn py-2 px-3"
-                                                                        (click)="addSession(0)">+ Add Session</button>
                                                             </ng-container>
                                                       </div>
                                                 </div>
 
                                                 <!-- If CUSTOMIZE is selected, show all 7 days -->
                                                 <div *ngIf="availabilityForm.get('sameForAllDays')?.value === false">
-                                                      <div *ngFor="let dayCtrl of days.controls; let i = index"
+                                                      <div *ngFor="let dayCtrl of clinic_timing.controls; let i = index"
                                                             [formGroupName]="i" class="py-3 border-bottom">
                                                             <div class="mb-2">
                                                                   <label>
@@ -1120,7 +1123,8 @@
                                                                                           <div class="form-group">
                                                                                                 <label for=""
                                                                                                       class="mb-2 ct_text_black">
-                                                                                                      {{'StartTime' |
+                                                                                                      {{'StartTime'
+                                                                                                      |
                                                                                                       translate}}
                                                                                                       <span
                                                                                                             class="ct_red_text">*</span></label>
@@ -1140,7 +1144,8 @@
                                                                                           <div class="form-group">
                                                                                                 <label for=""
                                                                                                       class="mb-2 ct_text_black">
-                                                                                                      {{'EndTime' |
+                                                                                                      {{'EndTime'
+                                                                                                      |
                                                                                                       translate}}
                                                                                                       <span
                                                                                                             class="ct_red_text">*</span></label>
@@ -1156,48 +1161,9 @@
                                                                                                 translate}}.
                                                                                           </div>
                                                                                     </div>
-                                                                                    <div>
-                                                                                          <div class="form-group">
-                                                                                                <label for=""
-                                                                                                      class="mb-2 ct_text_black">
-                                                                                                      {{'SessionDuration'
-                                                                                                      | translate}}
-                                                                                                      <span
-                                                                                                            class="ct_red_text">*</span></label>
-                                                                                                <nz-select
-                                                                                                      class="form-control ct_input"
-                                                                                                      formControlName="sessionDuration"
-                                                                                                      nzPlaceHolder="Select session duration">
-                                                                                                      <nz-option
-                                                                                                            *ngFor="let duration of sessionDuration"
-                                                                                                            [nzValue]="duration"
-                                                                                                            [nzLabel]="duration"></nz-option>
-                                                                                                </nz-select>
-                                                                                          </div>
-                                                                                          <div *ngIf="session.get('sessionDuration')?.touched && session.get('sessionDuration')?.hasError('required')"
-                                                                                                class="ct_text_red">
-                                                                                                {{'SessionDuration' |
-                                                                                                translate}}
-                                                                                                {{'isRequired' |
-                                                                                                translate}}.
-                                                                                          </div>
-                                                                                    </div>
-
-                                                                                    <div>
-                                                                                          <label>&nbsp;</label>
-                                                                                          <button type="button"
-                                                                                                class="ct_delete_icon_l"
-                                                                                                (click)="removeSession(i, j)">
-                                                                                                <i
-                                                                                                      class="fa-solid fa-xmark"></i>
-                                                                                          </button>
-                                                                                    </div>
                                                                               </div>
                                                                         </div>
                                                                   </div>
-                                                                  <button type="button" class="ct_black_btn py-2 px-3"
-                                                                        (click)="addSession(i)">+ Add
-                                                                        Session</button>
                                                             </div>
                                                       </div>
                                                 </div>

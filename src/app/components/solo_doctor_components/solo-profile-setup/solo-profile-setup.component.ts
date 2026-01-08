@@ -41,7 +41,7 @@ export class SoloProfileSetupComponent {
   skintypes: SkinType[] = []
   certificaTeypes: any
   daysOfWeek: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  sessionDuration: string[] = ['15 Mins', '30 Mins', '45 Mins', '60 Mins', '75 Mins', '90 Mins', '105 Mins', '120 Mins']
+  sessionDuration: string[] = ['15', '30', '45', '60', '75', '90', '105', '120']
   submitted: boolean = false
   currentStep = 0;
   userInfo: LoginUserData;
@@ -102,16 +102,12 @@ export class SoloProfileSetupComponent {
     // this.getDevices();
     this.getCertificaTeypes();
     this.getProfile(1);
-    this.days.controls.forEach((day, i) => {
-      day.get('active')?.valueChanges.subscribe(() => {
-        this.applyConditionalValidators();
-      });
-    });
   }
 
   inItForm() {
     this.besicInfoForm = this.fb.group({
       name: ['', [Validators.required, NoWhitespaceDirective.validate]],
+      lastName: [''],
       clinic_name: ['', [Validators.required, NoWhitespaceDirective.validate]],
       org_number: [''],
       // ivo_registration_number: [''],
@@ -141,9 +137,14 @@ export class SoloProfileSetupComponent {
 
     this.availabilityForm = this.fb.group({
       sameForAllDays: [true],
-      fee_per_session: ['', [Validators.required, Validators.min(4)]],
-      days: this.fb.array(this.daysOfWeek.map(() => this.createDay()))
+      fee_per_session: ['', [Validators.required, this.allowedPriceValidator.bind(this)]],
+      slot_time: ['', [Validators.required]],
+      clinic_timing: this.fb.array(this.daysOfWeek.map(() => this.createDay()))
     });
+  }
+
+  get clinic_timing(): FormArray {
+    return this.availabilityForm.get('clinic_timing') as FormArray;
   }
 
   get treatmentsArray(): FormArray {
@@ -180,6 +181,13 @@ export class SoloProfileSetupComponent {
     });
   }
 
+  allowedPriceValidator(control: AbstractControl) {
+    const value = Number(control.value);
+
+    if (value == 0) return null;
+    if (value >= 3) return null;
+    return { invalidPrice: true };
+  }
 
   onTreatmentSelectChange(i: number) {
     const parent = this.treatmentsArray.at(i);
@@ -187,11 +195,11 @@ export class SoloProfileSetupComponent {
     const children = this.subTreatments(i)?.controls;
 
     if (parent.get('selected')?.value) {
-      parent.get('price')?.setValidators([Validators.required, Validators.min(3)]);
+      parent.get('price')?.setValidators([Validators.required, this.allowedPriceValidator.bind(this)]);
       parent.get('price')?.updateValueAndValidity();
       children?.forEach((sub: AbstractControl) => {
         sub.get('selected')?.setValue(true, { emitEvent: false });
-        sub.get('price')?.setValidators([Validators.required, Validators.min(3)]);
+        sub.get('price')?.setValidators([Validators.required, this.allowedPriceValidator.bind(this)]);
         sub.get('price')?.updateValueAndValidity();
       });
 
@@ -269,14 +277,14 @@ export class SoloProfileSetupComponent {
             id: t.id,
             name: t.name,
             selected: true,
-            price: [t.price, [Validators.required, Validators.min(3)]],
+            price: [t.price, [Validators.required, this.allowedPriceValidator.bind(this)]],
             sub_treatments: this.fb.array(
               (t.sub_treatments || []).map((sub: any) =>
                 this.fb.group({
                   id: sub.id,
                   name: sub.name,
                   selected: true,
-                  price: [sub.price, [Validators.required, Validators.min(3)]],
+                  price: [sub.price, [Validators.required, this.allowedPriceValidator.bind(this)]],
                 })
               )
             ),
@@ -320,7 +328,7 @@ export class SoloProfileSetupComponent {
     const parentPrice = parent.get('price') as FormControl;
 
     if (child.get('selected')?.value) {
-      child.get('price')?.setValidators([Validators.required, Validators.min(3)]);
+      child.get('price')?.setValidators([Validators.required, this.allowedPriceValidator.bind(this)]);
     } else {
       child.get('price')?.clearValidators();
       child.get('price')?.setValue('');
@@ -420,7 +428,6 @@ export class SoloProfileSetupComponent {
     return this.fb.group({
       start_time: [''],
       end_time: [''],
-      sessionDuration: [''],
     });
   }
 
@@ -429,100 +436,70 @@ export class SoloProfileSetupComponent {
   }
 
   getSessions(dayIndex: number): FormArray {
-    return this.days.at(dayIndex).get('sessions') as FormArray;
+    return this.clinic_timing.at(dayIndex).get('sessions') as FormArray;
   }
 
-  addSession(dayIndex: number): void {
-    this.getSessions(dayIndex).push(this.createSession());
-  }
 
-  removeSession(dayIndex: number, sessionIndex: number): void {
-    this.getSessions(dayIndex).removeAt(sessionIndex);
-  }
+  transformFormValue(formValue: any[]) {
+    const clinicTiming: any = [];
+    const sameForAllDays = this.availabilityForm.get('sameForAllDays')?.value;
 
-  applySameSessionsToAll(): void {
-    const referenceDay = this.days.at(0);
-    const referenceSessions = referenceDay.get('sessions') as FormArray;
-    const sessionData = referenceSessions.value;
+    let referenceSession: any = null;
 
-    for (let i = 0; i < 7; i++) {
-      const day = this.days.at(i);
-      day.get('active')?.setValue(true);
-      const sessionsArray = day.get('sessions') as FormArray;
+    if (sameForAllDays) {
+      const refDay = formValue.find(
+        d => d.sessions && d.sessions.length
+      );
 
-      while (sessionsArray.length > 0) {
-        sessionsArray.removeAt(0);
+      if (refDay) {
+        referenceSession = refDay.sessions[0];
       }
-      sessionData.forEach((session: any) => {
-        sessionsArray.push(this.fb.group({
-          start_time: [session.start_time, Validators.required],
-          end_time: [session.end_time, Validators.required],
-          sessionDuration: [session.sessionDuration, Validators.required]
-        }));
-      });
     }
-  }
 
-  transformFormValue(formValue: any) {
-    const daysData = formValue.days
-      .map((day: any, index: number) => {
-        if (!day.active || !day.sessions || !day.sessions.length) return null;
+    const toUTCFormatted = (timeStr: string): string => {
+      const [hours, minutes] = timeStr.split(':').map(Number);
 
-        const toUTCFormatted = (timeStr: string): string => {
-          const [hours, minutes] = timeStr.split(':').map(Number);
+      const localDate = new Date();
+      localDate.setHours(hours, minutes, 0, 0);
 
-          const localDate = new Date();
-          localDate.setHours(hours, minutes, 0, 0);
+      const hour = String(localDate.getUTCHours()).padStart(2, '0');
+      const minute = String(localDate.getUTCMinutes()).padStart(2, '0');
 
-          const year = localDate.getUTCFullYear();
-          const month = String(localDate.getUTCMonth() + 1).padStart(2, '0');
-          const day = String(localDate.getUTCDate()).padStart(2, '0');
-          const hour = String(localDate.getUTCHours()).padStart(2, '0');
-          const minute = String(localDate.getUTCMinutes()).padStart(2, '0');
-          const second = String(localDate.getUTCSeconds()).padStart(2, '0');
+      return `${hour}:${minute}`;
+    };
 
-          return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-        };
+    formValue.forEach((day: any, index: number) => {
+      const dayName = this.daysOfWeek[index]
+      if (sameForAllDays && referenceSession) {
+        clinicTiming.push({
+          day_of_week: dayName,
+          start_time: toUTCFormatted(referenceSession.start_time),
+          end_time: toUTCFormatted(referenceSession.end_time),
+          closed: 0
+        });
+      }
 
-        const slots = day.sessions.map((session: any) => ({
-          start_time: session.start_time,
-          end_time: session.end_time,
-          start_time_utc: toUTCFormatted(session.start_time),
-          end_time_utc: toUTCFormatted(session.end_time),
-          slot_duration: session.sessionDuration.split(' ')[0]
-        }));
+      if (!day.sessions || day.sessions.length === 0) {
+        clinicTiming.push({
+          day_of_week: dayName,
+          closed: 1
+        });
+      }
 
-        return {
-          day: this.daysOfWeek[index],
-          slots
-        };
-      })
-      .filter(Boolean);
-
-    return { days: daysData };
-  }
-
-  applyConditionalValidators() {
-    this.days.controls.forEach((dayCtrl: AbstractControl, index: number) => {
-      const isActive = dayCtrl.get('active')?.value;
-      const sessions = (dayCtrl.get('sessions') as FormArray);
-
-      sessions.controls.forEach((sessionGroup: AbstractControl) => {
-        if (isActive) {
-          sessionGroup.get('start_time')?.setValidators([Validators.required]);
-          sessionGroup.get('end_time')?.setValidators([Validators.required]);
-          sessionGroup.get('sessionDuration')?.setValidators([Validators.required]);
-        } else {
-          sessionGroup.get('start_time')?.clearValidators();
-          sessionGroup.get('end_time')?.clearValidators();
-          sessionGroup.get('sessionDuration')?.clearValidators();
-        }
-        sessionGroup.get('start_time')?.updateValueAndValidity();
-        sessionGroup.get('end_time')?.updateValueAndValidity();
-        sessionGroup.get('sessionDuration')?.updateValueAndValidity();
-      });
+      const session = day.sessions[0];
+      if (!sameForAllDays) {
+        clinicTiming.push({
+          day_of_week: dayName,
+          start_time: toUTCFormatted(session.start_time),
+          end_time: toUTCFormatted(session.end_time),
+          closed: !day.active ? 1 : 0
+        });
+      }
     });
+
+    return clinicTiming
   }
+
 
   getCertificaTeypes() {
     this.service.get<any>(`doctor/get_doctor_certificates_path`).pipe(
@@ -650,6 +627,7 @@ export class SoloProfileSetupComponent {
     this.loading = true
     let formData = new FormData();
     formData.append('name', this.besicInfoForm.get('name')?.value);
+    formData.append('last_name', this.besicInfoForm.get('lastName')?.value);
     formData.append('clinic_name', this.besicInfoForm.get('clinic_name')?.value || '');
     formData.append('clinic_description', this.besicInfoForm.get('clinic_description')?.value || '');
     formData.append('language', 'en');
@@ -683,6 +661,7 @@ export class SoloProfileSetupComponent {
             })
           } else {
             this.currentStep++;
+            this.getProfile(this.currentStep + 1)
           }
           this.loading = false
         } else {
@@ -726,6 +705,7 @@ export class SoloProfileSetupComponent {
             this.toster.success('Profile updated successfully');
           } else {
             this.currentStep++;
+            this.getProfile(this.currentStep + 1)
           }
           this.loading = false
         } else {
@@ -772,6 +752,7 @@ export class SoloProfileSetupComponent {
             this.toster.success('Profile updated successfully');
           } else {
             this.currentStep++;
+            this.getProfile(this.currentStep + 1)
           }
           this.loading = false
         }
@@ -784,7 +765,7 @@ export class SoloProfileSetupComponent {
 
   onExpertiseSubmit() {
 
-    if (this.treatmentsArray.controls.some((t: any) => t.get('price')?.invalid || t.get('sub_treatments')?.controls.some((sub: any) => sub.get('price')?.invalid))) {
+    if (this.treatmentsArray.controls.some((t: any) => t.get('selected')?.value && (t.get('price')?.invalid || t.get('sub_treatments')?.controls.some((sub: any) => sub.get('selected')?.value && sub.get('price')?.invalid)))) {
       this.toster.warning('Please enter price for the treatment and sub treatments');
       return;
     }
@@ -820,6 +801,7 @@ export class SoloProfileSetupComponent {
             this.toster.success('Profile updated successfully');
           } else {
             this.currentStep++;
+            this.getProfile(this.currentStep + 1)
           }
           this.loading = false
         } else {
@@ -836,28 +818,25 @@ export class SoloProfileSetupComponent {
 
   onTimeSubmit() {
 
-    if (this.availabilityForm.get('sameForAllDays')?.value === true) {
-      this.applySameSessionsToAll();
-    }
-
     if (this.availabilityForm.invalid) {
       this.availabilityForm.markAllAsTouched();
       return;
     }
 
-    const transformed = this.transformFormValue(this.availabilityForm.value);
+    const transformed = this.transformFormValue(this.availabilityForm.value.clinic_timing);
 
     const transformedFormData = {
-      ...transformed,
+      availability: transformed,
       fee_per_session: this.availabilityForm.value.fee_per_session,
-      dr_type: 1
+      slot_time: this.availabilityForm.value.slot_time,
+      same_for_all: this.availabilityForm.value.sameForAllDays ? 1 : 0,
     };
 
     this.loading = true
     let formData = transformedFormData;
 
     if (this.isEdit) {
-      this.service.post<any, any>('doctor/updateDoctorAvailability', formData).pipe(
+      this.service.post<any, any>('doctor/createDoctorAvailability', formData).pipe(
         takeUntil(this.destroy$)
       ).subscribe({
         next: (resp) => {
@@ -1014,6 +993,7 @@ export class SoloProfileSetupComponent {
               this.currentStep = data.clinic.on_boarding_status
             } else {
               this.currentStep = data.on_boarding_status
+              this.getProfile(this.currentStep + 1);
             }
           }
           switch (status) {
@@ -1026,6 +1006,7 @@ export class SoloProfileSetupComponent {
               })
               this.besicInfoForm.patchValue({
                 name: data.name,
+                lastName: data.last_name,
                 clinic_name: data.clinic.clinic_name,
                 clinic_description: data.clinic.clinic_description,
                 // ivo_registration_number: data.clinic.ivo_registration_number,
@@ -1073,9 +1054,7 @@ export class SoloProfileSetupComponent {
                 }));
               }
               break;
-
             case 4:
-
               this.selectedTreatments = data.clinic?.treatments.map((item: any) => ({
                 id: item.treatment_id,
                 name: item.treatment_name_en,
@@ -1131,8 +1110,10 @@ export class SoloProfileSetupComponent {
             case 5:
               this.availabilityForm.patchValue({
                 fee_per_session: data.clinic.doctorSessions[0].fee_per_session,
+                slot_time: data.clinic.doctorSessions[0].slot_time.toString(),
+                sameForAllDays: data.clinic.doctorSessions[0].same_for_all == 1 ? true : false,
               });
-              this.patchAvailabilityData(data.clinic.operation_hours);
+              this.patchOperationHours(data.clinic.operation_hours);
               break;
           }
 
@@ -1146,56 +1127,39 @@ export class SoloProfileSetupComponent {
     });
   }
 
-  patchAvailabilityData(operation_hours: any[]) {
-    const daysFormArray = this.availabilityForm.get('days') as FormArray;
-    const dayIndexMap = {
-      monday: 0,
-      tuesday: 1,
-      wednesday: 2,
-      thursday: 3,
-      friday: 4,
-      saturday: 5,
-      sunday: 6
-    };
+  patchOperationHours(operation_hours: any[] | undefined) {
+    const clinicTimingArray = this.availabilityForm.get('clinic_timing') as FormArray;
 
-    const groupedByDay: { [key: string]: any[] } = {};
-    operation_hours.forEach((item) => {
-      const day = item.day.toLowerCase();
-      if (!groupedByDay[day]) {
-        groupedByDay[day] = [];
-      }
-
-      groupedByDay[day].push({
-        start_time: item.start_time,
-        end_time: item.end_time,
-        sessionDuration: item.slot_duration + ' Mins',
+    operation_hours?.forEach((dayData) => {
+      const dayIndex = this.daysOfWeek.findIndex(
+        d => d.toLowerCase() === dayData.day_of_week.toLowerCase()
+      );
+      if (dayIndex === -1) return;
+      const dayGroup = clinicTimingArray.at(dayIndex) as FormGroup;
+      dayGroup.patchValue({
+        active: dayData.is_closed == 0
       });
-    });
-
-    Object.entries(dayIndexMap).forEach(([day, index]) => {
-      const dayFormGroup = daysFormArray.at(index) as FormGroup;
-      const sessionsArray = dayFormGroup.get('sessions') as FormArray;
-
-      while (sessionsArray.length > 0) {
-        sessionsArray.removeAt(0);
-      }
-
-      const dayData = groupedByDay[day];
-      if (dayData?.length) {
-        dayFormGroup.get('active')?.setValue(true);
-        dayData.forEach((slot) => {
-          sessionsArray.push(this.fb.group({
-            start_time: [slot.start_time, Validators.required],
-            end_time: [slot.end_time, Validators.required],
-            sessionDuration: [slot.sessionDuration, Validators.required],
-          }));
-        });
-      } else {
-        dayFormGroup.get('active')?.setValue(false);
-      }
+      const sessionsArray = dayGroup.get('sessions') as FormArray;
+      sessionsArray.clear()
+      sessionsArray.push(
+        this.fb.group({
+          start_time: this.convertTime(dayData.open_time),
+          end_time: this.convertTime(dayData.close_time)
+        })
+      );
     });
   }
 
+  convertTime(time: any): any {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+
+    const utcDate = new Date(Date.UTC(1970, 0, 1, hours, minutes, seconds));
+
+    const localHours = String(utcDate.getHours()).padStart(2, '0');
+    const localMinutes = String(utcDate.getMinutes()).padStart(2, '0');
+
+    return `${localHours}:${localMinutes}`;
+  }
 
   previousStep() {
     this.currentStep--

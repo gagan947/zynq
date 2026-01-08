@@ -330,5 +330,10 @@
       "EnterEmail": "Enter Expert's Email",
       "FirstName": "First Name",
       "LastName": "Last Name",
-      "Optional": "Optional"
+      "Optional": "Optional",
+      "NoTreatmentAvailable": "No Treatment Available",
+      "NoSlotsAvailable": "No Slots Available",
+      "PleaseSelectAtLeastOneTreatmentForEveryClinic": "Please select at least one treatment for each clinic",
+      "pleaseFillAllRequiredFields": "Please fill all required fields for each clinic",
+      "pleaseSelectAtLeastOneSlot": "Please select at least one slot for each clinic"
 }

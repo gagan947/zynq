@@ -362,14 +362,14 @@ input[type="number"] {
   justify-content: center;
   border-radius: 10px;
   outline: none;
-  border: 1px solid #eee;
+  border: 1px solid #d2cece;
   background-color: #fff;
   position: relative;
   z-index: 1;
   white-space: nowrap;
   transition: 0.4s ease all;
   color: #000;
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09);
+  /* box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09); */
   overflow: hidden;
 }
 
@@ -1041,6 +1041,18 @@ header {
   box-shadow: 0px 3px 1px 0px #0000000a, 0px 3px 8px 0px #0000001f;
 }
 
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active,
+.ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab-active,
+.ant-tabs-tab:hover {
+  background-color: #000 !important;
+}
+
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active button,
+.ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab-active button,
+.ant-tabs-tab:hover {
+  color: #fff !important;
+}
+
 .ct_img_w_40 {
   width: 40px;
   height: 40px;
@@ -1093,6 +1105,7 @@ header {
   border-radius: 5px;
   outline: none;
   border: 1px solid var(--light_green);
+  display: inline-block;
 }
 
 .ct_custom_badge_yellow {

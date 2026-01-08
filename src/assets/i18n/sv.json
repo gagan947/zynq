@@ -330,5 +330,10 @@
       "EnterEmail": "Ange Experts e-postadress",
       "FirstName": "Förnamn",
       "LastName": "Efternamn",
-      "Optional": "Valfritt"
+      "Optional": "Valfritt",
+      "NoTreatmentAvailable": "Ingen behandling tillgänglig",
+      "NoSlotsAvailable": "Inga plats tillgängliga",
+      "PleaseSelectAtLeastOneTreatmentForEveryClinic": "Vänligen välj minst en behandling för varje klinik",
+      "pleaseFillAllRequiredFields": "Vänligen fyll i alla obligatoriska fält för varje klinik",
+      "pleaseSelectAtLeastOneSlot": "Välj minst en plats för varje klinik"
 }
