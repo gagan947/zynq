@@ -25,7 +25,7 @@
                                                 {{'Information' | translate}}
                                           </h5>
                                           <div class="row">
-                                                <div class="form-group mb-4 col-md-6">
+                                                <div class="form-group mb-4 col-md-4">
                                                       <label for="" class="mb-2 ct_text_black">{{'FirstName' |
                                                             translate}}<span class="ct_red_text">*</span></label>
                                                       <input type="text" class="form-control ct_input"
@@ -40,7 +40,7 @@
                                                             </span>
                                                       </span>
                                                 </div>
-                                                <div class="form-group mb-4 col-md-6">
+                                                <div class="form-group mb-4 col-md-4">
                                                       <label for="" class="mb-2 ct_text_black">{{'LastName' |
                                                             translate}}<span class="ct_red_text">*</span></label>
                                                       <input type="text" class="form-control ct_input"
@@ -51,6 +51,21 @@
                                                             <span *ngIf="besicInfoForm.controls['lastName'].errors?.['required']"
                                                                   class="ct_text_red mt-2">
                                                                   {{'LastName' | translate}} {{'isRequired' |
+                                                                  translate}}.
+                                                            </span>
+                                                      </span>
+                                                </div>
+                                                <div class="form-group mb-4 col-md-4">
+                                                      <label for="" class="mb-2 ct_text_black">{{'Email' |
+                                                            translate}}<span class="ct_red_text">*</span></label>
+                                                      <input type="text" class="form-control ct_input" readonly
+                                                            placeholder="{{'Enter' | translate}} {{'Email' | translate}}"
+                                                            formControlName="email">
+                                                      <span
+                                                            *ngIf="besicInfoForm.controls['email'].invalid && besicInfoForm.controls['email'].touched">
+                                                            <span *ngIf="besicInfoForm.controls['email'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  {{'Email' | translate}} {{'isRequired' |
                                                                   translate}}.
                                                             </span>
                                                       </span>
@@ -727,6 +742,9 @@
                                                                         <th class="border p-2">{{'Treatment' |
                                                                               translate}}</th>
                                                                         <th class="border p-2">{{'Price' | translate}}
+                                                                              <span class="ct_fs_12 text-muted">({{'includedVat'
+                                                                                    |
+                                                                                    translate}})</span>
                                                                         </th>
                                                                         <th class="border p-2"></th>
                                                                   </tr>
@@ -774,8 +792,7 @@
                                                                                     </small>
                                                                               </div>
                                                                               }@else {
-                                                                              <span>{{t.get('price')?.value > 0 ?
-                                                                                    t.get('price')?.value : ''}}</span>
+                                                                              <span>{{t.get('price')?.value}}</span>
                                                                               }
                                                                         </td>
                                                                         <td class="border p-2 align-middle text-center"
@@ -820,6 +837,10 @@
                                                                                                             class="border p-2">
                                                                                                             {{'Price' |
                                                                                                             translate}}
+                                                                                                            <span
+                                                                                                                  class="ct_fs_12 text-muted">({{'includedVat'
+                                                                                                                  |
+                                                                                                                  translate}})</span>
                                                                                                       </th>
                                                                                                 </tr>
                                                                                           </thead>

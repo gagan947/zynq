@@ -34,12 +34,12 @@ export const clinicRoutes: Routes = [
                   {
                         path: 'doctors',
                         loadComponent: () => import('../clinic_panel_components/doctors/doctors-management/doctors-management.component').then((m) => m.DoctorsManagementComponent),
-                        title: 'Doctors Management'
+                        title: 'Experts Management'
                   },
                   {
                         path: 'doctors/detail',
                         loadComponent: () => import('../clinic_panel_components/doctors/doctor-detail/doctor-detail.component').then((m) => m.DoctorDetailComponent),
-                        title: 'Doctor Detail'
+                        title: 'Expert Detail'
                   },
                   {
                         path: 'products',

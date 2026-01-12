@@ -335,5 +335,7 @@
       "NoSlotsAvailable": "No Slots Available",
       "PleaseSelectAtLeastOneTreatmentForEveryClinic": "Please select at least one treatment for each clinic",
       "pleaseFillAllRequiredFields": "Please fill all required fields for each clinic",
-      "pleaseSelectAtLeastOneSlot": "Please select at least one slot for each clinic"
+      "pleaseSelectAtLeastOneSlot": "Please select at least one slot for each clinic",
+      "selectAll": "Select All",
+      "includedVat": "incl. VAT"
 }

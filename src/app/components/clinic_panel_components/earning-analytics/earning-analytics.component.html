@@ -12,7 +12,8 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
                                           {{data.dashboardData?.clinic_appointment_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">{{'Appointments' | translate}} {{'Earnings' | translate}}</p>
+                                    <p class="mb-0">{{'Appointments' | translate}} {{'Earnings' | translate}} <span
+                                                class="ct_fs_12 text-muted">({{'includedVat' | translate}})</span></p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -69,7 +70,8 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
                                           {{data.dashboardData?.clinic_product_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">{{'ProductEarnings' | translate}}</p>
+                                    <p class="mb-0">{{'ProductEarnings' | translate}} <span
+                                                class="ct_fs_12 text-muted">({{'includedVat' | translate}})</span></p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -96,7 +98,8 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black">
                                           {{data.dashboardData?.wallet_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">{{'WalletEarnings' | translate}}</p>
+                                    <p class="mb-0">{{'WalletEarnings' | translate}} <span
+                                                class="ct_fs_12 text-muted">({{'includedVat' | translate}})</span></p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -152,10 +155,18 @@
                                                       <th>{{'OrderID' | translate}}</th>
                                                       <th>{{'UserName' | translate}}</th>
                                                       <th>{{'Products' | translate}}</th>
-                                                      <th>{{'TotalAmount' | translate}}</th>
-                                                      <th>{{'Earnings' | translate}}</th>
-                                                      <th>{{'AdminEarnings' | translate}}</th>
-                                                      <th>{{'AdminCommission' | translate}}</th>
+                                                      <th>{{'TotalAmount' | translate}} <span
+                                                                  class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                  translate}})</span></th>
+                                                      <th>{{'Earnings' | translate}} <span
+                                                                  class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                  translate}})</span></th>
+                                                      <th>{{'AdminEarnings' | translate}} <span
+                                                                  class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                  translate}})</span></th>
+                                                      <th>{{'AdminCommission' | translate}} <span
+                                                                  class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                  translate}})</span></th>
                                                       <th>{{'OrderDate' | translate}}</th>
                                                 </tr>
                                           </thead>
@@ -208,10 +219,18 @@
                                                       <th>{{'StartTime' | translate}}</th>
                                                       <th>{{'EndTime' | translate}}</th>
                                                       <th>{{'Type' | translate}}</th>
-                                                      <th>{{'TotalAmount' | translate}}</th>
-                                                      <th>{{'Earnings' | translate}}</th>
-                                                      <th>{{'AdminEarnings' | translate}}</th>
-                                                      <th>{{'AdminCommission' | translate}}</th>
+                                                      <th>{{'TotalAmount' | translate}} <span
+                                                                  class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                  translate}})</span></th>
+                                                      <th>{{'Earnings' | translate}} <span
+                                                                  class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                  translate}})</span></th>
+                                                      <th>{{'AdminEarnings' | translate}} <span
+                                                                  class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                  translate}})</span></th>
+                                                      <th>{{'AdminCommission' | translate}} <span
+                                                                  class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                  translate}})</span></th>
                                                 </tr>
                                           </thead>
                                           <tbody>

@@ -37,6 +37,7 @@ export interface Doctor {
       reviews: any[];
       severity_levels: DoctorSeverityLevel[];
       skin_types: DoctorSkinType[];
+      on_boarding_status: number;
 }
 
 export interface DoctorAvailability {

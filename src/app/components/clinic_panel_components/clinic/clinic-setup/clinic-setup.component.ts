@@ -638,7 +638,7 @@ export class ClinicSetupComponent {
       const clinicTimingData = this.transformFormValue(this.Form.value.clinic_timing);
       formData.append('slot_time', this.Form.value.slot_time);
       formData.append('clinic_timing', JSON.stringify(clinicTimingData));
-      formData.append('same_for_all', this.Form.value.sameForAllDays ? '1' : '0');
+      formData.append('same_for_all', this.Form.value.sameForAllDays ? '0' : '1');
     } else {
       return
     }
@@ -770,7 +770,7 @@ export class ClinicSetupComponent {
           slot_time: this.clinicPofile.slot_time?.toString(),
         });
 
-        this.Form.get('sameForAllDays')?.setValue(this.clinicPofile?.same_for_all ? true : false);
+        this.Form.get('sameForAllDays')?.setValue(this.clinicPofile?.same_for_all == 0 ? true : false);
         this.patchOperationHours(this.clinicPofile?.operation_hours);
       }
     }

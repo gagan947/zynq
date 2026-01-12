@@ -65,7 +65,9 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.clinic_appointment_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">{{'Appointment' | translate}} {{'Earning' | translate}}</p>
+                                    <p class="mb-0">{{'Appointment' | translate}} {{'Earning' | translate}} <span
+                                                class="ct_fs_12 text-muted">({{'includedVat' |
+                                                translate}})</span></p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
@@ -91,7 +93,9 @@
                                     <h3 class="ct_fw_600 ct_fs_28 mb-1 ct_text_black ">
                                           {{dashboardData?.clinic_product_earnings || 0 | currency:'SEK '}}
                                     </h3>
-                                    <p class="mb-0">{{'ProductEarnings' | translate}}</p>
+                                    <p class="mb-0">{{'ProductEarnings' | translate}} <span
+                                                class="ct_fs_12 text-muted">({{'includedVat' |
+                                                translate}})</span></p>
                               </div>
                               <div class="ct_dash_icon">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"

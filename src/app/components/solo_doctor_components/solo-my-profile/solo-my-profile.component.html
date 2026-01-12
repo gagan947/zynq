@@ -341,7 +341,9 @@
                                                             <th class="border p-2">Sr. No</th>
                                                             <th class="border p-2">{{'Treatment' | translate}}
                                                             </th>
-                                                            <th class="border p-2">{{'Price' | translate}}</th>
+                                                            <th class="border p-2">{{'Price' | translate}} <span
+                                                                        class="ct_fs_12 text-muted">({{'includedVat' |
+                                                                        translate}})</span></th>
                                                             <th class="border p-2"></th>
                                                       </tr>
                                                 </thead>
@@ -354,7 +356,8 @@
                                                             <td class="border p-2 align-middle">
                                                                   {{item.name}}</td>
                                                             <td class="border p-2 align-middle">{{item.price |
-                                                                  currency:'SEK '}}</td>
+                                                                  currency:'SEK '}}
+                                                            </td>
                                                             <td class="border p-2 align-middle text-center"
                                                                   style="width:40px">
                                                                   @if(item.sub_treatments &&
@@ -385,6 +388,10 @@
                                                                                           translate}}</th>
                                                                                     <th class="border p-2">
                                                                                           {{'Price' | translate}}
+                                                                                          <span
+                                                                                                class="ct_fs_12 text-muted">({{'includedVat'
+                                                                                                |
+                                                                                                translate}})</span>
                                                                                     </th>
                                                                                     <!-- <th class="border p-2"></th> -->
                                                                               </tr>
@@ -451,7 +458,7 @@
                                                 <div class="d-flex align-items-center gap-2">
                                                       <i class="fa-solid fa-check"></i>
                                                       <label class="form-check-label mb-0" for="flexCheckDefault">
-                                                            {{item.type}}
+                                                            {{item.english}}
                                                       </label>
                                                 </div>
                                           </li>
@@ -509,7 +516,8 @@
                                     <div class="col-md-6">
                                           <div class="form-group mb-3">
                                                 <label for="" class="mb-2 ct_text_black">{{'FeeperSession' |
-                                                      translate}}</label>
+                                                      translate}} <span class="ct_fs_12 text-muted">({{'includedVat' |
+                                                            translate}})</span></label>
                                                 <div class="position-relative">
                                                       <input type="text" class="form-control ct_input"
                                                             placeholder="Enter fee per session" disabled

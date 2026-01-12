@@ -83,6 +83,7 @@ export class ProfileSetupComponent {
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
       lastName: [''],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       biography: ['', [Validators.required, NoWhitespaceDirective.validate]]
@@ -401,6 +402,7 @@ export class ProfileSetupComponent {
       this.personalForm.patchValue({
         fullName: data.name,
         lastName: data.last_name,
+        email: data.email,
         phone: data.phone,
         address: data.address,
         biography: data.biography
@@ -531,6 +533,7 @@ export class ProfileSetupComponent {
     const formData = new FormData();
     formData.append('name', this.personalForm.value.fullName);
     formData.append('last_name', this.personalForm.value.lastName);
+    formData.append('email', this.personalForm.value.email);
     formData.append('phone', this.personalForm.value.phone.e164Number);
     formData.append('address', this.personalForm.value.address);
     formData.append('biography', this.personalForm.value.biography);
@@ -635,6 +638,9 @@ export class ProfileSetupComponent {
     this.apiService.post<any, any>('doctor/add_expertise', formData).subscribe({
       next: (resp) => {
         if (resp.success == true) {
+          let data = this.auth.getUserInfo()
+          data.on_boarding_status = 3
+          localStorage.setItem('userInfo', JSON.stringify(data));
           this.router.navigate(['/doctor']);
           this.loading = false;
         }
@@ -946,7 +952,7 @@ export class ProfileSetupComponent {
         surgeries: data.clinics[index].surgeries?.map((item: any) => item.surgery_id),
         devices: data.clinics[index].devices?.map((item: any) => item.device_id),
         fee_per_session: data.clinics[index].fee_per_session,
-        slot_time: data.clinics[index].doctor_slot_time.toString(),
+        slot_time: data.clinics[index].doctor_slot_time?.toString(),
       })
       this.selectedDay[index] = data.clinics[index].slots.map((item: any) => item.day);
       this.selectedSlot[index] = data.clinics[index].slots.map((item: any) => { return { day: item.day, session: item.session } });
@@ -954,11 +960,22 @@ export class ProfileSetupComponent {
   }
 
   selectDay(event: any, day: any) {
+    const index = this.selectedIndex;
+    if (!this.selectedDay[index]) {
+      this.selectedDay[index] = [];
+    }
+
     if (event.target.checked) {
-      this.selectedDay[this.selectedIndex].push(day);
+      if (!this.selectedDay[index].includes(day)) {
+        this.selectedDay[index].push(day);
+      }
     } else {
-      this.selectedDay[this.selectedIndex] = this.selectedDay[this.selectedIndex].filter(d => d !== day);
-      this.selectedSlot[this.selectedIndex] = this.selectedSlot[this.selectedIndex]?.filter(d => d.day !== day);
+      this.selectedDay[index] =
+        this.selectedDay[index].filter(d => d !== day);
+      if (this.selectedSlot[index]) {
+        this.selectedSlot[index] =
+          this.selectedSlot[index].filter(d => d.day !== day);
+      }
     }
   }
 
@@ -966,5 +983,26 @@ export class ProfileSetupComponent {
     const clinicSlots = this.selectedSlot[this.selectedIndex];
     const dayEntry = clinicSlots?.find(d => d.day === day);
     return dayEntry?.session.some((s: any) => s.start_time === slot.start_time && s.end_time === slot.end_time);
+  }
+
+  isSelectedAllSlots(day: any, session: any) {
+    const clinicSlots = this.selectedSlot[this.selectedIndex];
+    const dayEntry = clinicSlots?.find(d => d.day === day);
+    return dayEntry?.session.length == session.length;
+  }
+
+  selectAllSlots(event: any, day: any, session: any) {
+    const index = this.selectedIndex;
+    if (!this.selectedSlot[index]) {
+      this.selectedSlot[index] = [];
+    }
+
+    if (event.target.checked) {
+      session.forEach((s: any) => {
+        this.selectSlot(day, s);
+      });
+    } else {
+      this.selectedSlot[index] = this.selectedSlot[index].filter(d => d.day !== day);
+    }
   }
 }

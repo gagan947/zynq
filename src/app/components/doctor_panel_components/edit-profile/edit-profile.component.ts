@@ -78,6 +78,7 @@ export class EditProfileComponent {
     this.personalForm = this.fb.group({
       fullName: ['', [Validators.required, NoWhitespaceDirective.validate]],
       lastName: [''],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.min(0)]],
       address: ['', [Validators.required, NoWhitespaceDirective.validate]],
       biography: ['', [Validators.required, NoWhitespaceDirective.validate]]
@@ -393,6 +394,7 @@ export class EditProfileComponent {
       this.personalForm.patchValue({
         fullName: data.name,
         lastName: data.last_name,
+        email: data.email,
         phone: data.phone,
         address: data.address,
         biography: data.biography
@@ -590,6 +592,7 @@ export class EditProfileComponent {
     const formData = new FormData();
     formData.append('name', this.personalForm.value.fullName);
     formData.append('last_name', this.personalForm.value.lastName);
+    formData.append('email', this.personalForm.value.email);
     formData.append('phone', this.personalForm.value.phone.e164Number);
     formData.append('address', this.personalForm.value.address);
     formData.append('biography', this.personalForm.value.biography);
@@ -1066,11 +1069,22 @@ export class EditProfileComponent {
   }
 
   selectDay(event: any, day: any) {
+    const index = this.selectedIndex;
+    if (!this.selectedDay[index]) {
+      this.selectedDay[index] = [];
+    }
+
     if (event.target.checked) {
-      this.selectedDay[this.selectedIndex].push(day);
+      if (!this.selectedDay[index].includes(day)) {
+        this.selectedDay[index].push(day);
+      }
     } else {
-      this.selectedDay[this.selectedIndex] = this.selectedDay[this.selectedIndex].filter(d => d !== day);
-      this.selectedSlot[this.selectedIndex] = this.selectedSlot[this.selectedIndex]?.filter(d => d.day !== day);
+      this.selectedDay[index] =
+        this.selectedDay[index].filter(d => d !== day);
+      if (this.selectedSlot[index]) {
+        this.selectedSlot[index] =
+          this.selectedSlot[index].filter(d => d.day !== day);
+      }
     }
   }
 
@@ -1078,5 +1092,26 @@ export class EditProfileComponent {
     const clinicSlots = this.selectedSlot[this.selectedIndex];
     const dayEntry = clinicSlots?.find(d => d.day === day);
     return dayEntry?.session.some((s: any) => s.start_time === slot.start_time && s.end_time === slot.end_time);
+  }
+
+  isSelectedAllSlots(day: any, session: any) {
+    const clinicSlots = this.selectedSlot[this.selectedIndex];
+    const dayEntry = clinicSlots?.find(d => d.day === day);
+    return dayEntry?.session.length == session.length;
+  }
+
+  selectAllSlots(event: any, day: any, session: any) {
+    const index = this.selectedIndex;
+    if (!this.selectedSlot[index]) {
+      this.selectedSlot[index] = [];
+    }
+
+    if (event.target.checked) {
+      session.forEach((s: any) => {
+        this.selectSlot(day, s);
+      });
+    } else {
+      this.selectedSlot[index] = this.selectedSlot[index].filter(d => d.day !== day);
+    }
   }
 }

@@ -31,7 +31,7 @@
                                                 translate}}</h5>
 
                                           <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'FirstName' |
                                                                   translate}}<span class="ct_red_text">*</span></label>
@@ -46,7 +46,7 @@
                                                       </div>
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'LastName' |
                                                                   translate}} <span class="text-muted">({{'Optional' |
@@ -61,8 +61,22 @@
                                                             </div>
                                                       </div>
                                                 </div>
+                                                <div class="col-md-6">
+                                                      <div class="form-group mb-4">
+                                                            <label for="" class="mb-2 ct_text_black">{{'Email' |
+                                                                  translate}}</label>
+                                                            <input type="text" class="form-control ct_input"
+                                                                  formControlName="email" readonly
+                                                                  placeholder="{{'Enter' | translate}} {{'Email' | translate}}">
+                                                            <div *ngIf="personalForm.get('email')?.touched && personalForm.get('email')?.invalid"
+                                                                  class="ct_text_red">
+                                                                  {{'Email' | translate}}
+                                                                  {{'isRequired' | translate}}.
+                                                            </div>
+                                                      </div>
+                                                </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'PhoneNo' |
                                                                   translate}}<span class="ct_red_text">*</span></label>
@@ -497,6 +511,10 @@
                                                                                                             class="border p-2">
                                                                                                             {{'Price' |
                                                                                                             translate}}
+                                                                                                            <span
+                                                                                                                  class="ct_fs_12 text-muted">({{'includedVat'
+                                                                                                                  |
+                                                                                                                  translate}})</span>
                                                                                                       </th>
                                                                                                       <th
                                                                                                             class="border p-2">
@@ -577,11 +595,7 @@
                                                                                                                   </small>
                                                                                                             </div>
                                                                                                             }@else {
-                                                                                                            <span>{{t.get('price')?.value
-                                                                                                                  > 0 ?
-                                                                                                                  t.get('price')?.value
-                                                                                                                  :
-                                                                                                                  ''}}</span>
+                                                                                                            <span>{{t.get('price')?.value}}</span>
                                                                                                             }
                                                                                                       </td>
                                                                                                       <td class="border p-2 align-middle text-center"
@@ -633,6 +647,10 @@
                                                                                                                                           {{'Price'
                                                                                                                                           |
                                                                                                                                           translate}}
+                                                                                                                                          <span
+                                                                                                                                                class="ct_fs_12 text-muted">({{'includedVat'
+                                                                                                                                                |
+                                                                                                                                                translate}})</span>
                                                                                                                                     </th>
                                                                                                                               </tr>
                                                                                                                         </thead>
@@ -860,11 +878,26 @@
                                                                                     track $index) {
                                                                                     <div class="mb-4 col-md-6">
                                                                                           <div
-                                                                                                class="form-check d-flex gap-2">
-                                                                                                <input type="checkbox"
-                                                                                                      class="form-check-input ct_custom_check"
-                                                                                                      (change)="selectDay($event, item.day)"
-                                                                                                      [checked]="selectedDay[selectedIndex] ? selectedDay[selectedIndex].includes(item.day) : false">{{item.day}}
+                                                                                                class="d-flex justify-content-between align-items-center">
+                                                                                                <div
+                                                                                                      class="form-check d-flex gap-2">
+                                                                                                      <input type="checkbox"
+                                                                                                            class="form-check-input ct_custom_check"
+                                                                                                            (change)="selectDay($event, item.day)"
+                                                                                                            [checked]="selectedDay[selectedIndex] ? selectedDay[selectedIndex].includes(item.day) : false">{{item.day}}
+                                                                                                </div>
+                                                                                                @if(selectedDay[selectedIndex]
+                                                                                                &&
+                                                                                                selectedDay[selectedIndex].includes(item.day)){
+                                                                                                <div
+                                                                                                      class="form-check d-flex gap-2">
+                                                                                                      <input type="checkbox"
+                                                                                                            class="form-check-input ct_custom_check"
+                                                                                                            (change)="selectAllSlots($event, item.day, item.session)"
+                                                                                                            [checked]="isSelectedAllSlots(item.day, item.session)">{{'selectAll'
+                                                                                                      | translate}}
+                                                                                                </div>
+                                                                                                }
                                                                                           </div>
                                                                                           @if(item.session.length > 0){
                                                                                           <div

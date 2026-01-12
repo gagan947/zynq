@@ -14,7 +14,8 @@
                             [indeterminate]="isIndeterminate()" (change)="onAllCheckboxChange($event)" />
                     </th>
                     <th class="border p-2">{{'Treatment' | translate}}</th>
-                    <th class="border p-2">{{'Price' | translate}}</th>
+                    <th class="border p-2">{{'Price' | translate}} <span class="ct_fs_12 text-muted">({{'includedVat' |
+                            translate}})</span></th>
                     <th class="border p-2"></th>
                 </tr>
             </thead>
@@ -67,7 +68,8 @@
                                 <tr>
                                     <th class="border p-2"></th>
                                     <th class="border p-2">{{'SubTreatment' | translate}}</th>
-                                    <th class="border p-2">{{'Price' | translate}}</th>
+                                    <th class="border p-2">{{'Price' | translate}} <span
+                                            class="ct_fs_12 text-muted">({{'includedVat' | translate}})</span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,13 +127,16 @@
     <div class="mt-4">
         <div class="d-block">
             <p class="ct_fs_16 ct_fw_600 d-flex align-items-center gap-2 justify-content-between">
-                <span>{{'TotalPrice' | translate}} :</span> <span>{{totalAmount | currency:'SEK '}}</span>
+                <span>{{'TotalPrice' | translate}} <span class="ct_fs_12 text-muted">({{'includedVat' |
+                        translate}})</span> :</span> <span>{{totalAmount | currency:'SEK '}}</span>
             </p>
             <p class="ct_fs_16 ct_fw_600 d-flex align-items-center gap-2 justify-content-between">
-                <span>{{'Discount' | translate}} :</span> <span>{{discountAmount | currency:'SEK '}}</span>
+                <span>{{'Discount' | translate}} <span class="ct_fs_12 text-muted">({{'includedVat' |
+                        translate}})</span> :</span> <span>{{discountAmount | currency:'SEK '}}</span>
             </p>
             <p class="ct_fs_16 ct_fw_600 d-flex align-items-center gap-2 justify-content-between">
-                <span>{{'GrandTotal' | translate}} :</span><span> {{netAmount | currency:'SEK '}}</span>
+                <span>{{'GrandTotal' | translate}} <span class="ct_fs_12 text-muted">({{'includedVat' |
+                        translate}})</span> :</span><span> {{netAmount | currency:'SEK '}}</span>
             </p>
         </div>
     </div>

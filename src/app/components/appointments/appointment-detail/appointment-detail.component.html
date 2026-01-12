@@ -293,7 +293,10 @@
                                                                   <th class="border p-2">Sr. No</th>
                                                                   <th class="border p-2">{{'Treatment' | translate}}
                                                                   </th>
-                                                                  <th class="border p-2">{{'Price' | translate}}</th>
+                                                                  <th class="border p-2">{{'Price' | translate}} <span
+                                                                              class="ct_fs_12 text-muted">({{'includedVat'
+                                                                              |
+                                                                              translate}})</span></th>
                                                                   <th class="border p-2"></th>
                                                             </tr>
                                                       </thead>
@@ -339,6 +342,10 @@
                                                                                                 translate}}</th>
                                                                                           <th class="border p-2">
                                                                                                 {{'Price' | translate}}
+                                                                                                <span
+                                                                                                      class="ct_fs_12 text-muted">({{'includedVat'
+                                                                                                      |
+                                                                                                      translate}})</span>
                                                                                           </th>
                                                                                           <!-- <th class="border p-2"></th> -->
                                                                                     </tr>
@@ -405,7 +412,10 @@
                                                                   <th class="border p-2">Sr. No</th>
                                                                   <th class="border p-2">{{'Treatment' | translate}}
                                                                   </th>
-                                                                  <th class="border p-2">{{'Price' | translate}}</th>
+                                                                  <th class="border p-2">{{'Price' | translate}} <span
+                                                                              class="ct_fs_12 text-muted">({{'includedVat'
+                                                                              |
+                                                                              translate}})</span></th>
                                                                   <th></th>
                                                             </tr>
                                                       </thead>
@@ -452,6 +462,10 @@
                                                                                                 translate}}</th>
                                                                                           <th class="border p-2">
                                                                                                 {{'Price' | translate}}
+                                                                                                <span
+                                                                                                      class="ct_fs_12 text-muted">({{'includedVat'
+                                                                                                      |
+                                                                                                      translate}})</span>
                                                                                           </th>
                                                                                           <!-- <th class="border p-2"></th> -->
                                                                                     </tr>
@@ -484,15 +498,18 @@
                                     </div>
                                     <div class="d-flex justify-content-end gap-5">
                                           <span class="d-flex align-items-center gap-2 justify-content-between"><strong>{{'originalPrice'
-                                                      | translate}} : </strong>
+                                                      | translate}} <span class="ct_fs_12 text-muted">({{'includedVat' |
+                                                            translate}})</span> : </strong>
                                                 <del>{{appointmentData?.suggestedTreatments.total_price |
                                                       currency:'SEK'}}</del></span>
                                           <span class="d-flex align-items-center gap-2 justify-content-between"><strong>{{'Discount'
-                                                      | translate}} : </strong>
+                                                      | translate}} <span class="ct_fs_12 text-muted">({{'includedVat' |
+                                                            translate}})</span> : </strong>
                                                 {{appointmentData?.suggestedTreatments.discount_amount |
                                                 currency:'SEK '}}</span>
                                           <span class="d-flex align-items-center gap-2 justify-content-between"><strong>{{'SubTotal'
-                                                      | translate}} : </strong>
+                                                      | translate}} <span class="ct_fs_12 text-muted">({{'includedVat' |
+                                                            translate}})</span> : </strong>
                                                 {{appointmentData?.suggestedTreatments.total_price_with_discount |
                                                 currency:'SEK '}}</span>
 

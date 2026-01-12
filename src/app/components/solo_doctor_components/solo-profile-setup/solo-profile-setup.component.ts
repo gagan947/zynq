@@ -101,7 +101,13 @@ export class SoloProfileSetupComponent {
     this.getSurgeries();
     // this.getDevices();
     this.getCertificaTeypes();
-    this.getProfile(1);
+    if (this.isEdit) {
+      this.getProfile(1);
+    } else {
+      this.service.get('solo_doctor/get_onboarding_status').pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
+        this.getProfile(res.data + 1)
+      })
+    }
   }
 
   inItForm() {
@@ -110,6 +116,7 @@ export class SoloProfileSetupComponent {
       lastName: [''],
       clinic_name: ['', [Validators.required, NoWhitespaceDirective.validate]],
       org_number: [''],
+      email: ['', [Validators.required, Validators.email]],
       // ivo_registration_number: [''],
       // hsa_id: [''],
       clinic_description: ['', [Validators.required, NoWhitespaceDirective.validate, Validators.maxLength(500)]],
@@ -829,7 +836,7 @@ export class SoloProfileSetupComponent {
       availability: transformed,
       fee_per_session: this.availabilityForm.value.fee_per_session,
       slot_time: this.availabilityForm.value.slot_time,
-      same_for_all: this.availabilityForm.value.sameForAllDays ? 1 : 0,
+      same_for_all: this.availabilityForm.value.sameForAllDays ? 0 : 1,
     };
 
     this.loading = true
@@ -993,7 +1000,6 @@ export class SoloProfileSetupComponent {
               this.currentStep = data.clinic.on_boarding_status
             } else {
               this.currentStep = data.on_boarding_status
-              this.getProfile(this.currentStep + 1);
             }
           }
           switch (status) {
@@ -1009,6 +1015,7 @@ export class SoloProfileSetupComponent {
                 lastName: data.last_name,
                 clinic_name: data.clinic.clinic_name,
                 clinic_description: data.clinic.clinic_description,
+                email: data.email,
                 // ivo_registration_number: data.clinic.ivo_registration_number,
                 org_number: data.clinic.org_number
               })
@@ -1111,7 +1118,7 @@ export class SoloProfileSetupComponent {
               this.availabilityForm.patchValue({
                 fee_per_session: data.clinic.doctorSessions[0].fee_per_session,
                 slot_time: data.clinic.doctorSessions[0].slot_time.toString(),
-                sameForAllDays: data.clinic.doctorSessions[0].same_for_all == 1 ? true : false,
+                sameForAllDays: data.clinic.doctorSessions[0].same_for_all == 0 ? true : false,
               });
               this.patchOperationHours(data.clinic.operation_hours);
               break;

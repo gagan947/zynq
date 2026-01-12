@@ -67,7 +67,8 @@
                                                 <th>Profile</th>
                                                 <th>Name</th>
                                                 <th>Specialty</th>
-                                                <th>Fee</th>
+                                                <th>Fee <span class="ct_fs_12 text-muted">({{'includedVat' |
+                                                            translate}})</span></th>
                                                 <th>Phone Number</th>
                                                 <th>Email</th>
                                                 <th>Status</th>
@@ -110,8 +111,11 @@
                                                                         class="fa-solid fa-link" data-bs-toggle="modal"
                                                                         data-bs-target="#ct_unlink_modal"></i></a>
                                                             }
+                                                            @if(item.on_boarding_status == 3 || item.on_boarding_status
+                                                            == 4){
                                                             <a routerLink="detail" (click)="viewDrdetail(item)"><i
                                                                         class="fa-regular fa-eye"></i></a>
+                                                            }
                                                       </div>
                                                 </td>
                                           </tr>
