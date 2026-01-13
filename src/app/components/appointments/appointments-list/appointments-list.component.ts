@@ -68,7 +68,7 @@ export class AppointmentsListComponent {
     this.srevice.get('doctor/future-slots').pipe(
       takeUntil(this.destroy$)
     ).subscribe((response: any) => {
-      this.allSlots = response.data;
+      this.allSlots = response.data.resultWithStatus || response.data;
     })
   }
 
