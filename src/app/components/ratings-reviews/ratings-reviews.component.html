@@ -34,7 +34,7 @@
                                     <thead>
                                           <tr>
                                                 <th>S.No</th>
-                                                <!-- <th>Expert Name</th> -->
+                                                <th>{{'ExpertName' | translate}}</th>
                                                 <th>{{'PatientName' | translate}}</th>
                                                 <th>{{'Rating' | translate}}</th>
                                                 <th>{{'Reviews' | translate}}</th>
@@ -45,12 +45,13 @@
                                     <tbody>
                                           @if(ratingReviewsList.length == 0){
                                           <tr>
-                                                <td colspan="6" class="text-center">{{'NoDataFound' | translate}}</td>
+                                                <td colspan="7" class="text-center">{{'NoDataFound' | translate}}</td>
                                           </tr>
                                           }
                                           @for (item of ratingReviewsList; track $index) {
                                           <tr>
                                                 <td>{{$index + 1}}</td>
+                                                <td>{{item.name}}</td>
                                                 <td class="">{{item.full_name}}</td>
                                                 <!-- <td>Wade Warren</td> -->
                                                 <td><span><i class="fa-solid fa-star me-2"></i>{{item.rating}}

@@ -45,7 +45,9 @@ export class AppointmentsListComponent {
   ngOnInit(): void {
     this.getAppointments();
     this.userData = JSON.parse(localStorage.getItem('userInfo') || '{}');
-    this.getAllSlots()
+    if (this.auth.getRoleName() !== 'clinic') {
+      this.getAllSlots()
+    }
   }
 
   getAppointments() {
@@ -121,6 +123,7 @@ export class AppointmentsListComponent {
 
       return matchSearch && matchDate && matchStatus && matchType;
     });
+
   }
 
   onChange(event: any) {

@@ -56,7 +56,7 @@ export class ClinicSetupComponent {
     { id: 'Contact', label: 'ContactDetails' },
     { id: 'Expertise', label: 'Expertise' },
     { id: 'Operation', label: 'OperationHours' },
-    { id: 'invite', label: 'InviteDoctors' }
+    { id: 'invite', label: 'InviteExpert' }
   ];
 
   stepFields = [

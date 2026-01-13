@@ -95,12 +95,15 @@
                                                 <thead>
                                                       <tr>
                                                             <th>S.No</th>
-                                                            <!-- <th>Doctor Name</th> -->
                                                             <th>{{'PatientName' | translate}}</th>
                                                             <th>{{'contactNumber' | translate}}</th>
                                                             <th>{{'StartTime' | translate}}</th>
                                                             <th>{{'EndTime' | translate}}</th>
+                                                            @if(auth.getRoleName() == 'clinic') {
+                                                            <th>{{'ExpertName' | translate}}</th>
+                                                            }@else {
                                                             <th>{{'ClinicName' | translate}}</th>
+                                                            }
                                                             <th>{{'Type' | translate}}</th>
                                                             <th>{{'Action' | translate}}</th>
                                                       </tr>
@@ -117,7 +120,7 @@
                                                             <td>{{$index + 1}}</td>
                                                             <!-- <td>Dr. John Smith</td> -->
                                                             <td class="">{{item.full_name}}</td>
-                                                            <td>{{item.mobile_number}}</td>
+                                                            <td>{{item.mobile_number || 'N/A'}}</td>
                                                             <td>
                                                                   <p class="mb-1">
                                                                         {{item.start_time | date:'dd-MM-yyyy - HH:mm'}}
@@ -128,14 +131,19 @@
                                                                         {{item.end_time | date:'dd-MM-yyyy - HH:mm'}}
                                                                   </p>
                                                             </td>
+                                                            @if(auth.getRoleName() == 'clinic') {
+                                                            <td class="">{{item.name}} {{item.last_name}}</td>
+                                                            }@else {
                                                             <td class="">{{item.clinic_name || 'N/A'}}</td>
+                                                            }
                                                             <td>{{item.type || 'N/A'}}</td>
                                                             <td>
                                                                   <div class="d-flex align-items-center gap-3">
                                                                         <a (click)="viewDetails(item)"
                                                                               title="View Details"><i
                                                                                     class="fa-regular fa-eye text-primary"></i></a>
-                                                                        @if(item.status !== 'Completed'){
+                                                                        @if(item.status !== 'Completed' &&
+                                                                        auth.getRoleName() !== 'clinic'){
                                                                         <a (click)="appointment_id = item.appointment_id; slotDate = item.start_time; onChange(item.start_time)"
                                                                               data-bs-toggle="modal"
                                                                               data-bs-target="#ct_unlink_modal"

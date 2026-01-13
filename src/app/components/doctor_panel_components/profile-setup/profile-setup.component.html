@@ -126,7 +126,7 @@
                                                                   formControlName="address">
                                                             <!-- when user enter location then show this div -->
                                                             <div class="ct_map_location_dropdown"
-                                                                  *ngIf="locations.length > 0">
+                                                                  *ngIf="locations && locations.length > 0">
                                                                   <ul>
                                                                         @for (item of locations; track $index) {
                                                                         <li (click)="selectLocation(item.description)">

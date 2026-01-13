@@ -23,36 +23,45 @@
                                           <h5 class="ct_fs_20 ct_ff_ambit_semibold mb-3">{{'Basic' | translate}}
                                                 {{'Clinic' | translate}} {{'Information' | translate}}
                                           </h5>
-                                          <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'Organization' | translate}}
-                                                      {{'Number' | translate}}
-                                                </label>
-                                                <input type="text" class="form-control ct_input"
-                                                      placeholder="{{'Enter' | translate}} {{'Organization' | translate}} {{'Number' | translate}}"
-                                                      formControlName="org_number">
-                                                <span
-                                                      *ngIf="Form.controls['org_number'].invalid && Form.controls['org_number'].touched">
-                                                      <span *ngIf="Form.controls['org_number'].errors?.['required']"
-                                                            class="ct_text_red mt-2">
-                                                            {{'Organization' | translate}} {{'Number' | translate}}
-                                                            {{'isRequired' | translate}}.
+                                          <div class="row">
+                                                <div class="form-group mb-4 col-md-6">
+                                                      <label for="" class="mb-2 ct_text_black">{{'Clinic' | translate}}
+                                                            {{'Name' | translate}} <span
+                                                                  class="ct_red_text">*</span></label>
+                                                      <input type="text" class="form-control ct_input"
+                                                            placeholder="{{'Enter' | translate}} {{'Clinic' | translate}} {{'Name' | translate}}"
+                                                            formControlName="clinic_name">
+                                                      <span
+                                                            *ngIf="Form.controls['clinic_name'].invalid && Form.controls['clinic_name'].touched">
+                                                            <span *ngIf="Form.controls['clinic_name'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  {{'Clinic' | translate}} {{'Name' | translate |
+                                                                  lowercase}}
+                                                                  {{'isRequired' | translate}}.
+                                                            </span>
                                                       </span>
-                                                </span>
-                                          </div>
-                                          <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'Clinic' | translate}}
-                                                      {{'Name' | translate}} <span class="ct_red_text">*</span></label>
-                                                <input type="text" class="form-control ct_input"
-                                                      placeholder="{{'Enter' | translate}} {{'Clinic' | translate}} {{'Name' | translate}}"
-                                                      formControlName="clinic_name">
-                                                <span
-                                                      *ngIf="Form.controls['clinic_name'].invalid && Form.controls['clinic_name'].touched">
-                                                      <span *ngIf="Form.controls['clinic_name'].errors?.['required']"
-                                                            class="ct_text_red mt-2">
-                                                            {{'Clinic' | translate}} {{'Name' | translate | lowercase}}
-                                                            {{'isRequired' | translate}}.
+                                                </div>
+                                                <div class="form-group mb-4 col-md-6">
+                                                      <label for="" class="mb-2 ct_text_black">{{'Organization' |
+                                                            translate}}
+                                                            {{'Number' | translate}}
+                                                            <span class="text-muted">({{'Optional'
+                                                                  |
+                                                                  translate}})</span>
+                                                      </label>
+                                                      <input type="text" class="form-control ct_input"
+                                                            placeholder="{{'Enter' | translate}} {{'Organization' | translate}} {{'Number' | translate}}"
+                                                            formControlName="org_number">
+                                                      <span
+                                                            *ngIf="Form.controls['org_number'].invalid && Form.controls['org_number'].touched">
+                                                            <span *ngIf="Form.controls['org_number'].errors?.['required']"
+                                                                  class="ct_text_red mt-2">
+                                                                  {{'Organization' | translate}} {{'Number' |
+                                                                  translate}}
+                                                                  {{'isRequired' | translate}}.
+                                                            </span>
                                                       </span>
-                                                </span>
+                                                </div>
                                           </div>
                                           <!-- <div class="form-group mb-4">
                                                 <label for="" class="mb-2 ct_text_black">IVO Registration Number
@@ -99,7 +108,10 @@
                                                 </span>
                                           </div>
                                           <div class="form-group mb-4">
-                                                <label for="" class="mb-2 ct_text_black">{{'Logo' | translate}}</label>
+                                                <label for="" class="mb-2 ct_text_black">{{'Logo' | translate}} <span
+                                                            class="text-muted">({{'Optional'
+                                                            |
+                                                            translate}})</span></label>
                                                 <div class="">
                                                       <div *ngIf="!logoPreview" class="ct_upload_product_main"
                                                             (click)="logoInput.click()">
@@ -138,7 +150,10 @@
                                           </div>
                                           <div class="form-group mb-0">
                                                 <label for="" class="mb-2">{{'Upload' | translate}}
-                                                      {{'Clinic' | translate}} {{'Images' | translate}}</label>
+                                                      {{'Clinic' | translate}} {{'Images' | translate}} <span
+                                                            class="text-muted">({{'Optional'
+                                                            |
+                                                            translate}})</span></label>
                                                 <div class="ct_upload_product_main ct_upload_product_main_180">
                                                       <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -278,7 +293,7 @@
                                                                   [value]="selectedLocation">
                                                             <!-- when user enter location then show this div -->
                                                             <div class="ct_map_location_dropdown"
-                                                                  *ngIf="locations.length > 0">
+                                                                  *ngIf="locations && locations.length > 0">
                                                                   <ul>
                                                                         @for (item of locations; track $index) {
                                                                         <li (click)="selectLocation(item.description)">
@@ -354,7 +369,9 @@
                                                 <div class="col-md-12">
                                                       <div class="form-group mb-4">
                                                             <label for="" class="mb-2 ct_text_black">{{'WebsiteURL' |
-                                                                  translate}}</label>
+                                                                  translate}} <span class="text-muted">({{'Optional'
+                                                                        |
+                                                                        translate}})</span></label>
                                                             <input type="text" class="form-control ct_input"
                                                                   placeholder="{{'Enter' | translate}} {{'WebsiteURL' | translate}}"
                                                                   formControlName="website_url">
@@ -581,7 +598,9 @@
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'Devices' |
-                                                      translate}}</label>
+                                                      translate}} <span class="text-muted">({{'Optional'
+                                                            |
+                                                            translate}})</span></label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'Devices' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="devices"
@@ -598,7 +617,9 @@
                                           </div>
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'SkinTypeExpertise' |
-                                                      translate}}
+                                                      translate}} <span class="text-muted">({{'Optional'
+                                                            |
+                                                            translate}})</span>
                                                 </label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'SkinType' | translate}}"
@@ -617,7 +638,9 @@
 
                                           <div class="mb-4">
                                                 <label for="" class="mb-2 ct_text_black">{{'SurgeriesProvided' |
-                                                      translate}}</label>
+                                                      translate}} <span class="text-muted">({{'Optional'
+                                                            |
+                                                            translate}})</span></label>
                                                 <nz-select nzMode="multiple"
                                                       nzPlaceHolder="{{'Select' | translate}} {{'Surgeries' | translate}}"
                                                       class="form-control ct_input h-auto" formControlName="surgeries"

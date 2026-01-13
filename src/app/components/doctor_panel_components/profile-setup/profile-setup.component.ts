@@ -398,7 +398,7 @@ export class ProfileSetupComponent {
       this.getTreatments(data.clinics[0].clinic_id, 0)
       this.getSkinTypes(data.clinics[0].clinic_id)
       this.getSurgeries(data.clinics[0].clinic_id)
-      this.getAvailableSlots(data.clinics[0].clinic_id, 0);
+      this.getAvailableSlots(data.clinics[0].clinic_id, 0, data.clinics[0].doctor_slot_time ? data.clinics[0].doctor_slot_time : null);
       this.personalForm.patchValue({
         fullName: data.name,
         lastName: data.last_name,
