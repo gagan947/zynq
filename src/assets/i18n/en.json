@@ -337,5 +337,6 @@
       "pleaseFillAllRequiredFields": "Please fill all required fields for each clinic",
       "pleaseSelectAtLeastOneSlot": "Please select at least one slot for each clinic",
       "selectAll": "Select All",
-      "includedVat": "incl. VAT"
+      "includedVat": "incl. VAT",
+      "profileUpdateSuccess":"Profile updated successfully"
 }

@@ -9,9 +9,7 @@ import { CommonService } from '../../../services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoaderService } from '../../../services/loader.service';
 import { AuthService } from '../../../services/auth.service';
-import { TreatmentResponse } from '../../../models/clinic-onboarding';
 import { NoWhitespaceDirective } from '../../../validators';
-import { Product } from '../../../models/products';
 
 @Component({
   selector: 'app-add-treatment',
@@ -31,6 +29,9 @@ export class AddTreatmentComponent {
   selectedDevices: string[] = [];
   selectedTerms: string[] = [];
   subTreatments: any[] = [];
+  benefits: any[] = [];
+  devices: any[] = [];
+  terms: any[] = [];
   @ViewChild('benefitsInput') benefitsInput!: ElementRef<HTMLButtonElement>;
   @ViewChild('devicesInput') devicesInput!: ElementRef<HTMLButtonElement>;
   @ViewChild('tremsInput') tremsInput!: ElementRef<HTMLButtonElement>;
@@ -43,6 +44,9 @@ export class AddTreatmentComponent {
       is_device: [true, [Validators.required]],
       concerns: [[], [Validators.required]],
       sub_treatments: [[], [Validators.required]],
+      benefits_ids: [[], [Validators.required]],
+      device_ids: [[]],
+      like_wise_terms_ids: [[], [Validators.required]],
     });
 
     this.route.queryParams.subscribe(param => {
@@ -53,9 +57,22 @@ export class AddTreatmentComponent {
   ngOnInit(): void {
     this.getConcerns();
     this.getSubTreatments();
+    this.getBenefits();
+    this.getDevices();
+    this.getTerms();
     if (this.treatmentId) {
       this.getTreatmentById();
     }
+
+    this.Form.get('is_device')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.Form.get('device_ids')?.setValidators([Validators.required]);
+        this.Form.get('device_ids')?.updateValueAndValidity();
+      } else {
+        this.Form.get('device_ids')?.clearValidators();
+        this.Form.get('device_ids')?.updateValueAndValidity();
+      }
+    });
   }
 
   getConcerns() {
@@ -70,49 +87,22 @@ export class AddTreatmentComponent {
     });
   }
 
-  addBenefits(feature: string) {
-    if (!this.selectedBenefits.includes(feature)) {
-      if (feature.trim() != '') {
-        this.selectedBenefits.push(feature.trim());
-        this.benefitsInput.nativeElement.value = '';
-      }
-    } else {
-      this.toster.error('Feature already added');
-    }
+  getBenefits() {
+    this.service.get<any>(`doctor/benefit`).subscribe((res) => {
+      this.benefits = res.data
+    });
   }
 
-  removeBenefits(index: number) {
-    this.selectedBenefits.splice(index, 1);
+  getDevices() {
+    this.service.get<any>(`doctor/device`).subscribe((res) => {
+      this.devices = res.data
+    });
   }
 
-  addDevices(feature: any) {
-    if (!this.selectedDevices.includes(feature)) {
-      if (feature.trim() != '') {
-        this.selectedDevices.push(feature.trim());
-        this.devicesInput.nativeElement.value = '';
-      }
-    } else {
-      this.toster.error('Feature already added');
-    }
-  }
-
-  removeDevices(index: any) {
-    this.selectedDevices.splice(index, 1);
-  }
-
-  addTerms(feature: any) {
-    if (!this.selectedTerms.includes(feature)) {
-      if (feature.trim() != '') {
-        this.selectedTerms.push(feature.trim());
-        this.tremsInput.nativeElement.value = '';
-      }
-    } else {
-      this.toster.error('Feature already added');
-    }
-  }
-
-  removeTerms(index: any) {
-    this.selectedTerms.splice(index, 1);
+  getTerms() {
+    this.service.get<any>(`doctor/likewiseterms`).subscribe((res) => {
+      this.terms = res.data
+    });
   }
 
   onSubmit() {
@@ -127,15 +117,15 @@ export class AddTreatmentComponent {
     const payload: any = {
       name: this.Form.value.name,
       classification_type: this.Form.value.classification_type,
-      benefits_en: this.selectedBenefits.join(),
+      benefits_ids: this.Form.value.benefits_ids || [],
       description_en: this.Form.value.full_description,
       is_device: this.Form.value.is_device,
-      concerns: this.Form.value.concerns || [],
-      like_wise_terms: this.selectedTerms || [],
+      concerns_ids: this.Form.value.concerns || [],
+      like_wise_terms_ids: this.Form.value.like_wise_terms_ids || [],
       sub_treatments: this.Form.value.sub_treatments || [],
     };
     if (this.Form.value.is_device) {
-      payload.device_name = this.selectedDevices || [];
+      payload.device_ids = this.Form.value.device_ids || [];
     }
     if (this.treatmentId) {
       payload.treatment_id = this.treatmentId;
@@ -175,10 +165,11 @@ export class AddTreatmentComponent {
         this.Form.patchValue({
           concerns: this.treatmetData?.concerns?.map((item: any) => item.concern_id) || [],
           sub_treatments: this.treatmetData?.sub_treatments?.map((item: any) => item.sub_treatment_id) || [],
+          benefits_ids: this.treatmetData?.benefits_en_ids.split(','),
+          like_wise_terms_ids: this.treatmetData?.like_wise_terms_ids.split(','),
+          device_ids: this.treatmetData?.device_name_ids.split(','),
         });
-        this.selectedDevices = this.treatmetData?.device_name ? this.treatmetData.device_name.split(',') : [];
-        this.selectedTerms = this.treatmetData?.like_wise_terms ? this.treatmetData.like_wise_terms.split(',') : [];
-        this.selectedBenefits = this.treatmetData?.benefits_en ? this.treatmetData.benefits_en.split(',') : [];
+
         this.loader.hide();
       } else {
         this.toster.error(res.message);

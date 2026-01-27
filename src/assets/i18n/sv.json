@@ -337,5 +337,6 @@
       "pleaseFillAllRequiredFields": "Vänligen fyll i alla obligatoriska fält för varje klinik",
       "pleaseSelectAtLeastOneSlot": "Välj minst en plats för varje klinik",
       "selectAll": "Välj alla",
-      "includedVat": "inkl. moms"
+      "includedVat": "inkl. moms",
+      "profileUpdateSuccess":"Profilen har uppdaterats"
 }

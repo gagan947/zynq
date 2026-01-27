@@ -658,7 +658,7 @@ export class SoloProfileSetupComponent {
       next: (res) => {
         if (res.success) {
           if (this.isEdit) {
-            this.toster.success('Profile updated successfully');
+            this.toster.success(this.translate.instant('profileUpdateSuccess'));
             this.service.get<any>(`solo_doctor/getDoctorProfileByStatus/1`).pipe(
               takeUntil(this.destroy$)
             ).subscribe(res => {
@@ -709,7 +709,7 @@ export class SoloProfileSetupComponent {
       next: (res) => {
         if (res.success) {
           if (this.isEdit) {
-            this.toster.success('Profile updated successfully');
+            this.toster.success(this.translate.instant('profileUpdateSuccess'));
           } else {
             this.currentStep++;
             this.getProfile(this.currentStep + 1)
@@ -756,7 +756,7 @@ export class SoloProfileSetupComponent {
       next: (resp) => {
         if (resp.success == true) {
           if (this.isEdit) {
-            this.toster.success('Profile updated successfully');
+            this.toster.success(this.translate.instant('profileUpdateSuccess'));
           } else {
             this.currentStep++;
             this.getProfile(this.currentStep + 1)
@@ -805,7 +805,7 @@ export class SoloProfileSetupComponent {
       next: (resp) => {
         if (resp.success == true) {
           if (this.isEdit) {
-            this.toster.success('Profile updated successfully');
+            this.toster.success(this.translate.instant('profileUpdateSuccess'));
           } else {
             this.currentStep++;
             this.getProfile(this.currentStep + 1)
@@ -1116,7 +1116,7 @@ export class SoloProfileSetupComponent {
 
             case 5:
               this.availabilityForm.patchValue({
-                fee_per_session: data.clinic.doctorSessions[0].fee_per_session,
+                fee_per_session: data.clinic.doctorSessions[0].fee_per_session || 0,
                 slot_time: data.clinic.doctorSessions[0].slot_time.toString(),
                 sameForAllDays: data.clinic.doctorSessions[0].same_for_all == 0 ? true : false,
               });

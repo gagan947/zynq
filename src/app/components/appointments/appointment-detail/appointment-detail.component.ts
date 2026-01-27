@@ -3,7 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { CommonModule, Location } from '@angular/common';
 import { ZegoService } from '../../../services/zego.service';
 import { LoaderService } from '../../../services/loader.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SocketService } from '../../../services/socket.service';
 import { Subject, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';

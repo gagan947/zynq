@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonService } from '../../../services/common.service';
 import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { FormsModule } from '@angular/forms';
@@ -68,7 +68,7 @@ export class AppointmentsListComponent {
     this.srevice.get('doctor/future-slots').pipe(
       takeUntil(this.destroy$)
     ).subscribe((response: any) => {
-      this.allSlots = response.data.resultWithStatus || response.data;
+      this.allSlots = response.data;
     })
   }
 
@@ -133,11 +133,23 @@ export class AppointmentsListComponent {
     } else {
       selectedDateStr = event.toISOString().split('T')[0];
     }
-    this.slots = this.allSlots.filter((slot: { start_time: string | number | Date; }) => {
-      const slotDateStr = new Date(slot.start_time).toISOString().split('T')[0];
-      return slotDateStr === selectedDateStr;
-    });
+    this.slots = this.allSlots
+      .map((clinic: any) => ({
+        ...clinic,
+        availableSlots: clinic.availableSlots.filter((slot: any) => {
+          const slotDateStr = new Date(slot.start_time)
+            .toISOString()
+            .split('T')[0];
+          return slotDateStr === selectedDateStr;
+        })
+      }))
+      .filter((clinic: any) => clinic.availableSlots.length > 0);
+
+      console.log(this.slots);
+      
   }
+
+
 
   selectSlot(slot: any) {
     if (slot.status === 'booked') {
@@ -165,6 +177,7 @@ export class AppointmentsListComponent {
           this.toster.success(response.message)
           this.getAppointments()
           this.getAllSlots()
+          this.status = ''
         } else {
           this.loading = false
           this.toster.error(response.message)

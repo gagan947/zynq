@@ -2,7 +2,6 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { SecurityLevel, TreatmentResponse, SkinTypeResponse } from '../../../models/clinic-onboarding';
-import { Treatment, SkinType } from '../../../models/clinic-profile';
 import { DoctorProfileResponse } from '../../../models/doctorProfile';
 import { CommonService } from '../../../services/common.service';
 import { CommonModule } from '@angular/common';
@@ -693,7 +692,7 @@ export class EditProfileComponent {
       formData.surgery_ids.push(clinic.surgeries);
       formData.device_ids.push(clinic.devices);
       formData.doctor_slot_time.push(clinic.slot_time ? clinic.slot_time : null);
-      formData.fee_per_session.push(clinic.fee_per_session ? clinic.fee_per_session : null);
+      formData.fee_per_session.push(clinic.fee_per_session ? clinic.fee_per_session : 0);
       formData.treatments.push(clinic.treatments.filter((t: { selected: boolean; }) => t.selected).map((t: any) => ({
         treatment_id: t.id,
         price: t.price || 0,
@@ -1060,7 +1059,7 @@ export class EditProfileComponent {
         skin_types: data.clinics[index].skinTypes?.map((item: any) => item.skin_type_id),
         surgeries: data.clinics[index].surgeries?.map((item: any) => item.surgery_id),
         devices: data.clinics[index].devices?.map((item: any) => item.device_id),
-        fee_per_session: data.clinics[index].fee_per_session,
+        fee_per_session: data.clinics[index].fee_per_session || 0,
         slot_time: data.clinics[index].doctor_slot_time.toString(),
       })
       this.selectedDay[index] = data.clinics[index].slots.map((item: any) => item.day);

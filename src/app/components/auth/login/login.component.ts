@@ -49,7 +49,6 @@ export class LoginComponent {
         fcm_token: localStorage.getItem('fcm_token') || '',
         language: this.selectedLang || 'en',
       }
-
       this.srevice.post<LoginResponse, any>('webuser/login', formData).subscribe({
         next: (resp) => {
           if (resp.success == true) {

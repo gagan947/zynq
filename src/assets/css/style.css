@@ -1317,11 +1317,11 @@ header {
 
 #ct_form_progressbar li {
   list-style-type: none;
-  font-size: 16px;
+  font-size: 13px;
   /* width: 25%;
   float: left; */
   position: relative;
-  font-weight: 400;
+  font-weight: 500;
   flex: 1;
   padding-bottom: 30px;
   color: hsl(0deg 0% 0% / 20%);

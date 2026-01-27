@@ -623,7 +623,7 @@ export class ProfileSetupComponent {
       formData.surgery_ids.push(clinic.surgeries);
       formData.device_ids.push(clinic.devices);
       formData.doctor_slot_time.push(clinic.slot_time);
-      formData.fee_per_session.push(clinic.fee_per_session.toString());
+      formData.fee_per_session.push(clinic.fee_per_session.toString() || '0');
       formData.treatments.push(clinic.treatments.filter((t: { selected: boolean; }) => t.selected).map((t: any) => ({
         treatment_id: t.id,
         price: t.price || 0,
@@ -951,7 +951,7 @@ export class ProfileSetupComponent {
         skin_types: data.clinics[index].skinTypes?.map((item: any) => item.skin_type_id),
         surgeries: data.clinics[index].surgeries?.map((item: any) => item.surgery_id),
         devices: data.clinics[index].devices?.map((item: any) => item.device_id),
-        fee_per_session: data.clinics[index].fee_per_session,
+        fee_per_session: data.clinics[index].fee_per_session || 0,
         slot_time: data.clinics[index].doctor_slot_time?.toString(),
       })
       this.selectedDay[index] = data.clinics[index].slots.map((item: any) => item.day);

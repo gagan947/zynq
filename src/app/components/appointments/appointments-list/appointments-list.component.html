@@ -474,18 +474,23 @@
                               @if (slots.length == 0) {
                               <p class="ct_fs_18 mb-0 text-center">No Slots Available for {{slotDate | date}}</p>
                               }
+                              @for (item of slots; track $index) {
+                             <div class="ct_clinic_slots">
+                              <h4 class="text-start">{{item.clinic_name}}</h4>
                               <div class="ct_grid_2 mb-3">
-                                    @for (item of slots; track $index) {
-                                    <button class="ct_white_btn" type="button" [disabled]="item.status == 'booked'"
+                                    @for (slot of item.availableSlots; track $index) {
+                                    <button class="ct_white_btn" type="button" [disabled]="slot.status == 'booked'"
                                           [ngClass]="{
-                                                   'opacity-50': item.status == 'booked',
-                                                     'bg-dark text-white':   selectedSlot == item
-                                                   }" (click)="selectSlot(item)">
-                                          {{ convertTime(item.start_time) | date: 'h:mm a' }} -
-                                          {{ convertTime(item.end_time) | date: 'h:mm a' }}
+                                                   'opacity-50': slot.status == 'booked',
+                                                     'bg-dark text-white':   selectedSlot == slot
+                                                   }" (click)="selectSlot(slot)">
+                                          {{ convertTime(slot.start_time) | date: 'h:mm a' }} -
+                                          {{ convertTime(slot.end_time) | date: 'h:mm a' }}
                                     </button>
                                     }
                               </div>
+                        </div>
+                        }
                               <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
                                     <button type="button" class="ct_outline_btn" data-bs-dismiss="modal"
                                           aria-label="Close" #closeButton>Cancel</button>

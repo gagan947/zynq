@@ -140,7 +140,11 @@
                   <div class="col-md-12">
                         <div class="ct_white_bg ct_py_28_px_20 ct_border_radius_10 ct_border_clr_D2D5DB">
                               <h4 class="ct_fs_24 ct_fw_600 mb-4">{{'RevenueOverview' | translate}}</h4>
-                              <div id="revenueChart"></div>
+                              <apx-chart #chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                    [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis"
+                                    [stroke]="chartOptions.stroke" [fill]="chartOptions.fill" [grid]="chartOptions.grid"
+                                    [theme]="chartOptions.theme">
+                              </apx-chart>
                         </div>
                   </div>
             </div>

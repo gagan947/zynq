@@ -320,7 +320,7 @@
                                                 <div class="position-relative">
                                                     <input type="text" class="form-control ct_input"
                                                         placeholder="Enter fee per session" disabled
-                                                        [value]="doctor.data.clinics[i].fee_per_session | currency:'SEK '">
+                                                        [value]="(doctor.data.clinics[i].fee_per_session || 0) | currency:'SEK '">
                                                 </div>
                                             </div>
                                         </div>

@@ -100,27 +100,18 @@
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'Benefits' | translate}}</h4>
                             <div>
-                                <ul
-                                    class="d-flex align-items-center gap-3 flex-wrap  ct_para_scroll ct_custom_scroll ct_pe_30">
-                                    @for (item of selectedBenefits; track
-                                    $index) {
-                                    <li>
-                                        <button type="button" class="ct_select_badge">{{item}}
-                                            <span (click)="removeBenefits($index)"><i
-                                                    class="fa-solid fa-xmark"></i></span></button>
-                                    </li>
+                                <nz-select nzMode="multiple"
+                                    nzPlaceHolder="{{'Select' | translate}} {{'Benefits' | translate | titlecase}}"
+                                    class="form-control ct_input h-auto" formControlName="benefits_ids"
+                                    nzNotFoundContent="No benefits Found">
+                                    @for (item of benefits; track item) {
+                                    <nz-option [nzLabel]="item.name" [nzValue]="item.benefit_id"></nz-option>
                                     }
-                                </ul>
-                                <div class="position-relative mt-2">
-                                    <input type="text" class="form-control ct_input ct_pe_122"
-                                        placeholder="{{'TypeToAdd' | translate}} {{'Benefits' | translate}}..."
-                                        #benefitsInput>
-                                    <button type="button" class="ct_black_btn ct_btn_position_right"
-                                        (click)="addBenefits(benefitsInput.value)">{{'Add' |
-                                        translate}}</button>
-                                </div>
-                                <span *ngIf="selectedBenefits.length == 0 && submitted">
-                                    <span class="ct_text_red mt-2">
+                                </nz-select>
+                                <span
+                                    *ngIf="Form.controls['benefits_ids'].invalid && Form.controls['benefits_ids'].touched">
+                                    <span *ngIf="Form.controls['benefits_ids'].errors?.['required']"
+                                        class="ct_text_red mt-2">
                                         {{'Benefits' | translate}} {{'areRequired' | translate}}.
                                     </span>
                                 </span>
@@ -146,59 +137,41 @@
                             *ngIf="Form.get('is_device')?.value">
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'DeviceName' | translate}}</h4>
                             <div>
-                                <ul
-                                    class="d-flex align-items-center gap-3 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                    @for (item of selectedDevices; track
-                                    $index) {
-                                    <li>
-                                        <button type="button" class="ct_select_badge">{{item}}
-                                            <span (click)="removeDevices($index)"><i
-                                                    class="fa-solid fa-xmark"></i></span></button>
-                                    </li>
+                                <nz-select nzMode="multiple"
+                                    nzPlaceHolder="{{'Select' | translate}} {{'Devices' | translate | titlecase}}"
+                                    class="form-control ct_input h-auto" formControlName="device_ids"
+                                    nzNotFoundContent="No devices Found">
+                                    @for (item of devices; track item) {
+                                    <nz-option [nzLabel]="item.name" [nzValue]="item.device_id"></nz-option>
                                     }
-                                </ul>
-                                <div class="position-relative mt-2">
-                                    <input type="text" class="form-control ct_input ct_pe_122"
-                                        placeholder="{{'TypeToAdd' | translate}} {{'Devices' | translate}}..."
-                                        #devicesInput>
-                                    <button type="button" class="ct_black_btn ct_btn_position_right"
-                                        (click)="addDevices(devicesInput.value)">{{'Add' |
-                                        translate}}</button>
-                                </div>
-                                <!-- <span *ngIf="selectedDevices.length == 0 && submitted">
-                                    <span class="ct_text_red mt-2">
+                                </nz-select>
+                                <span
+                                    *ngIf="Form.controls['device_ids'].invalid && Form.controls['device_ids'].touched">
+                                    <span *ngIf="Form.controls['device_ids'].errors?.['required']"
+                                        class="ct_text_red mt-2">
                                         {{'Devices' | translate}} {{'areRequired' | translate}}.
                                     </span>
-                                </span> -->
+                                </span>
                             </div>
                         </div>
                         <div class="ct_white_bg ct_border_radius_10 ct_border_clr_D2D5DB ct_py_28_px_20 mt-4">
                             <h4 class="mb-3 ct_fs_20 ct_fw_600">{{'LikewiseTerms' | translate}}</h4>
                             <div>
-                                <ul
-                                    class="d-flex align-items-center gap-3 flex-wrap ct_para_scroll ct_custom_scroll ct_pe_30">
-                                    @for (item of selectedTerms; track
-                                    $index) {
-                                    <li>
-                                        <button type="button" class="ct_select_badge">{{item}}
-                                            <span (click)="removeTerms($index)"><i
-                                                    class="fa-solid fa-xmark"></i></span></button>
-                                    </li>
+                                <nz-select nzMode="multiple"
+                                    nzPlaceHolder="{{'Select' | translate}} {{'LikewiseTerms' | translate | titlecase}}"
+                                    class="form-control ct_input h-auto" formControlName="like_wise_terms_ids"
+                                    nzNotFoundContent="No terms Found">
+                                    @for (item of terms; track item) {
+                                    <nz-option [nzLabel]="item.name" [nzValue]="item.like_wise_term_id"></nz-option>
                                     }
-                                </ul>
-                                <div class="position-relative mt-2">
-                                    <input type="text" class="form-control ct_input ct_pe_122"
-                                        placeholder="{{'TypeToAdd' | translate}} {{'LikewiseTerms' | translate}}..."
-                                        #tremsInput>
-                                    <button type="button" class="ct_black_btn ct_btn_position_right"
-                                        (click)="addTerms(tremsInput.value)">{{'Add' |
-                                        translate}}</button>
-                                </div>
-                                <!-- <span *ngIf="selectedTerms.length == 0 && submitted">
-                                    <span class="ct_text_red mt-2">
+                                </nz-select>
+                                <span
+                                    *ngIf="Form.controls['like_wise_terms_ids'].invalid && Form.controls['like_wise_terms_ids'].touched">
+                                    <span *ngIf="Form.controls['like_wise_terms_ids'].errors?.['required']"
+                                        class="ct_text_red mt-2">
                                         {{'LikewiseTerms' | translate}} {{'areRequired' | translate}}.
                                     </span>
-                                </span> -->
+                                </span>
                             </div>
                         </div>
                     </div>

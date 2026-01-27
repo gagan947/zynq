@@ -58,7 +58,7 @@ export class SuggestTreatmentComponent {
       takeUntil(this.destroy$)
     ).subscribe((res: any) => {
       this.recommendedTreatments = res.data;
-      if (this.suggestedTreatments) {
+      if (this.suggestedTreatments && this.suggestedTreatments.length > 0) {
         this.suggestedTreatment = this.suggestedTreatments.treatments.map((treatment: any) => {
           return {
             treatment_id: treatment.treatment_id,

@@ -34,7 +34,8 @@
                                                       </div>
                                                       <div class="d-flex gap-2 align-items-center">
                                                             <h4 class="ct_fs_20 ct_fw_600 mb-1">
-                                                                  {{doctorDetail()?.fee_per_session | currency:'SEK '}}
+                                                                  {{(doctorDetail()?.fee_per_session || 0) |
+                                                                  currency:'SEK '}}
                                                             </h4>
                                                             <p class="mb-0 ct_grey_text ">per session <span
                                                                         class="ct_fs_12 text-muted">({{'includedVat' |
