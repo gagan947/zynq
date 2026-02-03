@@ -285,6 +285,7 @@
       "FilterBy": "Filtrera efter",
       "ExpertManagement": "Experthantering",
       "Concerns": "Indikationer",
+      "Concern": "Indikation",
       "ClassificationType": "Klassificeringstyp",
       "Status": "Status",
       "ViewTreatment": "Visa behandling",
@@ -338,5 +339,7 @@
       "pleaseSelectAtLeastOneSlot": "Välj minst en plats för varje klinik",
       "selectAll": "Välj alla",
       "includedVat": "inkl. moms",
-      "profileUpdateSuccess":"Profilen har uppdaterats"
+      "profileUpdateSuccess": "Profilen har uppdaterats",
+      "success": "Framgång",
+      "cannotContainSpace": "får inte innehålla blanksteg"
 }

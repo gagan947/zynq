@@ -5,6 +5,7 @@
                   <img src="assets/img/logo1.svg" alt="">
             </div>
       </div>
+
       <div class="ct_login_right">
             <div class="ct_language_select dropdown ">
                   <img [src]="selectedLang == 'sv' ? 'assets/img/Flag_of_Sweden.svg.png' : 'assets/img/Flag_of_the_United_States.svg.png'"
@@ -62,6 +63,10 @@
                               <span *ngIf="Form.controls['password'].errors?.['required']" class="ct_text_red mt-2">
                                     {{'Password' | translate}} {{'isRequired' | translate}}.
                               </span>
+                              <span *ngIf="Form.controls['password'].errors?.['cannotContainSpace']"
+                                    class="ct_text_red mt-2">
+                                    {{'Password' | translate}} {{'cannotContainSpace' | translate}}.
+                              </span>
                         </span>
                   </div>
                   <a routerLink="/forgot-password" class="ct_text_black">{{'Forgot' | translate}}
@@ -80,21 +85,3 @@
             </form>
       </div>
 </section>
-
-
-<!-- <section class="coming-soon d-flex align-items-center justify-content-center">
-      <div class="container text-center">
-            <div class="ct_logo">
-                  <img src="assets/img/zynq-logo-white.svg">
-            </div>
-            <h1 class="title mt-3 text-white">Kommer snart</h1>
-            <p class="subtitle mt-3">
-                  Vi arbetar hårt för att ge dig en fantastisk upplevelse.<br>
-                  Håll utkik efter lanseringen.
-            </p>
-            <p class="small-text mt-4">
-                  © 2026 ZYNQ. Alla rättigheter reserverade.
-            </p>
-
-      </div>
-</section> -->

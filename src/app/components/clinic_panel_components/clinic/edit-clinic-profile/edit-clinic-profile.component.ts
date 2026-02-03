@@ -776,7 +776,7 @@ export class EditClinicProfileComponent {
       zip_code: this.clinicProfile()?.location.zip_code,
       latitude: this.clinicProfile()?.location.latitude,
       longitude: this.clinicProfile()?.location.longitude,
-      website_url: this.clinicProfile()?.website_url,
+      website_url: this.clinicProfile()?.website_url !== 'null' ? this.clinicProfile()?.website_url : '',
       skin_types: this.clinicProfile()?.skin_types.map((item: any) => item.skin_type_id),
       surgeries: this.clinicProfile()?.surgeries_level.map((item: any) => item.surgery_id),
       devices: this.clinicProfile()?.aestheticDevices.map((item: any) => item.id),

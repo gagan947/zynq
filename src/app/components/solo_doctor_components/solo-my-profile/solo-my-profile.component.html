@@ -155,7 +155,7 @@
                                                       <label for="" class="mb-2">{{'WebsiteURL' | translate}}</label>
                                                       <div class="position-relative">
                                                             <input type="email"
-                                                                  [value]="this.soloDrProfile()?.clinic.website_url || 'N/A'"
+                                                                  [value]="this.soloDrProfile()?.clinic.website_url !== 'null' ? this.soloDrProfile()?.clinic.website_url : 'N/A'"
                                                                   class="form-control ct_input ct_input_ps_40" disabled>
                                                             <div class="ct_input_icon_left">
                                                                   <svg width="21" height="20" viewBox="0 0 21 20"

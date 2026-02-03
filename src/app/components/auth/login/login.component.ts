@@ -7,6 +7,7 @@ import { AuthService } from '../../../services/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoginResponse } from '../../../models/login';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { whiteSpaceValidator } from '../../../validators';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -34,7 +35,7 @@ export class LoginComponent {
   initForm() {
     this.Form = new FormGroup({
       email: new FormControl(localStorage.getItem('SavedEmail') || '', [Validators.required, Validators.email]),
-      password: new FormControl(localStorage.getItem('SavedPassword') || '', Validators.required),
+      password: new FormControl(localStorage.getItem('SavedPassword') || '', [Validators.required, whiteSpaceValidator.cannotContainSpace]),
     })
   }
 
@@ -44,7 +45,7 @@ export class LoginComponent {
       this.loading = true;
 
       let formData = {
-        email: this.Form.value.email,
+        email: this.Form.value.email.trim(),
         password: this.Form.value.password,
         fcm_token: localStorage.getItem('fcm_token') || '',
         language: this.selectedLang || 'en',
@@ -55,6 +56,7 @@ export class LoginComponent {
             this.auth.setValues(resp.data.jwt_token, resp.data.role_id, resp.data);
             if (resp.data.role_id == '2fc0b43c-3196-11f0-9e07-0e8e5d906eef') {  // Clinic
               if (resp.data.is_onboarded === 1) {
+                console.log('Clinic logged in');
                 this.router.navigateByUrl('/clinic')
               } else if (resp.data.is_password_set === 0) {
                 this.router.navigateByUrl('/set-password')
@@ -63,6 +65,7 @@ export class LoginComponent {
               }
             } else if (resp.data.role_id == '3677a3e6-3196-11f0-9e07-0e8e5d906eef') { // Doctor
               if (resp.data.on_boarding_status == 3) {
+                console.log('Doctor logged in');
                 this.router.navigateByUrl('/doctor')
               } else if (resp.data.is_password_set === 0) {
                 this.router.navigateByUrl('/set-password')

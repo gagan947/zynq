@@ -48,8 +48,10 @@ export class ClinicSetupComponent {
   selectedCountry = CountryISO.Sweden
   preferredCountries: CountryISO[] = [CountryISO.Sweden];
   selectedTreatments: any[] = [];
+  invitionResult: any;
   @ViewChild('drEmail') drEmail!: ElementRef<HTMLButtonElement>
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>
+  @ViewChild('closeBtn2') closeBtn2!: ElementRef<HTMLButtonElement>
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
   steps = [
     { id: 'Clinic', label: 'ClinicDetails' },
@@ -673,13 +675,18 @@ export class ClinicSetupComponent {
             next: (res) => {
               if (res.status) {
                 let data = this.auth.getUserInfo()
-                data.is_onboarded = 1
+                // data.is_onboarded = 1
                 localStorage.setItem('userInfo', JSON.stringify(data));
                 this.toster.success(resp.message);
-                this.router.navigate(['/clinic']);
+                this.invitionResult = resp.data.results;
+                // this.router.navigate(['/clinic']);
+                const modalElement = document.getElementById('ct_invite_detail_modal');
+                if (modalElement) {
+                  const modal = new bootstrap.Modal(modalElement);
+                  modal.show();
+                }
                 this.loader.hide();
               }
-              // this.currentStep++;
             },
             error: (err) => {
               this.toster.error(err);
@@ -763,7 +770,7 @@ export class ClinicSetupComponent {
           zip_code: this.clinicPofile.location ? this.clinicPofile.location.zip_code : '',
           latitude: this.clinicPofile.location ? this.clinicPofile.location.latitude : '',
           longitude: this.clinicPofile.location ? this.clinicPofile.location.longitude : '',
-          website_url: this.clinicPofile.website_url,
+          website_url: this.clinicPofile.website_url !== 'null' ? this.clinicPofile.website_url : '',
           skin_types: this.clinicPofile.skin_types.map((item: any) => item.skin_type_id),
           surgeries: this.clinicPofile.surgeries_level.map((item: any) => item.surgery_id),
           devices: this.clinicPofile.aestheticDevices.map((item: any) => item.id),
@@ -876,5 +883,13 @@ export class ClinicSetupComponent {
   recommendedCollapseStates: boolean[] = [];
   toggleRecommendedCollapse(recommendedCollapseStates: boolean[], index: number) {
     recommendedCollapseStates[index] = !recommendedCollapseStates[index];
+  }
+
+  onOkClick() {
+    this.closeBtn2.nativeElement.click()
+    let data = this.auth.getUserInfo()
+    data.is_onboarded = 1
+    localStorage.setItem('userInfo', JSON.stringify(data));
+    this.router.navigate(['/clinic']);
   }
 }

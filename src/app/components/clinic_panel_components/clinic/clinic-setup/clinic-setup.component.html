@@ -927,3 +927,48 @@
             </div>
       </div>
 </div>
+
+<div class="modal fade modal-lg" id="ct_invite_detail_modal" tabindex="-1" aria-labelledby="ct_invite_detail_modalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                  <div class="modal-body">
+                        <div>
+                              <ul>
+                                    @for (item of invitionResult?.successful; track $index) {
+                                    <li class="d-flex align-items-center gap-2 mt-2">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 512 512">
+                                                <path fill="#1d7c08" fill-rule="evenodd"
+                                                      d="M256 42.667C138.18 42.667 42.667 138.18 42.667 256S138.18 469.334 256 469.334S469.334 373.82 469.334 256S373.821 42.667 256 42.667m0 384c-94.105 0-170.666-76.561-170.666-170.667S161.894 85.334 256 85.334S426.667 161.894 426.667 256S350.106 426.667 256 426.667m80.336-246.886l30.167 30.167l-131.836 132.388l-79.083-79.083l30.166-30.167l48.917 48.917z"
+                                                      stroke-width="13" stroke="#1d7c08" />
+                                          </svg>
+                                          <span>{{item.email}} ({{item.status}})</span>
+                                    </li>
+                                    }
+                              </ul>
+                        </div>
+                        <div>
+                              <ul>
+                                    @for (item of invitionResult?.failed; track $index) {
+                                    <li class="d-flex align-items-center gap-2 mt-2">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 16 16">
+                                                <path fill="#970000"
+                                                      d="M8 1C4.14 1 1 4.14 1 8s3.14 7 7 7s7-3.14 7-7s-3.14-7-7-7m0 13c-3.309 0-6-2.691-6-6s2.691-6 6-6s6 2.691 6 6s-2.691 6-6 6m2.854-8.146L8.708 8l2.146 2.146a.5.5 0 0 1-.708.707L8 8.707l-2.146 2.146a.5.5 0 0 1-.708 0a.5.5 0 0 1 0-.707L7.292 8L5.146 5.854a.5.5 0 0 1 .707-.707l2.146 2.146l2.146-2.146a.5.5 0 0 1 .707.707z"
+                                                      stroke-width="0.5" stroke="#970000" />
+                                          </svg>
+                                          <span>{{item.email}} ({{item.reason}})</span>
+                                    </li>
+                                    }
+                              </ul>
+                        </div>
+                  </div>
+                  <div class="modal-footer">
+                        <button type="button" class="ct_outline_btn" data-bs-dismiss="modal" #closeBtn2>{{'Cancel' |
+                              translate}}</button>
+                        <button type="button" class="ct_black_btn" (click)="onOkClick()">{{'Done' | translate}}</button>
+                  </div>
+            </div>
+      </div>
+</div>

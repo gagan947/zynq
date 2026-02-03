@@ -1027,7 +1027,7 @@ export class SoloProfileSetupComponent {
                 zip_code: data.clinic.location.zip_code,
                 latitude: data.clinic.location.latitude,
                 longitude: data.clinic.location.longitude,
-                website_url: data.clinic.website_url
+                website_url: data.clinic.website_url !== 'null' ? data.clinic.website_url : ''
               })
               this.selectedLocation = data?.clinic.address
               break;
@@ -1041,7 +1041,7 @@ export class SoloProfileSetupComponent {
                 zip_code: data.clinic.zip_code,
                 latitude: data.clinic.latitude,
                 longitude: data.clinic.longitude,
-                website_url: data.clinic.website_url
+                website_url: data.clinic.website_url !== 'null' ? data.clinic.website_url : ''
               })
               this.selectedLocation = data?.clinic.address
               break;

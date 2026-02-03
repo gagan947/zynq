@@ -1,13 +1,13 @@
 export const environment = {
       production: true,
-      // apiUrl: 'https://getzynq.io:4000/',
-      // certificateUrl: 'https://getzynq.io:4000/',
-      // socketUrl: 'https://getzynq.io:4000/',
+      apiUrl: 'https://getzynq.io:4000/',
+      certificateUrl: 'https://getzynq.io:4000/',
+      socketUrl: 'https://getzynq.io:4000/',
 
 
-      apiUrl: 'https://13.60.145.118:4000/',
-      certificateUrl: 'https://13.60.145.118:4000/',
-      socketUrl: 'https://13.60.145.118:4000/',
+      // apiUrl: 'https://13.60.145.118:4000/',
+      // certificateUrl: 'https://13.60.145.118:4000/',
+      // socketUrl: 'https://13.60.145.118:4000/',
 
       firebaseConfig: {
             apiKey: "AIzaSyB1Ko8WHeXDxdYAOjisHn8qVZOIkGrxudE",
