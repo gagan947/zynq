@@ -301,6 +301,7 @@
       "footerDisclaimer": "ZYNQ is not a healthcare provider. The information shown is an AI-based aesthetic skin analysis and does not replace a medical assessment.",
       "VERIFIED": "VERIFIED",
       "ONBOARDING": "ONBOARDING",
+      "UNVERIFIED": "UNVERIFIED",
       "EducationInformations": "Education Informations",
       "ExpertProfile": "Expert Profile",
       "manage_your_linked_clinics": "Manage your linked clinics",

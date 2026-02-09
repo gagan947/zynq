@@ -296,8 +296,9 @@
       "LoadingTreatments": "Laddar behandlingar",
       "NoTreatmentsFound": "Inga behandlingar hittades",
       "footerDisclaimer": "ZYNQ är inte en hälso- eller medicinsktillhandahavare. Den information som visas är en AI-baserad estetisk hudanalys och ersätter inte en medicinsk utvärdering.",
-      "VERIFIED": "VERIFIED",
-      "ONBOARDING": "ONBOARDING",
+      "VERIFIED": "VERIFIERAD",
+      "ONBOARDING": "OMBORDNING",
+      "UNVERIFIED": "OVERIFIERAD",
       "EducationInformations": "Utbildningsinformation",
       "ExpertProfile": "Expertprofil",
       "TreatmentManagement": "Behandlingshantering",
@@ -342,5 +343,5 @@
       "profileUpdateSuccess": "Profilen har uppdaterats",
       "success": "Framgång",
       "cannotContainSpace": "får inte innehålla blanksteg",
-      "onboardingCompleted": "Onboarding slutförd framgångsrikt"
+      "onboardingCompleted": "Ombordning slutförd framgångsrikt"
 }
