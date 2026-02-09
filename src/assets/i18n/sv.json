@@ -341,5 +341,6 @@
       "includedVat": "inkl. moms",
       "profileUpdateSuccess": "Profilen har uppdaterats",
       "success": "Framgång",
-      "cannotContainSpace": "får inte innehålla blanksteg"
+      "cannotContainSpace": "får inte innehålla blanksteg",
+      "onboardingCompleted": "Onboarding slutförd framgångsrikt"
 }

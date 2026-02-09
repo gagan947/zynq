@@ -341,5 +341,6 @@
       "includedVat": "incl. VAT",
       "profileUpdateSuccess": "Profile updated successfully",
       "success": "Success",
-      "cannotContainSpace": "cannot contain white space"
+      "cannotContainSpace": "cannot contain white space",
+      "onboardingCompleted": "Onboarding completed successfully"
 }

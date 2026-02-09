@@ -634,6 +634,8 @@ export class ProfileSetupComponent {
       })));
     });
     formData.availability = Object.values(this.selectedSlot);
+    console.log('Final Form Data:', this.selectedSlot);
+    
 
     this.apiService.post<any, any>('doctor/add_expertise', formData).subscribe({
       next: (resp) => {
@@ -643,6 +645,7 @@ export class ProfileSetupComponent {
           localStorage.setItem('userInfo', JSON.stringify(data));
           this.router.navigate(['/doctor']);
           this.loading = false;
+          this.toster.success(this.translate.instant('onboardingCompleted'));
         }
       },
       error: (error) => {

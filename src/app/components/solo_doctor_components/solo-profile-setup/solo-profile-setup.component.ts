@@ -771,6 +771,7 @@ export class SoloProfileSetupComponent {
   };
 
   onExpertiseSubmit() {
+    
 
     if (this.treatmentsArray.controls.some((t: any) => t.get('selected')?.value && (t.get('price')?.invalid || t.get('sub_treatments')?.controls.some((sub: any) => sub.get('selected')?.value && sub.get('price')?.invalid)))) {
       this.toster.warning('Please enter price for the treatment and sub treatments');
@@ -848,9 +849,9 @@ export class SoloProfileSetupComponent {
       ).subscribe({
         next: (resp) => {
           if (resp.success == true) {
-            this.toster.success(resp.message);
             this.router.navigate(['/solo-doctor/my-profile']);
             this.loading = false
+            this.toster.success(resp.message);
           }
         },
         error: (error) => {
@@ -868,7 +869,8 @@ export class SoloProfileSetupComponent {
             data.is_onboarded = 1
             localStorage.setItem('userInfo', JSON.stringify(data));
             this.router.navigate(['/solo-doctor']);
-            this.loading = false
+            this.loading = false;
+            this.toster.success(this.translate.instant('onboardingCompleted'));
           }
         },
         error: (error) => {
